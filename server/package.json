@@ -9,6 +9,10 @@
   "author": "choiseongjun",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mariadb": "^2.4.2",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
   }
 }
