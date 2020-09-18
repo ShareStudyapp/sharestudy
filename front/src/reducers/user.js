@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
           ...state,
           isSigningUp: true,
           isSignedUp: false,
-          signUpErrorReason: '',
+          signUpErrorReason: ''
         };
       }
       case SIGN_UP_SUCCESS: {

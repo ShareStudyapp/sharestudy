@@ -25,33 +25,30 @@ function Signup() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState(false);
 
-    const [id, onChangeId] = useInput('');
-    const [nick, onChangeNick] = useInput('');
+    const [userid, onChangeUserid] = useInput('');
+    const [nickname, onChangeNickname] = useInput('');
     const [password, onChangePassword] = useInput('');
-    const dispatch = useDispatch();
+    const [email,onChangeEmail] = useInput('');
 
+    const dispatch = useDispatch();
+ 
     const onSubmit = useCallback((e) => {
       e.preventDefault();
+      const role = ["user"];
       if (password !== passwordCheck) {
         return setPasswordError(true);
       }
       return dispatch({
         type: SIGN_UP_REQUEST,
         data: {
-          id,
+          userid,
           password,
-          nick,
+          nickname,
+          email,
+          role
         },
       });
     }, [password, passwordCheck]);
-
-    // const onSubmit = useCallback((e) => {
-    //   e.preventDefault();
-    //   if (password !== passwordCheck) {
-    //     return setPasswordError(true);
-    //   }
-    //   console.log("password")
-    // }, [password, passwordCheck]);
   
 
 
@@ -66,35 +63,40 @@ function Signup() {
         <Form style={{ padding: 10 }}>
             <TextInput value="135135" />
             <div>
-            <label htmlFor="user-id">아이디</label>
-            <br />
-            <Input name="user-id" value={id} required onChange={onChangeId} />
+              <label htmlFor="user-id">아이디</label>
+              <br />
+              <Input name="user-id" value={userid} required onChange={onChangeUserid} />
             </div>
             <div>
-            <label htmlFor="user-nick">닉네임</label>
-            <br />
-            <Input name="user-nick" value={nick} required onChange={onChangeNick} />
+              <label htmlFor="user-nick">닉네임</label>
+              <br />
+              <Input name="user-nick" value={nickname} required onChange={onChangeNickname} />
             </div>
             <div>
-            <label htmlFor="user-password">비밀번호</label>
-            <br />
-            <Input name="user-password" type="password" value={password} required onChange={onChangePassword} />
+              <label htmlFor="user-email">이메일</label>
+              <br />
+              <Input name="user-email" value={email} required onChange={onChangeEmail} />
             </div>
             <div>
-            <label htmlFor="user-password-check">비밀번호체크</label>
-            <br />
-            <Input
-                name="user-password-check"
-                type="password"
-                value={passwordCheck}
-                required
-                onChange={onChangePasswordCheck}
-            />
-            {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
+              <label htmlFor="user-password">비밀번호</label>
+              <br />
+              <Input name="user-password" type="password" value={password} required onChange={onChangePassword} />
+            </div>
+            <div>
+                <label htmlFor="user-password-check">비밀번호체크</label>
+              <br />
+              <Input
+                  name="user-password-check"
+                  type="password"
+                  value={passwordCheck}
+                  required
+                  onChange={onChangePasswordCheck}
+              />
+              {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
             </div>
             
             <div style={{ marginTop: 10 }}>
-            <Button type="primary" onClick={onSubmit}>가입하기</Button>
+              <Button type="primary" onClick={onSubmit} >가입하기</Button>
             </div>
         </Form>
     </>
