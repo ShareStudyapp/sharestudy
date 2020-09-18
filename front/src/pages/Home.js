@@ -1,11 +1,14 @@
 import React from 'react'
 import Feeds from '../components/Feed/Feeds'
+import Signup from './Signup'
 
 function Home() {
+ 
     return (
-        <div className="home">
-          <Feeds />
-        </div>
+      <div>
+      <Signup />
+      {/* <Feeds /> */}
+      </div>
     )
 }
 
