@@ -1,39 +1,46 @@
-import React, { useState, useCallback } from 'react';
-import { Form, Input, Checkbox, Button } from 'antd';
+import React, { useState, useCallback,useEffect} from 'react';
+import { Form, Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST } from '../reducers/user';
+import { Select } from 'antd';
+import useInput from '../hooks/useInput';
 
-const TextInput = ({ value }) => {
-    return (
-      <div>{value}</div>
-    )
-  };
-  
-  TextInput.propTypes = {
-    value: PropTypes.string,
-  };
-  
-  export const useInput = (initValue = null) => {
-    const [value, setter] = useState(initValue);
-    const handler = useCallback((e) => {
-      setter(e.target.value);
-    }, []);
-    return [value, handler];
-  };
-function Signup() {
+const { Option } = Select;
+function Signup({history}) {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState(false);
 
-    const [userid, onChangeUserid] = useInput('');
+    //const [userid, onChangeUserid] = useInput('');
+    const [userid, setUserid] = useState('');
     const [nickname, onChangeNickname] = useInput('');
     const [password, onChangePassword] = useInput('');
     const [email,onChangeEmail] = useInput('');
+    const [sex,onChangeSex] = useState('M');
+    const { signUpLoading,signUpDone,signUpError } = useSelector((state) => state.userReducer);
 
+
+    // const onChangeUserid=(e)=>{
+    //   setUserid(e.target.value)
+    // }
+    useEffect(() => {
+      if (signUpDone) {
+        alert('가입되었습니다.');
+        history.push('/');
+      }
+    }, [signUpDone]);
+    useEffect(() => {
+      if (signUpError) {
+        alert(signUpError);
+        return;
+      }
+    }, [signUpError]);
+    
     const dispatch = useDispatch();
- 
-    const onSubmit = useCallback((e) => {
-      e.preventDefault();
+
+    const onSubmit = useCallback(() => {
+      console.log(userid)
+      
       const role = ["user"];
       if (password !== passwordCheck) {
         return setPasswordError(true);
@@ -45,10 +52,11 @@ function Signup() {
           password,
           nickname,
           email,
+          sex,
           role
         },
       });
-    }, [password, passwordCheck]);
+    }, [password, passwordCheck,sex,userid,nickname]);
   
 
 
@@ -56,16 +64,16 @@ function Signup() {
         setPasswordError(e.target.value !== password);
         setPasswordCheck(e.target.value);
     }, [password]);
-
+    
   
     return (
     <>
-        <Form style={{ padding: 10 }}>
-            <TextInput value="135135" />
+        <Form onFinish={onSubmit} style={{ padding: 10 }}>
+            
             <div>
-              <label htmlFor="user-id">아이디</label>
+              <label htmlFor="user-userid">아이디</label>
               <br />
-              <Input name="user-id" value={userid} required onChange={onChangeUserid} />
+              <Input name="user-userid" value={userid} required onChange={(e)=>setUserid(e.target.value)} />
             </div>
             <div>
               <label htmlFor="user-nick">닉네임</label>
@@ -76,6 +84,12 @@ function Signup() {
               <label htmlFor="user-email">이메일</label>
               <br />
               <Input name="user-email" value={email} required onChange={onChangeEmail} />
+            </div>
+            <div>
+            <Select defaultValue="M" style={{ width: 90 }} onChange={onChangeSex}>
+              <Option value="M">남자</Option>
+              <Option value="F">여자</Option>
+            </Select>
             </div>
             <div>
               <label htmlFor="user-password">비밀번호</label>
@@ -96,7 +110,7 @@ function Signup() {
             </div>
             
             <div style={{ marginTop: 10 }}>
-              <Button type="primary" onClick={onSubmit} >가입하기</Button>
+              <Button type="primary" htmlType="submit" loading={signUpLoading}>가입하기</Button>
             </div>
         </Form>
     </>

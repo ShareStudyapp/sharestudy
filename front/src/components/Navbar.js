@@ -1,23 +1,28 @@
-import React,{useState} from 'react'
+import React,{useCallback} from 'react'
 import {Link} from 'react-router-dom';
 import { Breadcrumb } from 'antd';
-import {SidebarData} from './SIdebarData';
-import './Navbar.css';
+import { useDispatch } from 'react-redux';
+import { logoutRequestAction } from '../reducers/user';
 
 
 function Navbar() {
-    const [sidebar, setSidebar] = useState(false)
-    const showSidebar = () =>setSidebar(!sidebar);
-
+    const dispatch = useDispatch();
+    const onLogOut = useCallback(() => {
+        //dispatch(logoutRequestAction());
+        window.sessionStorage.removeItem('user');
+        window.location.reload()
+    }, []);
     return ( 
         <>
          <Breadcrumb>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>
-            <a href="">Application Center</a>
+                <Link to="/">Home</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-            <a href="">Application List</a>
+                <Link to="/signup">회원가입</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+            <a onClick={onLogOut}>로그아웃</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>An Application</Breadcrumb.Item>
         </Breadcrumb>
