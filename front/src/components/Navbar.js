@@ -24,7 +24,8 @@ function Navbar() {
             <Breadcrumb.Item>
             <a onClick={onLogOut}>로그아웃</a>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>An Application</Breadcrumb.Item>
+            <Breadcrumb.Item>스터디그룹 찾기</Breadcrumb.Item>
+            <Breadcrumb.Item>내정보수정</Breadcrumb.Item>
         </Breadcrumb>
         </>
     )

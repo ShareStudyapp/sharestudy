@@ -40,7 +40,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       break;
     case LOG_IN_SUCCESS:
       draft.logInLoading = false;
-      draft.me = action.data.accessToken;
+      draft.me = action.data.jwt;
       draft.logInDone = true;
       break;
     case LOG_IN_FAILURE:

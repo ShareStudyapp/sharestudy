@@ -32,10 +32,37 @@ const PostImages = ({ images }) => {
       </>
     );
   }
+  if (images.length === 3) {
+    return (
+      <>
+        <div>
+          <img role="presentation" src={images[0].src} alt={images[0].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[1].src} alt={images[1].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[2].src} alt={images[2].src} width="50%" onClick={onZoom} />
+        </div>
+        {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
+      </>
+    );
+  }
+  if (images.length === 4) {
+    return (
+      <>
+        <div>
+          <img role="presentation" src={images[0].src} alt={images[0].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[1].src} alt={images[1].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[2].src} alt={images[2].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[3].src} alt={images[3].src} width="50%" onClick={onZoom} />
+        </div>
+        {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
+      </>
+    );
+  }
   return (
     <>
       <div>
         <img role="presentation" src={images[0].src} alt={images[0].src} width="50%" onClick={onZoom} />
+        <img role="presentation" src={images[1].src} alt={images[1].src} width="50%" onClick={onZoom} />
+        <img role="presentation" src={images[2].src} alt={images[2].src} width="50%" onClick={onZoom} />
         <div
           role="presentation"
           style={{ display: 'inline-block', width: '50%', textAlign: 'center', verticalAlign: 'middle' }}
@@ -43,7 +70,7 @@ const PostImages = ({ images }) => {
         >
           <PlusOutlined />
           <br />
-          {images.length - 1}
+          {images.length - 3}
           개의 사진 더보기
         </div>
       </div>

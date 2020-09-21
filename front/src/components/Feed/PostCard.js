@@ -11,15 +11,23 @@ import PostCardContent from './PostCardContent';
 const CardWrapper = styled.div`
   margin-bottom: 20px;
 `;
-
+const images = [
+  'https://source.unsplash.com/random/400x400',
+  'https://source.unsplash.com/random/400x400',
+  'https://source.unsplash.com/random/400x400',
+];
 function PostCard({post}) {
     
     const dispatch = useDispatch();
     const { removePostLoading } = useSelector((state) => state.postReducer);
-    const [liked, setLiked] = useState(false);
+    const {me} = useSelector((state) => state.userReducer);
+    const [liked, setLiked] = useState(false); 
     
+    console.log('postcard------------------')
+    console.log(me)
     return (
-        <CardWrapper key={post.id}>
+      
+      <CardWrapper key={post.id}>
       <Card
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
