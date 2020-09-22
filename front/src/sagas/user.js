@@ -10,6 +10,9 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
+  USER_INFO_REQUEST,
+  USER_INFO_SUCCESS,
+  USER_INFO_FAILURE
 } from '../reducers/user';
 
 
@@ -75,6 +78,24 @@ function* logOut() {
     });
   }
 }
+function userInfoAPI() {
+  return axios.get('/api/auth/userinfo');
+}
+function* userInfo() {
+  try {
+    const result = yield call(userInfoAPI);
+    yield put({
+      type: USER_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: USER_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -84,9 +105,13 @@ function* watchSignUp() {
 function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
+function* watchUserInfo() {
+  yield takeLatest(USER_INFO_REQUEST, userInfo);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
-    fork(watchLogIn)
+    fork(watchLogIn),
+    fork(watchUserInfo)
   ]);
 }

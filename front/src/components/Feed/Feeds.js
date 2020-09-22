@@ -86,7 +86,6 @@ function Feeds() {
 
     return (
       <div>
-        <PostForm />
       <div className={classes.root}>
         <AppBar position="static">
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">

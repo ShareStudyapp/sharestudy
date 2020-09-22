@@ -1,6 +1,6 @@
 import axios from 'axios';
 import shortId from 'shortid';
-import { all, delay, fork, put, takeLatest, throttle } from 'redux-saga/effects';
+import { all, delay, fork, put, takeLatest,takeEvery, throttle ,call} from 'redux-saga/effects';
 import {
     generateDummyPost,
     generateDummyGallary,
@@ -9,13 +9,19 @@ import {
     LOAD_POSTS_SUCCESS,
     LOAD_GALLARY_REQUEST,
     LOAD_GALLARY_SUCCESS,
-    LOAD_GALLARY_FAILURE
+    LOAD_GALLARY_FAILURE,
+    UPLOAD_IMAGES_REQUEST,
+    UPLOAD_IMAGES_FAILURE,
+     UPLOAD_IMAGES_SUCCESS
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
     return axios.get('/api/posts', data);
 }
-
+function uploadImagesAPI(data) {
+  console.log(data)
+  return axios.post('/feed/upload', data);
+}
 function* loadPosts(action) {
     try {
         // const result = yield call(loadPostsAPI, action.data);
@@ -48,17 +54,35 @@ function* loadGallary(action) {
         });
     }
 }
+function* uploadImages(action) {
+  try {
+    const result = yield call(uploadImagesAPI, action.data);
+    
+    yield put({
+      type: UPLOAD_IMAGES_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UPLOAD_IMAGES_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 function* watchLoadPosts() {
     yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
 }
 function* watchLoadGallary() {
     yield throttle(5000, LOAD_GALLARY_REQUEST, loadGallary);
 }
+function* watchUploadImages() {
+    yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages);
+}
 
 export default function* postSaga() {
-yield all([
-        fork(watchLoadPosts),
-        fork(watchLoadGallary)
-    ]);
+  yield all([
+    fork(watchUploadImages),
+    fork(watchLoadPosts),
+  ]);
 }
-  

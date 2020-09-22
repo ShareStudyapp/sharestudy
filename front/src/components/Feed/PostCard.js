@@ -20,11 +20,9 @@ function PostCard({post}) {
     
     const dispatch = useDispatch();
     const { removePostLoading } = useSelector((state) => state.postReducer);
-    const {me} = useSelector((state) => state.userReducer);
+    const {me,userInfo} = useSelector((state) => state.userReducer);
     const [liked, setLiked] = useState(false); 
     
-    console.log('postcard------------------')
-    console.log(me)
     return (
       
       <CardWrapper key={post.id}>
@@ -39,7 +37,7 @@ function PostCard({post}) {
             key="ellipsis"
             // content={(
             //   <Button.Group>
-            //     {id && post.UserId === id
+            //     {id && post.UserId === userInfo.id
             //       ? (
             //         <>
             //           <Button>수정</Button>

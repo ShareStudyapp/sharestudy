@@ -5,8 +5,8 @@ import produce from '../utils/produce';
 
 export const initialState = {
     mainPosts: [],
-    imagePaths: [],
     gallary:[],
+    imagePaths: [],
     hasMorePosts: true,
     loadPostsLoading: false,
     loadPostsDone: false,
@@ -20,6 +20,9 @@ export const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: null,
+    uploadImagesLoading: false,
+    uploadImagesDone: false,
+    uploadImagesError: null,
   };
   export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     id: shortId.generate(),
@@ -115,8 +118,15 @@ export const LOAD_GALLARY_REQUEST = 'LOAD_GALLARY_REQUEST';
 export const LOAD_GALLARY_SUCCESS = 'LOAD_GALLARY_SUCCESS';
 export const LOAD_GALLARY_FAILURE = 'LOAD_GALLARY_FAILURE';
 
+export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
+export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
+export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
+
+export const REMOVE_IMAGE = 'REMOVE_IMAGE';
+
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 const postReducer = (state = initialState, action) => produce(state, (draft) => {
+    console.log(action.data)
     switch (action.type) {
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -147,6 +157,24 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case LOAD_GALLARY_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
+        break;
+      case UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = null;
+        break;
+      case UPLOAD_IMAGES_SUCCESS: {
+        draft.imagePaths = action.data;
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        break;
+      }
+      case UPLOAD_IMAGES_FAILURE:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesError = action.error;
+        break;
+      case REMOVE_IMAGE:
+        draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
         break;
       default:
         break;

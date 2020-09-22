@@ -9,7 +9,10 @@ export const initialState = {
     signUpDone: false,//회원가입 성공
     signUpError: null,
     me: null, // 내 정보
-    userInfo: null, // 남의 정보
+    userInfo: [], // 남의 정보
+    userinfoLoading:false, //내정보로딩
+    userinfoDone:false,//내정보로딩완료
+    userinfoError:null
   };
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -23,6 +26,10 @@ export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
+export const USER_INFO_REQUEST = 'USER_INFO_REQUEST';
+export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
+export const USER_INFO_FAILURE = 'USER_INFO_FAILURE';
+
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
   data,
@@ -31,7 +38,6 @@ export const logoutRequestAction = () => ({
   type: LOG_OUT_REQUEST,
 });
 const userReducer = (state = initialState, action) => produce(state, (draft) => {
-  console.log(action.data)
   switch (action.type) {
     case LOG_IN_REQUEST:
       draft.logInLoading = true;
@@ -73,6 +79,20 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
       draft.logOutError = action.error;
+      break;
+    case USER_INFO_REQUEST:
+      draft.userinfoLoading=true;
+      draft.userinfoDone=false;
+      break;
+    case USER_INFO_SUCCESS:
+      draft.userinfoDone=true;
+      draft.userinfoLoading=false;
+      draft.userInfo=action.data
+      break;
+    case USER_INFO_FAILURE:
+      draft.userinfoDone=true;
+      draft.userinfoLoading=false;
+      draft.userinfoError = action.error.response.data;
       break;
     default:
       break;
