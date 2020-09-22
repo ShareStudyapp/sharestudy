@@ -23,6 +23,7 @@ function PostCard({post}) {
     const {me,userInfo} = useSelector((state) => state.userReducer);
     const [liked, setLiked] = useState(false); 
     
+    console.log(post)
     return (
       
       <CardWrapper key={post.id}>

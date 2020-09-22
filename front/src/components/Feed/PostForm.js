@@ -1,22 +1,31 @@
 import React,{useEffect, useState ,useRef,useCallback} from 'react'
 import { Form, Input, Button } from 'antd';
 import { useDispatch,useSelector } from 'react-redux';
-import {UPLOAD_IMAGES_REQUEST,REMOVE_IMAGE} from '../../reducers/post';
+import {UPLOAD_IMAGES_REQUEST,REMOVE_IMAGE,ADD_POST_REQUEST} from '../../reducers/post';
 
 function PostForm() {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
-    const { imagePaths } = useSelector((state) => state.postReducer);
+    const { imagePaths,addPostDone } = useSelector((state) => state.postReducer);
     const imageInput = useRef();
-
+    useEffect(() => {
+        if (addPostDone) {
+          setText('');
+        }
+      }, [addPostDone]);
     const onSubmit = useCallback(() => {
-        console.log('onclick')
-        const imageFormData = new FormData();
-        imageFormData.append('image', 'test');
-        dispatch({
-            type: UPLOAD_IMAGES_REQUEST,
+        const formData = new FormData();
+        imagePaths.forEach((p) => {
+          formData.append('images',new Array(p));
+          console.log(new Array(p))
         });
-      }, []);
+        formData.append('content', text);
+        console.log(formData.get('images'))
+        return dispatch({
+            type: ADD_POST_REQUEST,
+            data: formData,
+          });
+        }, [text, imagePaths]);
     const onChangeText = useCallback((e) => {
         setText(e.target.value);
     }, []);
@@ -53,7 +62,7 @@ function PostForm() {
                 <div>
                 {imagePaths.map((v, i) => (
                 <div key={v} style={{ display: 'inline-block' }}>
-                    <img src={`${v.filePath}`} style={{ width: '200px' }} alt={v} />
+                    <img src={`${v}`} style={{ width: '200px' }} alt={v} />
                     <div>
                     <Button onClick={onRemoveImage(i)}>제거</Button>
                     </div>
