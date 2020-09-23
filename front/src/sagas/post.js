@@ -19,7 +19,7 @@ import {
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
-    return axios.get('/api/posts', data);
+    return axios.get('/feed', data);
 }
 function uploadImagesAPI(data) {
   console.log(data)
@@ -27,11 +27,11 @@ function uploadImagesAPI(data) {
 }
 function* loadPosts(action) {
     try {
-        // const result = yield call(loadPostsAPI, action.data);
-        yield delay(1000);
+         const result = yield call(loadPostsAPI, action.data);
+        //yield delay(1000);
         yield put({
         type: LOAD_POSTS_SUCCESS,
-        data: generateDummyPost(10),
+        data: result.data,
         });
     } catch (err) {
         console.error(err);
@@ -79,6 +79,7 @@ function addPostAPI(data) {
 function* addPost(action) {
   try {
     const result = yield call(addPostAPI, action.data);
+    console.log(result.data)
     yield put({
       type: ADD_POST_SUCCESS,
       data: result.data,

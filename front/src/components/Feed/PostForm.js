@@ -14,10 +14,11 @@ function PostForm() {
         }
       }, [addPostDone]);
     const onSubmit = useCallback(() => {
+
         const formData = new FormData();
         imagePaths.forEach((p) => {
-          formData.append('images',new Array(p));
-          console.log(new Array(p))
+          formData.append('images',p);
+          console.log(p)
         });
         formData.append('content', text);
         console.log(formData.get('images'))

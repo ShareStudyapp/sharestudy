@@ -22,13 +22,12 @@ function PostCard({post}) {
     const { removePostLoading } = useSelector((state) => state.postReducer);
     const {me,userInfo} = useSelector((state) => state.userReducer);
     const [liked, setLiked] = useState(false); 
-    
     console.log(post)
     return (
       
       <CardWrapper key={post.id}>
       <Card
-        cover={post.Images[0] && <PostImages images={post.Images} />}
+        cover={post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
         actions={[
           liked
             ? <HeartTwoTone twoToneColor="#eb2f96" key="heart"  />
@@ -55,8 +54,8 @@ function PostCard({post}) {
         // extra={<FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-          title={post.User.nickname}
+          // avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          // title={post.User.nickname}
           description={<PostCardContent postData={post.content} />}
         />
       </Card>

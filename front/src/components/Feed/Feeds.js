@@ -95,9 +95,9 @@ function Feeds() {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          {/* {mainPosts.map((c) => (
+          {mainPosts.map((c) => (
             <PostCard key={c.id} post={c} />
-          ))} */}
+          ))}
           
         </TabPanel>
         <TabPanel value={value} index={1}>
