@@ -22,7 +22,7 @@ const PostImages = ({ images }) => {
   if (images.length === 1) {
     return (
       <>
-        <img role="presentation" src={images[0].filepath} style={imagestyle} alt={images[0].filepath} onClick={onZoom} />
+        <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} onClick={onZoom} />
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
@@ -31,8 +31,8 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].filepath} style={imagestyle} alt={images[0].filepath} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].filepath} style={imagestyle} alt={images[1].filepath} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -42,9 +42,9 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].filepath} style={imagestyle} alt={images[0].filepath} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].filepath} style={imagestyle} alt={images[1].filepath} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[2].filepath} style={imagestyle} alt={images[2].filepath} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[2].src} style={imagestyle} alt={images[2].src} width="50%" onClick={onZoom} />
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -54,10 +54,10 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].filepath} style={imagestyle} alt={images[0].filepath} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].filepath} style={imagestyle} alt={images[1].filepath} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[2].filepath} style={imagestyle} alt={images[2].filepath} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[3].filepath} style={imagestyle} alt={images[3].filepath} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[2].src} style={imagestyle} alt={images[2].src} width="50%" onClick={onZoom} />
+          <img role="presentation" src={images[3].src} style={imagestyle} alt={images[3].src} width="50%" onClick={onZoom} />
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -66,9 +66,9 @@ const PostImages = ({ images }) => {
   return (
     <>
       <div>
-        <img role="presentation" src={images[0].filepath} style={imagestyle} alt={images[0].filepath} width="50%" onClick={onZoom} />
-        <img role="presentation" src={images[1].filepath} style={imagestyle} alt={images[1].filepath} width="50%" onClick={onZoom} />
-        <img role="presentation" src={images[2].filepath} style={imagestyle} alt={images[2].filepath} width="50%" onClick={onZoom} />
+        <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
+        <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
+        <img role="presentation" src={images[2].src} style={imagestyle} alt={images[2].src} width="50%" onClick={onZoom} />
         <div
           role="presentation"
           style={{ display: 'inline-block', width: '50%', textAlign: 'center', verticalAlign: 'middle' }}

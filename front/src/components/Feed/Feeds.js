@@ -4,7 +4,6 @@ import { Form, Input, Button,Card } from 'antd';
 import { LOAD_POSTS_REQUEST,LOAD_GALLARY_REQUEST } from '../../reducers/post';
 import { useSelector, useDispatch } from 'react-redux';
 import PostCard from './PostCard';
-import PostForm from './PostForm';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,7 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Gallery from "react-photo-gallery";
 import { photos } from "./photos";
-import Carousel, { Modal, ModalGateway } from "react-images";
+
+import GallaryList from './GallaryList';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -53,21 +54,7 @@ function Feeds() {
     const [Products, setProducts] = useState([])
     const classes = useStyles();
 
-    
     const [value, setValue] = React.useState(0);
-  
-    const [currentImage, setCurrentImage] = useState(0);
-    const [viewerIsOpen, setViewerIsOpen] = useState(false);
-  
-    const openLightbox = useCallback((event, { photo, index }) => {
-      setCurrentImage(index);
-      setViewerIsOpen(true);
-    }, []);
-  
-    const closeLightbox = () => {
-      setCurrentImage(0);
-      setViewerIsOpen(false);
-    };
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -102,21 +89,9 @@ function Feeds() {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <div>
-          <Gallery photos={photos} onClick={openLightbox} />
-          <ModalGateway>
-            {viewerIsOpen ? (
-              <Modal onClose={closeLightbox}>
-                <Carousel
-                    currentIndex={currentImage}
-                    views={photos.map(x => ({
-                      ...x,
-                      srcset: x.srcSet,
-                      caption: x.title
-                    }))}
-                  />
-                </Modal>
-              ) : null}
-            </ModalGateway>
+          {/* <Gallery photos={gallary.filepath} onClick={openLightbox} /> */}
+          <GallaryList gallary={gallary} />
+          
           </div>
         </TabPanel>
       </div>
