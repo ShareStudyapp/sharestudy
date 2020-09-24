@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 const { TextArea } = Input;
-const PostCardContent = ({ postData, editMode, onChangePost, onCancelUpdate }) => {
+const PostCardContent = ({ postData, editMode, onChangePost, onCancelUpdate,totallike }) => {
   
    const { updatePostLoading, updatePostDone } = useSelector((state) => state.postReducer);
     const [editText, setEditText] = useState(postData);
@@ -32,6 +32,8 @@ const PostCardContent = ({ postData, editMode, onChangePost, onCancelUpdate }) =
           )
           : <div>
               {postData}
+              <br />
+              좋아요갯수:{totallike}
             </div>
           }
       </div>

@@ -22,10 +22,8 @@ function PostCard({post}) {
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
     const {userInfo} = useSelector((state) => state.userReducer);
-    const [liked, setLiked] = useState(false); 
+    //const [liked, setLiked] = useState(false); 
     const [editMode, setEditMode] = useState(false);
-
-  console.log(post)
 
     const onClickUpdate = useCallback(() => {
       setEditMode(true);
@@ -76,7 +74,8 @@ function PostCard({post}) {
         data: post.id,
       });
     }, [userInfo.id]);
-    
+    const liked = post.feedlike.find((v) => v.userkey===userInfo.id);
+    console.log(liked)
     return (
       
       <CardWrapper key={post.id}>
@@ -110,7 +109,7 @@ function PostCard({post}) {
         <Card.Meta
           // avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.user.nickname}
-          description={<PostCardContent editMode={editMode} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} postData={post.content} />}
+          description={<PostCardContent editMode={editMode} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} totallike={post.totallike} postData={post.content} />}
         />
       </Card>
       {/* {commentFormOpened && (

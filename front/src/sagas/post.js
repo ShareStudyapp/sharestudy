@@ -152,6 +152,7 @@ function likePostAPI(id) {
 function* likePost(action) {
   try {
     const result = yield call(likePostAPI, action.data);
+    
     yield put({
       type: LIKE_POST_SUCCESS,
       data: result.data,

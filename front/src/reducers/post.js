@@ -158,6 +158,7 @@ export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 const postReducer = (state = initialState, action) => produce(state, (draft) => {
     
+    console.log(action.data)
     switch (action.type) {
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -257,7 +258,8 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         break;
       case LIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.Likers.push({ id: action.data.user.id });
+        post.feedlike.push({ userkey: action.data.user.id });
+        draft.mainPosts.find((v) => v.id === action.data.id).totallike = action.data.totallike;
         draft.likePostLoading = false;
         draft.likePostDone = true;
         break;
@@ -273,7 +275,8 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         break;
       case UNLIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.Likers = post.Likers.filter((v) => v.id !== action.data.user.id);
+        post.feedlike = post.feedlike.filter((v) => v.userkey !== action.data.user.id);
+        draft.mainPosts.find((v) => v.id === action.data.id).totallike = action.data.totallike;
         draft.unlikePostLoading = false;
         draft.unlikePostDone = true;
         break;
