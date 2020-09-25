@@ -33,7 +33,10 @@ import {
     ADD_COMMENT_SUCCESS,
     REMOVE_COMMENT_REQUEST,
     REMOVE_COMMENT_SUCCESS,
-    REMOVE_COMMENT_FAILURE
+    REMOVE_COMMENT_FAILURE,
+    UPDATE_COMMENT_REQUEST,
+    UPDATE_COMMENT_SUCCESS,
+    UPDATE_COMMENT_FAILURE
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
@@ -194,6 +197,7 @@ function addCommentAPI(data) {
 function* addComment(action) {
   try {
     const result = yield call(addCommentAPI, action.data);
+    console.log(result)
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: result.data,
@@ -212,7 +216,7 @@ function removeCommentAPI(id) {
 function* removeComment(action) {
   try {
     const result = yield call(removeCommentAPI, action.data);
-    console.log(result.data)
+    
     yield put({
       type: REMOVE_COMMENT_SUCCESS,
       data: result.data,
@@ -220,6 +224,24 @@ function* removeComment(action) {
   } catch (err) {
     yield put({
       type: REMOVE_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function updateCommentAPI(data) {
+  return axios.patch(`/feed/reply/${data.id}`,data.content); 
+}
+function* updateComment(action) {
+  try {
+    const result = yield call(updateCommentAPI, action.data);
+    
+    yield put({
+      type: UPDATE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: UPDATE_COMMENT_FAILURE,
       error: err.response.data,
     });
   }
@@ -254,6 +276,9 @@ function* watchAddComment() {
 function* watchRemoveComment() {
     yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
 }
+function* watchUpdateComment() {
+  yield takeLatest(UPDATE_COMMENT_REQUEST, updateComment);
+}
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
@@ -266,5 +291,6 @@ export default function* postSaga() {
     fork(watchUnlikePost),
     fork(watchAddComment),
     fork(watchRemoveComment),
+    fork(watchUpdateComment),
   ]);
 }

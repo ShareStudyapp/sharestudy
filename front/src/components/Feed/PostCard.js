@@ -27,7 +27,7 @@ function PostCard({post}) {
     //const [liked, setLiked] = useState(false); 
     const [commentFormOpened, setCommentFormOpened] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [replyeditMode, setReplyeditMode] = useState(false);
+    const [replyeditMode, setReplyeditMode] = useState(true);
     const [replytmp,setReplytmp] = useState('');
 
     const onClickUpdate = useCallback(() => {
@@ -53,10 +53,17 @@ function PostCard({post}) {
         },
       });
     }, [post]);
-    const onChangeReplyPost = useCallback((replyeditText) => () => {
+    const onChangeReplyPost = useCallback((replyid,replyeditText) => () => {
+      console.log(replyid)
       console.log(replyeditText)
-      
-    }, [post]);
+      // dispatch({
+      //   type: UPDATE_COMMENT_REQUEST,
+      //   data: {
+      //     id: post.id,
+      //     content: editText,
+      //   },
+      // });
+    }, []);
     
     const onToggleComment = useCallback(() => {
       setCommentFormOpened((prev) => !prev);
@@ -75,6 +82,7 @@ function PostCard({post}) {
 
     }, [userInfo.id]);
     const onClickReplyDelete = useCallback((id)=>{
+      
       if(window.confirm("삭제 하시겠습니까?")) {
         
         return dispatch({
@@ -142,29 +150,29 @@ function PostCard({post}) {
         <>
           <CommentForm post={post} />
           <List
-            header={`${post.feedreply? post.feedreply.length : 0} 댓글`}
+            //header={`${post.feedreply? post.feedreply.length : 0} 댓글`}
             itemLayout="horizontal"
             dataSource={post.feedreply || []}
             renderItem={(item) => (
               <li>
                 
                 <Comment
-                  // author={item.user.nickname}
-                  // avatar={(
-                  //   // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
-                  //     <a><Avatar>{item.user.nickname}</Avatar></a>
-                  //   // </Link>
-                  // )}  
-                  // content={<ReplyContent editMode={item.id === replytmp?replyeditMode:''} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
+                  author={item.user.nickname}
+                  avatar={(
+                    // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
+                      <a><Avatar>{item.user.nickname}</Avatar></a>
+                    // </Link>
+                  )}  
+                  content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
                     content={item.content}
                 />
-                {/* { item.user.id === userInfo.id
+                { item.user.id === userInfo.id
                   ?(
                   <>
                     <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
                     <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
                   </>
-                ):<>회원만 수정가능</>} */}
+                ):<>회원만 수정가능</>}
               </li>
             )}
           />

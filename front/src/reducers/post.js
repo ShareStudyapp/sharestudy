@@ -30,6 +30,9 @@ export const initialState = {
     updatePostLoading: false,
     updatePostDone: false,
     updatePostError: null,
+    updateCommentLoading: false,
+    updateCommentDone: false,
+    updateCommentError: null,
     unlikePostLoading: false,
     unlikePostDone: false,
     unlikePostError: null,
@@ -162,6 +165,10 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
 export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
 export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
+//댓글수정 
+export const UPDATE_COMMENT_REQUEST = 'UPDATE_COMMENT_REQUEST';
+export const UPDATE_COMMENT_SUCCESS = 'UPDATE_COMMENT_SUCCESS';
+export const UPDATE_COMMENT_FAILURE = 'UPDATE_COMMENT_FAILURE';
 
 export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
@@ -303,8 +310,8 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS: 
-        const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.feedreply.unshift(action.data.feedreply);
+        const post = draft.mainPosts.find((v) => v.id === action.data.feedlistkey);
+        post.feedreply.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;
@@ -320,11 +327,27 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case REMOVE_COMMENT_SUCCESS:
         draft.removeCommentLoading = false;
         draft.removeCommentDone = true;
-        draft.mainPosts.filter((v) =>  console.log(v.id));
+        const removepostlist = draft.mainPosts.find((v) => v.id === action.data.postId)
+        removepostlist.feedreply= removepostlist.feedreply.filter((v) => v.id !== action.data.commentId);
         break; 
       case REMOVE_COMMENT_FAILURE:
         draft.removeCommentLoading = false;
         draft.removeCommentError = action.error;
+        break;
+      case UPDATE_COMMENT_REQUEST:
+        draft.updateCommentLoading = true;
+        draft.updateCommentDone = false;
+        draft.updateCommentError = null;
+        break;
+      case UPDATE_COMMENT_SUCCESS:
+        draft.updateCommentLoading = false;
+        draft.updateCommentDone = true;
+        const updatepostlist = draft.mainPosts.find((v) => v.id === action.data.postId)
+        updatepostlist.find((v) => v.id === action.data.id).content = action.data.content;
+        break;
+      case UPDATE_COMMENT_FAILURE:
+        draft.updateCommentLoading = false;
+        draft.updateCommentError = action.error;
         break;
       default:
         break;

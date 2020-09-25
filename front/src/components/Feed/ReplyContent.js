@@ -2,7 +2,7 @@ import React,{ useState, useCallback, useEffect } from 'react'
 import { Button, Input } from 'antd';
 
 const { TextArea } = Input;
-function ReplyContent({editMode,replyid,content,userid,onCancleReplyUpdate,onChangeReplyPost}) {
+function ReplyContent({replyeditMode,replyid,content,userid,onCancleReplyUpdate,onChangeReplyPost}) {
     const [replyeditText, setReplyeditText] = useState(content);
 
     const onChangeText = useCallback((e) => {
@@ -10,17 +10,17 @@ function ReplyContent({editMode,replyid,content,userid,onCancleReplyUpdate,onCha
     });
     return (
         <div>
-            {editMode
-        ? (
-          <>
-            <TextArea value={replyeditText} onChange={onChangeText} />
-            <Button.Group>
-              <Button onClick={onChangeReplyPost(replyeditText)}>수정</Button>
-              <Button type="danger" onClick={onCancleReplyUpdate}>취소</Button>
-            </Button.Group>
-          </>
-        )
-        : <div>{content}</div>}
+            {replyeditMode
+            ? (
+              <>
+                <TextArea value={replyeditText} onChange={onChangeText} />
+                <Button.Group>
+                  <Button onClick={onChangeReplyPost(replyeditText)}>수정</Button>
+                  <Button type="danger" onClick={onCancleReplyUpdate}>취소</Button>
+                </Button.Group>
+              </>
+            )
+            : <div>{content}</div>}
         </div>
     )
 }
