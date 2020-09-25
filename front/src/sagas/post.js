@@ -28,6 +28,12 @@ import {
     UNLIKE_POST_FAILURE,
     UNLIKE_POST_REQUEST,
     UNLIKE_POST_SUCCESS,
+    ADD_COMMENT_FAILURE,
+    ADD_COMMENT_REQUEST,
+    ADD_COMMENT_SUCCESS,
+    REMOVE_COMMENT_REQUEST,
+    REMOVE_COMMENT_SUCCESS,
+    REMOVE_COMMENT_FAILURE
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
@@ -101,7 +107,6 @@ function* addPost(action) {
     });
     
   } catch (err) {
-    console.error(err);
     yield put({
       type: ADD_POST_FAILURE,
       error: err.response.data,
@@ -114,13 +119,11 @@ function removePostAPI(data) {
 function* removePost(action) {
   try {
     const result = yield call(removePostAPI, action.data);
-    console.log(result.data)
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: result.data,
     });
   } catch (err) {
-    console.error(err);
     yield put({
       type: REMOVE_POST_FAILURE,
       error: err.response.data,
@@ -128,7 +131,6 @@ function* removePost(action) {
   }
 }
 function updatePostAPI(data) {
-  console.log(data)
   return axios.patch(`/feed/${data.id}`, data);
 }
 function* updatePost(action) {
@@ -184,6 +186,44 @@ function* unlikePost(action) {
     });
   }
 }
+function addCommentAPI(data) {
+  console.log(data.id)
+  return axios.post(`/feed/reply/${data.id}`, data); // POST /post/1/comment
+}
+
+function* addComment(action) {
+  try {
+    const result = yield call(addCommentAPI, action.data);
+    yield put({
+      type: ADD_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: ADD_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function removeCommentAPI(id) {
+  return axios.delete(`/feed/reply/${id}`); 
+}
+function* removeComment(action) {
+  try {
+    const result = yield call(removeCommentAPI, action.data);
+    console.log(result.data)
+    yield put({
+      type: REMOVE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: REMOVE_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 function* watchLoadPosts() {
     yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
 }
@@ -194,19 +234,25 @@ function* watchUploadImages() {
     yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 function* watchAddPost() {
-  yield takeLatest(ADD_POST_REQUEST, addPost);
+    yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 function* watchRemovePost() {
-  yield takeLatest(REMOVE_POST_REQUEST, removePost);
+    yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 function* watchUpdatePost() {
-  yield takeLatest(UPDATE_POST_REQUEST, updatePost);
+    yield takeLatest(UPDATE_POST_REQUEST, updatePost);
 }
 function* watchLikePost() {
-  yield takeLatest(LIKE_POST_REQUEST, likePost);
+    yield takeLatest(LIKE_POST_REQUEST, likePost);
 }
 function* watchUnlikePost() {
-  yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
+    yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
+}
+function* watchAddComment() {
+    yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+}
+function* watchRemoveComment() {
+    yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
 }
 export default function* postSaga() {
   yield all([
@@ -218,5 +264,7 @@ export default function* postSaga() {
     fork(watchUpdatePost),
     fork(watchLikePost),
     fork(watchUnlikePost),
+    fork(watchAddComment),
+    fork(watchRemoveComment),
   ]);
 }

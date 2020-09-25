@@ -7,6 +7,7 @@ export const initialState = {
     mainPosts: [],
     gallary:[],
     imagePaths: [],
+    postComment:[],
     hasMorePosts: true,
     loadPostsLoading: false,
     loadPostsDone: false,
@@ -20,15 +21,12 @@ export const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: null,
-    addPostLoading: false,
-    addPostDone: false,
-    addPostError: null,
     uploadImagesLoading: false,
     uploadImagesDone: false,
     uploadImagesError: null,
-    removePostLoading: false,
-    removePostDone: false,
-    removePostError: null,
+    removeCommentLoading: false,
+    removeCommentDone: false,
+    removeCommentError: null,
     updatePostLoading: false,
     updatePostDone: false,
     updatePostError: null,
@@ -122,39 +120,53 @@ export const initialState = {
       height: 3
     }
 ]
+//피드 조회
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
-
+//갤러리 조회
 export const LOAD_GALLARY_REQUEST = 'LOAD_GALLARY_REQUEST';
 export const LOAD_GALLARY_SUCCESS = 'LOAD_GALLARY_SUCCESS';
 export const LOAD_GALLARY_FAILURE = 'LOAD_GALLARY_FAILURE';
-
+//이미지 추가
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
-
+//첨부한이미지 삭제
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
-
+//피드추가
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
-
+//피드삭제
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
-
+//피드수정
 export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST';
 export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
 export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
-
+//피드좋아요
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
 export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
-
+//피드좋아요취소
 export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
+//댓글추가
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+//댓글삭제
+export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
+export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
+export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
+
+export const addComment = (data) => ({
+  type: ADD_COMMENT_REQUEST,
+  data,
+});
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 const postReducer = (state = initialState, action) => produce(state, (draft) => {
     
@@ -284,6 +296,35 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case UNLIKE_POST_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
+        break;
+      case ADD_COMMENT_REQUEST:
+        draft.addCommentLoading = true;
+        draft.addCommentDone = false;
+        draft.addCommentError = null;
+        break;
+      case ADD_COMMENT_SUCCESS: 
+        const post = draft.mainPosts.find((v) => v.id === action.data.id);
+        post.feedreply.unshift(action.data.feedreply);
+        draft.addCommentLoading = false;
+        draft.addCommentDone = true;
+        break;
+      case ADD_COMMENT_FAILURE:
+        draft.addCommentLoading = false;
+        draft.addCommentError = action.error;
+        break;
+      case REMOVE_COMMENT_REQUEST:
+        draft.removeCommentLoading = true;
+        draft.removeCommentDone = false;
+        draft.removeCommentError = null;
+        break;
+      case REMOVE_COMMENT_SUCCESS:
+        draft.removeCommentLoading = false;
+        draft.removeCommentDone = true;
+        draft.mainPosts.filter((v) =>  console.log(v.id));
+        break; 
+      case REMOVE_COMMENT_FAILURE:
+        draft.removeCommentLoading = false;
+        draft.removeCommentError = action.error;
         break;
       default:
         break;
