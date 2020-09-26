@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Products from './pages/Products';
+import Profile from './pages/Profile/Profile';
+import TodoList from './pages/TodoList/TodoList';
 import './App.css';
 import 'antd/dist/antd.css';
 
@@ -16,6 +18,8 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/signup" component={Signup} />
         <Route path="/products" component={Products} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/todolist" component={TodoList} />
       </Switch>
     </Router>
     </>

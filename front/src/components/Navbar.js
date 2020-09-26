@@ -8,9 +8,9 @@ import { logoutRequestAction } from '../reducers/user';
 function Navbar() {
     const dispatch = useDispatch();
     const onLogOut = useCallback(() => {
-        //dispatch(logoutRequestAction());
-        window.sessionStorage.removeItem('user');
-        window.location.reload()
+        dispatch(logoutRequestAction());
+        //window.sessionStorage.removeItem('user');
+        //window.location.reload()
     }, []);
     return ( 
         <>
@@ -25,7 +25,12 @@ function Navbar() {
             <a onClick={onLogOut}>로그아웃</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>스터디그룹 찾기</Breadcrumb.Item>
-            <Breadcrumb.Item>내정보수정</Breadcrumb.Item>
+            <Breadcrumb.Item>
+                <Link to="/profile">내 프로필</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+                <Link to="/todolist">목표설정</Link>
+            </Breadcrumb.Item>
         </Breadcrumb>
         </>
     )

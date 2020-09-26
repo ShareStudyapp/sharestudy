@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+body {
+    font-family: sans-serif;
+    background: #fff;
+    font-family: "Roboto", sans-serif;
+    width: 100vw;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 610px;
+  margin: 40px auto;
+  transform: translateX(-46px);
+}
+  
+.profile {
+    display: flex;
+    margin-bottom: 44px;
+    height: 150px;
+}
+  
+.image :hover {
+    opacity: 0.7;
+  }
+  
+#profile-picture {
+    border-radius: 50%;
+    padding: 1vw 1vw;
+    height: 120px;
+    width: 120px;
+}
+  
+.info {
+    min-width: 400px;
+}
+
+.top-row {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+#edit-profile {
+    border: 1px solid rgba(var(--ca6, 219, 219, 219), 1);
+    border-radius: 2px;
+    background: transparent;
+}
+
+.settings button {
+    justify-content: center;
+    border: none;
+    margin-top: 4px;
+}
+
+.settings svg {
+    fill: rgb(38, 38, 38);
+    height: 18px;
+    width: 18px;
+}
+
+.top-row button {
+    margin-left: 10px;
+}
+
+.stats {
+    display: flex;
+    font-size: 14px;
+}
+
+.stats ul {
+    list-style: none;
+}
+
+.stats li {
+    list-style-type: none;
+    flex: 1;
+}
+
+.bio {
+    font-size: 14px;
+    word-wrap: break-word;
+}
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+.post {
+    align-items: flex-start;
+    width: 33%;
+}
+
+.post :hover {
+    opacity: 0.7;
+}

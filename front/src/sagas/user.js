@@ -66,7 +66,7 @@ function logOutAPI() {
 }
 function* logOut() {
   try {
-    yield call(logOutAPI);
+    //yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
@@ -112,6 +112,7 @@ export default function* userSaga() {
   yield all([
     fork(watchSignUp),
     fork(watchLogIn),
-    fork(watchUserInfo)
+    fork(watchUserInfo),
+    fork(watchLogOut),
   ]);
 }

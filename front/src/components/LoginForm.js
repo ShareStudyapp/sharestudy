@@ -49,7 +49,7 @@ const LoginForm = () => {
           required
         />
       </div>
-      <ButtonWrapper>
+      <ButtonWrapper> 
         <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
         
       </ButtonWrapper>

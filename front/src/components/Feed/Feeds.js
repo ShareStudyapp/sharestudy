@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Feeds() {
     const dispatch = useDispatch();
-    const [Products, setProducts] = useState([])
     const classes = useStyles();
 
     const [value, setValue] = React.useState(0);
@@ -74,7 +73,7 @@ function Feeds() {
     return (
       <div>
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="static" style={{backgroundColor:"#26ff14"}}>
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
             <Tab label="FeelList" {...a11yProps(0)} />
             <Tab label="Gallary" {...a11yProps(1)} />
