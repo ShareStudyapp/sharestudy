@@ -1,49 +1,84 @@
-import React, { Component } from "react";
+import React,{useState}  from "react";
 import { render } from "react-dom";
 import TodoListTemplate from "../../components/TodoList/TodoListTemplate";
 import Calender from '../../components/TodoList/Calender';
+import { useDispatch,useSelector } from 'react-redux';
+import { ADD_PLAN_REQUEST } from '../../reducers/todolist';
 
-class TodoList extends Component {
-  id = 4;
-  state = {
-    input: "",
-    pickColor: "#888888",
-    todo: [
-      { id: 0, todoName: "react 공부", fontColor: "#ff7575", checked: true },
-      { id: 1, todoName: "숙제하기", fontColor: "#7cb5ec", checked: false },
-      { id: 2, todoName: "양치하기", fontColor: "#62c144", checked: false },
-      { id: 3, todoName: "일기쓰기", fontColor: "#888888", checked: false }
-    ]
+function  TodoList(){
+let today = new Date();   
+  
+const defaultCalenderValue = {
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    day: today.getDate(),
+  };
+const todolist= [
+    { id: 0, todoName: "react 공부", fontColor: "#ff7575", checked: true },
+    { id: 1, todoName: "숙제하기", fontColor: "#7cb5ec", checked: false },
+    { id: 2, todoName: "양치하기", fontColor: "#62c144", checked: false },
+    { id: 3, todoName: "일기쓰기", fontColor: "#888888", checked: false }
+  ];
+  const dispatch = useDispatch();
+  const [id,setId] = useState(0);
+  const [input,setInput] =useState('');
+  const [pickColor,setPickColor] = useState('#888888');
+  const [todo,setTodo] = useState([]);
+  const [todoname,setTodoname] = useState('');
+  const [fontColor,setFontColor] = useState('');
+  const [checked,setChecked] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(defaultCalenderValue);
+  const {mainTodolist} = useSelector((state) => state.todolistReducer);
+  console.log(mainTodolist)
+  const handleChange = e => {
+    // this.setState({
+    //   input: e.target.value
+    // });
+    setInput(e.target.value);
   };
 
-  handleChange = e => {
-    this.setState({
-      input: e.target.value
+  const handleCreate = () => {
+    setInput('');
+    // setTodo(todo.concat({
+    //     // id: id++,
+    //     todoName: input,
+    //     fontColor: pickColor,
+    //     checked: false
+    // }))
+    const CalenderDate=selectedDay.year+""+selectedDay.month+""+selectedDay.day
+    
+    console.log(CalenderDate)
+    let todoList={};
+    todoList.savedDate=CalenderDate;
+    todoList.todoContent=input;
+    todoList.fontColor=pickColor;
+    todoList.checked=checked;
+    //TodoList.checked=false;
+    dispatch({
+      type: ADD_PLAN_REQUEST,
+      todoList,
     });
+    // this.setState({
+    //   input: "",
+    //   todo: todo.concat({
+    //     id: this.id++,
+    //     todoName: input,
+    //     fontColor: pickColor,
+    //     checked: false
+    //   })
+    // });
   };
-
-  handleCreate = () => {
-    const { input, todo, pickColor } = this.state;
-
-    this.setState({
-      input: "",
-      todo: todo.concat({
-        id: this.id++,
-        todoName: input,
-        fontColor: pickColor,
-        checked: false
-      })
-    });
-  };
-
-  handlePress = e => {
+  const onChangeDate=(e)=>{
+    setSelectedDay(e.target.value)
+  }
+  const handlePress = e => {
     if (e.key === "Enter") {
-      this.handleCreate();
+        handleCreate();
     }
   };
 
-  handleToggle = id => {
-    const { todo } = this.state;
+  const handleToggle = id => {
+    // const { todo } = this.state;
     const index = todo.findIndex(todos => todos.id === id);
 
     const selected = todo[index];
@@ -53,22 +88,24 @@ class TodoList extends Component {
       ...selected,
       checked: !selected.checked
     };
-
-    this.setState({
-      todo: nextTodo
-    });
+    setTodo(nextTodo);
+    // this.setState({
+    //   todo: nextTodo
+    // });
   };
 
-  handleRemove = id => {
-    const { todo } = this.state;
+  const handleRemove = id => {
+    // const { todo } = this.state;
 
-    this.setState({
-      todo: todo.filter(todos => todos.id !== id)
-    });
+    // this.setState({
+    //   todo: todo.filter(todos => todos.id !== id)
+    // });
+    //setTodo(todo.filter(todos => todos.id !== id))
+    console.log(id)
   };
 
-  handleColorChange = color => {
-    const { todo } = this.state;
+  const handleColorChange = color => {
+    //const { todo } = this.state;
     let colorSet = "";
 
     switch (color) {
@@ -89,27 +126,28 @@ class TodoList extends Component {
         break;
     }
 
-    this.setState({
-      pickColor: colorSet
-    });
+    setPickColor(colorSet);
+    // this.setState({
+    //   pickColor: colorSet
+    // });
   };
 
-  render() {
-    const { todo, input, pickColor } = this.state;
-    const {
-      handleCreate,
-      handleChange,
-      handlePress,
-      handleToggle,
-      handleRemove,
-      handleColorChange
-    } = this;
+
+    // const { todo, input, pickColor } = this.state;
+    // const {
+    //   handleCreate,
+    //   handleChange,
+    //   handlePress,
+    //   handleToggle,
+    //   handleRemove,
+    //   handleColorChange
+    // } = this;
 
     return (
       <div style={{display:"flex"}}>
-        <Calender />
+        <Calender defaultCalenderValue={defaultCalenderValue} />
         <TodoListTemplate
-          todo={todo}
+          todo={mainTodolist}
           onCreate={handleCreate}
           onChange={handleChange}
           onPress={handlePress}
@@ -121,6 +159,6 @@ class TodoList extends Component {
         />
       </div>
     );
-  }
+  
 }
 export default TodoList;

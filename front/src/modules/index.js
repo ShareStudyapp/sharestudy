@@ -2,8 +2,10 @@ import { combineReducers } from 'redux';
 import { all } from 'redux-saga/effects';
 import userSaga from '../sagas/user';
 import postSaga from '../sagas/post';
+import todoSaga from '../sagas/todolist';
 import userReducer from '../reducers/user';
 import postReducer from '../reducers/post';
+import todolistReducer from '../reducers/todolist';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -16,13 +18,15 @@ axios.interceptors.request.use(function (config) {
 
 const rootReducer = combineReducers({
   userReducer,
-  postReducer
+  postReducer,
+  todolistReducer
 });
 
 export function* rootSaga() {
   yield all([
     userSaga(),
-    postSaga()
+    postSaga(),
+    todoSaga()
   ]);
 }
 

@@ -6,9 +6,12 @@ class TodoListBox extends Component {
   }
   render() {
     const { todo, onToggle, onRemove } = this.props;
-    //console.log(todo);
-
-    const todoMap = todo.map(({ id, todoName, fontColor, checked }) => (
+    console.log(todo)
+    ///console.log(todo);
+    // const todoMap = this.props.todo.map((todolist) => (
+    //   <div>{todolist.todolist}</div>
+    // ))
+    const todoMap = todo.map(({ id, todoContent, fontColor, checked }) => (
       <div className="item-frame" key={id} onClick={() => onToggle(id)}>
         <div
           className="remove-mark"
@@ -23,7 +26,7 @@ class TodoListBox extends Component {
           className={`item-name ${checked && "checked"}`}
           style={{ color: fontColor }}
         >
-          {todoName}
+          {todoContent}
         </div>
         <div className={checked ? "check-mark" : "check-mark-none"}>✓</div>
       </div>
@@ -34,3 +37,4 @@ class TodoListBox extends Component {
 }
 
 export default TodoListBox;
+ 
