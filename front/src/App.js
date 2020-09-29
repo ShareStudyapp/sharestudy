@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Products from './pages/Products';
 import Profile from './pages/Profile/Profile';
 import TodoList from './pages/TodoList/TodoList';
+import Messenger from './pages/Messenger';
 import './App.css';
 import 'antd/dist/antd.css';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/products" component={Products} />
         <Route path="/profile" component={Profile} />
         <Route path="/todolist" component={TodoList} />
+        <Route path="/messenger" component={Messenger} />
       </Switch>
     </Router>
     </>

@@ -70,6 +70,7 @@ function Feeds() {
     }, []);
     const { mainPosts,gallary, hasMorePost, loadPostsLoading } = useSelector((state) => state.postReducer);
     
+    
     return (
       <div>
       <div className={classes.root}>

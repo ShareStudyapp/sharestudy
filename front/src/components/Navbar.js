@@ -31,6 +31,9 @@ function Navbar() {
             <Breadcrumb.Item>
                 <Link to="/todolist">목표설정</Link>
             </Breadcrumb.Item>
+            <Breadcrumb.Item>
+                <Link to="/messenger">메신저</Link>
+            </Breadcrumb.Item>
         </Breadcrumb>
         </>
     )
