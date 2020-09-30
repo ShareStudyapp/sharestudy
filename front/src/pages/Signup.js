@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { Select } from 'antd';
 import useInput from '../hooks/useInput';
+import ImageCrop from '../components/SignUp/ImageCrop';
+import ProfileImage from '../components/SignUp/ProfileImage';
 
 const { Option } = Select;
 function Signup({history}) {
@@ -45,17 +47,17 @@ function Signup({history}) {
       if (password !== passwordCheck) {
         return setPasswordError(true);
       }
-      return dispatch({
-        type: SIGN_UP_REQUEST,
-        data: {
-          userid,
-          password,
-          nickname,
-          email,
-          sex,
-          role
-        },
-      });
+      // return dispatch({
+      //   type: SIGN_UP_REQUEST,
+      //   data: {
+      //     userid,
+      //     password,
+      //     nickname,
+      //     email,
+      //     sex,
+      //     role
+      //   },
+      // });
     }, [password, passwordCheck,sex,userid,nickname]);
   
 
@@ -90,6 +92,10 @@ function Signup({history}) {
               <Option value="M">남자</Option>
               <Option value="F">여자</Option>
             </Select>
+            </div>
+            <div>
+              {/* <ImageCrop /> */}
+              <ProfileImage />
             </div>
             <div>
               <label htmlFor="user-password">비밀번호</label>
