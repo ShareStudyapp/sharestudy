@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest,call } from 'redux-saga/effects';
+import { all, fork, put, takeLatest,takeEvery,call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   SIGN_UP_FAILURE,
@@ -12,7 +12,10 @@ import {
   LOG_OUT_SUCCESS,
   USER_INFO_REQUEST,
   USER_INFO_SUCCESS,
-  USER_INFO_FAILURE
+  USER_INFO_FAILURE,
+  UPLOAD_PROFILE_IMAGES_REQUEST,
+  UPLOAD_PROFILE_IMAGES_SUCCESS,
+  UPLOAD_PROFILE_IMAGES_FAILURE
 } from '../reducers/user';
 
 
@@ -96,6 +99,26 @@ function* userInfo() {
     });
   }
 }
+function uploadProfileImagesAPI(data) {
+  console.log(data)
+  return axios.post('/api/auth/profileimage', data);
+}
+function* uploadProfileImages(action) {
+  try {
+    const result = yield call(uploadProfileImagesAPI, action.data);
+    
+    yield put({
+      type: UPLOAD_PROFILE_IMAGES_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UPLOAD_PROFILE_IMAGES_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -108,11 +131,15 @@ function* watchLogOut() {
 function* watchUserInfo() {
   yield takeLatest(USER_INFO_REQUEST, userInfo);
 }
+function* watchProfileUploadImages() {
+  yield takeEvery(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImages);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
     fork(watchLogIn),
     fork(watchUserInfo),
     fork(watchLogOut),
+    fork(watchProfileUploadImages),
   ]);
 }

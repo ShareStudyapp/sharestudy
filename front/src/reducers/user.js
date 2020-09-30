@@ -8,11 +8,15 @@ export const initialState = {
     signUpLoading: false, // 회원가입 시도중
     signUpDone: false,//회원가입 성공
     signUpError: null,
-    me: null, // 내 정보
-    userInfo: [], // 남의 정보
+    me: null, // 로그인 토큰 정보
+    userInfo: [], // 나의 정보
+    profileimagePaths: [],
     userinfoLoading:false, //내정보로딩
     userinfoDone:false,//내정보로딩완료
-    userinfoError:null
+    userinfoError:null,
+    uploadProfileImagesLoading: false,
+    uploadProfileImagesDone: false,
+    uploadProfileImagesError: null,
   };
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -30,6 +34,10 @@ export const USER_INFO_REQUEST = 'USER_INFO_REQUEST';
 export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 export const USER_INFO_FAILURE = 'USER_INFO_FAILURE';
 
+export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
+export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
+export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
+
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
   data,
@@ -38,6 +46,7 @@ export const logoutRequestAction = () => ({
   type: LOG_OUT_REQUEST,
 });
 const userReducer = (state = initialState, action) => produce(state, (draft) => {
+  console.log(action.data);
   switch (action.type) {
     case LOG_IN_REQUEST:
       draft.logInLoading = true;
@@ -75,6 +84,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.logOutLoading = false;
       draft.logOutDone = true;
       draft.me = null;
+      draft.userInfo = [];
       break;
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
@@ -93,6 +103,21 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.userinfoDone=true;
       draft.userinfoLoading=false;
       draft.userinfoError = action.error.response.data;
+      break;
+    case UPLOAD_PROFILE_IMAGES_REQUEST:
+      draft.uploadProfileImagesLoading = true;
+      draft.uploadProfileImagesDone = false;
+      draft.uploadProfileImagesError = null;
+      break;
+    case UPLOAD_PROFILE_IMAGES_SUCCESS: {
+      draft.profileimagePaths = action.data;
+      draft.uploadProfileImagesLoading = false;
+      draft.uploadProfileImagesDone = true;
+      break;
+    }
+    case UPLOAD_PROFILE_IMAGES_FAILURE:
+      draft.uploadProfileImagesLoading = false;
+      draft.uploadProfileImagesError = action.error;
       break;
     default:
       break;

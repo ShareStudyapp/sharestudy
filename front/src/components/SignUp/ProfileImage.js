@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import {ImageCrop} from "./ImageCrop";
 import {Modal}  from './Modal';
 import { verifyFile } from './verifyFile';
 import defaultImage from '../../assets/images/user_default.png';
+import { useDispatch } from 'react-redux';
+import {UPLOAD_PROFILE_IMAGES_REQUEST} from '../../reducers/user';
 
 import './style.scss';
 
 
 const ProfileImage = () => {
+    const dispatch = useDispatch();
     const initialState = {
         userProfileImg: null,
         selectedFile: null,
@@ -17,28 +20,52 @@ const ProfileImage = () => {
     let imageEditor= null;
     const [ imageData, setImageData ] = useState(initialState);
     const [ showModal, setShowModal] = useState(false);
-
+    const [fname,setFname] = useState('');
+    const imageInput = useRef();
     const setEditorRef = (editor) => imageEditor = editor;
 
     const toggleModal = () => {
         setShowModal(!showModal);
     }
-
-    const onCrop = () => {
+    //base 64 to file 변환 함수
+    const dataURLtoFile = (dataurl, fileName) => {
+ 
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], fileName, {type:mime});
+    }
+    const onCrop = (e) => {
         if ( imageEditor !== null ){
             const url = imageEditor.getImageScaledToCanvas().toDataURL();     
             setImageData({ userProfileImg : url });
+            
+            var file = dataURLtoFile(url,fname);
+            const imageFormData = new FormData();
+            imageFormData.append('images', file);
+            
+            dispatch({
+                type: UPLOAD_PROFILE_IMAGES_REQUEST,
+                data: imageFormData,
+            });
         }
         toggleModal();
     }
-   
+   /*파일첨부.. */
     const onImageFileChangeHandler = (e) => {
         const file = e.target.files[0];
+        setFname(e.target.files[0].name);
 
         if( file !== undefined && verifyFile(file)){
             
             setImageData({ selectedFile : file });
             setShowModal(true);
+            
         }
     }
 
@@ -46,9 +73,9 @@ const ProfileImage = () => {
         const profileImage = imageData.userProfileImg ? 
                                 imageData.userProfileImg : 
                                 defaultImage;
-
+       console.log()
         return(
-            <img className='profile-image' src={profileImage} alt='user-logo' />
+            <img className='profile-image' src={profileImage} id="profile-img" alt='user-logo' />
         )
     }
 

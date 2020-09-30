@@ -1,6 +1,7 @@
 import React,{useState,useCallback} from 'react'
 import './Profile.css';
 import { useSelector, useDispatch } from 'react-redux';
+import defaultImage from '../../assets/images/user_default.png';
 
 function Profile() {
     const {userInfo} = useSelector((state) => state.userReducer);
@@ -19,7 +20,7 @@ function Profile() {
             <header>
                 <section className="profile">
                     <div className="image">
-                        <img id="profile-picture" />
+                        <img id="profile-picture" src={userInfo.profileImage?userInfo.profileImage:defaultImage} />
                     </div>
                     <div className="info">
                         <div className="top-row">

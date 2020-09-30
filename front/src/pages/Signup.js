@@ -19,7 +19,7 @@ function Signup({history}) {
     const [password, onChangePassword] = useInput('');
     const [email,onChangeEmail] = useInput('');
     const [sex,onChangeSex] = useState('M');
-    const { signUpLoading,signUpDone,signUpError } = useSelector((state) => state.userReducer);
+    const { signUpLoading,signUpDone,signUpError,profileimagePaths } = useSelector((state) => state.userReducer);
 
 
     // const onChangeUserid=(e)=>{
@@ -41,24 +41,25 @@ function Signup({history}) {
     const dispatch = useDispatch();
 
     const onSubmit = useCallback(() => {
-      console.log(userid)
+      console.log(profileimagePaths)
       
       const role = ["user"];
       if (password !== passwordCheck) {
         return setPasswordError(true);
       }
-      // return dispatch({
-      //   type: SIGN_UP_REQUEST,
-      //   data: {
-      //     userid,
-      //     password,
-      //     nickname,
-      //     email,
-      //     sex,
-      //     role
-      //   },
-      // });
-    }, [password, passwordCheck,sex,userid,nickname]);
+      return dispatch({
+        type: SIGN_UP_REQUEST,
+        data: {
+          userid,
+          password,
+          nickname,
+          email,
+          sex,
+          role,
+          profileimagePaths
+        },
+      });
+    }, [password, passwordCheck,sex,userid,nickname,profileimagePaths]);
   
 
 
