@@ -2,7 +2,7 @@ import React, { useState, useCallback,useEffect} from 'react';
 import { Form, Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { SIGN_UP_REQUEST } from '../reducers/user';
+import { SIGN_UP_REQUEST,USER_RESET } from '../reducers/user';
 import { Select } from 'antd';
 import useInput from '../hooks/useInput';
 import ImageCrop from '../components/SignUp/ImageCrop';
@@ -19,16 +19,17 @@ function Signup({history}) {
     const [password, onChangePassword] = useInput('');
     const [email,onChangeEmail] = useInput('');
     const [sex,onChangeSex] = useState('M');
-    const { signUpLoading,signUpDone,signUpError,profileimagePaths } = useSelector((state) => state.userReducer);
+    const { signUpLoading,signUpDone,signUpError,profileimagePaths,logInLoading } = useSelector((state) => state.userReducer);
 
-
-    // const onChangeUserid=(e)=>{
-    //   setUserid(e.target.value)
-    // }
+    const dispatch = useDispatch();
+    
     useEffect(() => {
       if (signUpDone) {
-        alert('가입되었습니다.');
+        dispatch({
+          type: USER_RESET
+        }) 
         history.push('/');
+        alert('가입되었습니다.');
       }
     }, [signUpDone]);
     useEffect(() => {
@@ -36,12 +37,14 @@ function Signup({history}) {
         alert(signUpError);
         return;
       }
-    }, [signUpError]);
-    
-    const dispatch = useDispatch();
+      if(logInLoading){
+        dispatch({
+          type: USER_RESET
+        }) 
+      }
+    }, [signUpError,logInLoading]);
 
     const onSubmit = useCallback(() => {
-      console.log(profileimagePaths)
       
       const role = ["user"];
       if (password !== passwordCheck) {

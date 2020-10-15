@@ -20,7 +20,7 @@ export const LOAD_PLAN_SUCCESS = 'LOAD_PLAN_SUCCESS';
 export const LOAD_PLAN_FAILURE = 'LOAD_PLAN_FAILURE';
 
 const todolistReducer = (state = initialState, action) => produce(state, (draft) => {
-    console.log(action.data)
+    
     switch (action.type) {
         case ADD_PLAN_REQUEST:
             draft.addPlanLoading = true;

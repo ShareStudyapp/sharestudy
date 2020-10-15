@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect} from 'react'
 import Feeds from '../components/Feed/Feeds'
 import LoginForm from '../components/LoginForm'
 import PostForm from '../components/Feed/PostForm';
@@ -9,9 +9,12 @@ function Home() {
   const { me,logInDone} = useSelector((state) => state.userReducer);
 
   const user = window.sessionStorage.getItem('user')
+  const login = window.sessionStorage.getItem('login_valid')
+  console.log(user)
   useEffect(() => {
     if (me) {
       window.sessionStorage.setItem('user',me);
+      window.sessionStorage.setItem('login_valid',"temp");
       dispatch({
         type: USER_INFO_REQUEST
       });
@@ -20,8 +23,7 @@ function Home() {
   
     return (
       <div>
-        
-      { me? <PostForm />:<LoginForm />}
+      { login? <PostForm />:<LoginForm />}
       <Feeds />
       {/* <Feeds /> */}
       </div>

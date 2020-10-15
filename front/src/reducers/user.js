@@ -5,6 +5,7 @@ export const initialState = {
     logInLoading: false, // 로그인 시도중
     logInError: '', // 로그인 실패 사유
     logOutLoading: false, // 로그아웃 시도중
+    logOutDone: false,//로그아웃완료
     signUpLoading: false, // 회원가입 시도중
     signUpDone: false,//회원가입 성공
     signUpError: null,
@@ -18,6 +19,8 @@ export const initialState = {
     uploadProfileImagesDone: false,
     uploadProfileImagesError: null,
   };
+export const USER_RESET="USER_RESET";
+
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
@@ -42,12 +45,17 @@ export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
   data,
 });
-export const logoutRequestAction = () => ({
+export const logoutRequestAction = (data) => ({
   type: LOG_OUT_REQUEST,
+  data
 });
 const userReducer = (state = initialState, action) => produce(state, (draft) => {
-  console.log(action.data);
+  
   switch (action.type) {
+    case USER_RESET:
+      draft.logInLoading = true;
+      draft.signUpDone = false;
+      break;
     case LOG_IN_REQUEST:
       draft.logInLoading = true;
       draft.logInError = null;

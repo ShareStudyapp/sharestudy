@@ -1,17 +1,26 @@
-import React,{useCallback} from 'react'
+import React,{useCallback,useEffect} from 'react'
 import {Link} from 'react-router-dom';
 import { Breadcrumb } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { logoutRequestAction } from '../reducers/user';
 
 
 function Navbar() {
     const dispatch = useDispatch();
-    const onLogOut = useCallback(() => {
-        dispatch(logoutRequestAction());
-        //window.sessionStorage.removeItem('user');
-        //window.location.reload()
+    const { logOutDone} = useSelector((state) => state.userReducer);
+    
+    const onLogOut = useCallback(() => {        
+        const token = window.sessionStorage.getItem('user')
+        dispatch(logoutRequestAction(token));
+        window.sessionStorage.removeItem('login_valid');
+      
     }, []);
+    useEffect(() => {
+        if(logOutDone){
+            window.sessionStorage.removeItem('user');
+        } 
+    }, [logOutDone])
+
     return ( 
         <>
          <Breadcrumb>
