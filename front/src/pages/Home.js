@@ -8,9 +8,9 @@ function Home() {
   const dispatch = useDispatch();
   const { me,logInDone} = useSelector((state) => state.userReducer);
 
-  const user = window.sessionStorage.getItem('user')
-  const login = window.sessionStorage.getItem('login_valid')
-  console.log(user)
+  const user = window.sessionStorage.getItem('user')//유저토큰 
+  const login = window.sessionStorage.getItem('login_valid')//로그인여부
+  
   useEffect(() => {
     if (me) {
       window.sessionStorage.setItem('user',me);

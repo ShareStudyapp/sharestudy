@@ -8,9 +8,9 @@ import { logoutRequestAction } from '../reducers/user';
 function Navbar() {
     const dispatch = useDispatch();
     const { logOutDone} = useSelector((state) => state.userReducer);
-    
+    const login_valid = window.sessionStorage.getItem('login_valid')    
     const onLogOut = useCallback(() => {        
-        const token = window.sessionStorage.getItem('user')
+        const token = window.sessionStorage.getItem('user')    
         dispatch(logoutRequestAction(token));
         window.sessionStorage.removeItem('login_valid');
       
@@ -27,12 +27,16 @@ function Navbar() {
             <Breadcrumb.Item>
                 <Link to="/">Home</Link>
             </Breadcrumb.Item>
+            {login_valid?
+            (''):
             <Breadcrumb.Item>
                 <Link to="/signup">회원가입</Link>
-            </Breadcrumb.Item>
+            </Breadcrumb.Item>}
+            {login_valid?
             <Breadcrumb.Item>
-            <a onClick={onLogOut}>로그아웃</a>
+                <a onClick={onLogOut}>로그아웃</a>
             </Breadcrumb.Item>
+            :('')}
             <Breadcrumb.Item>스터디그룹 찾기</Breadcrumb.Item>
             <Breadcrumb.Item>
                 <Link to="/profile">내 프로필</Link>
