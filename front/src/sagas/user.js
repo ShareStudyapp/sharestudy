@@ -29,9 +29,8 @@ function signUpAPI(signUpData) {
 function* signUp(action) {
   try {
     
-    //yield call(signUpAPI, action.data);
-    yield delay(1000);
-    //throw new Error('에러에러에러');
+    yield call(signUpAPI, action.data);
+    //yield delay(2000);
     yield put({ // put은 dispatch 동일
       type: SIGN_UP_SUCCESS,
     });

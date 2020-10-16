@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import ImagesZoom from './imageZoom';
+import PreloadImage from 'react-preload-image';
+import './PostImages.css';
 
 
 const PostImages = ({ images }) => {
 
   const imagestyle={
-    width:"300px",
-    height:"300px",
+    width:300,
+    height:300,
   }
 
   const [showImagesZoom, setShowImagesZoom] = useState(false);
@@ -22,7 +24,16 @@ const PostImages = ({ images }) => {
   if (images.length === 1) {
     return (
       <>
-        <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} onClick={onZoom} />
+        {/* <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} onClick={onZoom} /> */}
+        <div onClick={onZoom}>
+          <PreloadImage 
+            className="preloadImage"
+            src={images[0].src}
+            alt={images[0].src} 
+            onClick={onZoom}
+            lazy 
+          />
+        </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
@@ -31,8 +42,24 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
+          <div onClick={onZoom}>
+          <PreloadImage 
+            className="twopreloadImage"
+            src={images[0].src}
+            alt={images[0].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          </div>
+          <div onClick={onZoom}>
+          <PreloadImage 
+            className="twopreloadImage"
+            src={images[1].src}
+            alt={images[1].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          </div>
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -42,9 +69,33 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[2].src} style={imagestyle} alt={images[2].src} width="50%" onClick={onZoom} />
+          <div onClick={onZoom}>
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[0].src}
+            alt={images[0].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          </div>
+          <div onClick={onZoom}>
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[1].src}
+            alt={images[1].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          </div>
+          <div onClick={onZoom}>
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[2].src}
+            alt={images[2].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          </div>
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -54,10 +105,35 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[2].src} style={imagestyle} alt={images[2].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[3].src} style={imagestyle} alt={images[3].src} width="50%" onClick={onZoom} />
+          {/* <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} /> */}
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[0].src}
+            alt={images[0].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[1].src}
+            alt={images[1].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[2].src}
+            alt={images[2].src} 
+            onClick={onZoom}
+            lazy 
+          />
+          <PreloadImage 
+            className="threepreloadImage"
+            src={images[3].src}
+            alt={images[3].src} 
+            onClick={onZoom}
+            lazy 
+          />
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -66,9 +142,27 @@ const PostImages = ({ images }) => {
   return (
     <>
       <div>
-        <img role="presentation" src={images[0].src} style={imagestyle} alt={images[0].src} width="50%" onClick={onZoom} />
-        <img role="presentation" src={images[1].src} style={imagestyle} alt={images[1].src} width="50%" onClick={onZoom} />
-        <img role="presentation" src={images[2].src} style={imagestyle} alt={images[2].src} width="50%" onClick={onZoom} />
+        <PreloadImage 
+            className="threepreloadImage"
+            src={images[3].src}
+            alt={images[3].src} 
+            onClick={onZoom}
+            lazy 
+        />
+        <PreloadImage 
+            className="threepreloadImage"
+            src={images[3].src}
+            alt={images[3].src} 
+            onClick={onZoom}
+            lazy 
+        />
+        <PreloadImage 
+            className="threepreloadImage"
+            src={images[3].src}
+            alt={images[3].src} 
+            onClick={onZoom}
+            lazy 
+        />  
         <div
           role="presentation"
           style={{ display: 'inline-block', width: '50%', textAlign: 'center', verticalAlign: 'middle' }}

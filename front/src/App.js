@@ -4,7 +4,7 @@ import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 import './App.css';
 import 'antd/dist/antd.css';
 import Home from './pages/Home';
-import Navbar from './components/Navbar';
+import MainNav from './components/MainNav';
 //const Navbar = lazy(()=>import('./components/Navbar'));
 // const Home = lazy(()=>import('./pages/Home'));
 const Signup = lazy(()=>import('./pages/Signup'));
@@ -16,7 +16,7 @@ function App() {
   return (
     <>
     <Router>
-      <Navbar />
+    
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -27,6 +27,7 @@ function App() {
           <Route path="/messenger" component={Messenger} />
         </Switch>
       </Suspense>
+      <MainNav />
     </Router>
     </>
   );

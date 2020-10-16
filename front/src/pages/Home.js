@@ -2,6 +2,7 @@ import React,{useEffect} from 'react'
 import Feeds from '../components/Feed/Feeds'
 import LoginForm from '../components/LoginForm'
 import PostForm from '../components/Feed/PostForm';
+
 import {useSelector,useDispatch } from 'react-redux';
 import { USER_INFO_REQUEST } from '../reducers/user';
 function Home() {
@@ -25,7 +26,6 @@ function Home() {
       <div>
       { login? <PostForm />:<LoginForm />}
       <Feeds />
-      {/* <Feeds /> */}
       </div>
     )
 }
