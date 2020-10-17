@@ -1,12 +1,12 @@
 .preloadImage {
   position: relative;
-  width: 50%;
+  width: 100%;
   height: 500px;
   background-color: #222222;
 } 
 .twopreloadImage{
   position: relative;
-  width: 50%;
+  width: 100%;
   height: 500px;
   background-color: #222222;
 }

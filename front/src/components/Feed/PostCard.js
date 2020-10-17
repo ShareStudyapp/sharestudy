@@ -10,6 +10,10 @@ import PostCardContent from './PostCardContent';
 import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST} from '../../reducers/post';
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
+import './PostCard.css';
+
+import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
+
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -20,7 +24,7 @@ const images = [
   'https://source.unsplash.com/random/400x400',
 ];
 function PostCard({post}) {
-    
+    console.log(post)
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
     const {userInfo} = useSelector((state) => state.userReducer);
@@ -29,6 +33,7 @@ function PostCard({post}) {
     const [editMode, setEditMode] = useState(false);
     const [replyeditMode, setReplyeditMode] = useState(true);
     const [replytmp,setReplytmp] = useState('');
+    
 
     const onClickUpdate = useCallback(() => {
       setEditMode(true);
@@ -107,55 +112,33 @@ function PostCard({post}) {
       return dispatch({
         type: UNLIKE_POST_REQUEST,
         data: post.id,
-      });
+      }); 
     }, [userInfo.id]);
+
+
     const liked = post.feedlike.find((v) => v.userkey===userInfo.id);
-    return (
-      
-      <CardWrapper key={post.id}>
-      <Card
-        cover={post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
-        actions={[
-          liked
-          ? <HeartTwoTone twoToneColor="#eb2f96" key="heart" onClick={onUnlike} />
-          : <HeartOutlined key="heart" onClick={onLike} />,
-          <MessageOutlined key="comment" onClick={onToggleComment} />,
-          <Popover
-            key="ellipsis"
-            content={(
-              <Button.Group>
-                { post.user.id === userInfo.id
-                  ? (
-                    <>
-                      <Button onClick={onClickUpdate}>수정</Button>
-                      <Button type="danger" loading={removePostLoading} onClick={onRemovePost}  >삭제</Button>
-                    </>
-                  )
-                  : <Button>신고</Button>}
-              </Button.Group>
-            )}
-          >
-            <EllipsisOutlined />
-          </Popover>,
-        ]}
-        // extra={<FollowButton post={post} />}
-      >
-        <Card.Meta
-          // avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-          title={post.user.nickname}
-          description={<PostCardContent editMode={editMode} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} totallike={post.totallike} postData={post.content} />}
-        />
-      </Card>
-      {commentFormOpened && (
-        <>
-          <CommentForm post={post} />
-          <List
-            //header={`${post.feedreply? post.feedreply.length : 0} 댓글`}
-            itemLayout="horizontal"
-            dataSource={post.feedreply || []}
-            renderItem={(item) => (
-              <li>
-                
+    return(
+      <div className="FeedContainer" key={post.id}>
+        <div className="FeedUser">
+          <div className="user_zone">
+            <img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
+            <span className="user_name">{post.user.nickname}</span>
+          </div>
+        </div>
+        <div className="Feed_Content"> 
+          <div className="content_image_zone">
+            {post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
+          </div>
+          <div className="content_zone">
+            {post.content} <span>더보기</span>
+          </div>
+          <div className="content_feature">
+            <FaRegHeart/><FaHeart />
+            <FaRegCommentAlt onClick={onToggleComment} />
+          </div>
+          <div>
+          {/* <CommentForm post={post} /> */}
+          {commentFormOpened && post.feedreply.map((item,ind)=>(
                 <Comment
                   author={item.user.nickname}
                   avatar={(
@@ -166,22 +149,83 @@ function PostCard({post}) {
                   content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
                     content={item.content}
                 />
-                { item.user.id === userInfo.id
-                  ?(
-                  <>
-                    <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
-                    <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
-                  </>
-                ):<>회원만 수정가능</>}
-              </li>
-            )}
-          />
-        </>
-      )}
-      
-    </CardWrapper>
-    
+          ))}
+          </div>
+        </div>
+      </div>
     )
+    // return (
+      
+    //   <CardWrapper key={post.id}>
+    //   <Card
+    //     cover={post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
+    //     actions={[
+    //       liked
+    //       ? <HeartTwoTone twoToneColor="#eb2f96" key="heart" onClick={onUnlike} />
+    //       : <HeartOutlined key="heart" onClick={onLike} />,
+    //       <MessageOutlined key="comment" onClick={onToggleComment} />,
+    //       <Popover
+    //         key="ellipsis"
+    //         content={(
+    //           <Button.Group>
+    //             { post.user.id === userInfo.id
+    //               ? (
+    //                 <>
+    //                   <Button onClick={onClickUpdate}>수정</Button>
+    //                   <Button type="danger" loading={removePostLoading} onClick={onRemovePost}  >삭제</Button>
+    //                 </>
+    //               )
+    //               : <Button>신고</Button>}
+    //           </Button.Group>
+    //         )}
+    //       >
+    //         <EllipsisOutlined />
+    //       </Popover>,
+    //     ]}
+    //     // extra={<FollowButton post={post} />}
+    //   >
+    //     <Card.Meta
+    //       // avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+    //       title={post.user.nickname}
+    //       description={<PostCardContent editMode={editMode} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} totallike={post.totallike} postData={post.content} />}
+    //     />
+    //   </Card>
+    //   {commentFormOpened && (
+    //     <>
+    //       <CommentForm post={post} />
+    //       <List
+    //         //header={`${post.feedreply? post.feedreply.length : 0} 댓글`}
+    //         itemLayout="horizontal"
+    //         dataSource={post.feedreply || []}
+    //         renderItem={(item) => (
+    //           <li>
+                
+    //             <Comment
+    //               author={item.user.nickname}
+    //               avatar={(
+    //                 // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
+    //                   <a><Avatar>{item.user.nickname}</Avatar></a>
+    //                 // </Link>
+    //               )}  
+    //               content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
+    //                 content={item.content}
+    //             />
+    //             { item.user.id === userInfo.id
+    //               ?(
+    //               <>
+    //                 <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
+    //                 <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
+    //               </>
+    //             ):<>회원만 수정가능</>}
+    //           </li>
+    //         )}
+    //       />
+    //     </>
+    //   )}
+      
+    // </CardWrapper>
+    
+    // )
 }
 
 export default PostCard

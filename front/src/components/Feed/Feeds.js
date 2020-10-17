@@ -74,7 +74,11 @@ function Feeds() {
     return (
       <div>
       <div className={classes.root}>
-        <AppBar position="static" style={{backgroundColor:"#26ff14"}}>
+      {mainPosts.map((c) => (
+            <PostCard key={c.id} post={c} />
+          ))}
+        
+        {/* <AppBar position="static" style={{backgroundColor:"#26ff14"}}>
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
             <Tab label="FeelList" {...a11yProps(0)} />
             <Tab label="Gallary" {...a11yProps(1)} />
@@ -84,16 +88,15 @@ function Feeds() {
         <TabPanel value={value} index={0}>
           {mainPosts.map((c) => (
             <PostCard key={c.id} post={c} />
-          ))}
-          
+          ))}   
         </TabPanel>
         <TabPanel value={value} index={1}>
           <div>
-          {/* <Gallery photos={gallary.filepath} onClick={openLightbox} /> */}
           <GallaryList gallary={gallary} />
           
           </div>
-        </TabPanel>
+        </TabPanel> */} 
+        
       </div>
     </div>
     )    

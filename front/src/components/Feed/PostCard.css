@@ -1,0 +1,37 @@
+.FeedContainer{
+    width:720px;
+    hieght:912px;
+}
+.FeedUser{
+    width:600px;
+    height:100px;
+    border:1px solid;
+}
+.user_image{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+} 
+.user_name{
+    margin-left:30px;
+}
+.Feed_Content{
+    margin:0 auto;
+    width:600px;
+    border:1px solid;
+}
+.content_zone{
+    max-width:600px;
+    width:100%;
+}
+.content_feature{
+    display: flex; 
+    height:25px;
+    justify-content: center;
+    align-items: center;
+} 

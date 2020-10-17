@@ -14,9 +14,8 @@ const TodoList = lazy(()=>import('./pages/TodoList/TodoList'));
 const Messenger = lazy(()=>import('./pages/Messenger'));
 function App() {
   return (
-    <>
+    <div className="main_container">
     <Router>
-    
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -29,7 +28,7 @@ function App() {
       </Suspense>
       <MainNav />
     </Router>
-    </>
+    </div>
   );
 }
 
