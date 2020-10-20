@@ -5,6 +5,9 @@ import PostForm from '../components/Feed/PostForm';
 
 import {useSelector,useDispatch } from 'react-redux';
 import { USER_INFO_REQUEST } from '../reducers/user';
+
+import ButtonWrite from '../assets/Button/button_write.png';
+import './Home.css';
 function Home() {
   const dispatch = useDispatch();
   const { me,logInDone} = useSelector((state) => state.userReducer);
@@ -23,10 +26,13 @@ function Home() {
   }, [me]);
   
     return (
+      <>
       <div>
       { login? <PostForm />:<LoginForm />}
       <Feeds />
       </div>
+      <img src={ButtonWrite} className="button_write"/>
+      </>
     )
 }
 

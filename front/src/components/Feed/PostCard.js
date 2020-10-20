@@ -133,8 +133,8 @@ function PostCard({post}) {
             {post.content} <span>더보기</span>
           </div>
           <div className="content_feature">
-            <FaRegHeart/><FaHeart />
-            <FaRegCommentAlt onClick={onToggleComment} />
+            <div class="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
+            <div class="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={onToggleComment} />330</div>
           </div>
           <div>
           {/* <CommentForm post={post} /> */}

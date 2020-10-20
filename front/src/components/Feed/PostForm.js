@@ -7,6 +7,7 @@ function PostForm() {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const { imagePaths,addPostDone } = useSelector((state) => state.postReducer);
+    console.log(imagePaths)
     const imageInput = useRef();
     useEffect(() => {
         if (addPostDone) {
@@ -16,11 +17,12 @@ function PostForm() {
     const onSubmit = useCallback(() => {
 
         const formData = new FormData();
+        
         imagePaths.forEach((p) => {
           formData.append('images',p);
         });
         formData.append('content', text);
-        console.log(formData.get('images'))
+        
         return dispatch({
             type: ADD_POST_REQUEST,
             data: formData,
@@ -38,7 +40,6 @@ function PostForm() {
         const imageFormData = new FormData();
         [].forEach.call(e.target.files, (f) => {
             imageFormData.append('images', f);
-            console.log(f)
         });
         dispatch({
             type: UPLOAD_IMAGES_REQUEST,

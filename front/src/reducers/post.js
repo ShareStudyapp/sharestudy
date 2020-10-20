@@ -90,7 +90,8 @@ export const addComment = (data) => ({
 });
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 const postReducer = (state = initialState, action) => produce(state, (draft) => {
-    console.log(action.data)
+    const templist = [];
+    templist.push(action.data);
     switch (action.type) {
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -128,7 +129,11 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.uploadImagesError = null;
         break;
       case UPLOAD_IMAGES_SUCCESS: {
-        draft.imagePaths = action.data;
+        const imagelist = action.data.join()
+        const imageone = imagelist.split(',')
+        for(const i in imageone) {
+          draft.imagePaths.push(imageone[i]);
+        }        
         draft.uploadImagesLoading = false;
         draft.uploadImagesDone = true;
         break;

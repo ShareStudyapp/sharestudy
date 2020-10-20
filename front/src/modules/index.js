@@ -8,7 +8,7 @@ import postReducer from '../reducers/post';
 import todolistReducer from '../reducers/todolist';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = 'http://192.168.0.10:8080';
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
   const token = window.sessionStorage.getItem('user')
