@@ -17,6 +17,8 @@ const ProfileImage = () => {
         editor: null
     };
 
+
+
     let imageEditor= null;
     const [ imageData, setImageData ] = useState(initialState);
     const [ showModal, setShowModal] = useState(false);
@@ -73,7 +75,6 @@ const ProfileImage = () => {
         const profileImage = imageData.userProfileImg ? 
                                 imageData.userProfileImg : 
                                 defaultImage;
-       console.log()
         return(
             <img className='profile-image' src={profileImage} id="profile-img" alt='user-logo' />
         )

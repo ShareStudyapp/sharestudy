@@ -11,7 +11,7 @@ export const initialState = {
     signUpError: null,
     me: null, // 로그인 토큰 정보
     userInfo: [], // 나의 정보
-    profileimagePaths: [],
+    profileimagePaths: 'undefiend',
     userinfoLoading:false, //내정보로딩
     userinfoDone:false,//내정보로딩완료
     userinfoError:null,
@@ -53,7 +53,6 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
   
   switch (action.type) {
     case USER_RESET:
-      draft.logInLoading = true;
       draft.signUpDone = false;
       break;
     case LOG_IN_REQUEST:

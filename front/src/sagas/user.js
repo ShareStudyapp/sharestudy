@@ -23,6 +23,7 @@ import {
 
 function signUpAPI(signUpData) {
   // 서버에 요청을 보내는 부분
+  console.log(signUpData)
   return axios.post('/api/auth/signup',signUpData);
 }
 

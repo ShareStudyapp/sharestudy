@@ -10,21 +10,42 @@ import ProfileImage from '../components/SignUp/ProfileImage';
 
 const { Option } = Select;
 function Signup({history}) {
+    //const google_info = window.sessionStorage.getItem('google_information');
+    const google_info = JSON.parse(sessionStorage.getItem('google_information'))
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState(false);
 
     //const [userid, onChangeUserid] = useInput('');
+    //const [nickname, onChangeNickname] = useInput('');
+    //const [password, onChangePassword] = useInput('');
+    //const [email,onChangeEmail] = useInput('');
     const [userid, setUserid] = useState('');
-    const [nickname, onChangeNickname] = useInput('');
-    const [password, onChangePassword] = useInput('');
-    const [email,onChangeEmail] = useInput('');
+    const [nickname,setNickname] = useState('');
+    const [password,setPassword] = useState('');
+    const [email,setEmail] = useState('');
     const [sex,onChangeSex] = useState('M');
+    const [gtoken,setGtoken] = useState('');
+    const [accountType,setAccountType] = useState('');
     const { signUpLoading,signUpDone,signUpError,profileimagePaths,logInLoading } = useSelector((state) => state.userReducer);
-
     const dispatch = useDispatch();
     
+    useEffect(()=>{
+      
+      if(google_info !== null){
+
+        setEmail(google_info.profileObj.email);
+        setNickname(google_info.profileObj.name);
+        setGtoken(google_info.tokenId);
+        setAccountType('google');
+      }
+      
+    },[])
+
     useEffect(() => {
+      
+
       if (signUpDone) {
+        window.sessionStorage.removeItem('google_information')
         dispatch({
           type: USER_RESET
         }) 
@@ -34,7 +55,7 @@ function Signup({history}) {
     }, [signUpDone]);
     useEffect(() => {
       if (signUpError) {
-        alert(signUpError);
+        
         return;
       }
       if(logInLoading){
@@ -59,10 +80,12 @@ function Signup({history}) {
           email,
           sex,
           role,
-          profileimagePaths
+          profileimagePaths,
+          gtoken,
+          accountType
         },
       });
-    }, [password, passwordCheck,sex,userid,nickname,profileimagePaths]);
+    }, [password, passwordCheck,sex,userid,nickname,profileimagePaths,gtoken,accountType]);
   
 
 
@@ -79,17 +102,17 @@ function Signup({history}) {
             <div>
               <label htmlFor="user-userid">아이디</label>
               <br />
-              <Input name="user-userid" value={userid} required onChange={(e)=>setUserid(e.target.value)} />
+              <Input name="user-userid" value={userid} required onChange={({ target: { value } })=>setUserid(value)} />
             </div>
             <div>
               <label htmlFor="user-nick">닉네임</label>
               <br />
-              <Input name="user-nick" value={nickname} required onChange={onChangeNickname} />
+              <Input name="user-nick" value={nickname} required onChange={({ target: { value } }) => setNickname(value)} />
             </div>
             <div>
               <label htmlFor="user-email">이메일</label>
               <br />
-              <Input name="user-email" value={email} required onChange={onChangeEmail} />
+              <Input name="user-email" value={email} required onChange={({ target: { value } }) => setEmail(value)} />
             </div>
             <div>
             <Select defaultValue="M" style={{ width: 90 }} onChange={onChangeSex}>
@@ -104,7 +127,7 @@ function Signup({history}) {
             <div>
               <label htmlFor="user-password">비밀번호</label>
               <br />
-              <Input name="user-password" type="password" value={password} required onChange={onChangePassword} />
+              <Input name="user-password" type="password" value={password} required onChange={({ target: { value } }) => setPassword(value)} />
             </div>
             <div>
                 <label htmlFor="user-password-check">비밀번호체크</label>
