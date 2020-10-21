@@ -1,0 +1,16 @@
+.calendar_area{
+    display:flex;
+    justify-content: space-between;
+}
+.todayText{
+    font-size: 14px;
+    font-weight:bold;
+}
+.striplist{
+    display:flex;
+    justify-content: space-between;
+} 
+.active{
+    background-color: #5858E1;
+    color:#fff;
+} 

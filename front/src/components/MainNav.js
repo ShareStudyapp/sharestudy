@@ -36,7 +36,8 @@ function MainNav() {
                     <Link to="/profile">내 프로필</Link>
                 </>
                 :('')}
-                <Link to="/todolist">목표설정</Link>
+                <Link to="/todolist">목표설정</Link> 
+                <Link to="/mytodolist">목표설정공사중</Link>
                 <Link to="/messenger">메신저</Link>
             </div>  
         </div>

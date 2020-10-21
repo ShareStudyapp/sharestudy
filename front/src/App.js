@@ -11,6 +11,7 @@ const Signup = lazy(()=>import('./pages/Signup'));
 const Products = lazy(()=>import('./pages/Products'));
 const Profile = lazy(()=>import('./pages/Profile/Profile'));
 const TodoList = lazy(()=>import('./pages/TodoList/TodoList'));
+const MyTodoList = lazy(()=>import('./pages/TodoList/MyTodoList'));
 const Messenger = lazy(()=>import('./pages/Messenger'));
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/products" component={Products} />
           <Route path="/profile" component={Profile} />
           <Route path="/todolist" component={TodoList} />
+          <Route path="/mytodolist" component={MyTodoList} />
           <Route path="/messenger" component={Messenger} />
         </Switch>
       </Suspense>
