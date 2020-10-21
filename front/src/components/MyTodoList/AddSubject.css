@@ -1,3 +1,6 @@
+.addsubject_container{
+    background:#F9F9F9;
+}
 .selectbox{
     width:100px;
 }
@@ -5,10 +8,26 @@
     display:flex;
     justify-content: space-between;
 }
+
 .todo_area{
     display:flex;
+    justify-content: space-between;
 }
 .todotext_area{
     width:100%;
     height:10%;
+}
+.addsubjct_btn{
+    background: #5858E1;
+    color: #fff;
+    width:163px;
+    height:43px;
+    border-radius:4px; 
+}
+.todo_input{
+    margin-left:50px;
+    width:85%;
+    height:55px;
+    border-radius:5px;
+    opacity:0.5
 }

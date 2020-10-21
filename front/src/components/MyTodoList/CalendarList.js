@@ -62,10 +62,11 @@ function CalendarList() {
                 <div className="todayText">{today}</div>
                 <div onClick={display}><img src={calanderButton} /></div>
             </div>
-            {displayCalendar?<Calendar
+            {displayCalendar?
+            <div className="calendar"><Calendar
                 onChange={onChange}
                 value={date}
-            />:('')}
+            /></div>:('')}
             <ul className="striplist">
                 {striplist}
             </ul>

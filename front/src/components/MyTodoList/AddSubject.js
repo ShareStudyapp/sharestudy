@@ -12,7 +12,11 @@ function AddSubject() {
     const [subject,setSubject] = useState('');
     const [subjectColor,setSubjectColor] = useState(colourOptions[2].color);
     const [subjectList,setSubjectList] = useState([]);
-    const [reqSubject,setReqSubject] = useState('');
+    const [todoSubject,setTodoSubject] = useState('');
+    const [todoColor,setTodoColor] = useState('') 
+    const [todolists,setTodolists] = useState([]);
+
+    const [todo,setTodo] = useState([]);
 
     /*dot과 colourStyles react-select 기본기능을 갖다쓰고있다.. */
     const dot = (color = '#ccc') => ({
@@ -62,32 +66,54 @@ function AddSubject() {
         input: styles => ({ ...styles, ...dot() }),
         placeholder: styles => ({ ...styles, ...dot() }),
         singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
-      };
-    const addSubject = () =>{
-        const subjectobj = {};
-        subjectobj.label = subject;
-        subjectobj.value=subjectColor;
-        console.log(subjectobj);
-        setSubjectList([subjectobj,...subjectList]);
-        setSubject('');
+    };
+    const customStyles = {
+        option: (styles, { data,isFocused, isSelected }) => ({
+            ...styles,
+            cursor: isFocused ? data.value : data.value,
+            color: isSelected ? data.value : data.value,
+            padding: 20,
+          }),
+        control: base => ({
+            ...base,
+            width:150,
+            height: 55, 
+            minHeight: 35
+          })
+          
     }
     const onChangeValue = (e) =>{
         setSubjectColor(e.color);
     }
     const onChangeSubjectValue = (e) =>{
-        console.log(e.label)
-        //setReqSubject();
+        setTodoColor(e.value);//value를 쓴이유는 react-select 밸류값으로 컬러가 들어간다
+        setTodoSubject(e.label);//라벨값이 디스플레이 값이다.
     }
-    const customStyles = {
-        control: base => ({
-            ...base,
-            height: 55,
-            minHeight: 35
-          })
+    const addSubject = () =>{
+        const subjectobj = {};
+        subjectobj.label = subject;
+        subjectobj.value=subjectColor;
+        setSubjectList([subjectobj,...subjectList]);
+        setSubject('');
     }
-    console.log(subjectList)
+    
+    const addTodo = () =>{
+
+        if(todoSubject === ''){
+            alert('과목을 먼저 선택해주세요');
+            return;
+        }
+        const todolist = {};
+        todolist.todoColor = todoColor;
+        todolist.todoSubject = todoSubject;
+        todolist.todo = todo;
+        setTodolists([todolist,...todolists]);
+        setTodo('');
+    }
+    console.log(todolists)
+    const todos = todolists.map(todo => <li className="tt" style={{ color: todo.todoColor }}>{todo.todo}</li>);
     return (
-        <div>
+        <div className="addsubject_container">
             과목 추가하기 <br />
             <div className="add_area">
                 <div className="selectbox">
@@ -111,26 +137,27 @@ function AddSubject() {
                     <Select
                         styles={customStyles}
                         defaultValue={subjectList[0]}
-                        label="Single select"
+                        defaultValue={{ label: "과목 선택",color: 'red' }}
                         options={subjectList}
                         onChange={onChangeSubjectValue}
                     />
                 </div>
                 <div className="todotext_area">
-                <TextField
-                    id="outlined-full-width"
-                    style={{ margin: 0 }}
-                    placeholder="할 수 있는 투두를 적는게 좋아요"
-                    helperText="Full width!"
-                    fullWidth
-                    margin="normal"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    variant="outlined"
-                    />
+                    <input 
+                        className="todo_input" 
+                        value={todo} 
+                        onChange={(e)=>setTodo(e.target.value)} 
+                        style={{ color: subjectColor }} 
+                        placeholder="할 수 있는 투두를 적는게 좋아요" 
+                        />
                 </div>
             </div>
+            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',height:'15vh'}}>
+                <button className="addsubjct_btn" onClick={addTodo}>추가하기</button>
+            </div> 
+            <ul> 
+                {todos}
+            </ul>
         </div>
     )
 }
