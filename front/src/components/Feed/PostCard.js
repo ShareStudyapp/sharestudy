@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
-import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST} from '../../reducers/post';
+import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST} from '../../reducers/post';
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
 import './PostCard.css';
@@ -24,9 +24,10 @@ const images = [
   'https://source.unsplash.com/random/400x400',
 ];
 function PostCard({post}) {
-    console.log(post)
+    
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
+    const { postComment } = useSelector((state) => state.postReducer);
     const {userInfo} = useSelector((state) => state.userReducer);
     //const [liked, setLiked] = useState(false); 
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -70,8 +71,15 @@ function PostCard({post}) {
       // });
     }, []);
     
-    const onToggleComment = useCallback(() => {
-      setCommentFormOpened((prev) => !prev);
+    const onToggleComment = useCallback((postid) => {
+      //setCommentFormOpened((prev) => !prev);
+      setCommentFormOpened(commentFormOpened === false ? true : false);
+      dispatch({
+        type: LOAD_POSTS_COMMENT_REQUEST,
+        data: {
+          id: postid,
+        },
+      });
     }, []);
     const onRemovePost = useCallback(() => {
       if (!userInfo.id) {
@@ -114,8 +122,7 @@ function PostCard({post}) {
         data: post.id,
       }); 
     }, [userInfo.id]);
-
-
+    
     const liked = post.feedlike.find((v) => v.userkey===userInfo.id);
     return(
       <div className="FeedContainer" key={post.id}>
@@ -133,12 +140,12 @@ function PostCard({post}) {
             {post.content} <span>더보기</span>
           </div>
           <div className="content_feature">
-            <div class="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
-            <div class="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={onToggleComment} />330</div>
+            <div className="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
+            <div className="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />{post.feedreplysize}</div>
           </div>
           <div>
           {/* <CommentForm post={post} /> */}
-          {commentFormOpened && post.feedreply.map((item,ind)=>(
+          {commentFormOpened && postComment.map((item,index)=>(
                 <Comment
                   author={item.user.nickname}
                   avatar={(

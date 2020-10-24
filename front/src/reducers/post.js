@@ -11,6 +11,9 @@ export const initialState = {
     loadPostsLoading: false,
     loadPostsDone: false,
     loadPostsError: null,
+    loadPostsCommentLoading: false,
+    loadPostsCommentDone: false,
+    loadPostsCommentError: null,
     addPostLoading: false,
     addPostDone: false,
     addPostError: null,
@@ -41,6 +44,11 @@ export const initialState = {
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
+
+//피드 댓글 조회
+export const LOAD_POSTS_COMMENT_REQUEST = 'LOAD_POSTS_COMMENT_REQUEST';
+export const LOAD_POSTS_COMMENT_SUCCESS = 'LOAD_POSTS_COMMENT_SUCCESS';
+export const LOAD_POSTS_COMMENT_FAILURE = 'LOAD_POSTS_COMMENT_FAILURE';
 //갤러리 조회
 export const LOAD_GALLARY_REQUEST = 'LOAD_GALLARY_REQUEST';
 export const LOAD_GALLARY_SUCCESS = 'LOAD_GALLARY_SUCCESS';
@@ -90,8 +98,8 @@ export const addComment = (data) => ({
 });
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 const postReducer = (state = initialState, action) => produce(state, (draft) => {
-    const templist = [];
-    templist.push(action.data);
+    // const templist = [];
+    // templist.push(action.data);
     switch (action.type) {
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -107,6 +115,21 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case LOAD_POSTS_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
+        break;
+      case LOAD_POSTS_COMMENT_REQUEST:
+        draft.loadPostsCommentLoading = true;
+        draft.loadPostsCommentDone = false;
+        draft.loadPostsCommentError = null;
+        break;
+      case LOAD_POSTS_COMMENT_SUCCESS:
+        draft.loadPostsCommentLoading = false;
+        draft.loadPostsCommentDone = true;
+        draft.postComment = action.data.concat(draft.postComment);
+        //draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+      case LOAD_POSTS_COMMENT_FAILURE:
+        draft.loadPostsCommentLoading = false;
+        draft.loadPostsCommentError = action.error;
         break;
       case LOAD_GALLARY_REQUEST:
         draft.loadPostsLoading = true;

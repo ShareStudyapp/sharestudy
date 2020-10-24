@@ -7,6 +7,9 @@ import {
     LOAD_POSTS_FAILURE,
     LOAD_POSTS_REQUEST,
     LOAD_POSTS_SUCCESS,
+    LOAD_POSTS_COMMENT_REQUEST,
+    LOAD_POSTS_COMMENT_SUCCESS,
+    LOAD_POSTS_COMMENT_FAILURE,
     LOAD_GALLARY_REQUEST,
     LOAD_GALLARY_SUCCESS,
     LOAD_GALLARY_FAILURE,
@@ -60,6 +63,26 @@ function* loadPosts(action) {
         data: err.response.data,
         });
     }
+}
+function loadPostsCommentsAPI(data) {
+   return axios.get(`/feed/reply/${data.id}`);
+}
+function* loadPostsComments(action) {
+
+  try {
+       const result = yield call(loadPostsCommentsAPI, action.data);
+      //yield delay(1000);
+      yield put({
+      type: LOAD_POSTS_COMMENT_SUCCESS,
+      data: result.data,
+      });
+  } catch (err) {
+      console.error(err);
+      yield put({
+      type: LOAD_POSTS_COMMENT_FAILURE,
+      data: err.response.data,
+      });
+  }
 }
 function loadGallaryAPI(data) {
   return axios.get('/gallary', data);
@@ -246,7 +269,10 @@ function* updateComment(action) {
   }
 }
 function* watchLoadPosts() {
-    yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
+    yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
+}
+function* watchLoadPostsComments() {
+  yield takeLatest(LOAD_POSTS_COMMENT_REQUEST, loadPostsComments);
 }
 function* watchLoadGallary() {
     yield throttle(5000, LOAD_GALLARY_REQUEST, loadGallary);
@@ -291,5 +317,6 @@ export default function* postSaga() {
     fork(watchAddComment),
     fork(watchRemoveComment),
     fork(watchUpdateComment),
+    fork(watchLoadPostsComments),
   ]);
 }
