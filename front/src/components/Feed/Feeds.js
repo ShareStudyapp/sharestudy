@@ -14,7 +14,13 @@ import Gallery from "react-photo-gallery";
 import { photos } from "./photos";
 
 import GallaryList from './GallaryList';
-
+import { css } from "@emotion/core";
+import {RingLoader} from 'react-spinners';
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -69,14 +75,16 @@ function Feeds() {
       
     }, []);
     const { mainPosts,gallary, hasMorePost, loadPostsLoading } = useSelector((state) => state.postReducer);
-    
+    const { loadPostsDone } = useSelector((state) => state.postReducer);
     
     return (
       <div>
       <div className={classes.root}>
-      {mainPosts.map((c) => (
-            <PostCard key={c.id} post={c} />
-          ))}
+      {loadPostsDone?mainPosts.map((c) => (
+        <PostCard key={c.id} post={c} />
+      )):<RingLoader css={override} size={150} color="green" loading style={{width:100}} /> }
+       
+      
         
         {/* <AppBar position="static" style={{backgroundColor:"#26ff14"}}>
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">

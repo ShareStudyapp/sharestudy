@@ -6,8 +6,9 @@ import {UPLOAD_IMAGES_REQUEST,REMOVE_IMAGE,ADD_POST_REQUEST} from '../../reducer
 function PostForm() {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
-    const { imagePaths,addPostDone } = useSelector((state) => state.postReducer);
-    console.log(imagePaths)
+    const { imagePaths } = useSelector((state) => state.postReducer);
+    const { addPostDone } = useSelector((state) => state.postReducer);
+    
     const imageInput = useRef();
     useEffect(() => {
         if (addPostDone) {
