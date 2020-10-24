@@ -1,9 +1,9 @@
 import React,{useEffect, useState ,useRef,useCallback} from 'react'
 import { Form, Input, Button } from 'antd';
 import { useDispatch,useSelector } from 'react-redux';
-import {UPLOAD_IMAGES_REQUEST,REMOVE_IMAGE,ADD_POST_REQUEST} from '../../reducers/post';
+import {UPLOAD_IMAGES_REQUEST,REMOVE_IMAGE,ADD_POST_REQUEST,INIT_ADD_POST} from '../../reducers/post';
 
-function PostForm() {
+function PostForm({history}) {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
     const { imagePaths } = useSelector((state) => state.postReducer);
@@ -13,6 +13,10 @@ function PostForm() {
     useEffect(() => {
         if (addPostDone) {
           setText('');
+          dispatch({
+            type: INIT_ADD_POST,
+          });
+          history.push('/');
         }
       }, [addPostDone]);
     const onSubmit = useCallback(() => {

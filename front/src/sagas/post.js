@@ -233,9 +233,11 @@ function* addComment(action) {
   }
 }
 function removeCommentAPI(id) {
+  console.log(id)
   return axios.delete(`/feed/reply/${id}`); 
 }
 function* removeComment(action) {
+  console.log(action.data)
   try {
     const result = yield call(removeCommentAPI, action.data);
     

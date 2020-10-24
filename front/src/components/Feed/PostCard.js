@@ -35,7 +35,6 @@ function PostCard({post}) {
     const [replyeditMode, setReplyeditMode] = useState(true);
     const [replytmp,setReplytmp] = useState('');
     
-
     const onClickUpdate = useCallback(() => {
       setEditMode(true);
     }, []);
@@ -70,17 +69,25 @@ function PostCard({post}) {
       //   },
       // });
     }, []);
-    
+    let clickdupl = true;
     const onToggleComment = useCallback((postid) => {
       //setCommentFormOpened((prev) => !prev);
-      setCommentFormOpened(commentFormOpened === false ? true : false);
-      dispatch({
-        type: LOAD_POSTS_COMMENT_REQUEST,
-        data: {
-          id: postid,
-        },
-      });
-    }, []);
+      //setCommentFormOpened(commentFormOpened === false ? true : false);
+      if(clickdupl){
+        setCommentFormOpened(true);
+        console.log(commentFormOpened)
+        dispatch({
+          type: LOAD_POSTS_COMMENT_REQUEST,
+          data: {
+            id: postid,
+          },
+        });
+        clickdupl = !clickdupl;
+      }else{
+        console.log('중복됨')
+      }
+      
+    }, [commentFormOpened]);
     const onRemovePost = useCallback(() => {
       if (!userInfo.id) {
         return alert('로그인이 필요합니다.');
@@ -95,9 +102,8 @@ function PostCard({post}) {
 
     }, [userInfo.id]);
     const onClickReplyDelete = useCallback((id)=>{
-      
+      console.log(id)
       if(window.confirm("삭제 하시겠습니까?")) {
-        
         return dispatch({
           type: REMOVE_COMMENT_REQUEST,
           data: id,
@@ -126,25 +132,32 @@ function PostCard({post}) {
     const liked = post.feedlike.find((v) => v.userkey===userInfo.id);
     return(
       <div className="FeedContainer" key={post.id}>
-        <div className="FeedUser">
-          <div className="user_zone">
-            <img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
-            <span className="user_name">{post.user.nickname}</span>
+          <div className="FeedUser">
+            <div className="user_zone">
+              <img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
+              <span className="user_name">{post.user.nickname}</span>
+            </div>
           </div>
-        </div>
-        <div className="Feed_Content"> 
-          <div className="content_image_zone">
-            {post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
-          </div>
-          <div className="content_zone">
-            {post.content} <span>더보기</span>
-          </div>
-          <div className="content_feature">
-            <div className="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
-            <div className="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />{post.feedreplysize}</div>
-          </div>
+          <div className="Feed_Content"> 
+            <div className="content_image_zone">
+              {post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
+            </div>
+            <div className="content_zone">
+              {post.content} <span>더보기</span>
+            </div>
+            <div className="content_feature">
+              <div className="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
+              <div className="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />{post.feedreplysize}</div>
+            </div>
+                { post.user.id === userInfo.id
+                  ?(
+                  <>
+                    <Button onClick={()=>onClickReplyUpdate(post.id)} >수정</Button>
+                    <Button onClick={()=>onClickReplyDelete(post.id)} >삭제</Button>
+                  </>
+                ):<>회원만 수정가능</>}
           <div>
-          {/* <CommentForm post={post} /> */}
+          <CommentForm post={post} />
           {commentFormOpened && postComment.map((item,index)=>(
                 <Comment
                   author={item.user.nickname}

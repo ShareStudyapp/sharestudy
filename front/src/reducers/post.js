@@ -60,6 +60,7 @@ export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
 //첨부한이미지 삭제
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 //피드추가
+export const INIT_ADD_POST = 'INIT_ADD_POST';
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
@@ -101,6 +102,7 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
     // const templist = [];
     // templist.push(action.data);
     switch (action.type) {
+
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
@@ -167,6 +169,9 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         break;
       case REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
+        break;
+      case INIT_ADD_POST:
+        draft.addPostDone = false;
         break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;

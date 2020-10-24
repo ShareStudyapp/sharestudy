@@ -4,7 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import "./WriteFeed.css";
 
 import {Link} from 'react-router-dom';
-function WriteFeed() {
+function WriteFeed({history}) {
     return (
         <div>
             <div className="writefeed_area">
@@ -16,7 +16,7 @@ function WriteFeed() {
 
             </div>
             <Divider />
-            <PostForm />
+            <PostForm history={history} />
         </div>
     )
 }
