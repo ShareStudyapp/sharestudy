@@ -1,0 +1,10 @@
+.writefeed_area{
+    display:flex;
+    justify-content:space-between;
+}
+.left_area{
+    margin-left:10px;
+}
+.right_area{
+    margin-right:10px;
+}

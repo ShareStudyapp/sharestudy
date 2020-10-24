@@ -9,6 +9,8 @@ import GoogleLogin from 'react-google-login';
 
 import ButtonWrite from '../assets/Button/button_write.png';
 import './Home.css';
+import {Link} from 'react-router-dom';
+
 
 function Home({history}) {
   const dispatch = useDispatch();
@@ -28,14 +30,13 @@ function Home({history}) {
   }, [me]);
   const responseGoogle = (response) => {
     window.sessionStorage.setItem('google_information',JSON.stringify(response));
-    history.push('/signup');
- 
+    //history.push('/signup');
   }
  
     return (
       <>
       <div>
-      { login? <PostForm />:<LoginForm />}
+      { login? "":<LoginForm />}
       { login?"":<GoogleLogin
           clientId="731014591837-ej91nk0hfgf42hfssm12j4uop6ig9hce.apps.googleusercontent.com"
           buttonText="연동하기"
@@ -46,7 +47,7 @@ function Home({history}) {
 
       <Feeds />
       </div>
-        <img src={ButtonWrite} className="button_write"/>
+        <Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link>
       </>
     )
 }

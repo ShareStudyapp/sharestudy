@@ -56,11 +56,10 @@ function PostForm() {
     return (
         <div>
             <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit} >
-                <Input.TextArea value={text} onChange={onChangeText} maxLength={140} placeholder="오늘 스터디한 내용을 올려주세요~" />
                 <div>
                     <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages} />
                     <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-                    <Button type="primary" style={{ float: 'right' }} htmlType="submit">업로드</Button>
+                    <Button type="primary" style={{ float: 'right' }} htmlType="submit">완료</Button>
                 </div>
                 <div>
                 {imagePaths.map((v, i) => (
@@ -71,6 +70,7 @@ function PostForm() {
                     </div>
                 </div>
                 ))}
+            <Input.TextArea style={{height:500 }} value={text} onChange={onChangeText} maxLength={500} placeholder="오늘 스터디한 내용을 올려주세요~" />
             </div>
             </Form>
         </div>

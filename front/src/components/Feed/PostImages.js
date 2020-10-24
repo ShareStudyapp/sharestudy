@@ -7,11 +7,6 @@ import './PostImages.css';
 
 const PostImages = ({ images }) => {
 
-  const imagestyle={
-    width:300,
-    height:300,
-  }
-
   const [showImagesZoom, setShowImagesZoom] = useState(false);
 
   const onZoom = useCallback(() => {
@@ -29,7 +24,7 @@ const PostImages = ({ images }) => {
           <PreloadImage 
             className="preloadImage"
             src={images[0].src}
-            alt={images[0].src} 
+            alt={images[0].src}
             onClick={onZoom}
             lazy 
           />
