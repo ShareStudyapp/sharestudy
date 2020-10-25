@@ -102,7 +102,6 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.userinfoDone=false;
       break;
     case USER_INFO_SUCCESS:
-      console.log(action.data)
       draft.userinfoDone=true;
       draft.userinfoLoading=false;
       draft.userInfo=action.data;

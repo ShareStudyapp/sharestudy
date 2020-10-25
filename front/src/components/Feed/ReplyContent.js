@@ -15,7 +15,7 @@ function ReplyContent({replyeditMode,replyid,content,userid,onCancleReplyUpdate,
               <>
                 <TextArea value={replyeditText} onChange={onChangeText} />
                 <Button.Group>
-                  <Button onClick={onChangeReplyPost(replyeditText)}>수정</Button>
+                  <Button onClick={onChangeReplyPost(replyid,replyeditText)}>수정</Button>
                   <Button type="danger" onClick={onCancleReplyUpdate}>취소</Button>
                 </Button.Group>
               </>

@@ -70,11 +70,10 @@ function loadPostsCommentsAPI(data) {
 function* loadPostsComments(action) {
 
   try {
-       const result = yield call(loadPostsCommentsAPI, action.data);
-      //yield delay(1000);
+      const result = yield call(loadPostsCommentsAPI, action.data);
       yield put({
       type: LOAD_POSTS_COMMENT_SUCCESS,
-      data: result.data,
+      data: result.data
       });
   } catch (err) {
       console.error(err);
@@ -125,7 +124,6 @@ function addPostAPI(data) {
 function* addPost(action) {
   try {
     const result = yield call(addPostAPI, action.data);
-    console.log(result.data)
     yield put({
       type: ADD_POST_SUCCESS,
       data: result.data,
@@ -212,14 +210,12 @@ function* unlikePost(action) {
   }
 }
 function addCommentAPI(data) {
-  console.log(data.id)
   return axios.post(`/feed/reply/${data.id}`, data); // POST /post/1/comment
 }
 
 function* addComment(action) {
   try {
     const result = yield call(addCommentAPI, action.data);
-    console.log(result)
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: result.data,
@@ -233,14 +229,11 @@ function* addComment(action) {
   }
 }
 function removeCommentAPI(id) {
-  console.log(id)
   return axios.delete(`/feed/reply/${id}`); 
 }
 function* removeComment(action) {
-  console.log(action.data)
   try {
     const result = yield call(removeCommentAPI, action.data);
-    
     yield put({
       type: REMOVE_COMMENT_SUCCESS,
       data: result.data,
@@ -253,7 +246,7 @@ function* removeComment(action) {
   }
 }
 function updateCommentAPI(data) {
-  return axios.patch(`/feed/reply/${data.id}`,data.content); 
+  return axios.patch(`/feed/reply/${data.id}`,data); 
 }
 function* updateComment(action) {
   try {

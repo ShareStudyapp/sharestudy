@@ -1,19 +1,19 @@
 import React, { useState, useCallback,useEffect } from 'react';
-import { Card, Button, Avatar, List, Comment, Popover } from 'antd';
+import { Card, Button, Avatar, Comment,Input } from 'antd';
 import PropTypes from 'prop-types';
 import { RetweetOutlined, HeartTwoTone, HeartOutlined, MessageOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import PostImages from './PostImages';
-import PostCardContent from './PostCardContent';
-import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST} from '../../reducers/post';
+import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST} from '../../reducers/post';
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
 import './PostCard.css';
 import userdefaultimg from '../../assets/images/user_default.png';
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
+import PostCardContent from './PostCardContent';
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -24,7 +24,7 @@ const images = [
   'https://source.unsplash.com/random/400x400',
 ];
 function PostCard({post}) {
-  
+    
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
     const { postComment } = useSelector((state) => state.postReducer);
@@ -32,7 +32,7 @@ function PostCard({post}) {
     //const [liked, setLiked] = useState(false); 
     const [commentFormOpened, setCommentFormOpened] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [replyeditMode, setReplyeditMode] = useState(true);
+    const [replyeditMode, setReplyeditMode] = useState(false);
     const [replytmp,setReplytmp] = useState('');
     const [buttonloading,setButtonloading] = useState(false);
     //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
@@ -48,6 +48,7 @@ function PostCard({post}) {
       setEditMode(false);
     }, []);
     const onClickReplyUpdate = useCallback((replyid) => {
+      console.log(replyid);
       setReplytmp(replyid);
       setReplyeditMode(true);
     }, []);
@@ -55,6 +56,7 @@ function PostCard({post}) {
       setReplyeditMode(false);
     }, []);
     const onChangePost = useCallback((editText) => () => {
+
       dispatch({
         type: UPDATE_POST_REQUEST,
         data: {
@@ -64,29 +66,30 @@ function PostCard({post}) {
       });
     }, [post]);
     const onChangeReplyPost = useCallback((replyid,replyeditText) => () => {
-      console.log(replyid)
-      console.log(replyeditText)
-      // dispatch({
-      //   type: UPDATE_COMMENT_REQUEST,
-      //   data: {
-      //     id: post.id,
-      //     content: editText,
-      //   },
-      // });
+      
+      dispatch({
+        type: UPDATE_COMMENT_REQUEST,
+        data: {
+          id: replyid,
+          content: replyeditText,
+        },
+      });
     }, []);
     let clickdupl = true;
     const onToggleComment = useCallback((postid) => {
-      //setCommentFormOpened((prev) => !prev);
+      
       //setCommentFormOpened(commentFormOpened === false ? true : false);
+      console.log(postid)
+      setCommentFormOpened((prev) => !prev);
+        
+      dispatch({
+        type: LOAD_POSTS_COMMENT_REQUEST,
+        data: {
+          id: postid,
+        },
+      });
       if(clickdupl){
-        setCommentFormOpened(true);
-        console.log(commentFormOpened)
-        dispatch({
-          type: LOAD_POSTS_COMMENT_REQUEST,
-          data: {
-            id: postid,
-          },
-        });
+       
         clickdupl = !clickdupl;
       }else{
         console.log('중복됨')
@@ -162,7 +165,9 @@ function PostCard({post}) {
               {post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
             </div>
             <div className="content_zone">
-              {post.content} <span>더보기</span>
+              {editMode
+              ?<div><PostCardContent content={post.content} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} /></div>
+              :post.content} <span>더보기</span>
             </div>
             <div className="content_feature">
               <div className="bar-item like">
@@ -188,8 +193,9 @@ function PostCard({post}) {
                   )
                   : <Button>신고</Button>}
           <div>
-          <CommentForm post={post} />
+          {commentFormOpened&&<CommentForm post={post} />}
           {commentFormOpened && postComment.map((item,index)=>(
+            <>
                 <Comment
                   author={item.user.nickname}
                   avatar={(
@@ -198,8 +204,16 @@ function PostCard({post}) {
                     // </Link>
                   )}  
                   content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
-                    content={item.content}
+                    
                 />
+                { item.user.id === userInfo.id
+                  ?(
+                  <>
+                    <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
+                    <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
+                  </>
+                ):<>회원만 수정가능</>}
+            </>                  
           ))}
           </div>
         </div>

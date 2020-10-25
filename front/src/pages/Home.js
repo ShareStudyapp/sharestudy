@@ -20,12 +20,12 @@ function Home({history}) {
   const login = window.sessionStorage.getItem('login_valid')//로그인여부
   console.log(user)
   useEffect(()=>{
-    if (user) {//로그인했을떄 정보 요청
+    if (login) {//로그인했을떄 정보 요청
       dispatch({
         type: USER_INFO_REQUEST
       });
-    }
-  },[])
+    } 
+  },[login])
   
   
   const responseGoogle = (response) => {
