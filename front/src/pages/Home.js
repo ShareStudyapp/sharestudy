@@ -14,20 +14,28 @@ import {Link} from 'react-router-dom';
 
 function Home({history}) {
   const dispatch = useDispatch();
-  const { me,logInDone} = useSelector((state) => state.userReducer);
-  console.log(history)
+  const { me,userInfo,logOutDone} = useSelector((state) => state.userReducer);
+  
   const user = window.sessionStorage.getItem('user')//유저토큰 
   const login = window.sessionStorage.getItem('login_valid')//로그인여부
-  
+
   useEffect(() => {
     if (me) {
       window.sessionStorage.setItem('user',me);
       window.sessionStorage.setItem('login_valid',"temp");
+      
+    }
+    if (user) {//로그인했을떄 정보 요청
       dispatch({
         type: USER_INFO_REQUEST
       });
     }
   }, [me]);
+  useEffect(()=>{
+   
+  },[])
+  
+  
   const responseGoogle = (response) => {
     window.sessionStorage.setItem('google_information',JSON.stringify(response));
     //history.push('/signup');

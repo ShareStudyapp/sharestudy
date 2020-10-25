@@ -138,8 +138,8 @@ function* addPost(action) {
     });
   }
 }
-function removePostAPI(data) {
-  return axios.delete(`/feed/${data}`);
+function removePostAPI(id) {
+  return axios.delete(`/feed/${id}`);
 }
 function* removePost(action) {
   try {

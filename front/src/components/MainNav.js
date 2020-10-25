@@ -12,14 +12,9 @@ function MainNav() {
     const onLogOut = useCallback(() => {        
         const token = window.sessionStorage.getItem('user')    
         dispatch(logoutRequestAction(token));
-        window.sessionStorage.removeItem('login_valid');
-      
+        
     }, []);
-    useEffect(() => {
-        if(logOutDone){
-            window.sessionStorage.removeItem('user');
-        } 
-    }, [logOutDone])
+    
 
     return (
         <div className="foot_bar">

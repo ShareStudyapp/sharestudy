@@ -104,7 +104,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case USER_INFO_SUCCESS:
       draft.userinfoDone=true;
       draft.userinfoLoading=false;
-      draft.userInfo=action.data
+      draft.userInfo=action.data;
       break;
     case USER_INFO_FAILURE:
       draft.userinfoDone=true;

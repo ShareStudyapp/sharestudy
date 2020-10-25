@@ -11,6 +11,7 @@ import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_RE
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
 import './PostCard.css';
+import userdefaultimg from '../../assets/images/user_default.png';
 
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 
@@ -34,7 +35,11 @@ function PostCard({post}) {
     const [editMode, setEditMode] = useState(false);
     const [replyeditMode, setReplyeditMode] = useState(true);
     const [replytmp,setReplytmp] = useState('');
+    //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
     
+    useEffect(()=>{
+      
+    },[])
     const onClickUpdate = useCallback(() => {
       setEditMode(true);
     }, []);
@@ -93,7 +98,7 @@ function PostCard({post}) {
         return alert('로그인이 필요합니다.');
       }
       if(window.confirm("삭제 하시겠습니까?")) {
-        
+        console.log(post.id)
         return dispatch({
           type: REMOVE_POST_REQUEST,
           data: post.id,
@@ -102,7 +107,7 @@ function PostCard({post}) {
 
     }, [userInfo.id]);
     const onClickReplyDelete = useCallback((id)=>{
-      console.log(id)
+      
       if(window.confirm("삭제 하시겠습니까?")) {
         return dispatch({
           type: REMOVE_COMMENT_REQUEST,
@@ -134,7 +139,10 @@ function PostCard({post}) {
       <div className="FeedContainer" key={post.id}>
           <div className="FeedUser">
             <div className="user_zone">
-              <img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
+              {post.userProfileImage
+              ?<img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
+              :<img className="user_image" src={userdefaultimg} alt={userdefaultimg} />}
+              
               <span className="user_name">{post.user.nickname}</span>
             </div>
           </div>
@@ -149,13 +157,14 @@ function PostCard({post}) {
               <div className="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
               <div className="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />{post.feedreplysize}</div>
             </div>
-                { post.user.id === userInfo.id
-                  ?(
-                  <>
-                    <Button onClick={()=>onClickReplyUpdate(post.id)} >수정</Button>
-                    <Button onClick={()=>onClickReplyDelete(post.id)} >삭제</Button>
-                  </>
-                ):<>회원만 수정가능</>}
+                  { post.user.id === userInfo.id
+                  ? (
+                    <>
+                      <Button onClick={onClickUpdate}>수정</Button>
+                      <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
+                    </>
+                  )
+                  : <Button>신고</Button>}
           <div>
           <CommentForm post={post} />
           {commentFormOpened && postComment.map((item,index)=>(

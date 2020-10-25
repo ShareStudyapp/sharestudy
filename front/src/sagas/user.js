@@ -70,6 +70,10 @@ function logOutAPI(token) {
 function* logOut(action) {
   try {
     yield call(logOutAPI,action.data);
+    window.sessionStorage.removeItem('login_valid');
+    window.sessionStorage.removeItem('user');
+    // window.sessionStorage.removeItem('userInfo');
+    // window.sessionStorage.setItem('userInfo',[]);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
@@ -87,6 +91,8 @@ function userInfoAPI() {
 function* userInfo() {
   try {
     const result = yield call(userInfoAPI);
+    console.log(result.data)
+    window.sessionStorage.setItem('userInfo',JSON.stringify(result.data));
     yield put({
       type: USER_INFO_SUCCESS,
       data: result.data,
