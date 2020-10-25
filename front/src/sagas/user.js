@@ -50,8 +50,8 @@ function* logIn(action) {
   try {
     
     const result = yield call(logInAPI,action.data);
-    //yield delay(1000);
-   
+    window.sessionStorage.setItem('user',result.data.jwt);
+    window.sessionStorage.setItem('login_valid',"temp");
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,

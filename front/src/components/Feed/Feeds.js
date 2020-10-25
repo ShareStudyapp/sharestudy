@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PostCard from './PostCard';
 import { makeStyles } from '@material-ui/core/styles';
 import { css } from "@emotion/core";
-import {RingLoader} from 'react-spinners';
+import {SyncLoader} from 'react-spinners';
 const override = css`
   display: block;
   margin: 0 auto;
@@ -38,7 +38,7 @@ function Feeds() {
         ?mainPosts.map((c) => (
         <PostCard key={c.id} post={c} />
         ))
-        :<RingLoader css={override} size={150} color="green" loading style={{width:100}} /> }        
+        :<SyncLoader css={override} size={50} color="green" loading style={{width:50}} /> }        
       </div>
     </div>
     )    

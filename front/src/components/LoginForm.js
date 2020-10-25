@@ -52,8 +52,6 @@ const LoginForm = () => {
       </div>
       <ButtonWrapper> 
         <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
-        
-        
       </ButtonWrapper>
     </FormWrapper>
   );

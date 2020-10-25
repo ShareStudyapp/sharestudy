@@ -12,9 +12,8 @@ import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
 import './PostCard.css';
 import userdefaultimg from '../../assets/images/user_default.png';
-
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
-
+import Spinner from '../Utils/Spinner';
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -25,7 +24,7 @@ const images = [
   'https://source.unsplash.com/random/400x400',
 ];
 function PostCard({post}) {
-    
+  
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
     const { postComment } = useSelector((state) => state.postReducer);
@@ -35,6 +34,7 @@ function PostCard({post}) {
     const [editMode, setEditMode] = useState(false);
     const [replyeditMode, setReplyeditMode] = useState(true);
     const [replytmp,setReplytmp] = useState('');
+    const [buttonloading,setButtonloading] = useState(false);
     //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
     
     useEffect(()=>{
@@ -119,6 +119,11 @@ function PostCard({post}) {
       if (!userInfo.id) {
         return alert('로그인이 필요합니다.');
       }
+      setButtonloading(true);
+
+      setTimeout(()=>{
+        setButtonloading(false);
+      },500)
       return dispatch({
         type: LIKE_POST_REQUEST,
         data: post.id,
@@ -128,13 +133,19 @@ function PostCard({post}) {
       if (!userInfo.id) {
         return alert('로그인이 필요합니다.');
       }
+      setButtonloading(true);
+
+      setTimeout(()=>{
+        setButtonloading(false);
+      },500)
       return dispatch({
         type: UNLIKE_POST_REQUEST,
         data: post.id,
       }); 
     }, [userInfo.id]);
     
-    const liked = post.feedlike.find((v) => v.userkey===userInfo.id);
+    const liked = post.feedlike.find((v) =>v.userkey===userInfo.id);
+   
     return(
       <div className="FeedContainer" key={post.id}>
           <div className="FeedUser">
@@ -154,8 +165,19 @@ function PostCard({post}) {
               {post.content} <span>더보기</span>
             </div>
             <div className="content_feature">
-              <div className="bar-item like"><FaRegHeart className="bar-icon"/>330</div>
-              <div className="bar-item comment"><FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />{post.feedreplysize}</div>
+              <div className="bar-item like">
+                {buttonloading?<div style={{marginLeft:15}}><Spinner /></div>
+                :liked 
+                ?<FaHeart className="bar-icon" onClick={onUnlike}/>
+                :<FaRegHeart className="bar-icon" onClick={onLike}/>}
+                {post.totallike} 
+                {/* {liked 
+                ?<FaHeart className="bar-icon" onClick={onUnlike}/>
+                :<FaRegHeart className="bar-icon" onClick={onLike}/>}
+                {post.totallike} */}
+              </div>
+              <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
+              <div className="bar-item comment">{post.feedreplysize}</div>
             </div>
                   { post.user.id === userInfo.id
                   ? (

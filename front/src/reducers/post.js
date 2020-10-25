@@ -111,7 +111,8 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case LOAD_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        draft.mainPosts = action.data.concat(draft.mainPosts);
+        //draft.mainPosts = action.data.concat(draft.mainPosts);
+        draft.mainPosts = action.data;
         draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
       case LOAD_POSTS_FAILURE:
@@ -223,7 +224,7 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         break;
       case LIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.feedlike.push({ userkey: action.data.user.id });
+        post.feedlike.push({ userkey: action.data.userKey });
         draft.mainPosts.find((v) => v.id === action.data.id).totallike = action.data.totallike;
         draft.likePostLoading = false;
         draft.likePostDone = true;
@@ -240,7 +241,7 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         break;
       case UNLIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.feedlike = post.feedlike.filter((v) => v.userkey !== action.data.user.id);
+        post.feedlike = post.feedlike.filter((v) => v.userkey !== action.data.userKey);
         draft.mainPosts.find((v) => v.id === action.data.id).totallike = action.data.totallike;
         draft.unlikePostLoading = false;
         draft.unlikePostDone = true;

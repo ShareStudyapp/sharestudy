@@ -18,21 +18,13 @@ function Home({history}) {
   
   const user = window.sessionStorage.getItem('user')//유저토큰 
   const login = window.sessionStorage.getItem('login_valid')//로그인여부
-
-  useEffect(() => {
-    if (me) {
-      window.sessionStorage.setItem('user',me);
-      window.sessionStorage.setItem('login_valid',"temp");
-      
-    }
+  console.log(user)
+  useEffect(()=>{
     if (user) {//로그인했을떄 정보 요청
       dispatch({
         type: USER_INFO_REQUEST
       });
     }
-  }, [me]);
-  useEffect(()=>{
-   
   },[])
   
   
@@ -44,18 +36,18 @@ function Home({history}) {
     return (
       <>
       <div>
-      { login? "":<LoginForm />}
-      { login?"":<GoogleLogin
+      { login? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />}
+      {/* { login?"":<GoogleLogin
           clientId="731014591837-ej91nk0hfgf42hfssm12j4uop6ig9hce.apps.googleusercontent.com"
           buttonText="연동하기"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           cookiePolicy={'single_host_origin'}
-        />}
+        />} */}
 
-      <Feeds />
+      
       </div>
-        <Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link>
+        
       </>
     )
 }
