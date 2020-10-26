@@ -13,12 +13,9 @@ import {Link} from 'react-router-dom';
 
 function Home({history}) {
   
-  // const { me,userInfo,logOutDone} = useSelector((state) => state.userReducer);
+  const { me,userInfo,logOutDone} = useSelector((state) => state.userReducer);
   
-  const login = window.sessionStorage.getItem('login_valid')//로그인여부
-  
-  
-  
+  const user = window.sessionStorage.getItem('user')//로그인여부
   const responseGoogle = (response) => {
     window.sessionStorage.setItem('google_information',JSON.stringify(response));
     //history.push('/signup');
@@ -27,7 +24,8 @@ function Home({history}) {
     return (
       <>
       <div>
-      { login? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />}
+      {/* { login? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />} */}
+      {user?<Feeds />: <LoginForm />}
       {/* { login?"":<GoogleLogin
           clientId="731014591837-ej91nk0hfgf42hfssm12j4uop6ig9hce.apps.googleusercontent.com"
           buttonText="연동하기"

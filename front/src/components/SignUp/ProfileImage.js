@@ -12,7 +12,7 @@ import './style.scss';
 const ProfileImage = ({profileImg}) => {
     const dispatch = useDispatch();
     const {userInfo} = useSelector((state) => state.userReducer);
-    console.log(userInfo)
+    
     const initialState = {
         userProfileImg: userInfo.profileImage?userInfo.profileImage:null,
         selectedFile: null,

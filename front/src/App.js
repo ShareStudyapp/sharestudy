@@ -29,16 +29,17 @@ function App() {
   const dispatch = useDispatch();
   
   const login = window.sessionStorage.getItem('login_valid')//로그인여부
-  
+  const user = window.sessionStorage.getItem('user')//로그인여부
+  const { me} = useSelector((state) => state.userReducer);
   useEffect(()=>{
-   
-    if (login==='temp') {//로그인했을떄 정보 요청
+    
+    if (me || user) {//로그인했을떄 정보 요청
       
       dispatch({
         type: USER_INFO_REQUEST
       });
     } 
-  },[])
+  },[me])
   return (
     <div className="main_container">
     <Router>
@@ -55,7 +56,7 @@ function App() {
           <Route path="/messenger" component={Messenger} />
         </Switch>
       </Suspense>
-      <MainNav />
+      {me || user?<MainNav />:""}
     </Router>
     </div>
   );

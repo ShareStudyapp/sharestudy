@@ -14,6 +14,7 @@ import userdefaultimg from '../../assets/images/user_default.png';
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
+import Modal from "../Utils/Modal";;
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -35,6 +36,7 @@ function PostCard({post}) {
     const [replyeditMode, setReplyeditMode] = useState(false);
     const [replytmp,setReplytmp] = useState('');
     const [buttonloading,setButtonloading] = useState(false);
+    const [isModalOpen, toggleModal] = useState(false)
     //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
     
     useEffect(()=>{
@@ -175,7 +177,13 @@ function PostCard({post}) {
                 :liked 
                 ?<FaHeart className="bar-icon" onClick={onUnlike}/>
                 :<FaRegHeart className="bar-icon" onClick={onLike}/>}
-                {post.totallike} 
+                 
+                <div onClick={() => toggleModal(!isModalOpen)}>{post.totallike}</div>
+                <Modal isOpen={isModalOpen} toggle={toggleModal}>
+                  <h1>test</h1><div>x</div>
+                  <p>Other text that describes what is happening</p>
+                  <button onClick={() => toggleModal(false)}>toggledfg</button>
+                </Modal>
                 {/* {liked 
                 ?<FaHeart className="bar-icon" onClick={onUnlike}/>
                 :<FaRegHeart className="bar-icon" onClick={onLike}/>}

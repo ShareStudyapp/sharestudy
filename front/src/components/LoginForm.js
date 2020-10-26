@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { loginRequestAction } from '../reducers/user';
-
+import backgroundImg from '../assets/images/login_background.png';
+import './LoginForm.css'
 
 
 const ButtonWrapper = styled.div`
@@ -33,6 +34,7 @@ const LoginForm = () => {
   }, [userid, password]);
   
   return (
+    <div className="login_container">
     <FormWrapper onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user-userid">이메일</label>
@@ -54,6 +56,7 @@ const LoginForm = () => {
         <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
       </ButtonWrapper>
     </FormWrapper>
+    </div>
   );
 };
 
