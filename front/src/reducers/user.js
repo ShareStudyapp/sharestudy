@@ -117,7 +117,8 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.uploadProfileImagesError = null;
       break;
     case UPLOAD_PROFILE_IMAGES_SUCCESS: {
-      draft.profileimagePaths = action.data;
+      console.log(action.data)
+      draft.userInfo.profileImage = action.data;
       draft.uploadProfileImagesLoading = false;
       draft.uploadProfileImagesDone = true;
       break;

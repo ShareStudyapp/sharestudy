@@ -1,26 +1,31 @@
-import React, { useState,useRef } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import {ImageCrop} from "./ImageCrop";
 import {Modal}  from './Modal';
 import { verifyFile } from './verifyFile';
 import defaultImage from '../../assets/images/user_default.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import {UPLOAD_PROFILE_IMAGES_REQUEST} from '../../reducers/user';
 
 import './style.scss';
 
 
-const ProfileImage = () => {
+const ProfileImage = ({profileImg}) => {
     const dispatch = useDispatch();
+    const {userInfo} = useSelector((state) => state.userReducer);
+    console.log(userInfo)
     const initialState = {
-        userProfileImg: null,
+        userProfileImg: userInfo.profileImage?userInfo.profileImage:null,
         selectedFile: null,
         editor: null
     };
 
-
+    useEffect(() => {
+        setTempimg(userInfo.profileImage);
+    },[userInfo])
 
     let imageEditor= null;
     const [ imageData, setImageData ] = useState(initialState);
+    const [ tempimg,setTempimg] = useState('');
     const [ showModal, setShowModal] = useState(false);
     const [fname,setFname] = useState('');
     const imageInput = useRef();
@@ -50,7 +55,7 @@ const ProfileImage = () => {
             var file = dataURLtoFile(url,fname);
             const imageFormData = new FormData();
             imageFormData.append('images', file);
-            
+            console.log(tempimg);
             dispatch({
                 type: UPLOAD_PROFILE_IMAGES_REQUEST,
                 data: imageFormData,
@@ -61,7 +66,7 @@ const ProfileImage = () => {
    /*파일첨부.. */
     const onImageFileChangeHandler = (e) => {
         const file = e.target.files[0];
-        setFname(e.target.files[0].name);
+        setFname(file.name);
 
         if( file !== undefined && verifyFile(file)){
             
@@ -72,8 +77,9 @@ const ProfileImage = () => {
     }
 
     const renderProfileImage = () => {
-        const profileImage = imageData.userProfileImg ? 
-                                imageData.userProfileImg : 
+        console.log(imageData)
+        const profileImage = userInfo.profileImage ? 
+                             userInfo.profileImage : 
                                 defaultImage;
         return(
             <img className='profile-image' src={profileImage} id="profile-img" alt='user-logo' />
@@ -84,7 +90,7 @@ const ProfileImage = () => {
         <div className='mainDiv'>
             {renderProfileImage()}
             <br/>
-            <label className='labelUpload' title="Select image">  
+            <label className='labelUpload' title="사진 변경">  
                 <input 
                     hidden
                     type     ='file'
@@ -92,7 +98,7 @@ const ProfileImage = () => {
                     accept   ='image/png, image/jpeg, image/jpg'
                     onChange ={onImageFileChangeHandler}
                 />
-                Select image
+                사진    변경
             </label>
             
             <Modal 

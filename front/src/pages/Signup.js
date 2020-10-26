@@ -1,12 +1,8 @@
 import React, { useState, useCallback,useEffect} from 'react';
 import { Form, Input, Button } from 'antd';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST,USER_RESET } from '../reducers/user';
 import { Select } from 'antd';
-import useInput from '../hooks/useInput';
-import ImageCrop from '../components/SignUp/ImageCrop';
-import ProfileImage from '../components/SignUp/ProfileImage';
 
 const { Option } = Select;
 function Signup({history}) {
@@ -26,7 +22,7 @@ function Signup({history}) {
     const [sex,onChangeSex] = useState('M');
     const [gtoken,setGtoken] = useState('');
     const [accountType,setAccountType] = useState('');
-    const { signUpLoading,signUpDone,signUpError,profileimagePaths,logInLoading } = useSelector((state) => state.userReducer);
+    const { signUpLoading,signUpDone,signUpError,logInLoading } = useSelector((state) => state.userReducer);
     const dispatch = useDispatch();
     
     useEffect(()=>{
@@ -80,12 +76,11 @@ function Signup({history}) {
           email,
           sex,
           role,
-          profileimagePaths,
           gtoken,
           accountType
         },
       });
-    }, [password, passwordCheck,sex,userid,nickname,profileimagePaths,gtoken,accountType]);
+    }, [password, passwordCheck,sex,userid,nickname,gtoken,accountType]);
   
 
 
@@ -121,8 +116,6 @@ function Signup({history}) {
             </Select>
             </div>
             <div>
-              {/* <ImageCrop /> */}
-              <ProfileImage />
             </div>
             <div>
               <label htmlFor="user-password">비밀번호</label>

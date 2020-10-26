@@ -2,25 +2,28 @@ import React,{useState,useCallback} from 'react'
 import './Profile.css';
 import { useSelector, useDispatch } from 'react-redux';
 import defaultImage from '../../assets/images/user_default.png';
+import ProfileImage from '../../components/SignUp/ProfileImage';
 
 function Profile() {
     const {userInfo} = useSelector((state) => state.userReducer);
     const [editmode,setEditmode] = useState(false);
     const [editText, setEditText] = useState(userInfo.nickname);
-    console.log(userInfo)
+    
     const EditProfile = useCallback(()=>{
         setEditmode(!editmode);
     },[editmode,setEditmode])
     const UpdateProfile = useCallback((text)=>{
         console.log(text)
     },[])
+    
     return (
         <>
         <div className="container">
             <header>
                 <section className="profile">
                     <div className="image">
-                        <img id="profile-picture" src={userInfo.profileImage?userInfo.profileImage:defaultImage} />
+                        
+                        <ProfileImage />
                     </div>
                     <div className="info">
                         <div className="top-row">

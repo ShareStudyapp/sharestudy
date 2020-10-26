@@ -3,8 +3,7 @@ import Feeds from '../components/Feed/Feeds'
 import LoginForm from '../components/LoginForm'
 import PostForm from '../components/Feed/PostForm';
 
-import {useSelector,useDispatch } from 'react-redux';
-import { USER_INFO_REQUEST } from '../reducers/user';
+import {useSelector } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 
 import ButtonWrite from '../assets/Button/button_write.png';
@@ -13,19 +12,11 @@ import {Link} from 'react-router-dom';
 
 
 function Home({history}) {
-  const dispatch = useDispatch();
-  const { me,userInfo,logOutDone} = useSelector((state) => state.userReducer);
   
-  const user = window.sessionStorage.getItem('user')//유저토큰 
+  // const { me,userInfo,logOutDone} = useSelector((state) => state.userReducer);
+  
   const login = window.sessionStorage.getItem('login_valid')//로그인여부
-  console.log(user)
-  useEffect(()=>{
-    if (login) {//로그인했을떄 정보 요청
-      dispatch({
-        type: USER_INFO_REQUEST
-      });
-    } 
-  },[login])
+  
   
   
   const responseGoogle = (response) => {

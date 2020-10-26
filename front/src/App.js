@@ -1,6 +1,6 @@
-import React,{Suspense, lazy } from 'react';
+import React,{Suspense, lazy,useEffect } from 'react';
 import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
-
+import {useSelector,useDispatch } from 'react-redux';
 import './App.css';
 import 'antd/dist/antd.css';
 import Home from './pages/Home';
@@ -8,6 +8,7 @@ import MainNav from './components/MainNav';
 import MainLogo from './components/MainLogo';
 import {RingLoader} from 'react-spinners';
 import { css } from "@emotion/core";
+import { USER_INFO_REQUEST } from './reducers/user';
 const override = css`
   display: block;
   margin: 0 auto;
@@ -22,7 +23,22 @@ const Profile = lazy(()=>import('./pages/Profile/Profile'));
 const TodoList = lazy(()=>import('./pages/TodoList/TodoList'));
 const MyTodoList = lazy(()=>import('./pages/TodoList/MyTodoList'));
 const Messenger = lazy(()=>import('./pages/Messenger'));
+
+
 function App() {
+  const dispatch = useDispatch();
+  
+  const login = window.sessionStorage.getItem('login_valid')//로그인여부
+  
+  useEffect(()=>{
+   
+    if (login==='temp') {//로그인했을떄 정보 요청
+      
+      dispatch({
+        type: USER_INFO_REQUEST
+      });
+    } 
+  },[])
   return (
     <div className="main_container">
     <Router>
