@@ -7,6 +7,7 @@ export const initialState = {
     gallary:[],
     imagePaths: [],
     postComment:[],
+    likeList:[],
     hasMorePosts: true,
     loadPostsLoading: false,
     loadPostsDone: false,
@@ -20,6 +21,9 @@ export const initialState = {
     removePostLoading: false,
     removePostDone: false,
     removePostError: null,
+    LikelistLoading:false,
+    LikelistDone:false,
+    LikelistError:null,
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: null,
@@ -80,6 +84,10 @@ export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
 export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
+//피드에 좋아요리스트조회
+export const LIKE_LIST_REQUEST = 'LIKE_LIST_REQUEST';
+export const LIKE_LIST_SUCCESS = 'LIKE_LIST_SUCCESS';
+export const LIKE_LIST_FAILURE = 'LIKE_LIST_FAILURE';
 //댓글추가
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
@@ -254,6 +262,20 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case UNLIKE_POST_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
+        break;
+      case LIKE_LIST_REQUEST:
+        draft.LikelistLoading = true;
+        draft.LikelistDone = false;
+        draft.LikelistError = null;
+        break;
+      case LIKE_LIST_SUCCESS:
+        draft.LikelistLoading = false;
+        draft.LikelistDone = true;
+        draft.likeList=action.data;
+        break;
+      case LIKE_LIST_FAILURE:
+        draft.LikelistLoading = false;
+        draft.LikelistError = null;
         break;
       case ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;

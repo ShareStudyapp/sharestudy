@@ -42,3 +42,5 @@
 .bar-item{display:flex;}
 .bar-item + .bar-item{margin-left:30px;}
 .bar-icon{width:30px;height:30px;font-size:0;display:block;margin-right:5px;}
+/*좋아요리스트모달*/
+.likelist{display:flex;}

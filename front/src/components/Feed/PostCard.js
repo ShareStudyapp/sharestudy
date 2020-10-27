@@ -1,12 +1,10 @@
 import React, { useState, useCallback,useEffect } from 'react';
-import { Card, Button, Avatar, Comment,Input } from 'antd';
-import PropTypes from 'prop-types';
-import { RetweetOutlined, HeartTwoTone, HeartOutlined, MessageOutlined, EllipsisOutlined } from '@ant-design/icons';
+import {  Button, Avatar, Comment } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
 import PostImages from './PostImages';
-import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST} from '../../reducers/post';
+import Divider from '@material-ui/core/Divider';
+import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST,LIKE_LIST_REQUEST} from '../../reducers/post';
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
 import './PostCard.css';
@@ -14,7 +12,7 @@ import userdefaultimg from '../../assets/images/user_default.png';
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
-import Modal from "../Utils/Modal";;
+import Modal from "../Utils/LikeModal";;
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -29,6 +27,7 @@ function PostCard({post}) {
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
     const { postComment } = useSelector((state) => state.postReducer);
+    const { likeList } = useSelector((state) => state.postReducer);
     const {userInfo} = useSelector((state) => state.userReducer);
     //const [liked, setLiked] = useState(false); 
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -40,6 +39,7 @@ function PostCard({post}) {
     //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
     
     useEffect(()=>{
+      
       
     },[])
     const onClickUpdate = useCallback(() => {
@@ -148,6 +148,14 @@ function PostCard({post}) {
         data: post.id,
       }); 
     }, [userInfo.id]);
+    const openLikeModal = useCallback((id)=>{
+      
+      toggleModal(!isModalOpen)
+      dispatch({
+        type: LIKE_LIST_REQUEST,
+        data: id,
+      }); 
+    },[])
     
     const liked = post.feedlike.find((v) =>v.userkey===userInfo.id);
    
@@ -178,11 +186,19 @@ function PostCard({post}) {
                 ?<FaHeart className="bar-icon" onClick={onUnlike}/>
                 :<FaRegHeart className="bar-icon" onClick={onLike}/>}
                  
-                <div onClick={() => toggleModal(!isModalOpen)}>{post.totallike}</div>
+                <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
                 <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                  <h1>test</h1><div>x</div>
-                  <p>Other text that describes what is happening</p>
-                  <button onClick={() => toggleModal(false)}>toggledfg</button>
+                  <h1>&lt;   좋아요</h1>
+                  <Divider />
+                  <p>{likeList.map((item,index)=>(
+                    <div className="likelist_container">
+                      <ul className="likelist">
+                        <li><div><img className="user_image" src={item.user.userProfileImage.src} /></div></li>
+                        <li><div>{item.user.nickname}</div></li>
+                      </ul>
+                    </div>
+                  ))}</p>
+                  {/* <button onClick={() => toggleModal(false)}>toggledfg</button> */}
                 </Modal>
                 {/* {liked 
                 ?<FaHeart className="bar-icon" onClick={onUnlike}/>
