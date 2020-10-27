@@ -12,7 +12,7 @@ import userdefaultimg from '../../assets/images/user_default.png';
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
-import Modal from "../Utils/LikeModal";;
+import Modal from "../Utils/LikeModal";
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -80,10 +80,8 @@ function PostCard({post}) {
     let clickdupl = true;
     const onToggleComment = useCallback((postid) => {
       
-      //setCommentFormOpened(commentFormOpened === false ? true : false);
-      console.log(postid)
-      setCommentFormOpened((prev) => !prev);
-        
+      //setCommentFormOpened((prev) => !prev);
+      setCommentFormOpened(!commentFormOpened);
       dispatch({
         type: LOAD_POSTS_COMMENT_REQUEST,
         data: {
@@ -161,160 +159,88 @@ function PostCard({post}) {
    
     return(
       <div className="FeedContainer" key={post.id}>
-          <div className="FeedUser">
-            <div className="user_zone">
-              {post.userProfileImage
-              ?<img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
-              :<img className="user_image" src={userdefaultimg} alt={userdefaultimg} />}
-              
-              <span className="user_name">{post.user.nickname}</span>
-            </div>
-          </div>
-          <div className="Feed_Content"> 
-            <div className="content_image_zone">
-              {post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
-            </div>
-            <div className="content_zone">
-              {editMode
-              ?<div><PostCardContent content={post.content} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} /></div>
-              :post.content} <span>더보기</span>
-            </div>
-            <div className="content_feature">
-              <div className="bar-item like">
-                {buttonloading?<div style={{marginLeft:15}}><Spinner /></div>
-                :liked 
-                ?<FaHeart className="bar-icon" onClick={onUnlike}/>
-                :<FaRegHeart className="bar-icon" onClick={onLike}/>}
-                 
-                <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
-                <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                  <h1>&lt;   좋아요</h1>
-                  <Divider />
-                  <p>{likeList.map((item,index)=>(
-                    <div className="likelist_container">
-                      <ul className="likelist">
-                        <li><div><img className="user_image" src={item.user.userProfileImage.src} /></div></li>
-                        <li><div>{item.user.nickname}</div></li>
-                      </ul>
-                    </div>
-                  ))}</p>
-                  {/* <button onClick={() => toggleModal(false)}>toggledfg</button> */}
-                </Modal>
-                {/* {liked 
-                ?<FaHeart className="bar-icon" onClick={onUnlike}/>
-                :<FaRegHeart className="bar-icon" onClick={onLike}/>}
-                {post.totallike} */}
+        <div className="Feed_area">
+            <div className="FeedUser">
+              <div className="user_zone">
+                {post.userProfileImage
+                ?<img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
+                :<img className="user_image" src={userdefaultimg} alt={userdefaultimg} />}
+                
+                <span className="user_name">{post.user.nickname}</span>
               </div>
-              <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
-              <div className="bar-item comment">{post.feedreplysize}</div>
             </div>
-                  { post.user.id === userInfo.id
-                  ? (
-                    <>
-                      <Button onClick={onClickUpdate}>수정</Button>
-                      <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
-                    </>
-                  )
-                  : <Button>신고</Button>}
-          <div>
-          {commentFormOpened&&<CommentForm post={post} />}
-          {commentFormOpened && postComment.map((item,index)=>(
-            <>
-                <Comment
-                  author={item.user.nickname}
-                  avatar={(
-                    // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
-                      <a><Avatar>{item.user.nickname}</Avatar></a>
-                    // </Link>
-                  )}  
-                  content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
+            <div className="Feed_Content"> 
+              <div className="content_image_zone">
+                {post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
+              </div>
+              <div className="content_zone">
+                {editMode
+                ?<div><PostCardContent content={post.content} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} /></div>
+                :post.content} <span>더보기</span>
+              </div>
+              <div className="content_feature">
+                <div className="bar-item like">
+                  {buttonloading?<div style={{marginLeft:15}}><Spinner /></div>
+                  :liked 
+                  ?<FaHeart className="bar-icon" onClick={onUnlike}/>
+                  :<FaRegHeart className="bar-icon" onClick={onLike}/>}
+                  
+                  <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
+                  <Modal isOpen={isModalOpen} toggle={toggleModal}>
+                    <h1 onClick={() => toggleModal(false)}>&lt;   좋아요</h1>
+                    <Divider />
+                    <p>{likeList.map((item,index)=>(
+                      <div className="likelist_container">
+                        <ul className="likelist">
+                          <li><div><img className="user_image" src={item.user.userProfileImage.src} /></div></li>
+                          <li><div>{item.user.nickname}</div></li>
+                          <li><div className="follow_btn_area"><button className="follow_btn" /></div></li>
+                        </ul>
+                      </div>
+                    ))}</p>
                     
-                />
-                { item.user.id === userInfo.id
-                  ?(
-                  <>
-                    <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
-                    <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
-                  </>
-                ):<>회원만 수정가능</>}
-            </>                  
-          ))}
+                  </Modal>
+                </div>
+                <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
+                <div className="bar-item comment">{post.feedreplysize}</div>
+              </div>
+                    { post.user.id === userInfo.id
+                    ? (
+                      <>
+                        <Button onClick={onClickUpdate}>수정</Button>
+                        <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
+                      </>
+                    )
+                    : <Button>신고</Button>}
+              <div>
+              {commentFormOpened&&<CommentForm post={post} />}
+              {commentFormOpened && postComment.map((item,index)=>(
+                <>
+                    <Comment
+                      author={item.user.nickname}
+                      avatar={(
+                        // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
+                          <a><Avatar>{item.user.nickname}</Avatar></a>
+                        // </Link>
+                      )}  
+                      content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
+                        
+                    />
+                    { item.user.id === userInfo.id
+                      ?(
+                      <>
+                        <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
+                        <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
+                      </>
+                    ):<>회원만 수정가능</>}
+                </>                  
+              ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     )
-    // return (
-      
-    //   <CardWrapper key={post.id}>
-    //   <Card
-    //     cover={post.uploadfile[0]&& <PostImages images={post.uploadfile} />}
-    //     actions={[
-    //       liked
-    //       ? <HeartTwoTone twoToneColor="#eb2f96" key="heart" onClick={onUnlike} />
-    //       : <HeartOutlined key="heart" onClick={onLike} />,
-    //       <MessageOutlined key="comment" onClick={onToggleComment} />,
-    //       <Popover
-    //         key="ellipsis"
-    //         content={(
-    //           <Button.Group>
-    //             { post.user.id === userInfo.id
-    //               ? (
-    //                 <>
-    //                   <Button onClick={onClickUpdate}>수정</Button>
-    //                   <Button type="danger" loading={removePostLoading} onClick={onRemovePost}  >삭제</Button>
-    //                 </>
-    //               )
-    //               : <Button>신고</Button>}
-    //           </Button.Group>
-    //         )}
-    //       >
-    //         <EllipsisOutlined />
-    //       </Popover>,
-    //     ]}
-    //     // extra={<FollowButton post={post} />}
-    //   >
-    //     <Card.Meta
-    //       // avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-    //       title={post.user.nickname}
-    //       description={<PostCardContent editMode={editMode} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} totallike={post.totallike} postData={post.content} />}
-    //     />
-    //   </Card>
-    //   {commentFormOpened && (
-    //     <>
-    //       <CommentForm post={post} />
-    //       <List
-    //         //header={`${post.feedreply? post.feedreply.length : 0} 댓글`}
-    //         itemLayout="horizontal"
-    //         dataSource={post.feedreply || []}
-    //         renderItem={(item) => (
-    //           <li>
-                
-    //             <Comment
-    //               author={item.user.nickname}
-    //               avatar={(
-    //                 // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
-    //                   <a><Avatar>{item.user.nickname}</Avatar></a>
-    //                 // </Link>
-    //               )}  
-    //               content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
-    //                 content={item.content}
-    //             />
-    //             { item.user.id === userInfo.id
-    //               ?(
-    //               <>
-    //                 <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
-    //                 <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
-    //               </>
-    //             ):<>회원만 수정가능</>}
-    //           </li>
-    //         )}
-    //       />
-    //     </>
-    //   )}
-      
-    // </CardWrapper>
     
-    // )
 }
 
 export default PostCard

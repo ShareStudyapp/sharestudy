@@ -70,7 +70,8 @@ const modalPoses = {
 const Modal = styled(posed.div(modalPoses))`
   position: fixed;
   background: white;
-  width: 20%;
+  max-width:600px;
+  width: 90%;
   height: auto;
   top: 50%;
   left: 50%;

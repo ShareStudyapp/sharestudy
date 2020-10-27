@@ -1,6 +1,10 @@
+.postimage_area{
+  max-width:500px;
+  
+}
 .preloadImage {
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 500px;
   background-color: #222222;
-} 
+}
