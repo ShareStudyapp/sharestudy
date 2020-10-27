@@ -12,7 +12,7 @@ import userdefaultimg from '../../assets/images/user_default.png';
 import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
-import Modal from "../Utils/LikeModal";
+import Modal from "../Utils/Modal";
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -27,7 +27,7 @@ function PostCard({post}) {
     const dispatch = useDispatch();
     const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
     const { postComment } = useSelector((state) => state.postReducer);
-    const { likeList } = useSelector((state) => state.postReducer);
+  
     const {userInfo} = useSelector((state) => state.userReducer);
     //const [liked, setLiked] = useState(false); 
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -35,9 +35,10 @@ function PostCard({post}) {
     const [replyeditMode, setReplyeditMode] = useState(false);
     const [replytmp,setReplytmp] = useState('');
     const [buttonloading,setButtonloading] = useState(false);
-    const [isModalOpen, toggleModal] = useState(false)
+    // const [isModalOpen, toggleModal] = useState(false)
     //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    
+    const [modalOpen,setModalOpen]  = useState(false);
+    const modalOpenValue="likelist";
     useEffect(()=>{
       
       
@@ -148,13 +149,16 @@ function PostCard({post}) {
     }, [userInfo.id]);
     const openLikeModal = useCallback((id)=>{
       
-      toggleModal(!isModalOpen)
+      setModalOpen(!modalOpen)
       dispatch({
         type: LIKE_LIST_REQUEST,
         data: id,
       }); 
     },[])
-    
+    const testClick = useCallback(()=>{
+      setModalOpen(true);
+
+    },[])
     const liked = post.feedlike.find((v) =>v.userkey===userInfo.id);
    
     return(
@@ -184,22 +188,8 @@ function PostCard({post}) {
                   :liked 
                   ?<FaHeart className="bar-icon" onClick={onUnlike}/>
                   :<FaRegHeart className="bar-icon" onClick={onLike}/>}
-                  
                   <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
-                  <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                    <h1 onClick={() => toggleModal(false)}>&lt;   좋아요</h1>
-                    <Divider />
-                    <p>{likeList.map((item,index)=>(
-                      <div className="likelist_container">
-                        <ul className="likelist">
-                          <li><div><img className="user_image" src={item.user.userProfileImage.src} /></div></li>
-                          <li><div>{item.user.nickname}</div></li>
-                          <li><div className="follow_btn_area"><button className="follow_btn" /></div></li>
-                        </ul>
-                      </div>
-                    ))}</p>
-                    
-                  </Modal>
+                  {modalOpen?<><Modal modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
                 <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
                 <div className="bar-item comment">{post.feedreplysize}</div>
@@ -211,7 +201,10 @@ function PostCard({post}) {
                         <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
                       </>
                     )
-                    : <Button>신고</Button>}
+                    : <Button onClick={testClick}>신고</Button>}
+              <div>
+                
+              </div>
               <div>
               {commentFormOpened&&<CommentForm post={post} />}
               {commentFormOpened && postComment.map((item,index)=>(

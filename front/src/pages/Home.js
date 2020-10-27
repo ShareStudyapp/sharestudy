@@ -24,8 +24,8 @@ function Home({history}) {
     return (
       <>
       <div>
-      {/* { login? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />} */}
-      {user?<Feeds />: <LoginForm />}
+      { user? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />} 
+      {/* {user?<Feeds />: <LoginForm />} */}
       {/* { login?"":<GoogleLogin
           clientId="731014591837-ej91nk0hfgf42hfssm12j4uop6ig9hce.apps.googleusercontent.com"
           buttonText="연동하기"
