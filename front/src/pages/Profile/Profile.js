@@ -49,44 +49,19 @@ function Profile() {
                             </div>
                         </div>
                         <ul className="stats">
-                        <li><b>373</b> posts</li>
-                        <li><b>140</b> followers</li>
-                        <li><b>235</b> following</li>
+                        <li>성별&nbsp;&nbsp;<select name="sex"><option value="">{userInfo.sex=="M"?'남':'여'}</option></select></li>
+                        <li>나이&nbsp;&nbsp;<select name="sex"><option value="">{userInfo.age}</option></select></li>
                         </ul>
-                        <div className="bio">
-                        <p>Seattle snapshots && creative coding</p>
-                        </div>
+                        <textarea value={userInfo.introduce} style={{width:400,height:100,borderStyle:"none"}} />
                     </div>
-                </section>
+                </section>                
             </header>
-            <div className="posts-container">
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/feca57/ffffff.jpg" />
-                </div> 
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/ff6b6b/ffffff.jpg" />
-                </div>
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/feca57/ffffff.jpg" />
-                </div>
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/feca57/ffffff.jpg" />
-                </div>
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/feca57/ffffff.jpg" />
-                </div> 
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/3498db/ffffff.jpg" />
-                </div> 
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/3498db/ffffff.jpg" />
-                </div> 
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/ff9f43/ffffff.jpg" />
-                </div>  
-                <div className="post">
-                    <img src="https://dummyimage.com/200x200/1dd1a1/ffffff.jpg" />
-                </div>  
+            
+            <div>
+                    <div>
+                        <input type="text" name="name" /> <br />
+                        <input type="text" name="name" />
+                    </div>  
             </div>
         </div>
         </>

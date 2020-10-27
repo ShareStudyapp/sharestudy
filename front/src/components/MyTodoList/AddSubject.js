@@ -103,6 +103,9 @@ function AddSubject() {
             alert('과목을 먼저 선택해주세요');
             return;
         }
+        console.log(todoColor)
+        console.log(todoSubject)
+        console.log(todo)
         const todolist = {};
         todolist.todoColor = todoColor;
         todolist.todoSubject = todoSubject;
@@ -158,6 +161,7 @@ function AddSubject() {
             <ul> 
                 {todos}
             </ul>
+            {/* <button onClick={addTodoList}>내 투두 올리기</button> */}
         </div>
     )
 }

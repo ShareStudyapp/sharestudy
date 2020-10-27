@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PostCard from './PostCard';
 import { css } from "@emotion/core";
 import {SyncLoader} from 'react-spinners';
-import UserProfile from '../User/UserProfile';
+import FeedUserProfile from '../User/FeedUserProfile';
 import Divider from '@material-ui/core/Divider';
 const override = css`
   display: block;
@@ -27,7 +27,7 @@ function Feeds() {
     return (
       <div>
       <div style={{backgroundColor:'#E8E8E8'}}>
-        {loadPostsDone?<UserProfile />  :""}
+        {loadPostsDone?<FeedUserProfile />  :""}
         <Divider />
         {loadPostsDone
           ?mainPosts.map((c) => (

@@ -1,7 +1,7 @@
 import React from 'react'
-import './UserProfile.css';
+import './FeedUserProfile.css';
 import { useSelector } from 'react-redux';
-function UserProfile() {
+function FeedUserProfile() {
     const {userInfo} = useSelector((state) => state.userReducer);
     
     console.log(userInfo)
@@ -16,17 +16,19 @@ function UserProfile() {
                         userNickname 남 30
                     </div>
                 </div>
-                <div className="profile_follow_area">
+                <ul className="profile_follow_area">
+                    <li>
                     <button>
                             프로필편집
                     </button>
-                    <div>
-                        Follow 100
-                    </div>
-                    <div>
-                        Follower 100
-                    </div>
-                </div>
+                    </li>
+                    <li>
+                        Follow {userInfo.followlistsize}
+                    </li>
+                    <li>
+                        Follower {userInfo.followerlistsize}
+                    </li>
+                </ul>
                 <div>
                     {userInfo.introduce}
                 </div>
@@ -35,4 +37,4 @@ function UserProfile() {
     )
 }
 
-export default UserProfile;
+export default FeedUserProfile;
