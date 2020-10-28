@@ -14,7 +14,7 @@ const override = css`
 
 function Feeds() {
     const dispatch = useDispatch();
-    
+    const user = window.sessionStorage.getItem('user')//로그인여부
     useEffect(() => {
       dispatch({
         type: LOAD_POSTS_REQUEST
@@ -27,7 +27,7 @@ function Feeds() {
     return (
       <div>
       <div style={{backgroundColor:'#E8E8E8'}}>
-        {loadPostsDone?<FeedUserProfile />  :""}
+        {loadPostsDone&&user?<FeedUserProfile />  :""}
         <Divider />
         {loadPostsDone
           ?mainPosts.map((c) => (

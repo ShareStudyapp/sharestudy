@@ -18,7 +18,10 @@ import {
   UPLOAD_PROFILE_IMAGES_FAILURE,
   FOLLOW_REQUEST,
   FOLLOW_SUCCESS,
-  FOLLOW_FAILURE
+  FOLLOW_FAILURE,
+  FOLLOW_CANCLE_REQUEST,
+  FOLLOW_CANCLE_SUCCESS,
+  FOLLOW_CANCLE_FAILURE
 } from '../reducers/user';
 
 
@@ -142,6 +145,23 @@ function * follow(action){
     });
   }
 }
+function followCancleAPI(id){
+  return axios.delete(`/user/following/${id}`);
+}
+function * followCancle(action){
+  try{
+    const result = yield call(followCancleAPI, action.data);
+    yield put({
+      type: FOLLOW_CANCLE_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: FOLLOW_CANCLE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -160,6 +180,9 @@ function* watchProfileUploadImages() {
 function* watchFollow(){
   yield takeLatest(FOLLOW_REQUEST, follow);
 }
+function* watchFollowCancle(){
+  yield takeLatest(FOLLOW_CANCLE_REQUEST, followCancle);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -168,5 +191,6 @@ export default function* userSaga() {
     fork(watchLogOut),
     fork(watchProfileUploadImages),
     fork(watchFollow),
-  ]);
+    fork(watchFollowCancle),
+  ]); 
 }

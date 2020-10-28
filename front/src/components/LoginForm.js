@@ -16,9 +16,9 @@ const FormWrapper = styled(Form)`
   padding: 10px;
 `;
 
-const LoginForm = () => {
+const LoginForm = ({history}) => {
   const dispatch = useDispatch();
-  const { logInLoading, logInError,me } = useSelector((state) => state.userReducer);
+  const { logInLoading, logInError,logInDone } = useSelector((state) => state.userReducer);
   const [userid, onChangeUserid] = useInput('');
   const [password, onChangePassword] = useInput('');
 
@@ -26,7 +26,10 @@ const LoginForm = () => {
     if (logInError) {
       alert(logInError);
     }
-  }, [logInError]);
+    if(logInDone){
+      history.push("/");
+    }
+  }, [logInError,logInDone]);
   
   const onSubmitForm = useCallback(() => {
     dispatch(loginRequestAction({ userid, password }));

@@ -1,7 +1,7 @@
 import React,{useCallback,useState} from 'react'
 import './Modal.css';
 import { useSelector,useDispatch } from 'react-redux';
-import {FOLLOW_REQUEST} from '../../reducers/user';
+import {FOLLOW_REQUEST,FOLLOW_CANCLE_REQUEST} from '../../reducers/user';
 
 function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
     const { likeList } = useSelector((state) => state.postReducer);
@@ -15,13 +15,27 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
           return alert('로그인이 필요합니다.');
         }
         setButtonloading(true);
-  
+   
         setTimeout(()=>{
           setButtonloading(false);
         },500)
         console.log(id)
         return dispatch({
           type: FOLLOW_REQUEST,
+          data: id,
+        }); 
+      }, [userInfo.id]);
+      const followCancle = useCallback((id) => {
+        if (!userInfo.id) {
+          return alert('로그인이 필요합니다.');
+        }
+        setButtonloading(true);
+  
+        setTimeout(()=>{
+          setButtonloading(false);
+        },500)
+        return dispatch({
+          type: FOLLOW_CANCLE_REQUEST,
           data: id,
         }); 
       }, [userInfo.id]);
@@ -34,9 +48,8 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
                             <div className="user_image_area"><img className="user_image" src={item.user.userProfileImage.src} /></div>
                             <div className="user_nickname_area">{item.user.nickname}</div>
                             <div className="follow_btn_area">
-                                {item.user.follow.map((followitem,index)=>(
-                                    followitem.toUser.id===userInfo.id?<button className="following_btn" />:<button className="follow_btn" onClick={()=>follow(item.user.id)} />
-                                ))}
+                                {userInfo.id?item.user.id!==userInfo.id?item.tempFollow?<button className="following_btn" onClick={()=>followCancle(item.user.id)} />:<button className="follow_btn" onClick={()=>follow(item.user.id)} />:"":""}
+                                
                             </div>
                         </li>
                     </ul>

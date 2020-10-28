@@ -159,7 +159,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.followLoading = false;
       draft.followDone = true;
       break;
-    case FOLLOW_CANCLE_FAILURE:
+    case FOLLOW_CANCLE_FAILURE: 
       draft.followLoading = false;
       draft.followInError = action.error;
       break;

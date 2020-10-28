@@ -1,4 +1,4 @@
-import React,{useCallback,useEffect} from 'react'
+import React,{useCallback} from 'react'
 import {Link} from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { logoutRequestAction } from '../reducers/user';
@@ -6,14 +6,14 @@ import home_inactive from '../assets/MainNav/home_inactive.png';
 import todofeed_inactive from '../assets/MainNav/todofeed_inactive.png';
 import './MainNav.css';
 
-function MainNav() {
+function MainNav({history}) {
     const dispatch = useDispatch();
-    const { logOutDone} = useSelector((state) => state.userReducer);
     const login_valid = window.sessionStorage.getItem('login_valid')    
+
     const onLogOut = useCallback(() => {        
+
         const token = window.sessionStorage.getItem('user')    
-        dispatch(logoutRequestAction(token));
-        
+        dispatch(logoutRequestAction(token));    
     }, []);
     
 
