@@ -189,7 +189,7 @@ function PostCard({post}) {
                   ?<FaHeart className="bar-icon" onClick={onUnlike}/>
                   :<FaRegHeart className="bar-icon" onClick={onLike}/>}
                   <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
-                  {modalOpen?<><Modal modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
+                  {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
                 <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
                 <div className="bar-item comment">{post.feedreplysize}</div>

@@ -15,7 +15,10 @@ import {
   USER_INFO_FAILURE,
   UPLOAD_PROFILE_IMAGES_REQUEST,
   UPLOAD_PROFILE_IMAGES_SUCCESS,
-  UPLOAD_PROFILE_IMAGES_FAILURE
+  UPLOAD_PROFILE_IMAGES_FAILURE,
+  FOLLOW_REQUEST,
+  FOLLOW_SUCCESS,
+  FOLLOW_FAILURE
 } from '../reducers/user';
 
 
@@ -105,7 +108,6 @@ function* userInfo() {
   }
 }
 function uploadProfileImagesAPI(data) {
-  console.log(data)
   return axios.post('/api/auth/profileimage', data);
 }
 function* uploadProfileImages(action) {
@@ -117,9 +119,25 @@ function* uploadProfileImages(action) {
       data: result.data,
     });
   } catch (err) {
-    console.error(err);
     yield put({
       type: UPLOAD_PROFILE_IMAGES_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function followAPI(id){
+  return axios.post(`/user/following/${id}`);
+}
+function * follow(action){
+  try{
+    const result = yield call(followAPI, action.data);
+    yield put({
+      type: FOLLOW_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: FOLLOW_FAILURE,
       error: err.response.data,
     });
   }
@@ -139,6 +157,9 @@ function* watchUserInfo() {
 function* watchProfileUploadImages() {
   yield takeEvery(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImages);
 }
+function* watchFollow(){
+  yield takeLatest(FOLLOW_REQUEST, follow);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -146,5 +167,6 @@ export default function* userSaga() {
     fork(watchUserInfo),
     fork(watchLogOut),
     fork(watchProfileUploadImages),
+    fork(watchFollow),
   ]);
 }

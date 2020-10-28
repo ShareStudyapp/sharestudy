@@ -21,9 +21,10 @@
 }
 .likelist_back_btn{width:100%;display:block;border:0;background:#f3f3f3;line-height:40px;font-size:15px;text-align:left;padding-left:20px;}
 .likelist_container {width:90%; margin:0 auto;}
-.likelist{overflow-y: scroll;height: calc(100% - 40px);}
+.likelist{height: calc(100% - 40px);}
 .first_li{display:flex;width:100%;align-items:center;}
 .user_nickname_area{width:calc(100% - 120px);padding-left:15px;box-sizing:border-box;}
 .user_image_area{width:70px;}
 .follow_btn_area{height: 30px;width:70px;}
 .follow_btn{background: url("../../assets/Button/follow.png") no-repeat left top/ 100% auto; width:70px; height:100%;border-style: none;border-radius:3px;}
+.following_btn{background: url("../../assets/Button/following.png") no-repeat left top/ 100% auto; width:70px; height:100%;border-style: none;border-radius:3px;}

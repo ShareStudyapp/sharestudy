@@ -15,6 +15,10 @@ export const initialState = {
     userinfoLoading:false, //내정보로딩
     userinfoDone:false,//내정보로딩완료
     userinfoError:null,
+    followLoading:false, //팔로우시도중
+    followInError:'',//팔로우실패이유
+    followDone:false,//팔로우완료
+    followInfo:'',//팔로우당하는사람정보
     uploadProfileImagesLoading: false,
     uploadProfileImagesDone: false,
     uploadProfileImagesError: null,
@@ -40,6 +44,14 @@ export const USER_INFO_FAILURE = 'USER_INFO_FAILURE';
 export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
 export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
 export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
+//팔로우
+export const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
+export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
+export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
+//팔로우캔슬
+export const FOLLOW_CANCLE_REQUEST = 'FOLLOW_CANCLE_REQUEST';
+export const FOLLOW_CANCLE_SUCCESS = 'FOLLOW_CANCLE_SUCCESS';
+export const FOLLOW_CANCLE_FAILURE = 'FOLLOW_CANCLE_FAILURE';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -117,7 +129,6 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.uploadProfileImagesError = null;
       break;
     case UPLOAD_PROFILE_IMAGES_SUCCESS: {
-      console.log(action.data)
       draft.userInfo.profileImage = action.data;
       draft.uploadProfileImagesLoading = false;
       draft.uploadProfileImagesDone = true;
@@ -126,6 +137,31 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case UPLOAD_PROFILE_IMAGES_FAILURE:
       draft.uploadProfileImagesLoading = false;
       draft.uploadProfileImagesError = action.error;
+      break;
+    case FOLLOW_REQUEST:
+      draft.followLoading = true;
+      draft.followDone = false;
+      break;
+    case FOLLOW_SUCCESS:
+      draft.followLoading = false;
+      draft.followDone = true;
+      draft.followInfo = action.data;
+      break;
+    case FOLLOW_FAILURE:
+      draft.followLoading = false;
+      draft.followInError = action.error;
+      break;
+    case FOLLOW_CANCLE_REQUEST:
+      draft.followLoading = true;
+      draft.followDone = false;
+      break;
+    case FOLLOW_CANCLE_SUCCESS:
+      draft.followLoading = false;
+      draft.followDone = true;
+      break;
+    case FOLLOW_CANCLE_FAILURE:
+      draft.followLoading = false;
+      draft.followInError = action.error;
       break;
     default:
       break;

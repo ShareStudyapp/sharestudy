@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 function FeedUserProfile() {
     const {userInfo} = useSelector((state) => state.userReducer);
     
-    console.log(userInfo)
     return (
         <div className="profile_area">
             <div>
