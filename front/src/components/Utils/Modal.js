@@ -9,7 +9,6 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
     const [buttonloading,setButtonloading] = useState(false);
     const dispatch = useDispatch();
     let renderlist="";
-    console.log(likeList)
     const follow = useCallback((id) => {
         if (!userInfo.id) {
           return alert('로그인이 필요합니다.');
@@ -39,6 +38,9 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
           data: id,
         }); 
       }, [userInfo.id]);
+    // const liked = likeList.map((t)=>t.find(data=>console.log(data)))
+    const follow_cp = likeList.some((t)=>t.user.id === followInfo.userkey)
+    console.log(follow_cp)
     if(modalOpenValue==='likelist'){
         renderlist =  likeList.map((item,index)=>(
             <div>
@@ -48,7 +50,7 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
                             <div className="user_image_area"><img className="user_image" src={item.user.userProfileImage.src} /></div>
                             <div className="user_nickname_area">{item.user.nickname}</div>
                             <div className="follow_btn_area">
-                                {userInfo.id?item.user.id!==userInfo.id?item.tempFollow?<button className="following_btn" onClick={()=>followCancle(item.user.id)} />:<button className="follow_btn" onClick={()=>follow(item.user.id)} />:"":""}
+                                {userInfo.id?item.user.id!==userInfo.id?item.tempFollow || item.user.id===followInfo.userkey?<button className="following_btn" onClick={()=>followCancle(item.user.id)} />:<button className="follow_btn" onClick={()=>follow(item.user.id)} />:"":""}
                                 
                             </div>
                         </li>

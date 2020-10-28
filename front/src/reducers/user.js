@@ -18,7 +18,7 @@ export const initialState = {
     followLoading:false, //팔로우시도중
     followInError:'',//팔로우실패이유
     followDone:false,//팔로우완료
-    followInfo:'',//팔로우당하는사람정보
+    followInfo:[],//팔로우당하는사람정보
     uploadProfileImagesLoading: false,
     uploadProfileImagesDone: false,
     uploadProfileImagesError: null,
@@ -158,6 +158,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case FOLLOW_CANCLE_SUCCESS:
       draft.followLoading = false;
       draft.followDone = true;
+      draft.followInfo = action.data;
       break;
     case FOLLOW_CANCLE_FAILURE: 
       draft.followLoading = false;
