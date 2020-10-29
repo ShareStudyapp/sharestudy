@@ -145,7 +145,8 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case FOLLOW_SUCCESS:
       draft.followLoading = false;
       draft.followDone = true;
-      draft.followInfo = action.data;
+      draft.followInfo = draft.followInfo.concat(action.data);
+      //action.data.concat(draft.followInfo);
       break;
     case FOLLOW_FAILURE:
       draft.followLoading = false;
@@ -158,7 +159,9 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case FOLLOW_CANCLE_SUCCESS:
       draft.followLoading = false;
       draft.followDone = true;
-      draft.followInfo = action.data;
+      const result = draft.followInfo.find(e=>e.userkey===action.data.userkey);
+      const a= draft.followInfo.indexOf(result)
+      draft.followInfo.splice(a, 1)
       break;
     case FOLLOW_CANCLE_FAILURE: 
       draft.followLoading = false;

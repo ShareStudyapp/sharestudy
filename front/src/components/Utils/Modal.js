@@ -39,8 +39,8 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
         }); 
       }, [userInfo.id]);
     // const liked = likeList.map((t)=>t.find(data=>console.log(data)))
-    const follow_cp = likeList.some((t)=>t.user.id === followInfo.userkey)
-    console.log(follow_cp)
+    // const follow_cp = likeList.some((t)=>t.user.id === followInfo.userkey)
+    console.log(followInfo)
     if(modalOpenValue==='likelist'){
         renderlist =  likeList.map((item,index)=>(
             <div>
@@ -50,7 +50,7 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
                             <div className="user_image_area"><img className="user_image" src={item.user.userProfileImage.src} /></div>
                             <div className="user_nickname_area">{item.user.nickname}</div>
                             <div className="follow_btn_area">
-                                {userInfo.id?item.user.id!==userInfo.id?item.tempFollow || item.user.id===followInfo.userkey?<button className="following_btn" onClick={()=>followCancle(item.user.id)} />:<button className="follow_btn" onClick={()=>follow(item.user.id)} />:"":""}
+                                {userInfo.id?item.user.id!==userInfo.id?item.tempFollow || followInfo.find(e=>e.userkey===item.user.id)?<button className="following_btn" onClick={()=>followCancle(item.user.id)} />:<button className="follow_btn" onClick={()=>follow(item.user.id)} />:"":""}
                                 
                             </div>
                         </li>
