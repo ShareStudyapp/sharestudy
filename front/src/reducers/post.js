@@ -48,6 +48,10 @@ export const initialState = {
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
+//피드 디테일 조회
+export const LOAD_POSTS_DETAIL_REQUEST = 'LOAD_POSTS_DETAIL_REQUEST';
+export const LOAD_POSTS_DETAIL_SUCCESS = 'LOAD_POSTS_DETAIL_SUCCESS';
+export const LOAD_POSTS_DETAIL_FAILURE = 'LOAD_POSTS_DETAIL_FAILURE';
 
 //피드 댓글 조회
 export const LOAD_POSTS_COMMENT_REQUEST = 'LOAD_POSTS_COMMENT_REQUEST';
@@ -128,6 +132,20 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
         break;
+      case LOAD_POSTS_DETAIL_REQUEST:
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = null;
+        break;
+      case LOAD_POSTS_DETAIL_SUCCESS:
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
+        draft.mainPosts = action.data;
+        break;
+      case LOAD_POSTS_DETAIL_FAILURE:
+        draft.loadPostsLoading = false;
+        draft.loadPostsError = action.error;
+        break;
       case LOAD_POSTS_COMMENT_REQUEST:
         draft.loadPostsCommentLoading = true;
         draft.loadPostsCommentDone = false;
@@ -138,7 +156,7 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         //const c = draft.mainPosts.find((v) => v.id===action.feedkey);
         draft.loadPostsCommentLoading = false;
         draft.loadPostsCommentDone = true;
-        const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
+        const c = state.mainPosts.find((v) => v.id===action.data.feedlist.id);
         draft.postComment = c.feedreply.concat(action.data.feedReplylist);
         //draft.postComment = draft.postComment.concat(action.data);
         //draft.hasMorePosts = draft.mainPosts.length < 50;

@@ -42,7 +42,10 @@ import {
     UPDATE_COMMENT_FAILURE,
     LIKE_LIST_REQUEST,
     LIKE_LIST_SUCCESS,
-    LIKE_LIST_FAILURE
+    LIKE_LIST_FAILURE,
+    LOAD_POSTS_DETAIL_REQUEST,
+    LOAD_POSTS_DETAIL_SUCCESS,
+    LOAD_POSTS_DETAIL_FAILURE
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
@@ -267,7 +270,6 @@ function* updateComment(action) {
   }
 }
 function loadLikeListAPI(id){
-  console.log(id)
   return axios.get(`/feed/likefeedlist/${id}`)
 }
 function* likeListComment(action){
@@ -281,6 +283,23 @@ function* likeListComment(action){
   }catch(err){
     yield put({
       type: LIKE_LIST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function loadPostDetailAPI(id){
+  return axios.get(`/feedDetail/${id}`)
+}
+function* loadPostDetail(action){
+  try{
+    const result = yield call(loadPostDetailAPI, action.data);
+    yield put({
+      type: LOAD_POSTS_DETAIL_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: LOAD_POSTS_DETAIL_FAILURE,
       error: err.response.data,
     });
   }
@@ -324,6 +343,9 @@ function* watchUpdateComment() {
 function* watchLikeListComments(){
   yield takeLatest(LIKE_LIST_REQUEST, likeListComment);
 }
+function* watchLoadPostDetail(){
+  yield takeLatest(LOAD_POSTS_DETAIL_REQUEST, loadPostDetail);
+}
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
@@ -339,5 +361,6 @@ export default function* postSaga() {
     fork(watchUpdateComment),
     fork(watchLoadPostsComments),
     fork(watchLikeListComments),
+    fork(watchLoadPostDetail),
   ]);
 }

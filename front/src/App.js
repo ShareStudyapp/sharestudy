@@ -18,6 +18,7 @@ const override = css`
 // const Home = lazy(()=>import('./pages/Home'));
 const Signin = lazy(()=>import('./components/LoginForm'));
 const Signup = lazy(()=>import('./pages/Signup'));
+const DetailFeed = lazy(()=>import('./pages/Feed/DetailFeed'));
 const WriteFeed = lazy(()=>import('./pages/Feed/WriteFeed'));
 const Products = lazy(()=>import('./pages/Products'));
 const Profile = lazy(()=>import('./pages/Profile/Profile'));
@@ -50,6 +51,7 @@ function App({history}) {
       <Suspense fallback={<RingLoader css={override} size={150} color="green" loading style={{width:100}} />}>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/feeddetail/:id" component={DetailFeed} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
           <Route path="/writefeed" component={WriteFeed} />

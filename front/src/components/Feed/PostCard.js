@@ -1,9 +1,7 @@
 import React, { useState, useCallback,useEffect } from 'react';
 import {  Button, Avatar, Comment } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import PostImages from './PostImages';
-import Divider from '@material-ui/core/Divider';
 import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST,LIKE_LIST_REQUEST} from '../../reducers/post';
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
@@ -13,30 +11,20 @@ import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
 import Modal from "../Utils/Modal";
+import {Link} from 'react-router-dom';
 
-const CardWrapper = styled.div`
-  margin-bottom: 20px;
-`;
-const images = [
-  'https://source.unsplash.com/random/400x400',
-  'https://source.unsplash.com/random/400x400',
-  'https://source.unsplash.com/random/400x400',
-];
+
 function PostCard({post}) {
     
     const dispatch = useDispatch();
-    const { removePostLoading,removePostDone } = useSelector((state) => state.postReducer);
+    const { removePostLoading} = useSelector((state) => state.postReducer);
     const { postComment } = useSelector((state) => state.postReducer);
-  
     const {userInfo} = useSelector((state) => state.userReducer);
-    //const [liked, setLiked] = useState(false); 
     const [commentFormOpened, setCommentFormOpened] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [replyeditMode, setReplyeditMode] = useState(false);
     const [replytmp,setReplytmp] = useState('');
     const [buttonloading,setButtonloading] = useState(false);
-    // const [isModalOpen, toggleModal] = useState(false)
-    //const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
     const [modalOpen,setModalOpen]  = useState(false);
     const modalOpenValue="likelist";
     useEffect(()=>{
@@ -80,21 +68,21 @@ function PostCard({post}) {
     }, []);
     let clickdupl = true;
     const onToggleComment = useCallback((postid) => {
-      
+      console.log(postid)
       //setCommentFormOpened((prev) => !prev);
       setCommentFormOpened(!commentFormOpened);
-      dispatch({
-        type: LOAD_POSTS_COMMENT_REQUEST,
-        data: {
-          id: postid,
-        },
-      });
-      if(clickdupl){
+      // dispatch({
+      //   type: LOAD_POSTS_COMMENT_REQUEST,
+      //   data: {
+      //     id: postid,
+      //   },
+      // });
+      // if(clickdupl){
        
-        clickdupl = !clickdupl;
-      }else{
-        console.log('중복됨')
-      }
+      //   clickdupl = !clickdupl;
+      // }else{
+      //   console.log('중복됨')
+      // }
       
     }, [commentFormOpened]);
     const onRemovePost = useCallback(() => {
@@ -150,10 +138,15 @@ function PostCard({post}) {
     const openLikeModal = useCallback((id)=>{
       
       setModalOpen(!modalOpen)
-      dispatch({
-        type: LIKE_LIST_REQUEST,
-        data: id,
-      }); 
+      if(userInfo.id){
+        dispatch({
+          type: LIKE_LIST_REQUEST,
+          data: id,
+        });
+      }else{
+        alert('로그인을 해주세요')
+      }
+       
     },[])
     const testClick = useCallback(()=>{
       setModalOpen(true);
@@ -192,6 +185,7 @@ function PostCard({post}) {
                   {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
                 <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
+                {/* <Link to={`/feeddetail/${post.id}`}><FaRegCommentAlt className="bar-icon" /></Link> */}
                 <div className="bar-item comment">{post.feedreplysize}</div>
               </div>
                     { post.user.id === userInfo.id
