@@ -11,6 +11,7 @@ export const initialState = {
     signUpError: null,
     me: null, // 로그인 토큰 정보
     userInfo: [], // 나의 정보
+    followerList:[],//팔로워리스트
     profileimagePaths: 'undefiend',
     userinfoLoading:false, //내정보로딩
     userinfoDone:false,//내정보로딩완료
@@ -52,6 +53,10 @@ export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
 export const FOLLOW_CANCLE_REQUEST = 'FOLLOW_CANCLE_REQUEST';
 export const FOLLOW_CANCLE_SUCCESS = 'FOLLOW_CANCLE_SUCCESS';
 export const FOLLOW_CANCLE_FAILURE = 'FOLLOW_CANCLE_FAILURE';
+
+export const FOLLOWER_LIST_REQUEST = 'FOLLOWER_LIST_REQUEST'
+export const FOLLOWER_LIST_SUCCESS = 'FOLLOWER_LIST_SUCCESS'
+export const FOLLOWER_LIST_FAILURE = 'FOLLOWER_LIST_FAILURE'
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -146,7 +151,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.followLoading = false;
       draft.followDone = true;
       draft.followInfo = draft.followInfo.concat(action.data);
-      //action.data.concat(draft.followInfo);
+      draft.userInfo.followlistsize = draft.userInfo.followlistsize+1;
       break;
     case FOLLOW_FAILURE:
       draft.followLoading = false;
@@ -162,10 +167,18 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       const result = draft.followInfo.find(e=>e.userkey===action.data.userkey);
       const a= draft.followInfo.indexOf(result)
       draft.followInfo.splice(a, 1)
+      draft.userInfo.followlistsize = draft.userInfo.followlistsize-1;
       break;
     case FOLLOW_CANCLE_FAILURE: 
       draft.followLoading = false;
       draft.followInError = action.error;
+      break;
+    case FOLLOWER_LIST_REQUEST:
+      break;
+    case FOLLOWER_LIST_SUCCESS:
+      draft.followerList = action.data
+      break;
+    case FOLLOWER_LIST_FAILURE:
       break;
     default:
       break;

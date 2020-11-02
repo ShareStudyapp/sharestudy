@@ -1,7 +1,35 @@
 .login_container{
-    background-image: url( "../assets/images/login_background.png" );
+    background-image: url( "../assets/images/login_background.png" ) ;
     background-repeat : no-repeat;
 	background-size : cover;
     width:100%;
-    height:500px;
+    height:1024px;
+}
+.logo_area{
+    position: relative;
+    margin-left: 11%;
+    padding-top:23%;
+}
+.logo_area > img{
+    width:252px;
+}
+.login_area{
+    margin-top: 30%;
+}
+.userid_area{
+    width:279px;
+    margin-left:8%;
+}
+.password_area{
+    width:279px;
+    margin-left:8%;
+    margin-top: 5%;
+}
+.find_area{
+    display:flex;
+    margin-top: 5%;
+    margin-left: 32%;
+}
+.find_password{
+    margin-left:5%;
 }

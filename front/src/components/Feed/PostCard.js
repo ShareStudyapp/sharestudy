@@ -184,8 +184,8 @@ function PostCard({post}) {
                   <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
                   {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
-                <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
-                {/* <Link to={`/feeddetail/${post.id}`}><FaRegCommentAlt className="bar-icon" /></Link> */}
+                {/* <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} /> */}
+                <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none' }}><FaRegCommentAlt className="bar-icon"  /></Link>
                 <div className="bar-item comment">{post.feedreplysize}</div>
               </div>
                     { post.user.id === userInfo.id
@@ -200,28 +200,8 @@ function PostCard({post}) {
                 
               </div>
               <div>
-              {commentFormOpened&&<CommentForm post={post} />}
-              {commentFormOpened && postComment.map((item,index)=>(
-                <>
-                    <Comment
-                      author={item.user.nickname}
-                      avatar={(
-                        // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
-                          <a><Avatar>{item.user.nickname}</Avatar></a>
-                        // </Link>
-                      )}  
-                      content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
-                        
-                    />
-                    { item.user.id === userInfo.id
-                      ?(
-                      <>
-                        <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
-                        <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
-                      </>
-                    ):<>회원만 수정가능</>}
-                </>                  
-              ))}
+              
+              
               </div>
             </div>
           </div>

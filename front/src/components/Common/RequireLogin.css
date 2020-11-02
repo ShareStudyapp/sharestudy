@@ -1,0 +1,14 @@
+a{
+    text-decoration: none;
+}
+.Login_area{
+    margin-left:25%;
+    margin-top:30%;
+}
+.Login_area > a > button{
+    background-color: #6A3DE6;
+    color:white;
+    width:328px;
+    height:54px;
+    border-color:#6A3DE6;
+}

@@ -4,8 +4,7 @@ import {useSelector,useDispatch } from 'react-redux';
 import './App.css';
 import 'antd/dist/antd.css';
 import Home from './pages/Home';
-import MainNav from './components/MainNav';
-import MainLogo from './components/MainLogo';
+
 import {RingLoader} from 'react-spinners';
 import { css } from "@emotion/core";
 import { USER_INFO_REQUEST } from './reducers/user';
@@ -18,12 +17,12 @@ const override = css`
 // const Home = lazy(()=>import('./pages/Home'));
 const Signin = lazy(()=>import('./components/LoginForm'));
 const Signup = lazy(()=>import('./pages/Signup'));
-const DetailFeed = lazy(()=>import('./pages/Feed/DetailFeed'));
+const DetailFeed = lazy(()=>import('./components/Feed/DetailFeed'));
 const WriteFeed = lazy(()=>import('./pages/Feed/WriteFeed'));
 const Products = lazy(()=>import('./pages/Products'));
 const Profile = lazy(()=>import('./pages/Profile/Profile'));
-const TodoList = lazy(()=>import('./pages/TodoList/TodoList'));
 const MyTodoList = lazy(()=>import('./pages/TodoList/MyTodoList'));
+const MyList = lazy(()=>import('./pages/MyList/MyList'));
 const Messenger = lazy(()=>import('./pages/Messenger'));
 
 
@@ -47,7 +46,6 @@ function App({history}) {
   return (
     <div className="main_container">
     <Router>
-      <MainLogo />
       <Suspense fallback={<RingLoader css={override} size={150} color="green" loading style={{width:100}} />}>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -57,13 +55,13 @@ function App({history}) {
           <Route path="/writefeed" component={WriteFeed} />
           <Route path="/products" component={Products} />
           <Route path="/profile" component={Profile} />
-          <Route path="/todolist" component={TodoList} />
+          {/* <Route path="/todolist" component={TodoList} /> */}
           <Route path="/mytodolist" component={MyTodoList} />
+          <Route path="/mylist" component={MyList} />
           <Route path="/messenger" component={Messenger} />
         </Switch>
       </Suspense>
       {/* {me || user?<MainNav />:""} */}
-      <MainNav />
     </Router>
     </div>
   );

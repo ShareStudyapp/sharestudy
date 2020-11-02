@@ -1,9 +1,9 @@
 import React,{useCallback} from 'react'
 import {Link} from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
-import { logoutRequestAction } from '../reducers/user';
-import home_inactive from '../assets/MainNav/home_inactive.png';
-import todofeed_inactive from '../assets/MainNav/todofeed_inactive.png';
+import { logoutRequestAction } from '../../reducers/user';
+import home_inactive from '../../assets/MainNav/home_inactive.png';
+import todofeed_inactive from '../../assets/MainNav/todofeed_inactive.png';
 import './MainNav.css';
 
 function MainNav({history}) {
@@ -32,8 +32,9 @@ function MainNav({history}) {
                     <Link to="/profile">내 프로필</Link>
                 </>
                 :('')}
-                <Link to="/todolist">목표설정</Link> 
+                {/* <Link to="/todolist">목표설정</Link>  */}
                 <Link to="/mytodolist"><img src={todofeed_inactive} className="foot_bar_img" /></Link>
+                <Link to="/mylist">마이</Link>
                 <Link to="/messenger">메신저</Link>
             </div>  
         </div>

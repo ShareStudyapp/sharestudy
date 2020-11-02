@@ -21,7 +21,10 @@ import {
   FOLLOW_FAILURE,
   FOLLOW_CANCLE_REQUEST,
   FOLLOW_CANCLE_SUCCESS,
-  FOLLOW_CANCLE_FAILURE
+  FOLLOW_CANCLE_FAILURE,
+  FOLLOWER_LIST_REQUEST,
+  FOLLOWER_LIST_SUCCESS,
+  FOLLOWER_LIST_FAILURE
 } from '../reducers/user';
 
 
@@ -131,7 +134,7 @@ function* uploadProfileImages(action) {
 function followAPI(id){
   return axios.post(`/user/following/${id}`);
 }
-function * follow(action){
+function* follow(action){
   try{
     const result = yield call(followAPI, action.data);
     yield put({
@@ -148,7 +151,7 @@ function * follow(action){
 function followCancleAPI(id){
   return axios.delete(`/user/following/${id}`);
 }
-function * followCancle(action){
+function* followCancle(action){
   try{
     const result = yield call(followCancleAPI, action.data);
     yield put({
@@ -158,6 +161,23 @@ function * followCancle(action){
   }catch(err){
     yield put({
       type: FOLLOW_CANCLE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function followerListAPI(id){
+  return axios.get('/user/followlist');
+}
+function* followerList(action){
+  try{
+    const result = yield call(followerListAPI, action.data);
+    yield put({
+      type: FOLLOWER_LIST_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: FOLLOWER_LIST_FAILURE,
       error: err.response.data,
     });
   }
@@ -183,6 +203,9 @@ function* watchFollow(){
 function* watchFollowCancle(){
   yield takeLatest(FOLLOW_CANCLE_REQUEST, followCancle);
 }
+function* watchFollowerList(){
+  yield takeLatest(FOLLOWER_LIST_REQUEST, followerList);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -192,5 +215,6 @@ export default function* userSaga() {
     fork(watchProfileUploadImages),
     fork(watchFollow),
     fork(watchFollowCancle),
+    fork(watchFollowerList),
   ]); 
 }

@@ -140,7 +140,7 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case LOAD_POSTS_DETAIL_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        draft.mainPosts = action.data;
+        draft.postComment = action.data;
         break;
       case LOAD_POSTS_DETAIL_FAILURE:
         draft.loadPostsLoading = false;

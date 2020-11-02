@@ -4,12 +4,23 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { loginRequestAction } from '../reducers/user';
-import backgroundImg from '../assets/images/login_background.png';
+import Main_Logo from '../assets/images/logo.png';
 import './LoginForm.css'
 
 
 const ButtonWrapper = styled.div`
-  margin-top: 10px;
+  margin-top: 5%;
+  margin-left:8%;
+  button {
+    width:279px;
+    background-color:#B0B0B0;
+    border-color:#B0B0B0;
+    &:hover {
+      background-color: #B0B0B0;
+      border-color:#B0B0B0;
+      color: black;
+    }
+  }
 `;
 
 const FormWrapper = styled(Form)`
@@ -37,27 +48,32 @@ const LoginForm = ({history}) => {
   
   return (
     <div className="login_container">
-    <FormWrapper onFinish={onSubmitForm}>
-      <div>
-        <label htmlFor="user-userid">이메일</label>
-        <br />
-        <Input name="user-userid" type="user-userid" value={userid} onChange={onChangeUserid} required />
-      </div>
-      <div>
-        <label htmlFor="user-password">비밀번호</label>
-        <br />
-        <Input
-          name="user-password"
-          type="password"
-          value={password}
-          onChange={onChangePassword}
-          required
-        />
-      </div>
-      <ButtonWrapper> 
-        <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
-      </ButtonWrapper>
-    </FormWrapper>
+        <FormWrapper onFinish={onSubmitForm}>
+          <div className="logo_area">
+            <img src={Main_Logo} />
+          </div>
+          <div className="login_area">
+            <div className="userid_area">
+              <Input name="user-userid" type="user-userid" value={userid} onChange={onChangeUserid} required />
+            </div>
+            <div className="password_area">
+            <Input
+              name="user-password"
+              type="password"
+              value={password}
+              onChange={onChangePassword}
+              required
+            />
+            </div>
+          </div>
+          <ButtonWrapper> 
+            <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
+          </ButtonWrapper>
+          <div className="find_area">
+            <div className="find_id">아이디 찾기</div>
+            <div className="find_password">비밀번호 찾기</div>
+          </div>
+        </FormWrapper>
     </div>
   );
 };

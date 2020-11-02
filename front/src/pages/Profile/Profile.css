@@ -68,7 +68,7 @@ li {
 }
 
 .stats {
-    display: flex;
+    float:left;
     font-size: 14px;
 }
 

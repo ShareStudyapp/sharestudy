@@ -3,6 +3,8 @@ import './Profile.css';
 import { useSelector, useDispatch } from 'react-redux';
 import defaultImage from '../../assets/images/user_default.png';
 import ProfileImage from '../../components/SignUp/ProfileImage';
+import MainLogo from '../../components/Common/MainLogo';
+import MainNav from '../../components/Common/MainNav';
 
 function Profile() {
     const {userInfo} = useSelector((state) => state.userReducer);
@@ -18,6 +20,7 @@ function Profile() {
     
     return (
         <>
+        <MainLogo />
         <div className="container">
             <header>
                 <section className="profile">
@@ -64,6 +67,7 @@ function Profile() {
                     </div>  
             </div>
         </div>
+        <MainNav />
         </>
     )
 }

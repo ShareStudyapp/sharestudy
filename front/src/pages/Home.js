@@ -10,6 +10,8 @@ import ButtonWrite from '../assets/Button/button_write.png';
 import './Home.css';
 import {Link} from 'react-router-dom';
 
+import MainLogo from '../components/Common/MainLogo';
+import MainNav from '../components/Common/MainNav';
 
 function Home({history}) {
   
@@ -23,6 +25,7 @@ function Home({history}) {
     return (
       <>
       <div>
+        <MainLogo />
       <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>
       {/* { user? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />}  */}
       {/* {user?<Feeds />: <LoginForm />} */}
@@ -34,7 +37,7 @@ function Home({history}) {
           cookiePolicy={'single_host_origin'}
         />} */}
 
-      
+        <MainNav />
       </div>
         
       </>

@@ -7,10 +7,13 @@
 
 }
 .profile_info_area{
-    display:flex;
+    
+}
+.profile_text_area{
+    
 }
 .user_profile_image{
-    display: inline-block;
+    float:left;
     width: 100px;
     height: 100px;
     border-radius: 50%;
