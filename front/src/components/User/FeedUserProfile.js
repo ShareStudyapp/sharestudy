@@ -35,7 +35,7 @@ function FeedUserProfile() {
                         <ul className="profile_follow_area">
                             <li>
                             <button>
-                                    프로필편집    
+                                    프로필편집     
                             </button>
                             </li>
                             <li>
