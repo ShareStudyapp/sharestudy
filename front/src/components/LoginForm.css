@@ -7,28 +7,29 @@
 }
 .logo_area{
     position: relative;
-    margin-left: 11%;
+    text-align: center;
     padding-top:23%;
 }
 .logo_area > img{
     width:252px;
 }
 .login_area{
-    margin-top: 30%;
+    position:relative;
+    text-align:center;
+    margin-top: 23%;
 }
 .userid_area{
     width:279px;
-    margin-left:8%;
+    margin:0 auto;
 }
 .password_area{
     width:279px;
-    margin-left:8%;
-    margin-top: 5%;
+    margin: 5% auto 0;
 }
 .find_area{
     display:flex;
     margin-top: 5%;
-    margin-left: 32%;
+    justify-content:center;
 }
 .find_password{
     margin-left:5%;

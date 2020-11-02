@@ -10,7 +10,7 @@ import './LoginForm.css'
 
 const ButtonWrapper = styled.div`
   margin-top: 5%;
-  margin-left:8%;
+  text-align: center;
   button {
     width:279px;
     background-color:#B0B0B0;
