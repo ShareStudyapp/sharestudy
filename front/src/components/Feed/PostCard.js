@@ -77,7 +77,7 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
         });
       }
 
-    }, [userInfo.id]);
+    }, []);
     const onClickReplyDelete = useCallback((id)=>{
       
       if(window.confirm("삭제 하시겠습니까?")) {
@@ -138,11 +138,11 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
       <div className="FeedContainer" key={post.id}>
         <div className="Feed_area">
             <div className="FeedUser">
-              <div className="user_zone">
+              <div className="user_zone" onClick={()=>targetUserInfo(post.user.id)}>
                 {post.userProfileImage
                 ?<img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
                 :<img className="user_image" src={userdefaultimg} alt={userdefaultimg} />}
-                <span className="user_name" onClick={()=>targetUserInfo(post.user.id)}>{post.user.nickname}</span>
+                <span className="user_name">{post.user.nickname}</span>
               </div>
             </div>
             <div className="Feed_Content"> 

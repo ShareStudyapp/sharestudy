@@ -1,19 +1,27 @@
 
 .profile_area{
+    margin:20px 0;
     background:#FFF;
 }
-.profile_follow_area{
-    display:flex;
 
-}
 .profile_info_area{
-    
+    display:flex;
+    flex:1;
 }
+.profile_follow_area{
+    display: flex;
+ }
+ .profile_follow_area > li{
+    margin: 0 10px 0 0;
+ }
+ .profile_nickname{
+     font-size:36px;
+     font-weight: bold;
+ }
 .profile_text_area{
-    
+    margin-left:25px;
 }
 .user_profile_image{
-    float:left;
     width: 100px;
     height: 100px;
     border-radius: 50%;

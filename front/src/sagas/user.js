@@ -106,7 +106,7 @@ function userInfoAPI() {
 function* userInfo() {
   try {
     const result = yield call(userInfoAPI);
-    
+    console.log(result.data)
     yield put({
       type: USER_INFO_SUCCESS,
       data: result.data,
@@ -172,7 +172,7 @@ function* followCancle(action){
   }
 }
 function followerListAPI(id){
-  return axios.get('/user/followerlist');
+  return axios.get(`/user/followerlist/${id}`);
 }
 function* followerList(action){
   try{
@@ -189,7 +189,7 @@ function* followerList(action){
   }
 }
 function followingListAPI(id){
-  return axios.get('/user/followinglist');
+  return axios.get(`/user/followinglist/${id}`);
 }
 function* followingList(action){
   try{

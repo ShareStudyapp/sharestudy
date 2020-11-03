@@ -125,7 +125,7 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.logOutDone = true;
       draft.logInDone = false;
       draft.me = null;
-      draft.userInfo = null;
+      draft.userInfo = [];
       break;
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
