@@ -14,7 +14,7 @@ import Modal from "../Utils/Modal";
 import {Link} from 'react-router-dom';
 
 
-function PostCard({post}) {
+function PostCard({post,setTargetUserId,targetUserInfo}) {
     
     const dispatch = useDispatch();
     const { removePostLoading} = useSelector((state) => state.postReducer);
@@ -39,7 +39,6 @@ function PostCard({post}) {
       setEditMode(false);
     }, []);
     const onClickReplyUpdate = useCallback((replyid) => {
-      console.log(replyid);
       setReplytmp(replyid);
       setReplyeditMode(true);
     }, []);
@@ -66,31 +65,12 @@ function PostCard({post}) {
         },
       });
     }, []);
-    let clickdupl = true;
-    const onToggleComment = useCallback((postid) => {
-      console.log(postid)
-      //setCommentFormOpened((prev) => !prev);
-      setCommentFormOpened(!commentFormOpened);
-      // dispatch({
-      //   type: LOAD_POSTS_COMMENT_REQUEST,
-      //   data: {
-      //     id: postid,
-      //   },
-      // });
-      // if(clickdupl){
-       
-      //   clickdupl = !clickdupl;
-      // }else{
-      //   console.log('중복됨')
-      // }
-      
-    }, [commentFormOpened]);
+  
     const onRemovePost = useCallback(() => {
       if (!userInfo.id) {
         return alert('로그인이 필요합니다.');
       }
       if(window.confirm("삭제 하시겠습니까?")) {
-        console.log(post.id)
         return dispatch({
           type: REMOVE_POST_REQUEST,
           data: post.id,
@@ -147,13 +127,13 @@ function PostCard({post}) {
         alert('로그인을 해주세요')
       }
        
-    },[])
+    },[modalOpen])
     const testClick = useCallback(()=>{
       setModalOpen(true);
 
     },[])
+    
     const liked = post.feedlike.find((v) =>v.userkey===userInfo.id);
-   
     return(
       <div className="FeedContainer" key={post.id}>
         <div className="Feed_area">
@@ -162,8 +142,7 @@ function PostCard({post}) {
                 {post.userProfileImage
                 ?<img className="user_image" src={post.userProfileImage.src} alt={post.userProfileImage.src} />
                 :<img className="user_image" src={userdefaultimg} alt={userdefaultimg} />}
-                
-                <span className="user_name">{post.user.nickname}</span>
+                <span className="user_name" onClick={()=>targetUserInfo(post.user.id)}>{post.user.nickname}</span>
               </div>
             </div>
             <div className="Feed_Content"> 
@@ -187,21 +166,16 @@ function PostCard({post}) {
                 {/* <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} /> */}
                 <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none' }}><FaRegCommentAlt className="bar-icon"  /></Link>
                 <div className="bar-item comment">{post.feedreplysize}</div>
-              </div>
-                    { post.user.id === userInfo.id
-                    ? (
-                      <>
-                        <Button onClick={onClickUpdate}>수정</Button>
-                        <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
-                      </>
-                    )
-                    : <Button onClick={testClick}>신고</Button>}
-              <div>
-                
-              </div>
-              <div>
-              
-              
+                </div>
+                      { post.user.id === userInfo.id
+                      ? (
+                        <>
+                          <Button onClick={onClickUpdate}>수정</Button>
+                          <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
+                        </>
+                      )
+                      : <Button onClick={testClick}>신고</Button>}
+                <div>
               </div>
             </div>
           </div>

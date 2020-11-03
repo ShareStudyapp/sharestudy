@@ -11,7 +11,9 @@ export const initialState = {
     signUpError: null,
     me: null, // 로그인 토큰 정보
     userInfo: [], // 나의 정보
+    otheruserInfo:[],//다른사람 정보
     followerList:[],//팔로워리스트
+    followingList:[],//팔로잉리스트
     profileimagePaths: 'undefiend',
     userinfoLoading:false, //내정보로딩
     userinfoDone:false,//내정보로딩완료
@@ -20,6 +22,12 @@ export const initialState = {
     followInError:'',//팔로우실패이유
     followDone:false,//팔로우완료
     followInfo:[],//팔로우당하는사람정보
+    followerLoading:false,//팔로워리스트로딩
+    followerDone:false,//팔로워리스트완료
+    followerInError:'',//팔로워리스트에러
+    followingLoading:false,//팔로잉리스트로딩
+    followingDone:false,//팔로잉리스트완료
+    followingInError:'',//팔로잉리스트에러
     uploadProfileImagesLoading: false,
     uploadProfileImagesDone: false,
     uploadProfileImagesError: null,
@@ -53,10 +61,18 @@ export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
 export const FOLLOW_CANCLE_REQUEST = 'FOLLOW_CANCLE_REQUEST';
 export const FOLLOW_CANCLE_SUCCESS = 'FOLLOW_CANCLE_SUCCESS';
 export const FOLLOW_CANCLE_FAILURE = 'FOLLOW_CANCLE_FAILURE';
-
-export const FOLLOWER_LIST_REQUEST = 'FOLLOWER_LIST_REQUEST'
-export const FOLLOWER_LIST_SUCCESS = 'FOLLOWER_LIST_SUCCESS'
-export const FOLLOWER_LIST_FAILURE = 'FOLLOWER_LIST_FAILURE'
+//팔로워 리스트
+export const FOLLOWER_LIST_REQUEST = 'FOLLOWER_LIST_REQUEST';
+export const FOLLOWER_LIST_SUCCESS = 'FOLLOWER_LIST_SUCCESS';
+export const FOLLOWER_LIST_FAILURE = 'FOLLOWER_LIST_FAILURE';
+//팔로잉 리스트
+export const FOLLOWING_LIST_REQUEST = 'FOLLOWING_LIST_REQUEST';
+export const FOLLOWING_LIST_SUCCESS = 'FOLLOWING_LIST_SUCCESS';
+export const FOLLOWING_LIST_FAILURE = 'FOLLOWING_LIST_FAILURE';
+//다른사람 유저정보
+export const OTHER_USER_INFO_REQUEST = 'OTHER_USER_INFO_REQUEST';
+export const OTHER_USER_INFO_SUCCESS = 'OTHER_USER_INFO_SUCCESS';
+export const OTHER_USER_INFO_FAILURE = 'OTHER_USER_INFO_FAILURE';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -107,8 +123,9 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case LOG_OUT_SUCCESS:
       draft.logOutLoading = false;
       draft.logOutDone = true;
+      draft.logInDone = false;
       draft.me = null;
-      draft.userInfo = [];
+      draft.userInfo = null;
       break;
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
@@ -174,11 +191,48 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.followInError = action.error;
       break;
     case FOLLOWER_LIST_REQUEST:
+      draft.followerDone = false;
+      draft.followerLoading = true;
       break;
     case FOLLOWER_LIST_SUCCESS:
-      draft.followerList = action.data
+      draft.followerLoading = false;
+      draft.followerDone = true;
+      draft.followerList = action.data;
+      // draft.followInfo = action.data.map((item)=>item.fromUser);
       break;
     case FOLLOWER_LIST_FAILURE:
+      draft.followerInError = action.error;
+      draft.followerLoading = false;
+      draft.followerDone = true;
+      break;
+    case FOLLOWING_LIST_REQUEST:
+      draft.followingLoading = true;
+      draft.followingDone = false;
+      break;
+    case FOLLOWING_LIST_SUCCESS:
+      draft.followingLoading = false;
+      draft.followingDone = true;
+      draft.followingList = action.data;
+      // draft.followInfo = action.data.map((item)=>item.toUser);
+      break;
+    case FOLLOWING_LIST_FAILURE:
+      draft.followingLoading = false;
+      draft.followingDone = true;
+      draft.followingInError = action.error;
+      break;
+    case OTHER_USER_INFO_REQUEST:
+      draft.userinfoLoading=true;
+      draft.userinfoDone=false;
+      break;
+    case OTHER_USER_INFO_SUCCESS:
+      draft.userinfoDone=true;
+      draft.userinfoLoading=false;
+      draft.otheruserInfo=action.data;
+      break;
+    case OTHER_USER_INFO_FAILURE:
+      draft.userinfoDone=true;
+      draft.userinfoLoading=false;
+      draft.userinfoError = action.error.response.data;
       break;
     default:
       break;

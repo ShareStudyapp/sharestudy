@@ -4,11 +4,12 @@ import { useSelector,useDispatch } from 'react-redux';
 import {FOLLOW_REQUEST,FOLLOW_CANCLE_REQUEST} from '../../reducers/user';
 
 function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
-  
     const { likeList } = useSelector((state) => state.postReducer);
+    const { followingList } = useSelector((state) => state.userReducer);
     const { followInfo } = useSelector((state) => state.userReducer);
     const { followerList } = useSelector((state) => state.userReducer);
     const [buttonloading,setButtonloading] = useState(false);
+    console.log(followInfo)
     const dispatch = useDispatch();
     let renderlist="";
     const follow = useCallback((id) => {
@@ -53,8 +54,8 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
                             <div className="user_nickname_area">{item.user.nickname}</div>
                             <div className="follow_btn_area">
                               {userInfo.id?
-                                item.user.id!==userInfo.id?item.tempFollow 
-                                || followInfo.find(e=>e.userkey===item.user.id)?
+                                item.user.id!==userInfo.id?
+                                item.tempFollow || followInfo.find(e=>e.userkey===item.user.id)?
                                     <button className="following_btn" onClick={()=>followCancle(item.user.id)} />:
                                     <button className="follow_btn" onClick={()=>follow(item.user.id)} />
                                   :""
@@ -79,6 +80,27 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
                                 item.tempFollow || followInfo.find(e=>e.userkey===item.fromUser.id)?
                                   <button className="following_btn" onClick={()=>followCancle(item.fromUser.id)} />
                                   :<button className="follow_btn" onClick={()=>follow(item.fromUser.id)} />
+                              :""}                             
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+          </div>
+          ))
+    }
+    if(modalOpenValue==='followingList'){
+      renderlist =  followingList.map((item,index)=>(
+          <div>
+              <div className="likelist_container">
+                    <ul className="likelist">
+                        <li className="first_li" key={item.id}>
+                            <div className="user_image_area"><img className="user_image" src={item.toUser.userProfileImage.src} /></div>
+                            <div className="user_nickname_area">{item.toUser.nickname}</div>
+                            <div className="follow_btn_area">
+                              {userInfo.id?
+                                followInfo.find(e=>e.id===item.toUser.id)?
+                                  <button className="following_btn" onClick={()=>followCancle(item.toUser.id)} />
+                                  :<button className="follow_btn" onClick={()=>follow(item.toUser.id)} />
                               :""}                              
                             </div>
                         </li>
@@ -86,7 +108,7 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
                 </div>
           </div>
           ))
-  }
+    }
     return (
         <>
             <div className="modalPopup_bg" onClick={()=>setModalOpen(!modalOpen)} />

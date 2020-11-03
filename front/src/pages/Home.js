@@ -16,17 +16,19 @@ import MainNav from '../components/Common/MainNav';
 function Home({history}) {
   
   const { me,userInfo,logOutDone} = useSelector((state) => state.userReducer);
-  
+  const reqUserInfo = false;//내정보인지 타인의정보인지..
   const responseGoogle = (response) => {
     window.sessionStorage.setItem('google_information',JSON.stringify(response));
     //history.push('/signup');
   }
- 
     return (
       <>
       <div>
         <MainLogo />
-      <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>
+        
+        <>
+          <Feeds reqUserInfo={reqUserInfo}/><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link>
+        </>
       {/* { user? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />}  */}
       {/* {user?<Feeds />: <LoginForm />} */}
       {/* { login?"":<GoogleLogin

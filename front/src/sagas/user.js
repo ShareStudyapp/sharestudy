@@ -24,7 +24,13 @@ import {
   FOLLOW_CANCLE_FAILURE,
   FOLLOWER_LIST_REQUEST,
   FOLLOWER_LIST_SUCCESS,
-  FOLLOWER_LIST_FAILURE
+  FOLLOWER_LIST_FAILURE,
+  FOLLOWING_LIST_REQUEST,
+  FOLLOWING_LIST_SUCCESS,
+  FOLLOWING_LIST_FAILURE,
+  OTHER_USER_INFO_REQUEST,
+  OTHER_USER_INFO_SUCCESS,
+  OTHER_USER_INFO_FAILURE
 } from '../reducers/user';
 
 
@@ -166,7 +172,7 @@ function* followCancle(action){
   }
 }
 function followerListAPI(id){
-  return axios.get('/user/followlist');
+  return axios.get('/user/followerlist');
 }
 function* followerList(action){
   try{
@@ -178,6 +184,41 @@ function* followerList(action){
   }catch(err){
     yield put({
       type: FOLLOWER_LIST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function followingListAPI(id){
+  return axios.get('/user/followinglist');
+}
+function* followingList(action){
+  try{
+    const result = yield call(followingListAPI, action.data);
+    yield put({
+      type: FOLLOWING_LIST_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: FOLLOWING_LIST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function otherUserInfoAPI(id){
+  console.log(id)
+  return axios.get(`/user/otheruserInfo/${id}`);
+}
+function* otherUserInfo(action){
+  try{
+    const result = yield call(otherUserInfoAPI, action.data);
+    yield put({
+      type: OTHER_USER_INFO_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: OTHER_USER_INFO_FAILURE,
       error: err.response.data,
     });
   }
@@ -206,6 +247,12 @@ function* watchFollowCancle(){
 function* watchFollowerList(){
   yield takeLatest(FOLLOWER_LIST_REQUEST, followerList);
 }
+function* watchFollowingList(){
+  yield takeLatest(FOLLOWING_LIST_REQUEST, followingList);
+}
+function* watchOtherUserInfo(){
+  yield takeLatest(OTHER_USER_INFO_REQUEST, otherUserInfo);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -216,5 +263,7 @@ export default function* userSaga() {
     fork(watchFollow),
     fork(watchFollowCancle),
     fork(watchFollowerList),
+    fork(watchFollowingList),
+    fork(watchOtherUserInfo)
   ]); 
 }

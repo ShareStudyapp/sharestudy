@@ -1,5 +1,6 @@
-import React, { useEffect} from 'react'
+import React, { useEffect,useState,useCallback} from 'react'
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
+import { OTHER_USER_INFO_REQUEST } from '../../reducers/user';
 import { useSelector, useDispatch } from 'react-redux';
 import PostCard from './PostCard';
 import { css } from "@emotion/core";
@@ -12,26 +13,33 @@ const override = css`
   border-color: red;
 `;
 
-function Feeds() {
+function Feeds({reqUserInfo}) {
     const dispatch = useDispatch();
     const user = window.sessionStorage.getItem('user')//로그인여부
+    const { mainPosts } = useSelector((state) => state.postReducer);
+    const { loadPostsDone } = useSelector((state) => state.postReducer);
+    const [targetUserId,setTargetUserId] = useState(null)
     useEffect(() => {
       dispatch({
         type: LOAD_POSTS_REQUEST
       });
       
     }, []);
-    const { mainPosts } = useSelector((state) => state.postReducer);
-    const { loadPostsDone } = useSelector((state) => state.postReducer);
+    const targetUserInfo = useCallback((userId)=>{
+      dispatch({
+          type: OTHER_USER_INFO_REQUEST,
+          data: userId
+        });
+    },[])
     
     return (
       <div>
       <div style={{backgroundColor:'#E8E8E8'}}>
-        {loadPostsDone&&user?<FeedUserProfile />  :""}
+        {loadPostsDone?<FeedUserProfile reqUserInfo={reqUserInfo} />  :""}
         <Divider />
         {loadPostsDone
           ?mainPosts.map((c) => (
-          <PostCard key={c.id} post={c} />
+          <PostCard key={c.id} post={c} setTargetUserId={setTargetUserId} targetUserInfo={targetUserInfo} />
           ))
           :<SyncLoader css={override} size={20} color="green" loading style={{width:50}} /> }        
       </div>
