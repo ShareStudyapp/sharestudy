@@ -2,15 +2,14 @@ import React,{useState} from 'react'
 import Select from 'react-select'
 
 import chroma from 'chroma-js';
-import {colourOptions} from './color';
 import './AddSubject.css';
 
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
-function AddSubject() {
+function AddSubject({today,colourOptions}) {
 
     const [subject,setSubject] = useState('');
-    const [subjectColor,setSubjectColor] = useState(colourOptions[2].color);
+    const [subjectColor,setSubjectColor] = useState(colourOptions[1].color);
     const [subjectList,setSubjectList] = useState([]);
     const [todoSubject,setTodoSubject] = useState('');
     const [todoColor,setTodoColor] = useState('') 
@@ -99,10 +98,12 @@ function AddSubject() {
     
     const addTodo = () =>{
 
-        if(todoSubject === ''){
-            alert('과목을 먼저 선택해주세요');
-            return;
-        }
+        // if(todoSubject === ''){
+        //     alert('과목을 먼저 선택해주세요');
+        //     return;
+        // }
+        
+        console.log(today.replace('.','-'))
         console.log(todoColor)
         console.log(todoSubject)
         console.log(todo)
@@ -110,11 +111,12 @@ function AddSubject() {
         todolist.todoColor = todoColor;
         todolist.todoSubject = todoSubject;
         todolist.todo = todo;
+        todolist.today = today;
         setTodolists([todolist,...todolists]);
         setTodo('');
     }
     console.log(todolists)
-    const todos = todolists.map(todo => <li className="tt" style={{ color: todo.todoColor }}>{todo.todo}</li>);
+    const todos = todolists.map(todo => <li className="tt">{todo.todo}</li>);
     return (
         <div className="addsubject_container">
             과목 추가하기 <br />
@@ -129,7 +131,7 @@ function AddSubject() {
                     />
                 </div>
                 <div>
-                    <input name="subject" value={subject} onChange={(e)=>setSubject(e.target.value)} style={{ color: subjectColor }} />
+                    <input name="subject" value={subject} onChange={(e)=>setSubject(e.target.value)}  />
                 </div>
                 <button onClick={addSubject}>과목추가</button>
             </div>
@@ -150,7 +152,7 @@ function AddSubject() {
                         className="todo_input" 
                         value={todo} 
                         onChange={(e)=>setTodo(e.target.value)} 
-                        style={{ color: subjectColor }} 
+                        style={{ color:'black',fontWeight:'bold' }} 
                         placeholder="할 수 있는 투두를 적는게 좋아요" 
                         />
                 </div>

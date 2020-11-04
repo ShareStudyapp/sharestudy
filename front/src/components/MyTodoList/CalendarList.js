@@ -5,7 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './CalendarList.css';
 
-function CalendarList() {
+function CalendarList({today,setToday,date,setDate,week}) {
     const todayDate = new Date();   
     const year = todayDate.getFullYear(); // 년도
     const month = todayDate.getMonth() + 1;  // 월
@@ -18,17 +18,19 @@ function CalendarList() {
         daysOfYear.push(d.getDate());
     }
 
-    const week = new Array('일요일','월요일','화요일','수요일','목요일','금요일','토요일');
-    const [date,setDate] = useState(new Date())
+    // const week = new Array('일요일','월요일','화요일','수요일','목요일','금요일','토요일');
+    // const [date,setDate] = useState(new Date())
     
-    const [today,setToday] = useState(date.getFullYear()+"."+(date.getMonth()+1)+"."+date.getDate()+" "+week[date.getDay()]);
+    // const [today,setToday] = useState(date.getFullYear()+"."+(date.getMonth()+1)+"."+date.getDate()+" "+week[date.getDay()]);
     
     const matchtoday = date.getDate()
     const [stripdate, setStripdate] = useState(daysOfYear);
     const [displayCalendar,serDispalyCalendar] = useState(false);
     const onChange = (date) => {
+        
         setDate(date)
         const selectDate =date.getFullYear()+"."+(date.getMonth()+1)+"."+date.getDate()+" "+week[date.getDay()];
+    
         setToday(selectDate);
  
         caculateStripdate(date)

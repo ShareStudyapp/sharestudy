@@ -5,7 +5,7 @@ import './App.css';
 import 'antd/dist/antd.css';
 import Home from './pages/Home';
 
-import {RingLoader} from 'react-spinners';
+import {SyncLoader} from 'react-spinners';
 import { css } from "@emotion/core";
 import { USER_INFO_REQUEST } from './reducers/user';
 const override = css`
@@ -46,7 +46,7 @@ function App({history}) {
   return (
     <div className="main_container">
     <Router>
-      <Suspense fallback={<RingLoader css={override} size={150} color="green" loading style={{width:100}} />}>
+      <Suspense fallback={<SyncLoader css={override} size={20} color="green" loading style={{width:50}} />}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/feeddetail/:id" component={DetailFeed} />

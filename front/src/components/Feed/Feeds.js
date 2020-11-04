@@ -6,11 +6,9 @@ import PostCard from './PostCard';
 import { css } from "@emotion/core";
 import {SyncLoader} from 'react-spinners';
 import FeedUserProfile from '../User/FeedUserProfile';
-import Divider from '@material-ui/core/Divider';
+
 const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
+  padding:0 auto;
 `;
 
 function Feeds({reqUserInfo}) {
@@ -18,7 +16,8 @@ function Feeds({reqUserInfo}) {
     const user = window.sessionStorage.getItem('user')//로그인여부
     const { mainPosts } = useSelector((state) => state.postReducer);
     const { loadPostsDone } = useSelector((state) => state.postReducer);
-    const [targetUserId,setTargetUserId] = useState(null)
+    const [targetUserId,setTargetUserId] = useState(null);
+    const [openUserInfo,setOpenUserInfo] = useState(false);
     useEffect(() => {
       dispatch({
         type: LOAD_POSTS_REQUEST
@@ -26,17 +25,21 @@ function Feeds({reqUserInfo}) {
       
     }, []);
     const targetUserInfo = useCallback((userId)=>{
+      setOpenUserInfo(true)
       dispatch({
           type: OTHER_USER_INFO_REQUEST,
           data: userId
         });
-    },[])
+    },[openUserInfo])
     
     return (
       <div>
       <div style={{backgroundColor:'#E8E8E8'}}>
-        {loadPostsDone?<FeedUserProfile reqUserInfo={reqUserInfo} />  :""}
-        <Divider />
+        {loadPostsDone?
+        <>
+        <FeedUserProfile reqUserInfo={reqUserInfo} openUserInfo={openUserInfo} />
+        </>  :""}
+        
         {loadPostsDone
           ?mainPosts.map((c) => (
           <PostCard key={c.id} post={c} setTargetUserId={setTargetUserId} targetUserInfo={targetUserInfo} />

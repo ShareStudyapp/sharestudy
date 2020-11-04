@@ -3,8 +3,14 @@ import './FeedUserProfile.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from "../Utils/Modal";
 import {FOLLOWER_LIST_REQUEST,FOLLOWING_LIST_REQUEST} from '../../reducers/user';
+import {Link} from 'react-router-dom';
+import Divider from '@material-ui/core/Divider';
+//import three_feature from '../../assets/Button/three_feature.png';
+import threefeature from '../../assets/Button/threefeature.png';
+import { logoutRequestAction } from '../../reducers/user';
 
-function FeedUserProfile({reqUserInfo}) {
+function FeedUserProfile({reqUserInfo,openUserInfo}) {
+    //reqUserInfo는 마이페이지에 자신프로필인지 타인인지 구별해주는역할
     const dispatch = useDispatch();
     const {userInfo} = useSelector((state) => state.userReducer);
     const {otheruserInfo} = useSelector((state) => state.userReducer);
@@ -13,30 +19,20 @@ function FeedUserProfile({reqUserInfo}) {
     const openFollowerModal = useCallback((id)=>{
         setModalOpenValue("followerList")
         setModalOpen(!modalOpen);
-        // if(userInfo.id){
-        //   dispatch({
-        //     type: FOLLOWER_LIST_REQUEST,
-        //     data: id,
-        //   });
-        // }else{
-        //   alert('로그인을 해주세요')
-        // }
+        
         dispatch({
             type: FOLLOWER_LIST_REQUEST,
             data: id,
           });
       },[modalOpen,modalOpenValue])
+    const onLogOut = useCallback(() => {        
+        const token = window.sessionStorage.getItem('user')    
+        dispatch(logoutRequestAction(token));    
+    }, []);
     const openFollowingModal = useCallback((id)=>{
         setModalOpenValue("followingList")
         setModalOpen(!modalOpen);
-        // if(userInfo.id){
-        //     dispatch({
-        //     type: FOLLOWING_LIST_REQUEST,
-        //     data: id,
-        //     });
-        // }else{
-        //     alert('로그인을 해주세요')
-        // }
+       
         dispatch({
             type: FOLLOWING_LIST_REQUEST,
             data: id,
@@ -57,7 +53,7 @@ function FeedUserProfile({reqUserInfo}) {
                         <ul className="profile_follow_area">
                             <li>
                             <button>
-                                    프로필편집     
+                                <Link to="/profile">프로필편집</Link>
                             </button>
                             </li>
                             <li onClick={() => openFollowingModal(userInfo.id)}>
@@ -68,6 +64,10 @@ function FeedUserProfile({reqUserInfo}) {
                                 Follower 
                                 {userInfo.followerlistsize}
                             </li>
+                            <li>
+                                <img src={threefeature} />
+                                <a href="#" onClick={onLogOut}>로그아웃</a>
+                            </li>
                         </ul>
                         {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                         <div>
@@ -76,7 +76,7 @@ function FeedUserProfile({reqUserInfo}) {
                     </div>
                 </div>
             </div>:
-            <div>
+            openUserInfo?<div>
                 <div className="profile_info_area">
                     <img className="user_profile_image" src={otheruserInfo.profileImage}/>
                     <div className="profile_text_area">
@@ -99,9 +99,9 @@ function FeedUserProfile({reqUserInfo}) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>:''
             }
-            
+            <Divider />
       </div>
     )
 }

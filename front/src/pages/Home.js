@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useState} from 'react'
 import Feeds from '../components/Feed/Feeds'
 import LoginForm from '../components/LoginForm'
 import PostForm from '../components/Feed/PostForm';
