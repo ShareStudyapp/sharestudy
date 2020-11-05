@@ -6,6 +6,8 @@ import './AddSubject.css';
 
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
+
+import axios from 'axios';
 function AddSubject({today,colourOptions}) {
 
     const [subject,setSubject] = useState('');
@@ -85,6 +87,7 @@ function AddSubject({today,colourOptions}) {
         setSubjectColor(e.color);
     }
     const onChangeSubjectValue = (e) =>{
+        
         setTodoColor(e.value);//value를 쓴이유는 react-select 밸류값으로 컬러가 들어간다
         setTodoSubject(e.label);//라벨값이 디스플레이 값이다.
     }
@@ -94,6 +97,7 @@ function AddSubject({today,colourOptions}) {
         subjectobj.value=subjectColor;
         setSubjectList([subjectobj,...subjectList]);
         setSubject('');
+
     }
     
     const addTodo = () =>{
@@ -107,13 +111,19 @@ function AddSubject({today,colourOptions}) {
         console.log(todoColor)
         console.log(todoSubject)
         console.log(todo)
-        const todolist = {};
-        todolist.todoColor = todoColor;
-        todolist.todoSubject = todoSubject;
-        todolist.todo = todo;
-        todolist.today = today;
-        setTodolists([todolist,...todolists]);
+        const TodoListReq = {};
+        TodoListReq.color = todoColor;
+        TodoListReq.name = todoSubject;
+        TodoListReq.todoContent = todo;
+        TodoListReq.savedDate = today;
+        setTodolists([TodoListReq,...todolists]);
+        axios.post('/user/todo',TodoListReq)
+            .then(function(res){
+                console.log(res);
+            })
         setTodo('');
+
+
     }
     console.log(todolists)
     const todos = todolists.map(todo => <li className="tt">{todo.todo}</li>);
