@@ -3,13 +3,13 @@ import Select from 'react-select'
 
 import chroma from 'chroma-js';
 import './AddSubject.css';
-
+import { useDispatch } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
-
+import { ADD_PLAN_REQUEST,LOAD_PLAN_REQUEST } from '../../reducers/todolist';
 import axios from 'axios';
 function AddSubject({today,colourOptions}) {
-
+    const dispatch = useDispatch();
     const [subject,setSubject] = useState('');
     const [subjectColor,setSubjectColor] = useState(colourOptions[1].color);
     const [subjectList,setSubjectList] = useState([]);
@@ -106,23 +106,22 @@ function AddSubject({today,colourOptions}) {
         //     alert('과목을 먼저 선택해주세요');
         //     return;
         // }
-        
-        console.log(today.replace('.','-'))
-        console.log(todoColor)
-        console.log(todoSubject)
-        console.log(todo)
+    
         const TodoListReq = {};
         TodoListReq.color = todoColor;
         TodoListReq.name = todoSubject;
         TodoListReq.todoContent = todo;
         TodoListReq.savedDate = today;
-        setTodolists([TodoListReq,...todolists]);
-        axios.post('/user/todo',TodoListReq)
-            .then(function(res){
-                console.log(res);
-            })
+        // setTodolists([TodoListReq,...todolists]);
+        dispatch({
+            type: ADD_PLAN_REQUEST,
+            data: TodoListReq
+          });
         setTodo('');
-
+        // axios.post('/user/todo',TodoListReq)
+        //     .then(function(res){
+        //         console.log(res);
+        //     })
 
     }
     console.log(todolists)

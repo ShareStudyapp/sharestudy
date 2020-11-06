@@ -24,7 +24,7 @@ const Profile = lazy(()=>import('./pages/Profile/Profile'));
 const MyTodoList = lazy(()=>import('./pages/TodoList/MyTodoList'));
 const MyList = lazy(()=>import('./pages/MyList/MyList'));
 const Messenger = lazy(()=>import('./pages/Messenger'));
-
+const TodoFeed = lazy(()=>import('./pages/TodoFeed/TodoFeed'));
 
 
 function App({history}) {
@@ -59,6 +59,7 @@ function App({history}) {
           <Route path="/mytodolist" component={MyTodoList} />
           <Route path="/mylist" component={MyList} />
           <Route path="/messenger" component={Messenger} />
+          <Route path="/todofeed" component={TodoFeed} />
         </Switch>
       </Suspense>
       {/* {me || user?<MainNav />:""} */}

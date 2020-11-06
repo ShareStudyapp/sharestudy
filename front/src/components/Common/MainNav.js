@@ -25,7 +25,7 @@ function MainNav({history}) {
                 :('')} */}
                 {/* <Link to="/todolist">목표설정</Link>  */}
                 <Link to="/mytodolist"><img src={todo_inactive} className="foot_bar_img" /></Link>
-                <Link to="/"><img src={todofeed_inactive} className="foot_bar_img" /></Link>
+                <Link to="/todofeed"><img src={todofeed_inactive} className="foot_bar_img" /></Link>
                 <Link to="/mylist"><img src={my_inactive} className="foot_bar_img" /></Link>
                 {/* <Link to="/messenger">메신저</Link> */}
             </div>  

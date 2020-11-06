@@ -2,3 +2,24 @@
     width:30px;
     height:10px;
 }
+.checkbox{
+    width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 3px solid mediumslateblue;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.checkbox:hover {
+    border: 3px solid mediumslateblue;
+    color: mediumslateblue;
+}
+  
+.checkbox-checked {
+color: #000;
+background: #fff;
+}

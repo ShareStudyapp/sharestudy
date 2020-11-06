@@ -36,7 +36,7 @@ function MyTodoList() {
                 Todolist
                 <CalanderList today={today} setToday={setToday} date={date} setDate={setDate} week={week}/>
                 {colorLoading?<AddSubject today={today} colourOptions={colourOptions} />:''}
-                <TodoList />
+                <TodoList today={today}/>
             <MainNav />
         </div>
     )
