@@ -6,7 +6,7 @@ import { LOAD_PLAN_REQUEST } from '../../reducers/todolist';
 
 function Calender({defaultCalenderValue}) {
     const dispatch = useDispatch();
-     let today = new Date();   
+    let today = new Date();   
     
     const defaultValue = {
         year: today.getFullYear(),
@@ -18,13 +18,10 @@ function Calender({defaultCalenderValue}) {
         
         const CalenderDate=selectedDay.year+""+selectedDay.month+""+selectedDay.day
         const nowCalenderDate =defaultCalenderValue.year+""+defaultCalenderValue.month+""+defaultCalenderValue.day
-        console.log('onclick')
-        console.log(selectedDay)
+        
         dispatch({
             type: LOAD_PLAN_REQUEST,
-            data:{
-                    savedDate:CalenderDate,
-                }
+            data: CalenderDate
           });
     }
     return (

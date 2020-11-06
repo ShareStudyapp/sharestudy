@@ -28,9 +28,9 @@ function* addTodo(action) {
         });
     }
 }
-function loadTodosAPI(data) {
-  
-  return axios.patch('/user/todo', data);
+function loadTodosAPI(today) {
+  console.log('today',today)
+  return axios.get(`/todo/mytodolist/${today}`);
 }
 function* loadTodo(action) {
   console.log(action.data)

@@ -19,6 +19,8 @@ export const LOAD_PLAN_REQUEST = 'LOAD_PLAN_REQUEST';
 export const LOAD_PLAN_SUCCESS = 'LOAD_PLAN_SUCCESS';
 export const LOAD_PLAN_FAILURE = 'LOAD_PLAN_FAILURE';
 
+
+
 const todolistReducer = (state = initialState, action) => produce(state, (draft) => {
     
     switch (action.type) {
@@ -26,7 +28,7 @@ const todolistReducer = (state = initialState, action) => produce(state, (draft)
             draft.addPlanLoading = true;
             draft.addPlanDone = false;
             draft.addPlanError = null;
-        break;
+            break;
         case ADD_PLAN_SUCCESS:
             draft.addPlanLoading = false;
             draft.addPlanDone = true;
