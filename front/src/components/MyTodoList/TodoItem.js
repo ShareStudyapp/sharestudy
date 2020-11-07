@@ -29,12 +29,13 @@ function TodoItem({key,todo}) {
     },[])
 
     return (
-        <div>
+        <div className="todoitems">
             <div className="highlighter_area" style={{backgroundColor:todo.highlighter}} ></div>
-            <div>{todo.subject.name}</div>
-            <div style={{ textDecoration: checked ? "line-through" : "" }}>{todo.todoContent}</div>
+            <div className="todo_subject">{todo.subject.name}</div>
+            <div className="todo_content" style={{ textDecoration: checked ? "line-through" : "" }}>{todo.todoContent}</div>
             <div className="checks">
-                <input type="checkbox" checked={todo.checked} className="checkbox" onClick={()=>onCheck(todo.id)}/>
+                <input type="checkbox" id={"chk"+todo.id} checked={todo.checked} className="checkbox" onClick={()=>onCheck(todo.id)}/>
+                <label for={"chk"+todo.id} className="label"></label>
             </div>
             <div>
                 <FaTrashAlt onClick={()=>onDelete(todo.id)}/>

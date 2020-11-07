@@ -1,12 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import TodoItem from './TodoItem';
+import './TodoList.css';
 function TodoList({today}) {
     const { mainTodolist } = useSelector((state) => state.todolistReducer);
     
     console.log('ffff',mainTodolist)
     return (
-        <div>
+        <div className="todolist_wrapper">
             <span>TO DO </span>{today}
             <div>수정</div>
             {mainTodolist.map(todo=>(
