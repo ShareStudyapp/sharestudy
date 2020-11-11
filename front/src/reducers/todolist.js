@@ -16,10 +16,14 @@ export const initialState = {
 export const ADD_PLAN_REQUEST = 'ADD_PLAN_REQUEST';
 export const ADD_PLAN_SUCCESS = 'ADD_PLAN_SUCCESS';
 export const ADD_PLAN_FAILURE = 'ADD_PLAN_FAILURE';
-
+//계획 조회
 export const LOAD_PLAN_REQUEST = 'LOAD_PLAN_REQUEST';
 export const LOAD_PLAN_SUCCESS = 'LOAD_PLAN_SUCCESS';
 export const LOAD_PLAN_FAILURE = 'LOAD_PLAN_FAILURE';
+//투두 카운트 조회
+export const LOAD_TODOCOUNT_REQUEST = 'LOAD_TODOCOUNT_REQUEST'
+export const LOAD_TODOCOUNT_SUCCESS = 'LOAD_TODOCOUNT_SUCCESS'
+export const LOAD_TODOCOUNT_FAILURE = 'LOAD_TODOCOUNT_FAILURE'
 //계획 체크
 export const UPDATE_TODOCHECK_REQUEST = 'UPDATE_TODOCHECK_REQUEST';
 export const UPDATE_TODOCHECK_SUCCESS = 'UPDATE_TODOCHECK_SUCCESS';
@@ -85,6 +89,12 @@ const todolistReducer = (state = initialState, action) => produce(state, (draft)
             draft.feedTodolist=action.data;
             break;
         case LOAD_TODOFEED_FAILURE:
+            break;
+        case LOAD_TODOCOUNT_REQUEST:
+            break;
+        case LOAD_TODOCOUNT_SUCCESS:
+            break;
+        case LOAD_TODOCOUNT_FAILURE:
             break;
         default:
             break;

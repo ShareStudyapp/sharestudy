@@ -5,10 +5,12 @@ import TodoList from '../../components/MyTodoList/TodoList';
 import MainLogo from '../../components/Common/MainLogo';
 import MainNav from '../../components/Common/MainNav';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { LOAD_PLAN_REQUEST } from '../../reducers/todolist';
+import RequireLogin from '../../components/Common/RequireLogin';
 function MyTodoList() {
     const dispatch = useDispatch();
+    const { userInfo} = useSelector((state) => state.userReducer);
     const week = new Array('일요일','월요일','화요일','수요일','목요일','금요일','토요일');
     const [date,setDate] = useState(new Date())
     const [today,setToday] = useState(date.getFullYear()+"."+(date.getMonth()+1)+"."+date.getDate()+" "+week[date.getDay()]);
@@ -24,7 +26,7 @@ function MyTodoList() {
         })
     }, [])
     useEffect(() => {
-        console.log("투데이트",today);
+        
         dispatch({
             type: LOAD_PLAN_REQUEST,
             data: today
@@ -33,10 +35,14 @@ function MyTodoList() {
     return (
         <div>
             <MainLogo />
-                Todolist
-                <CalanderList today={today} setToday={setToday} date={date} setDate={setDate} week={week}/>
-                {colorLoading?<AddSubject today={today} colourOptions={colourOptions} />:''}
-                <TodoList today={today}/>
+            {userInfo.length != 0?
+                <>
+                    Todolist
+                    <CalanderList today={today} setToday={setToday} date={date} setDate={setDate} week={week}/>
+                    {colorLoading?<AddSubject today={today} colourOptions={colourOptions} />:''}
+                    <TodoList today={today}/>
+                </>
+            :<RequireLogin /> }
             <MainNav />
         </div>
     )
