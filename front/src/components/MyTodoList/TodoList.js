@@ -5,7 +5,6 @@ import './TodoList.css';
 function TodoList({today}) {
     const { mainTodolist } = useSelector((state) => state.todolistReducer);
     
-    console.log('ffff',mainTodolist)
     return (
         <div className="todolist_wrapper">
             <span>TO DO </span>{today}

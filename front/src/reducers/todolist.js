@@ -3,6 +3,8 @@ import produce from '../utils/produce';
 export const initialState = {
     mainTodolist: [],
     feedTodolist:[],//투두피드
+    todoCountlist:"",//투두카운트리스트
+    todoCountError:null,
     addPlanLoading: false, // 로그인 여부
     addPlanDone: false, // 계획 추가중
     addPlanError: null, // 계획 추가 실패 사유    
@@ -36,6 +38,10 @@ export const DELETE_TODOCHECK_FAILURE = 'DELETE_TODOCHECK_FAILURE';
 export const LOAD_TODOFEED_REQUEST = 'LOAD_TODOFEED_REQUEST';
 export const LOAD_TODOFEED_SUCCESS = 'LOAD_TODOFEED_SUCCESS';
 export const LOAD_TODOFEED_FAILURE = 'LOAD_TODOFEED_FAILURE';
+//투두카운트 
+export const LOAD_TODO_COUNT_REQUEST = 'LOAD_TODO_COUNT_REQUEST';
+export const LOAD_TODO_COUNT_SUCCESS = 'LOAD_TODO_COUNT_SUCCESS';
+export const LOAD_TODO_COUNT_FAILURE = 'LOAD_TODO_COUNT_FAILURE';
 
 const todolistReducer = (state = initialState, action) => produce(state, (draft) => {
     
@@ -86,15 +92,17 @@ const todolistReducer = (state = initialState, action) => produce(state, (draft)
         case LOAD_TODOFEED_REQUEST:
             break;
         case LOAD_TODOFEED_SUCCESS:
-            draft.feedTodolist=action.data;
+            draft.feedTodolist = action.data;
             break;
         case LOAD_TODOFEED_FAILURE:
             break;
-        case LOAD_TODOCOUNT_REQUEST:
+        case LOAD_TODO_COUNT_REQUEST:
             break;
-        case LOAD_TODOCOUNT_SUCCESS:
+        case LOAD_TODO_COUNT_SUCCESS:
+            draft.todoCountlist = action.data;
             break;
-        case LOAD_TODOCOUNT_FAILURE:
+        case LOAD_TODO_COUNT_FAILURE:
+            draft.todoCountError = action.error;
             break;
         default:
             break;

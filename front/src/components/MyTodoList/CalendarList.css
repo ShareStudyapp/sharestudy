@@ -8,14 +8,19 @@
     justify-content: center;
 }
 .todayText{
-    font-size: 14px;
+    font-size: 24px;
     font-weight:bold;
+    color:#2F1C66;
 }
 .striplist{
     display:flex;
     justify-content: space-between;
 } 
 .active{
-    background-color: #5858E1;
+    background-color: #6A3DE6;
+    width:20px;
+    height:25px;
+    padding-left:4px;
+    padding-top:2px;
     color:#fff;
 } 

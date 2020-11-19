@@ -23,9 +23,11 @@ function AddSubject({today,colourOptions}) {
     const dot = (color = '#ccc') => ({
         alignItems: 'center',
         display: 'flex',
+        height:'45px',
+        backgroundColor:"#F6F4FC",
       
         ':before': {
-          backgroundColor: color,
+          backgroundColor: "#F6F4FC",
           borderRadius: 10,
           content: '" "',
           display: 'block',
@@ -35,7 +37,7 @@ function AddSubject({today,colourOptions}) {
         },
     });
     const colourStyles = {
-        control: styles => ({ ...styles, backgroundColor: 'white' }),
+        control: styles => ({ ...styles, backgroundColor: '#F6F4FC' }),
         option: (styles, { data, isDisabled, isFocused, isSelected }) => {
           const color = chroma(data.color);
           return {
@@ -68,6 +70,7 @@ function AddSubject({today,colourOptions}) {
         placeholder: styles => ({ ...styles, ...dot() }),
         singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
     };
+    //아래 셀렉트박스 
     const customStyles = {
         option: (styles, { data,isFocused, isSelected }) => ({
             ...styles,
@@ -79,8 +82,12 @@ function AddSubject({today,colourOptions}) {
             ...base,
             width:150,
             height: 55, 
-            minHeight: 35
-          })
+            minHeight: 35,
+            backgroundColor: '#F6F4FC'
+          }),
+        input: styles => ({ ...styles, ...dot() }),
+        placeholder: styles => ({ ...styles, ...dot() }),
+        singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
           
     }
     const onChangeValue = (e) =>{
@@ -139,13 +146,13 @@ function AddSubject({today,colourOptions}) {
                         onChange={onChangeValue}
                     />
                 </div>
-                <div>
-                    <input name="subject" value={subject} onChange={(e)=>setSubject(e.target.value)}  />
+                <div >
+                    <input name="subject" className="subject_input" placeholder="과목 추가하기" value={subject} onChange={(e)=>setSubject(e.target.value)}  />
                 </div>
-                <button onClick={addSubject}>과목추가</button>
+                <button className="subject_add_btn" onClick={addSubject}>과목추가</button>
             </div>
             <Divider />
-            내용 작성
+            <div className="today_font">오늘은</div>
             <div className="todo_area">
                 <div className="selectbox">
                     <Select
@@ -156,7 +163,11 @@ function AddSubject({today,colourOptions}) {
                         onChange={onChangeSubjectValue}
                     />
                 </div>
-                <div className="todotext_area">
+                <div className="todo_area_font">
+                    을
+                </div>
+            </div>
+            <div className="todotext_area">
                     <input 
                         className="todo_input" 
                         value={todo} 
@@ -164,7 +175,9 @@ function AddSubject({today,colourOptions}) {
                         style={{ color:'black',fontWeight:'bold' }} 
                         placeholder="할 수 있는 투두를 적는게 좋아요" 
                         />
-                </div>
+                    <p className="todo_input_font">
+                    만큼 할래요
+                    </p>
             </div>
             <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',height:'15vh'}}>
                 <button className="addsubjct_btn" onClick={addTodo}>추가하기</button>

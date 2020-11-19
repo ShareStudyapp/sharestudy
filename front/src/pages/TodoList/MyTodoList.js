@@ -4,9 +4,10 @@ import AddSubject from '../../components/MyTodoList/AddSubject';
 import TodoList from '../../components/MyTodoList/TodoList';
 import MainLogo from '../../components/Common/MainLogo';
 import MainNav from '../../components/Common/MainNav';
+import TodoTop from '../../components/MyTodoList/TodoTop';
 import axios from 'axios';
 import { useDispatch,useSelector } from 'react-redux';
-import { LOAD_PLAN_REQUEST } from '../../reducers/todolist';
+import { LOAD_PLAN_REQUEST,LOAD_TODO_COUNT_REQUEST } from '../../reducers/todolist';
 import RequireLogin from '../../components/Common/RequireLogin';
 function MyTodoList() {
     const dispatch = useDispatch();
@@ -30,14 +31,18 @@ function MyTodoList() {
         dispatch({
             type: LOAD_PLAN_REQUEST,
             data: today
-          });
+        });
+        dispatch({
+            type: LOAD_TODO_COUNT_REQUEST,
+            data: today
+        });
     }, [today])
     return (
         <div>
             <MainLogo />
             {userInfo.length != 0?
                 <>
-                    Todolist
+                    <TodoTop />
                     <CalanderList today={today} setToday={setToday} date={date} setDate={setDate} week={week}/>
                     {colorLoading?<AddSubject today={today} colourOptions={colourOptions} />:''}
                     <TodoList today={today}/>

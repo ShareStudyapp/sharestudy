@@ -16,6 +16,9 @@ import {
     LOAD_TODOFEED_REQUEST,
     LOAD_TODOFEED_SUCCESS,
     LOAD_TODOFEED_FAILURE,
+    LOAD_TODO_COUNT_REQUEST,
+    LOAD_TODO_COUNT_SUCCESS,
+    LOAD_TODO_COUNT_FAILURE,
   } from '../reducers/todolist';
 function addTodoAPI(TodoListReq) {
   console.log("TodoListReq==",TodoListReq)
@@ -108,6 +111,23 @@ function* todofeed(action){
     })
   }
 }
+function todoCountAPI(today) {
+  return axios.get(`/todo/mytodolistcount/${today}`);
+}
+function* todoCount(action){
+  try{
+      const result = yield call(todoCountAPI, action.data);
+      yield put({
+        type: LOAD_TODO_COUNT_SUCCESS,
+        data: result.data,
+      });
+  }catch(err){
+      yield put({
+        type: LOAD_TODO_COUNT_FAILURE,
+        data: err.response.data,
+    })
+  }
+}
 function* watchAddTodo() {
     yield takeLatest(ADD_PLAN_REQUEST, addTodo);
 }
@@ -123,6 +143,9 @@ function* watchDeleteCheck(){
 function* watchTodoFeed(){
   yield takeLatest(LOAD_TODOFEED_REQUEST,todofeed);
 }
+function* watchTodoCount(){
+  yield takeLatest(LOAD_TODO_COUNT_REQUEST,todoCount);
+}
 export default function* todolistSaga() {
   yield all([
     fork(watchAddTodo),
@@ -130,5 +153,6 @@ export default function* todolistSaga() {
     fork(watchUpdateCheck),
     fork(watchDeleteCheck),
     fork(watchTodoFeed),
+    fork(watchTodoCount)
   ]);
 }
