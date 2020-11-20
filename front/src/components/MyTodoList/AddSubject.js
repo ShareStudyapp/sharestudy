@@ -3,15 +3,15 @@ import Select from 'react-select'
 
 import chroma from 'chroma-js';
 import './AddSubject.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import { ADD_PLAN_REQUEST,LOAD_PLAN_REQUEST } from '../../reducers/todolist';
-import axios from 'axios';
+import { ADD_PLAN_REQUEST,LOAD_TODO_COUNT_REQUEST } from '../../reducers/todolist';
+
 function AddSubject({today,colourOptions}) {
     const dispatch = useDispatch();
     const [subject,setSubject] = useState('');
     const [subjectColor,setSubjectColor] = useState(colourOptions[1].color);
+    const { addPlanDone } = useSelector((state) => state.todolistReducer);
     const [subjectList,setSubjectList] = useState([]);
     const [todoSubject,setTodoSubject] = useState('');
     const [todoColor,setTodoColor] = useState('') 
@@ -125,10 +125,12 @@ function AddSubject({today,colourOptions}) {
             data: TodoListReq
           });
         setTodo('');
-        // axios.post('/user/todo',TodoListReq)
-        //     .then(function(res){
-        //         console.log(res);
-        //     })
+        if(addPlanDone){
+            dispatch({
+                type: LOAD_TODO_COUNT_REQUEST,
+                data: today
+            });
+        }
 
     }
     console.log(todolists)

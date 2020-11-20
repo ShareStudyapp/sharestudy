@@ -9,7 +9,7 @@ function Modal({userInfo,modalOpenValue,modalOpen,setModalOpen}) {
     const { followInfo } = useSelector((state) => state.userReducer);
     const { followerList } = useSelector((state) => state.userReducer);
     const [buttonloading,setButtonloading] = useState(false);
-    console.log(followInfo)
+    
     const dispatch = useDispatch();
     let renderlist="";
     const follow = useCallback((id) => {

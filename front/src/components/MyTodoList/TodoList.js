@@ -10,7 +10,7 @@ function TodoList({today}) {
             <span>TO DO </span>{today}
             <div>수정</div>
             {mainTodolist.map(todo=>(
-                <TodoItem key={todo.id} todo={todo} />
+                <TodoItem key={todo.id} todo={todo} today={today} />
             ))}
         </div>
     )

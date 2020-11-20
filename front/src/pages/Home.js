@@ -25,7 +25,6 @@ function Home({history}) {
       <>
       <div>
         <MainLogo />
-        
         <>
           <Feeds reqUserInfo={reqUserInfo}/><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link>
         </>
