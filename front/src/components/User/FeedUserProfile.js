@@ -15,11 +15,10 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
     const dispatch = useDispatch();
     const {userInfo} = useSelector((state) => state.userReducer);
     const {otheruserInfo} = useSelector((state) => state.userReducer);
-    const { followInfo } = useSelector((state) => state.userReducer);
+    const { followInfo,unfollowDone } = useSelector((state) => state.userReducer);
     const [modalOpen,setModalOpen]  = useState(false);
     let [modalOpenValue,setModalOpenValue] = useState("");
-
-    console.log(otheruserInfo)
+    console.log(userInfo)
     const openFollowerModal = useCallback((id)=>{
         setModalOpenValue("followerList")
         setModalOpen(!modalOpen);
@@ -67,6 +66,7 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
           data: id,
         }); 
       }, [userInfo.id]);
+
     return (
         <div className="profile_area">
             {reqUserInfo?
@@ -114,16 +114,12 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                         </div>
                         <ul className="profile_follow_area">
                             <li>
-                                {userInfo.id===otheruserInfo.id?"":
                                 <>
-                                
-                                {typeof otheruserInfo.followlist !== 'undefined'&& otheruserInfo.followlist.find(e=>e.fromUser.id === userInfo.id ) || followInfo.tempFollow
+                                {typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id)
                                     ?<button className="following_btn" onClick={()=>followCancle(otheruserInfo.id)} />
                                     :<button className="follow_btn" onClick={()=>follow(otheruserInfo.id)} />                                                                        
                                 }
                                 </>
-                                }
-                                
                             </li>
                             
                             <li onClick={() => openFollowingModal(otheruserInfo.id)}>

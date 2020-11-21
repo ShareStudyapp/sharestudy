@@ -11,6 +11,12 @@ export const initialState = {
     loadTodosLoading: false,
     loadTodosDone: false,
     loadTodosError: null,
+    updateTodosCheckLoading: false,
+    updateTodosCheckDone: false,
+    updateTodosCheckError: null,
+    deleteTodosCheckLoading: false,
+    deleteTodosCheckDone: false,
+    deleteTodosCheckError: null,
     checked:false//투두 체크 여부
 };
 
@@ -75,19 +81,32 @@ const todolistReducer = (state = initialState, action) => produce(state, (draft)
             draft.loadTodosError = action.error;
             break;
         case UPDATE_TODOCHECK_REQUEST:
+            draft.updateTodosCheckLoading = true;
+            draft.updateTodosCheckDone = false;
+            draft.updateTodosCheckError =null;
             break;
         case UPDATE_TODOCHECK_SUCCESS:
+            draft.updateTodosCheckLoading = false;
+            draft.updateTodosCheckDone = true;
             draft.mainTodolist.find((v)=>v.id === action.data.id).checked=action.data.checked;
             break;
         case UPDATE_TODOCHECK_FAILURE:
+            draft.updateTodosCheckLoading = false;
+            draft.updateTodosCheckError = action.error;
             break;
         case DELETE_TODOCHECK_REQUEST:
+            draft.deleteTodosCheckLoading = true;
+            draft.deleteTodosCheckDone = false;
+            draft.deleteTodosCheckError =null;
             break;
         case DELETE_TODOCHECK_SUCCESS:
-            //console.log("action.date----"+action.data)
+            draft.deleteTodosCheckLoading = false;
+            draft.deleteTodosCheckDone = true;
             draft.mainTodolist = draft.mainTodolist.filter((v) => v.id !== action.data);
             break;
         case DELETE_TODOCHECK_FAILURE:
+            draft.deleteTodosCheckLoading = false;
+            draft.deleteTodosCheckError = action.error;
             break;
         case LOAD_TODOFEED_REQUEST:
             break;

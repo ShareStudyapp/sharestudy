@@ -11,10 +11,6 @@ function TodoItem({key,todo,today}) {
 
     const onCheck = useCallback((todoId)=>{
         dispatch({
-            type: LOAD_TODO_COUNT_REQUEST,
-            data: today
-        });
-        dispatch({
             type: UPDATE_TODOCHECK_REQUEST,
             data: todoId,
           });

@@ -12,6 +12,7 @@ import RequireLogin from '../../components/Common/RequireLogin';
 function MyTodoList() {
     const dispatch = useDispatch();
     const { userInfo} = useSelector((state) => state.userReducer);
+    const { updateTodosCheckDone,deleteTodosCheckDone,addPlanDone} = useSelector((state) => state.todolistReducer);
     const week = new Array('일요일','월요일','화요일','수요일','목요일','금요일','토요일');
     const [date,setDate] = useState(new Date())
     const [today,setToday] = useState(date.getFullYear()+"."+(date.getMonth()+1)+"."+date.getDate()+" "+week[date.getDay()]);
@@ -36,7 +37,13 @@ function MyTodoList() {
             type: LOAD_TODO_COUNT_REQUEST,
             data: today
         });
-    }, [today])
+        if(updateTodosCheckDone || deleteTodosCheckDone || addPlanDone){
+            dispatch({
+                type: LOAD_PLAN_REQUEST,
+                data: today
+            });
+        }
+    }, [today,updateTodosCheckDone,deleteTodosCheckDone,addPlanDone])
     return (
         <div>
             <MainLogo />

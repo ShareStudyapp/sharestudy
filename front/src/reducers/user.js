@@ -21,6 +21,9 @@ export const initialState = {
     followLoading:false, //팔로우시도중
     followInError:'',//팔로우실패이유
     followDone:false,//팔로우완료
+    unfollowLoading:false, //언팔로우시도중
+    unfollowInError:'',//언팔로우실패이유
+    unfollowDone:false,//언팔로우완료
     followInfo:[],//팔로우당하는사람정보
     followerLoading:false,//팔로워리스트로딩
     followerDone:false,//팔로워리스트완료
@@ -175,20 +178,22 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.followInError = action.error;
       break;
     case FOLLOW_CANCLE_REQUEST:
-      draft.followLoading = true;
-      draft.followDone = false;
+      draft.unfollowLoading = true;
+      draft.unfollowDone = false;
       break;
     case FOLLOW_CANCLE_SUCCESS:
-      draft.followLoading = false;
-      draft.followDone = true;
-      const result = draft.followInfo.find(e=>e.userkey===action.data.userkey);
-      const a= draft.followInfo.indexOf(result)
-      draft.followInfo.splice(a, 1)
+      draft.unfollowLoading = false;
+      draft.unfollowDone = true;
+      const result = state.followInfo.filter((v)=>v.userkey  === action.data.userkey);
+      console.log(result)
+      // const result = draft.followInfo.find(e=>e.userkey===action.data.userkey);
+      // const a= draft.followInfo.indexOf(result)
+      // draft.followInfo.splice(a, 1)
       draft.userInfo.followlistsize = draft.userInfo.followlistsize-1;
       break;
     case FOLLOW_CANCLE_FAILURE: 
-      draft.followLoading = false;
-      draft.followInError = action.error;
+      draft.unfollowLoading = false;
+      draft.unfollowInError = action.error;
       break;
     case FOLLOWER_LIST_REQUEST:
       draft.followerDone = false;
