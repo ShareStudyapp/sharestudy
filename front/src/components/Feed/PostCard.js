@@ -1,5 +1,5 @@
 import React, { useState, useCallback,useEffect } from 'react';
-import {  Button, Avatar, Comment } from 'antd';
+import {  Button, Input, Comment } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import PostImages from './PostImages';
 import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST,LIKE_LIST_REQUEST} from '../../reducers/post';

@@ -37,6 +37,8 @@ li {
   
 .info {
     min-width: 400px;
+    margin-top:20px;
+    margin-left:20px;
 }
 
 .top-row {
@@ -68,7 +70,7 @@ li {
 }
 
 .stats {
-    float:left;
+    display: flex;
     font-size: 14px;
 }
 
@@ -96,6 +98,11 @@ li {
     width: 33%;
 }
 
-.post :hover {
+.post:hover {
     opacity: 0.7;
+}
+.password_area {
+    margin-top:100px;
+    margin-left:50px;
+    display:flex;
 }

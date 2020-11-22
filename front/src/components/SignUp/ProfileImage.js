@@ -98,7 +98,6 @@ const ProfileImage = ({profileImg}) => {
                     accept   ='image/png, image/jpeg, image/jpg'
                     onChange ={onImageFileChangeHandler}
                 />
-                사진    변경
             </label>
             
             <Modal 

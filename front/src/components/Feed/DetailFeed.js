@@ -3,10 +3,13 @@ import DetailFeedInfo from './DetailFeedInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import {LOAD_POSTS_DETAIL_REQUEST} from '../../reducers/post';
 import PostCard from './PostCard';
-import {  Button, Avatar, Comment } from 'antd';
+import {  Button, Avatar, Comment,Input,Form } from 'antd';
 import CommentForm from './CommentForm';
 import ReplyContent from './ReplyContent';
 import {REMOVE_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST} from '../../reducers/post';
+import {ADD_COMMENT_REQUEST} from '../../reducers/post';
+
+import useInput from '../../hooks/useInput';
 
 
 function DetailFeed({match}) {
@@ -17,7 +20,16 @@ function DetailFeed({match}) {
     const [replyeditMode, setReplyeditMode] = useState(false);
     const [replytmp,setReplytmp] = useState('');
     const { postComment,loadPostsDone } = useSelector((state) => state.postReducer);
+    const [commentText, onChangeCommentText, setCommentText] = useInput('');
+    const postId = match.params.id;
     console.log(postComment)
+    const onSubmitComment = useCallback(() => {
+      dispatch({
+        type: ADD_COMMENT_REQUEST,
+        data: { content: commentText, id: postId },
+      });
+      setCommentText('')
+    }, [commentText,postId]);
     useEffect(() => {
         
         dispatch({
@@ -55,6 +67,17 @@ function DetailFeed({match}) {
     return (
             <>
               {commentFormOpened&&<CommentForm post={postComment} />}
+              <Form onFinish={onSubmitComment}>
+              <Form.Item style={{ position: 'relative', margin: 0 }}>
+                  <Input.TextArea value={commentText} onChange={onChangeCommentText} rows={4} />
+                  <Button
+                    style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 1 }}
+                    type="primary"
+                    htmlType="submit"
+                  >삐약
+                  </Button>
+                </Form.Item>
+              </Form>
               {loadPostsDone&&postComment.feedreply?postComment.feedreply.map((item,index)=>(
               <>
                   <Comment
@@ -65,7 +88,9 @@ function DetailFeed({match}) {
                       // </Link>
                     )}  
                     content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
-                      
+                    datetime={
+                      item.createdAt.substring(0,10)+"  "+item.createdAt.substring(11,20)
+                    }
                   />
                   {/* { item.user.id === userInfo.id
                     ?(

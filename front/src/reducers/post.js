@@ -302,7 +302,9 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS: 
-        draft.postComment.unshift(action.data);
+      console.log(action.data)
+      console.log(state.postComment)
+        draft.postComment.feedreply.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;

@@ -25,7 +25,7 @@ const MyTodoList = lazy(()=>import('./pages/TodoList/MyTodoList'));
 const MyList = lazy(()=>import('./pages/MyList/MyList'));
 const Messenger = lazy(()=>import('./pages/Messenger'));
 const TodoFeed = lazy(()=>import('./pages/TodoFeed/TodoFeed'));
-
+const Main = lazy(()=>import('./pages/Login/Main'));
 
 function App({history}) {
   const dispatch = useDispatch();
@@ -50,6 +50,7 @@ function App({history}) {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/feeddetail/:id" component={DetailFeed} />
+          <Route exact path="/main" component={Main} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
           <Route path="/writefeed" component={WriteFeed} />

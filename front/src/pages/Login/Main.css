@@ -1,0 +1,32 @@
+.login_container{
+    background-image: url( "../../assets/images/login_background.png" ) ;
+    background-repeat : no-repeat;
+	background-size : cover;
+    width:100%;
+    height:1024px;
+}
+.logo_area{
+    position: relative;
+    text-align: center;
+    padding-top:23%;
+}
+.logo_area > img{
+    width:252px;
+}
+.signin_area{
+    position:relative;
+    text-align:center;
+    margin-top: 23%;
+}
+.password_area{
+    width:279px;
+    margin: 5% auto 0;
+}
+.find_area{
+    display:flex;
+    margin-top: 5%;
+    justify-content:center;
+}
+.find_password{
+    margin-left:5%;
+}

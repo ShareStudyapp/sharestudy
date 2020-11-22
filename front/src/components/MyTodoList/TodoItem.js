@@ -24,10 +24,6 @@ function TodoItem({key,todo,today}) {
                 type: DELETE_TODOCHECK_REQUEST,
                 data: todoId,
               });
-            dispatch({
-                type: LOAD_TODO_COUNT_REQUEST,
-                data: today
-            });
         }
         
     },[today])
