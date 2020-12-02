@@ -18,11 +18,18 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
     const { followInfo,unfollowDone } = useSelector((state) => state.userReducer);
     const [modalOpen,setModalOpen]  = useState(false);
     let [modalOpenValue,setModalOpenValue] = useState("");
-    console.log(userInfo)
+    let followingCheck;
+    if(otheruserInfo.followlist!==undefined){
+        //followingCheck = otheruserInfo.followlist.map(v=>v.fromUser.id===userInfo.id);//팔로우한여부
+        //console.log(otheruserInfo.followlist.map(v=>v))
+        console.log(otheruserInfo.followlist.map(v=>v.fromUser))
+        //followingCheck=otheruserInfo.followlist.map(v=>v.fromUser.find(f=>f.id===userInfo.id))
+        //console.log(followingCheck)
+    }
     //console.log(otheruserInfo)
     //const isFollowing = otheruserInfo.followlist.find(e=>console.log(e.fromUser.id , userInfo.id));
 
-    // console.log(isFollowing)
+    //console.log(isFollowing)
     const openFollowerModal = useCallback((id)=>{
         setModalOpenValue("followerList")
         setModalOpen(!modalOpen);
@@ -110,6 +117,7 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                 </div>
             </div>:
             openUserInfo?<div>
+                {/* 다른사람정보여부 */}
                 <div className="profile_info_area">
                     <img className="user_profile_image" src={otheruserInfo.profileImage}/>
                     <div className="profile_text_area">
@@ -119,7 +127,8 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                         <ul className="profile_follow_area">
                             <li>
                                 <>
-                                {typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id)
+                                {/* {typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
+                                {followingCheck===true
                                     ?<button className="following_btn" onClick={()=>followCancle(otheruserInfo.id)} />
                                     :<button className="follow_btn" onClick={()=>follow(otheruserInfo.id)} />                                                                        
                                 }

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST,USER_RESET } from '../reducers/user';
 import { Select } from 'antd';
 
+import './Signup.css';
+
 const { Option } = Select;
 function Signup({history}) {
     //const google_info = window.sessionStorage.getItem('google_information');
@@ -92,51 +94,51 @@ function Signup({history}) {
   
     return (
     <>
-        <Form onFinish={onSubmit} style={{ padding: 10 }}>
-            
-            <div>
-              <label htmlFor="user-userid">아이디</label>
-              <br />
-              <Input name="user-userid" value={userid} required onChange={({ target: { value } })=>setUserid(value)} />
-            </div>
-            <div>
-              <label htmlFor="user-nick">닉네임</label>
-              <br />
-              <Input name="user-nick" value={nickname} required onChange={({ target: { value } }) => setNickname(value)} />
-            </div>
-            <div>
-              <label htmlFor="user-email">이메일</label>
-              <br />
-              <Input name="user-email" value={email} required onChange={({ target: { value } }) => setEmail(value)} />
-            </div>
-            <div>
-            <Select defaultValue="M" style={{ width: 90 }} onChange={onChangeSex}>
-              <Option value="M">남자</Option>
-              <Option value="F">여자</Option>
-            </Select>
-            </div>
-            <div>
-            </div>
-            <div>
-              <label htmlFor="user-password">비밀번호</label>
-              <br />
-              <Input name="user-password" type="password" value={password} required onChange={({ target: { value } }) => setPassword(value)} />
-            </div>
-            <div>
-                <label htmlFor="user-password-check">비밀번호체크</label>
-              <br />
-              <Input
-                  name="user-password-check"
-                  type="password"
-                  value={passwordCheck}
-                  required
-                  onChange={onChangePasswordCheck}
-              />
-              {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
-            </div>
-            
-            <div style={{ marginTop: 10 }}>
-              <Button type="primary" htmlType="submit" loading={signUpLoading}>가입하기</Button>
+        <Form onFinish={onSubmit} style={{ padding: 10,marginTop:120 }}>
+            <h1>회원가입</h1>
+            <div className="user-container">
+              <div>
+                <br />
+                <Input name="user-email" placeholder="이메일을 입력해주세요" value={email} required onChange={({ target: { value } }) => setEmail(value)} />
+              </div>
+              <div>
+                <br />
+                <Input name="user-nick" placeholder="닉네임을 입력해주세요" value={nickname} required onChange={({ target: { value } }) => setNickname(value)} />
+              </div>
+              <div>
+                <br />
+                <Input name="user-userid" placeholder="아이디를 입력해주세요" value={userid} required onChange={({ target: { value } })=>setUserid(value)} />
+              </div>
+              <div>
+              <Select defaultValue="M" style={{ width: 90 }} onChange={onChangeSex}>
+                <Option value="M">남자</Option>
+                <Option value="F">여자</Option>
+              </Select>
+              </div>
+              <div>
+              </div>
+              <div>
+                <label htmlFor="user-password">비밀번호</label>
+                <br />
+                <Input name="user-password" placeholder="비밀번호를 입력해주세요" type="password" value={password} required onChange={({ target: { value } }) => setPassword(value)} />
+              </div>
+              <div>
+                  <label htmlFor="user-password-check">비밀번호체크</label>
+                <br />
+                <Input
+                    name="user-password-check"
+                    type="password"
+                    value={passwordCheck}
+                    required
+                    onChange={onChangePasswordCheck}
+                    placeholder="비밀번호를 입력해주세요"
+                />
+                {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
+              </div>
+              
+              <div style={{ marginTop: 10 }}>
+                <Button type="primary" htmlType="submit" className="signup_btn" loading={signUpLoading}>가입하기</Button>
+              </div>
             </div>
         </Form>
     </>
