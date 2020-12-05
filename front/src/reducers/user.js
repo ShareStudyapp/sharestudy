@@ -141,7 +141,8 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case USER_INFO_SUCCESS:
       draft.userinfoDone=true;
       draft.userinfoLoading=false;
-      draft.userInfo=action.data;
+      draft.userInfo = action.data;
+      console.log(action.data)
       break;
     case USER_INFO_FAILURE:
       draft.userinfoDone=true;
@@ -170,7 +171,12 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case FOLLOW_SUCCESS:
       draft.followLoading = false;
       draft.followDone = true;
-      draft.followInfo = draft.followInfo.concat(action.data);
+      //draft.otheruserInfo.followInfo = draft.followInfo.concat(action.data.userkey);
+      //draft.userInfo.followlist = draft.userInfo.followlist.filter(f=>f.fromUser.id !== action.data.userkey)
+      console.log("action.data.userkey"+action.data.userkey)
+      draft.userInfo.followlist.push({fromUser:{id:action.data.userkey}})
+
+      //draft.me.Followings.push({ id: action.data.UserId });
       draft.userInfo.followlistsize = draft.userInfo.followlistsize+1;
       break;
     case FOLLOW_FAILURE:
@@ -184,11 +190,13 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
     case FOLLOW_CANCLE_SUCCESS:
       draft.unfollowLoading = false;
       draft.unfollowDone = true;
-      const result = state.followInfo.filter((v)=>v.userkey  === action.data.userkey);
-      console.log(result)
-      // const result = draft.followInfo.find(e=>e.userkey===action.data.userkey);
-      // const a= draft.followInfo.indexOf(result)
-      // draft.followInfo.splice(a, 1)
+      //draft.followInfo.splice(0,draft.followInfo.length)
+      //draft.followInfo = draft.followInfo.concat(action.data);
+      //console.log(action.data)
+      //console.log(state.userInfo.followlist)
+      //console.log(state.userInfo.followlist.map(v=>v).filter(f=>f.toUser.id ,action.data.userKey))
+      console.log(action.data)
+      draft.userInfo.followlist = draft.userInfo.followlist.filter(f=>f.fromUser.id !== action.data.userkey)
       draft.userInfo.followlistsize = draft.userInfo.followlistsize-1;
       break;
     case FOLLOW_CANCLE_FAILURE: 
