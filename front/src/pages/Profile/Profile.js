@@ -62,7 +62,7 @@ function Profile() {
             </header>
             
             <div clsssName="password_area">
-                    <input type="password" name="user_password" /> <br />
+                    <input type="password" name="user_password" />
                     <input type="password" name="user_password" />
             </div>
         </div>

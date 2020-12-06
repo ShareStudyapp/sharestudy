@@ -158,13 +158,13 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                 <div className="bar-item like">
                   {buttonloading?<div style={{marginLeft:15}}><Spinner /></div>
                   :liked 
-                  ?<FaHeart className="bar-icon" onClick={onUnlike}/>
+                  ?<FaHeart style={{color:'red'}} className="bar-icon" onClick={onUnlike}/>
                   :<FaRegHeart className="bar-icon" onClick={onLike}/>}
                   <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
                   {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
                 {/* <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} /> */}
-                <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none' }}><FaRegCommentAlt className="bar-icon"  /></Link>
+                <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none', color: 'inherit',marginLeft:40 }}><FaRegCommentAlt className="bar-icon"/></Link>
                 <div className="bar-item comment">{post.feedreplysize}</div>
                 </div>
                       { post.user.id === userInfo.id

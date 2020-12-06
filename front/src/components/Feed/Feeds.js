@@ -25,7 +25,8 @@ function Feeds({reqUserInfo}) {
       
     }, []);
     const targetUserInfo = useCallback((userId)=>{
-      setOpenUserInfo(true)
+      setOpenUserInfo(true);
+      window.scrollTo(0, 0);
       dispatch({
           type: OTHER_USER_INFO_REQUEST,
           data: userId
