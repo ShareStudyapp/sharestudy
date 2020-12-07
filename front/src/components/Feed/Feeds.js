@@ -25,6 +25,10 @@ function Feeds({reqUserInfo}) {
       
     }, []);
     const targetUserInfo = useCallback((userId)=>{
+      if (!user) {
+        return alert('로그인이 필요합니다.');
+      }
+
       setOpenUserInfo(true);
       window.scrollTo(0, 0);
       dispatch({
@@ -36,7 +40,7 @@ function Feeds({reqUserInfo}) {
     return (
       <div>
       <div style={{backgroundColor:'#E8E8E8'}}>
-        {loadPostsDone?
+        {openUserInfo?
         <>
         <FeedUserProfile reqUserInfo={reqUserInfo} openUserInfo={openUserInfo} />
         </>  :""}

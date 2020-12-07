@@ -19,6 +19,10 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
     const [modalOpen,setModalOpen]  = useState(false);
     let [modalOpenValue,setModalOpenValue] = useState("");
     let followingCheck = userInfo.followlist.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;
+    // if(userInfo!==undefined){
+    //     followingCheck = userInfo.followlist.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;
+    // }
+    
     
     const openFollowerModal = useCallback((id)=>{
         setModalOpenValue("followerList")

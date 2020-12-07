@@ -4,6 +4,7 @@ import search from '../../assets/Button/search.png';
 import noti from '../../assets/Button/noti.png';
 
 import axios from 'axios';
+import SearcBar from './Search/SearchBar';
 
 import './MainLogo.css';
 
@@ -20,28 +21,26 @@ function MainLogo() {
          const nickname = e.target.value;   
          axios.get(`/user/userSearch/${nickname}`)
          .then(({data})=>{
-             console.log(data)
             setResult(data)
          })
     },[])
     return (
         <>
-        <div className="top">
-            <div className="top_logo">
-                <img src={logo} />
-            </div>
-            {openSearch?<input type="text" name="search" onChange={onSearch} />:''}
-            <div className="top_feature">
-                <img src={search} onClick={searchOpen}/>
-                <img src={noti} />
-            </div>
+        {openSearch?
+        <SearcBar search={search} searchOpen={searchOpen} result={result} onSearch={onSearch} />:
+        <div>
+            <div className="top">
+                <div className="top_logo">
+                    <img src={logo} />
+                </div>
+                {openSearch?<input type="text" name="search" onChange={onSearch} />:''}
+                <div className="top_feature">
+                    <img src={search} onClick={searchOpen}/>
+                    <img src={noti} />
+                </div>
+            </div>    
         </div>
-            {openSearch?result.map((v)=>(
-                <ul>
-                    <li>{v.nickname}</li>
-                    <li><img src={v.userProfileImage.src} width="100px" height="100px" /></li>
-                </ul>
-            )):''}
+        }
         </>
     )
 }

@@ -1,0 +1,25 @@
+.searchbar_container{
+    display:flex;
+}
+.searchbar_container input{
+    width:80%;
+    border:none;
+} 
+.searchbar_container button{
+    margin-top:10px;
+    margin-left:10px;
+    background:#fff;
+    border:none;
+}
+.search_content ul{
+    margin-top:10px;
+    display:flex;
+}
+.search_content ul li{
+    margin:0 20px;
+}
+.search_content ul li img{
+    border-radius:50%;
+    width:80px;
+    height:80px;
+}
