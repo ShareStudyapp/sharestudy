@@ -44,7 +44,8 @@
     "shave": "^2.5.9",
     "shortid": "^2.2.15",
     "spin.js": "^4.1.0",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "timeago.js": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

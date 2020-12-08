@@ -1,5 +1,5 @@
-import React, { useState, useCallback,useEffect } from 'react';
-import {  Button, Input, Comment } from 'antd';
+import React, { useState, useCallback } from 'react';
+import {  Button} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import PostImages from './PostImages';
 import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST,LIKE_LIST_REQUEST} from '../../reducers/post';
@@ -12,6 +12,9 @@ import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
 import Modal from "../Utils/Modal";
 import {Link} from 'react-router-dom';
+
+import { format,register } from 'timeago.js';
+import {localeFunc} from './Common/localeFunc';
 
 
 function PostCard({post,setTargetUserId,targetUserInfo}) {
@@ -27,10 +30,9 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
     const [buttonloading,setButtonloading] = useState(false);
     const [modalOpen,setModalOpen]  = useState(false);
     const modalOpenValue="likelist";
-    useEffect(()=>{
-      
-      
-    },[])
+    register('my-locale', localeFunc);
+    const relativeDate = format(post.createdAt,'my-locale');
+
     const onClickUpdate = useCallback(() => {
       setEditMode(true);
     }, []);
@@ -176,6 +178,9 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                       )
                       : <Button onClick={testClick}>신고</Button>}
                 <div>
+                  <div className="create_time">
+                    {relativeDate}
+                  </div>
               </div>
             </div>
           </div>
