@@ -1,6 +1,7 @@
 import axios from 'axios';
 import shortId from 'shortid';
 import { all, delay, fork, put, takeLatest,takeEvery, throttle ,call} from 'redux-saga/effects';
+import instance from '../modules/index';
 import {
     generateDummyPost,
     generateDummyGallary,
@@ -49,6 +50,7 @@ import {
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
+    console.log("data+",data)
     return axios.get('/feed', data);
 }
 function uploadImagesAPI(data) {

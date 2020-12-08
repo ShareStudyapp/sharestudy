@@ -8,6 +8,8 @@ import Home from './pages/Home';
 import {SyncLoader} from 'react-spinners';
 import { css } from "@emotion/core";
 import { USER_INFO_REQUEST } from './reducers/user';
+import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -47,8 +49,8 @@ function App({history}) {
     <div className="main_container">
     <Router>
       <Suspense fallback={<SyncLoader css={override} size={20} color="green" loading style={{width:50}} />}>
-        <Switch>
-          <Route exact path="/" component={Home} />
+        <CacheSwitch>
+          <CacheRoute exact path="/" component={Home} />
           <Route exact path="/feeddetail/:id" component={DetailFeed} />
           <Route exact path="/main" component={Main} />
           <Route exact path="/signin" component={Signin} />
@@ -61,7 +63,7 @@ function App({history}) {
           <Route path="/mylist" component={MyList} />
           <Route path="/messenger" component={Messenger} />
           <Route path="/todofeed" component={TodoFeed} />
-        </Switch>
+        </CacheSwitch>
       </Suspense>
       {/* {me || user?<MainNav />:""} */}
     </Router>
