@@ -1,16 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
-body {
-    font-family: sans-serif;
-    background: #fff;
-    font-family: "Roboto", sans-serif;
-    width: 100vw;
-}
-ul,
-li {
-  margin: 0;
-  padding: 0;
-}
 
 .container {
   width: 610px;
@@ -101,8 +90,23 @@ li {
 .post:hover {
     opacity: 0.7;
 }
-.password_area{
-    background:red;
-    margin-left:50px;
-    display:flex;
+.container .profile .pw_area{
+    margin-top:10px;
+    width:400px;
+    height:300px;
+}
+.container .profile .pw_area h1{
+    display: flex;
+    justify-content:center;
+    align-items:center;   
+    padding-top:40px;
+    font-size:30px;
+}
+.container .profile .pw_area .pw_area_input{
+    padding-left:70px;
+}
+.container .profile .pw_area .pw_area_input div input{
+    margin-top:30px;
+    width:80%;
+    border:1px solid #D3D4D4;
 }

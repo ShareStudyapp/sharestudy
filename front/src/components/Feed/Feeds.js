@@ -22,7 +22,7 @@ function Feeds({reqUserInfo}) {
       dispatch({
         type: LOAD_POSTS_REQUEST
       });
-      
+
     }, []);
     const targetUserInfo = useCallback((userId)=>{
       if (!user) {
@@ -40,7 +40,7 @@ function Feeds({reqUserInfo}) {
     return (
       <div>
       <div style={{backgroundColor:'#E8E8E8'}}>
-        {openUserInfo?
+        {openUserInfo||reqUserInfo?
         <>
         <FeedUserProfile reqUserInfo={reqUserInfo} openUserInfo={openUserInfo} />
         </>  :""}

@@ -98,8 +98,9 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                                 팔로잉 
                                 {userInfo.followerlistsize}
                             </li> */}
+                            <li>팔로워{userInfo.followlistsize} </li>
+                            <li>팔로잉{userInfo.followerlistsize} </li>
                             <li>
-                                <img src={threefeature} />
                                 <a href="#" onClick={onLogOut}>로그아웃</a>
                             </li>
                         </ul>
@@ -110,42 +111,42 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                     </div>
                 </div>
             </div>:
-            openUserInfo?<div>
-                {/* 다른사람정보여부 */}
-                <div className="profile_info_area">
-                    <img className="user_profile_image" src={otheruserInfo.profileImage}/>
-                    <div className="profile_text_area">
-                        <div>
-                            <span className="profile_nickname">{otheruserInfo.nickname}</span> {userInfo.sex === 'M'?'남':'여'} 30{otheruserInfo.followlistsize}
-                        </div>
-                        <ul className="profile_follow_area">
-                            <li>
-                                <>
-                                {/* {typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
-                                {/* {followingCheck ||typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
-                                 {followingCheck
-                                    ?<button className="following_btn" onClick={()=>followCancle(otheruserInfo.id)} />
-                                    :<button className="follow_btn" onClick={()=>follow(otheruserInfo.id)} />                                                                        
-                                }
-                                </>
-                            </li>
-                            
-                            <li onClick={() => openFollowingModal(otheruserInfo.id)}>
-                                팔로워 
-                                {otheruserInfo.followlistsize}                               
-                            </li>
-                            <li onClick={() => openFollowerModal(otheruserInfo.id)}>
-                                팔로잉 
-                                {otheruserInfo.followerlistsize}
-                            </li>
-                        </ul>
-                        {modalOpen?<><Modal userInfo={otheruserInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
-                        <div>
-                            {otheruserInfo.introduce}
+                openUserInfo?<div>
+                    {/* 다른사람정보여부 */}
+                    <div className="profile_info_area">
+                        <img className="user_profile_image" src={otheruserInfo.profileImage}/>
+                        <div className="profile_text_area">
+                            <div>
+                                <span className="profile_nickname">{otheruserInfo.nickname}</span> {userInfo.sex === 'M'?'남':'여'} 30{otheruserInfo.followlistsize}
+                            </div>
+                            <ul className="profile_follow_area">
+                                <li>
+                                    <>
+                                    {/* {typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
+                                    {/* {followingCheck ||typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
+                                    {followingCheck
+                                        ?<button className="following_btn" onClick={()=>followCancle(otheruserInfo.id)} />
+                                        :<button className="follow_btn" onClick={()=>follow(otheruserInfo.id)} />                                                                        
+                                    }
+                                    </>
+                                </li>
+                                
+                                <li onClick={() => openFollowingModal(otheruserInfo.id)}>
+                                    팔로워 
+                                    {otheruserInfo.followlistsize}                               
+                                </li>
+                                <li onClick={() => openFollowerModal(otheruserInfo.id)}>
+                                    팔로잉 
+                                    {otheruserInfo.followerlistsize}
+                                </li>
+                            </ul>
+                            {modalOpen?<><Modal userInfo={otheruserInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
+                            <div>
+                                {otheruserInfo.introduce}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>:''
+                </div>:''
             }
             <Divider />
       </div>

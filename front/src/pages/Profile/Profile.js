@@ -1,10 +1,12 @@
 import React,{useState,useCallback} from 'react'
-import './Profile.css';
+
 import { useSelector, useDispatch } from 'react-redux';
 import defaultImage from '../../assets/images/user_default.png';
 import ProfileImage from '../../components/SignUp/ProfileImage';
 import MainLogo from '../../components/Common/MainLogo';
 import MainNav from '../../components/Common/MainNav';
+
+import './Profile.css';
 
 function Profile() {
     const {userInfo} = useSelector((state) => state.userReducer);
@@ -57,14 +59,18 @@ function Profile() {
                             <li>나이<select name="sex"><option value="">{userInfo.age}</option></select></li>
                         </ul>
                         <textarea value={userInfo.introduce} style={{width:400,height:100,borderStyle:"none"}} />
+                        <div className="pw_area">
+                            <h1>비밀번호 변경하기</h1>
+                            <div className="pw_area_input">
+                                <div><input type="password" name="user_password" /></div>
+                                <div><input type="password" name="user_password" /></div>
+                            </div>
+                        </div>
                     </div>
+                    
                 </section>                
             </header>
-            
-            <div clsssName="password_area">
-                    <input type="password" name="user_password" />
-                    <input type="password" name="user_password" />
-            </div>
+
         </div>
         <MainNav />
         </>

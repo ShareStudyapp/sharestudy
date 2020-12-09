@@ -106,7 +106,6 @@ regeneratorRuntime.mark(watchLoadPostDetail),
 regeneratorRuntime.mark(postSaga);
 
 function loadPostsAPI(data) {
-  console.log("data+", data);
   return _axios["default"].get('/feed', data);
 }
 

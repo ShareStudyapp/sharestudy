@@ -50,7 +50,6 @@ import {
   } from '../reducers/post';
 
 function loadPostsAPI(data) {
-    console.log("data+",data)
     return axios.get('/feed', data);
 }
 function uploadImagesAPI(data) {
