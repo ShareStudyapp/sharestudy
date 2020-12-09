@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {  Button} from 'antd';
+import {  Button,Comment} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import PostImages from './PostImages';
 import {REMOVE_POST_REQUEST,UPDATE_POST_REQUEST,LIKE_POST_REQUEST,UNLIKE_POST_REQUEST,REMOVE_COMMENT_REQUEST,LOAD_POSTS_COMMENT_REQUEST,UPDATE_COMMENT_REQUEST,LIKE_LIST_REQUEST} from '../../reducers/post';
@@ -11,7 +11,6 @@ import { FaHeart,FaRegHeart,FaRegCommentAlt } from "react-icons/fa";
 import Spinner from '../Utils/Spinner';
 import PostCardContent from './PostCardContent';
 import Modal from "../Utils/Modal";
-import {Link} from 'react-router-dom';
 
 import { format,register } from 'timeago.js';
 import {localeFunc} from './Common/localeFunc';
@@ -21,7 +20,7 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
     
     const dispatch = useDispatch();
     const { removePostLoading} = useSelector((state) => state.postReducer);
-    const { postComment } = useSelector((state) => state.postReducer);
+    const { mainPosts } = useSelector((state) => state.postReducer);
     const {userInfo} = useSelector((state) => state.userReducer);
     const [commentFormOpened, setCommentFormOpened] = useState(false);
     const [editMode, setEditMode] = useState(false);
@@ -134,6 +133,13 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
       setModalOpen(true);
 
     },[])
+    const onToggleComment = useCallback((postid) => {
+      setCommentFormOpened((prev) => !prev);
+      dispatch({
+        type: LOAD_POSTS_COMMENT_REQUEST,
+        data:  postid
+      });
+    }, []);
     
     const liked = post.feedlike.find((v) =>v.userkey===userInfo.id);
     return(
@@ -165,8 +171,9 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                   <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
                   {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
-                {/* <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} /> */}
-                <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none', color: 'inherit',marginLeft:40 }}><FaRegCommentAlt className="bar-icon"/></Link>
+                <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
+                {/* <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none', color: 'inherit',marginLeft:40 }}><FaRegCommentAlt className="bar-icon"/></Link> */}
+                {/* <FaRegCommentAlt className="bar-icon" onClick={onToggleComment} /> */}
                 <div className="bar-item comment">{post.feedreplysize}</div>
                 </div>
                       { post.user.id === userInfo.id
@@ -181,6 +188,30 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                   <div className="create_time">
                     {relativeDate}
                   </div>
+                  {commentFormOpened && <CommentForm post={post} />}
+                  {commentFormOpened&&post.feedreply.map((item,index)=>(
+                    <>
+                        <Comment
+                          author={item.user.nickname}
+                          avatar={(
+                            // <Link href={{ pathname: '/user', query: { id: item.user.id } }} as={`/user/${item.user.id}`}>
+                              <a><img src={item.user.userProfileImage.src}></img></a>
+                            // </Link>
+                          )}  
+                          content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
+                          datetime={
+                            item.createdAt.substring(0,10)+"  "+item.createdAt.substring(11,20)
+                          }
+                        />
+                        {/* { item.user.id === userInfo.id
+                          ?(
+                          <>
+                            <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
+                            <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
+                          </>
+                        ):<>회원만 수정가능</>} */}
+                    </>                  
+                  ))}
               </div>
             </div>
           </div>

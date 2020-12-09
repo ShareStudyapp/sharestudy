@@ -156,9 +156,11 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         //const c = draft.mainPosts.find((v) => v.id===action.feedkey);
         draft.loadPostsCommentLoading = false;
         draft.loadPostsCommentDone = true;
-        const c = state.mainPosts.find((v) => v.id===action.data.feedlist.id);
-        draft.postComment = c.feedreply.concat(action.data.feedReplylist);
-        //draft.postComment = draft.postComment.concat(action.data);
+        //draft.mainPosts = draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply.push(action.data.feedReplylist);
+        const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
+        action.data.feedReplylist.map((item)=>c.feedreply.push(item));
+        // draft.postComment = draft.postComment.concat(action.data);
+        // draft.mainPosts = c.concat(draft.postComment)
         //draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
       case LOAD_POSTS_COMMENT_FAILURE:
@@ -302,7 +304,8 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS: 
-        draft.postComment.feedreply.unshift(action.data);
+        const addComment = draft.mainPosts.find((v) => v.id===action.data.feedlistkey);
+        addComment.feedreply.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;

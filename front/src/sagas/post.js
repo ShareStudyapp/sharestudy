@@ -72,7 +72,8 @@ function* loadPosts(action) {
     }
 }
 function loadPostsCommentsAPI(data) {
-   return axios.get(`/feed/reply/${data.id}`);
+    console.log("SagaAPi"+data)
+   return axios.get(`/feed/reply/${data}`);
 }
 function* loadPostsComments(action) {
 

@@ -154,7 +154,8 @@ function loadPosts(action) {
 }
 
 function loadPostsCommentsAPI(data) {
-  return _axios["default"].get("/feed/reply/".concat(data.id));
+  console.log("SagaAPi" + data);
+  return _axios["default"].get("/feed/reply/".concat(data));
 }
 
 function loadPostsComments(action) {
