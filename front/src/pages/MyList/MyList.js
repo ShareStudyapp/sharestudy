@@ -14,7 +14,7 @@ function MyList() {
     return (
         <div>
             <MainLogo />
-            {userInfo.length != 0?
+            {userInfo.length != 0||me?
                 <>
                     <Feeds reqUserInfo={reqUserInfo} /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link>
                 </>

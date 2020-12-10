@@ -76,6 +76,10 @@ export const FOLLOWING_LIST_FAILURE = 'FOLLOWING_LIST_FAILURE';
 export const OTHER_USER_INFO_REQUEST = 'OTHER_USER_INFO_REQUEST';
 export const OTHER_USER_INFO_SUCCESS = 'OTHER_USER_INFO_SUCCESS';
 export const OTHER_USER_INFO_FAILURE = 'OTHER_USER_INFO_FAILURE';
+//내 정보 업데이트
+export const USERINFO_UPDATE_REQUEST = 'USERINFO_UPDATE_REQUEST';
+export const USERINFO_UPDATE_SUCCESS = 'USERINFO_UPDATE_SUCCESS';
+export const USERINFO_UPDATE_FAILURE = 'USERINFO_UPDATE_FAILURE';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -142,7 +146,6 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.userinfoDone=true;
       draft.userinfoLoading=false;
       draft.userInfo = action.data;
-      console.log(action.data)
       break;
     case USER_INFO_FAILURE:
       draft.userinfoDone=true;
@@ -246,6 +249,12 @@ const userReducer = (state = initialState, action) => produce(state, (draft) => 
       draft.userinfoDone=true;
       draft.userinfoLoading=false;
       draft.userinfoError = action.error.response.data;
+      break;
+    case USERINFO_UPDATE_REQUEST:
+      break;
+    case USERINFO_UPDATE_SUCCESS:
+      break;
+    case USERINFO_UPDATE_FAILURE:
       break;
     default:
       break;

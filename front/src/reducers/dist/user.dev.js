@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.logoutRequestAction = exports.loginRequestAction = exports.OTHER_USER_INFO_FAILURE = exports.OTHER_USER_INFO_SUCCESS = exports.OTHER_USER_INFO_REQUEST = exports.FOLLOWING_LIST_FAILURE = exports.FOLLOWING_LIST_SUCCESS = exports.FOLLOWING_LIST_REQUEST = exports.FOLLOWER_LIST_FAILURE = exports.FOLLOWER_LIST_SUCCESS = exports.FOLLOWER_LIST_REQUEST = exports.FOLLOW_CANCLE_FAILURE = exports.FOLLOW_CANCLE_SUCCESS = exports.FOLLOW_CANCLE_REQUEST = exports.FOLLOW_FAILURE = exports.FOLLOW_SUCCESS = exports.FOLLOW_REQUEST = exports.UPLOAD_PROFILE_IMAGES_FAILURE = exports.UPLOAD_PROFILE_IMAGES_SUCCESS = exports.UPLOAD_PROFILE_IMAGES_REQUEST = exports.USER_INFO_FAILURE = exports.USER_INFO_SUCCESS = exports.USER_INFO_REQUEST = exports.LOG_OUT_FAILURE = exports.LOG_OUT_SUCCESS = exports.LOG_OUT_REQUEST = exports.LOG_IN_FAILURE = exports.LOG_IN_SUCCESS = exports.LOG_IN_REQUEST = exports.SIGN_UP_FAILURE = exports.SIGN_UP_SUCCESS = exports.SIGN_UP_REQUEST = exports.USER_RESET = exports.initialState = void 0;
+exports["default"] = exports.logoutRequestAction = exports.loginRequestAction = exports.USERINFO_UPDATE_FAILURE = exports.USERINFO_UPDATE_SUCCESS = exports.USERINFO_UPDATE_REQUEST = exports.OTHER_USER_INFO_FAILURE = exports.OTHER_USER_INFO_SUCCESS = exports.OTHER_USER_INFO_REQUEST = exports.FOLLOWING_LIST_FAILURE = exports.FOLLOWING_LIST_SUCCESS = exports.FOLLOWING_LIST_REQUEST = exports.FOLLOWER_LIST_FAILURE = exports.FOLLOWER_LIST_SUCCESS = exports.FOLLOWER_LIST_REQUEST = exports.FOLLOW_CANCLE_FAILURE = exports.FOLLOW_CANCLE_SUCCESS = exports.FOLLOW_CANCLE_REQUEST = exports.FOLLOW_FAILURE = exports.FOLLOW_SUCCESS = exports.FOLLOW_REQUEST = exports.UPLOAD_PROFILE_IMAGES_FAILURE = exports.UPLOAD_PROFILE_IMAGES_SUCCESS = exports.UPLOAD_PROFILE_IMAGES_REQUEST = exports.USER_INFO_FAILURE = exports.USER_INFO_SUCCESS = exports.USER_INFO_REQUEST = exports.LOG_OUT_FAILURE = exports.LOG_OUT_SUCCESS = exports.LOG_OUT_REQUEST = exports.LOG_IN_FAILURE = exports.LOG_IN_SUCCESS = exports.LOG_IN_REQUEST = exports.SIGN_UP_FAILURE = exports.SIGN_UP_SUCCESS = exports.SIGN_UP_REQUEST = exports.USER_RESET = exports.initialState = void 0;
 
 var _produce = _interopRequireDefault(require("../utils/produce"));
 
@@ -137,8 +137,15 @@ var OTHER_USER_INFO_REQUEST = 'OTHER_USER_INFO_REQUEST';
 exports.OTHER_USER_INFO_REQUEST = OTHER_USER_INFO_REQUEST;
 var OTHER_USER_INFO_SUCCESS = 'OTHER_USER_INFO_SUCCESS';
 exports.OTHER_USER_INFO_SUCCESS = OTHER_USER_INFO_SUCCESS;
-var OTHER_USER_INFO_FAILURE = 'OTHER_USER_INFO_FAILURE';
+var OTHER_USER_INFO_FAILURE = 'OTHER_USER_INFO_FAILURE'; //내 정보 업데이트
+
 exports.OTHER_USER_INFO_FAILURE = OTHER_USER_INFO_FAILURE;
+var USERINFO_UPDATE_REQUEST = 'USERINFO_UPDATE_REQUEST';
+exports.USERINFO_UPDATE_REQUEST = USERINFO_UPDATE_REQUEST;
+var USERINFO_UPDATE_SUCCESS = 'USERINFO_UPDATE_SUCCESS';
+exports.USERINFO_UPDATE_SUCCESS = USERINFO_UPDATE_SUCCESS;
+var USERINFO_UPDATE_FAILURE = 'USERINFO_UPDATE_FAILURE';
+exports.USERINFO_UPDATE_FAILURE = USERINFO_UPDATE_FAILURE;
 
 var loginRequestAction = function loginRequestAction(data) {
   return {
@@ -228,7 +235,6 @@ var userReducer = function userReducer() {
         draft.userinfoDone = true;
         draft.userinfoLoading = false;
         draft.userInfo = action.data;
-        console.log(action.data);
         break;
 
       case USER_INFO_FAILURE:
@@ -357,6 +363,15 @@ var userReducer = function userReducer() {
         draft.userinfoDone = true;
         draft.userinfoLoading = false;
         draft.userinfoError = action.error.response.data;
+        break;
+
+      case USERINFO_UPDATE_REQUEST:
+        break;
+
+      case USERINFO_UPDATE_SUCCESS:
+        break;
+
+      case USERINFO_UPDATE_FAILURE:
         break;
 
       default:

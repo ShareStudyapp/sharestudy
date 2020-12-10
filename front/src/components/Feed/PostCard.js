@@ -15,7 +15,27 @@ import Modal from "../Utils/Modal";
 import { format,register } from 'timeago.js';
 import {localeFunc} from './Common/localeFunc';
 
-
+/** @param txt<br/>
+     *  @param len : 생략시 기본값 20<br/>
+     *  @param lastTxt : 생략시 기본값 "..."<br/>
+     *  @returns 결과값
+     * <br/>
+     * <br/>
+     * 특정 글자수가 넘어가면 넘어가는 글자는 자르고 마지막에 대체문자 처리<br/>
+     *  ex) 가나다라마바사 -> textLengthOverCut('가나다라마바사', '5', '...') : 가나다라마...<br/>
+     */
+    function textLengthOverCut(txt, len, lastTxt) {
+      if (len == "" || len == null) { // 기본값
+          len = 20;
+      }
+      if (lastTxt == "" || lastTxt == null) { // 기본값
+          lastTxt = "...";
+      }
+      if (txt.length > len) {
+          txt = txt.substr(0, len) + lastTxt;
+      }
+      return txt;
+  }
 function PostCard({post,setTargetUserId,targetUserInfo}) {
     
     const dispatch = useDispatch();
@@ -28,6 +48,8 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
     const [replytmp,setReplytmp] = useState('');
     const [buttonloading,setButtonloading] = useState(false);
     const [modalOpen,setModalOpen]  = useState(false);
+    const [moreCheck,setMoreCheck] = useState(false);//글자더보기
+
     const modalOpenValue="likelist";
     register('my-locale', localeFunc);
     const relativeDate = format(post.createdAt,'my-locale');
@@ -129,15 +151,15 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
       }
        
     },[modalOpen])
-    const testClick = useCallback(()=>{
-      setModalOpen(true);
+    const toggleMoreText = useCallback(()=>{
+      setMoreCheck(true);
 
     },[])
     const onToggleComment = useCallback((postid) => {
       setCommentFormOpened((prev) => !prev);
       dispatch({
         type: LOAD_POSTS_COMMENT_REQUEST,
-        data:  postid
+        data: postid
       });
     }, []);
     
@@ -160,7 +182,7 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
               <div className="content_zone">
                 {editMode
                 ?<div><PostCardContent content={post.content} onChangePost={onChangePost} onCancelUpdate={onCancelUpdate} /></div>
-                :post.content} <span>더보기</span>
+                :moreCheck?post.content:textLengthOverCut(post.content,5,'...')}{post.content.length>5?moreCheck?"":<span onClick={toggleMoreText}>더보기</span>:""}
               </div>
               <div className="content_feature">
                 <div className="bar-item like">
@@ -183,7 +205,7 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                           <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
                         </>
                       )
-                      : <Button onClick={testClick}>신고</Button>}
+                      : <Button>신고</Button>}
                 <div>
                   <div className="create_time">
                     {relativeDate}

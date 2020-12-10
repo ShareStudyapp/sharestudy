@@ -32,19 +32,17 @@ const Main = lazy(()=>import('./pages/Login/Main'));
 function App({history}) {
   const dispatch = useDispatch();
   
-
+  
   const user = window.sessionStorage.getItem('user')//로그인여부
-  const { me } = useSelector((state) => state.userReducer);
-  useEffect(()=>{
-    
-    if (me || user) {//로그인했을떄 정보 요청
-      
+  const userPersist = () =>{
+    if(user){
       dispatch({
         type: USER_INFO_REQUEST
       });
-    } 
-   
-  },[me])
+    }
+  }
+  userPersist();
+  
   return (
     <div className="main_container">
     <Router>
@@ -60,7 +58,7 @@ function App({history}) {
           <Route path="/profile" component={Profile} />
           {/* <Route path="/todolist" component={TodoList} /> */}
           <Route path="/mytodolist" component={MyTodoList} />
-          <Route path="/mylist" component={MyList} />
+          <CacheRoute path="/mylist" component={MyList} />
           <Route path="/messenger" component={Messenger} />
           <Route path="/todofeed" component={TodoFeed} />
         </CacheSwitch>

@@ -5,7 +5,6 @@ import Modal from "../Utils/Modal";
 import {FOLLOWER_LIST_REQUEST,FOLLOWING_LIST_REQUEST} from '../../reducers/user';
 import {Link} from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
-//import three_feature from '../../assets/Button/three_feature.png';
 import threefeature from '../../assets/Button/threefeature.png';
 import { logoutRequestAction } from '../../reducers/user';
 import {FOLLOW_REQUEST,FOLLOW_CANCLE_REQUEST} from '../../reducers/user';
@@ -18,16 +17,12 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
     const { followInfo,unfollowDone } = useSelector((state) => state.userReducer);
     const [modalOpen,setModalOpen]  = useState(false);
     let [modalOpenValue,setModalOpenValue] = useState("");
-    let followingCheck = userInfo.followlist.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;
-    // if(userInfo!==undefined){
-    //     followingCheck = userInfo.followlist.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;
-    // }
+    let followingCheck = userInfo.followlist.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;;
     
-    
+
     const openFollowerModal = useCallback((id)=>{
         setModalOpenValue("followerList")
         setModalOpen(!modalOpen);
-        
         dispatch({
             type: FOLLOWER_LIST_REQUEST,
             data: id,
@@ -124,13 +119,12 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                                     <>
                                     {/* {typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
                                     {/* {followingCheck ||typeof userInfo.followlist !== 'undefined'&&userInfo.followlist.find(e=>e.fromUser.id === otheruserInfo.id) || followInfo.find(e=>e.userkey===otheruserInfo.id) */}
-                                    {followingCheck
+                                    {userInfo.id===otheruserInfo.id?"":followingCheck
                                         ?<button className="following_btn" onClick={()=>followCancle(otheruserInfo.id)} />
                                         :<button className="follow_btn" onClick={()=>follow(otheruserInfo.id)} />                                                                        
                                     }
                                     </>
                                 </li>
-                                
                                 <li onClick={() => openFollowingModal(otheruserInfo.id)}>
                                     팔로워 
                                     {otheruserInfo.followlistsize}                               

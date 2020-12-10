@@ -30,7 +30,10 @@ import {
   FOLLOWING_LIST_FAILURE,
   OTHER_USER_INFO_REQUEST,
   OTHER_USER_INFO_SUCCESS,
-  OTHER_USER_INFO_FAILURE
+  OTHER_USER_INFO_FAILURE,
+  USERINFO_UPDATE_REQUEST,
+  USERINFO_UPDATE_SUCCESS,
+  USERINFO_UPDATE_FAILURE
 } from '../reducers/user';
 
 
@@ -206,7 +209,6 @@ function* followingList(action){
   }
 }
 function otherUserInfoAPI(id){
-  console.log(id)
   return axios.get(`/user/otheruserInfo/${id}`);
 }
 function* otherUserInfo(action){
@@ -219,6 +221,24 @@ function* otherUserInfo(action){
   }catch(err){
     yield put({
       type: OTHER_USER_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function userInfoUpdateAPI(data){
+  console.log(data)
+  return axios.patch("/user/updateUser",data);
+}
+function* userInfoUpdate(action){
+  try{
+    const result = yield call(userInfoUpdateAPI, action.data);
+    yield put({
+      type: USERINFO_UPDATE_SUCCESS,
+      data: result.data,
+    });
+  }catch(err){
+    yield put({
+      type: USERINFO_UPDATE_FAILURE,
       error: err.response.data,
     });
   }
@@ -253,6 +273,9 @@ function* watchFollowingList(){
 function* watchOtherUserInfo(){
   yield takeLatest(OTHER_USER_INFO_REQUEST, otherUserInfo);
 }
+function* watchUserInfoUpdate(){
+  yield takeLatest(USERINFO_UPDATE_REQUEST, userInfoUpdate)
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -264,6 +287,7 @@ export default function* userSaga() {
     fork(watchFollowCancle),
     fork(watchFollowerList),
     fork(watchFollowingList),
-    fork(watchOtherUserInfo)
+    fork(watchOtherUserInfo),
+    fork(watchUserInfoUpdate)
   ]); 
 }

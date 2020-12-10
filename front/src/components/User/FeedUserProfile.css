@@ -15,7 +15,7 @@
     margin: 0 15px 0 0;
     line-height:30px;
  }
- .profile_follow_area button{
+ .profile_follow_area > button{
      width:96px;
      height:38px;
      background:#999;
