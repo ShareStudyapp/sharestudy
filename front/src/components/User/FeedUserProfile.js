@@ -81,9 +81,11 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
                         </div>
                         <ul className="profile_follow_area">
                             <li>
-                            <button>
-                                <Link to="/profile">프로필편집</Link>
-                            </button>
+                            <Link to="/profile">
+                                <button>
+                                    프로필편집
+                                </button>
+                            </Link>
                             </li>
                             {/* <li onClick={() => openFollowingModal(userInfo.id)}>
                                 팔로워 

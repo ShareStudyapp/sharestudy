@@ -1,4 +1,4 @@
-import React,{useState,useCallback} from 'react'
+import React,{useState,useCallback,useEffect} from 'react'
 
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileImage from '../../components/SignUp/ProfileImage';
@@ -9,7 +9,6 @@ import Age from '../../components/Common/Select/Age';
 import Sex from '../../components/Common/Select/Sex';
 
 import { USERINFO_UPDATE_REQUEST } from '../../reducers/user';
-
 import './Profile.css';
 
 function Profile() {
@@ -23,11 +22,14 @@ function Profile() {
     const [editSex,setEditSex] = useState(userInfo.sex);
     const [editAge,setEditAge] = useState(userInfo.age);
     const [editPassword,setEditPassword] = useState('');
-    
-    console.log(userInfo.nickname+",,,,"+editNickname)
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [passwordError, setPasswordError] = useState(false);
 
     const UpdateClick = useCallback(()=>{
-
+        if (editPassword !== passwordCheck) {
+            // return setPasswordError(true);
+            return alert("비밀번호를 확인해주세요.")
+        }
         const User = new Object();
         User.nickname = editNickname; 
         User.introduce = editText;
@@ -36,11 +38,16 @@ function Profile() {
         User.password2 = editPassword;
         User.introduce = editText;
 
-        dispatch({
+        return dispatch({
             type: USERINFO_UPDATE_REQUEST,
             data: User,
           });
-    },[editNickname,editText,editSex,editAge,editPassword])
+    },[editNickname,editText,editSex,editAge,editPassword,passwordCheck]);
+
+    const onChangePasswordCheck = useCallback((e) => {
+        setPasswordError(e.target.value !== editPassword);
+        setPasswordCheck(e.target.value);
+      }, [editPassword]);
     return (
         <>
         <MainLogo />
@@ -79,15 +86,27 @@ function Profile() {
                             <li>성별<Sex sex={editSex} setEditSex={setEditSex} /></li>
                             <li>나이<Age age={editAge} setEditAge={setEditAge} /></li>
                         </ul>
-                        <textarea value={editText} onChange={(e)=>setEditText(e.target.value)} style={{width:400,height:100,borderStyle:"none"}} />
+                        <textarea value={editText} onChange={(e)=>setEditText(e.target.value)} style={{width:400,height:100}} />
                         <div className="pw_area">
                             <h1>비밀번호 변경하기</h1>
                             <div className="pw_area_input">
-                                <div><input type="password" name="user_password" value={editPassword} onChange={(e)=>setEditPassword(e.target.value)} /></div>
-                                <div><input type="password" name="user_password" /></div>
+                                <div>
+                                    <input type="password" 
+                                            name="user_password" 
+                                            value={editPassword} 
+                                            onChange={(e)=>setEditPassword(e.target.value)}
+                                             />
+                                </div>
+                                <div>
+                                    <input type="password"
+                                            value={passwordCheck}
+                                            required
+                                            onChange={onChangePasswordCheck} />
+                                </div>
+                                {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
                             </div>
                         </div>
-                        <div>
+                        <div className="update_button">
                             <button onClick={UpdateClick}>수정하기</button>
                         </div>
                     </div>

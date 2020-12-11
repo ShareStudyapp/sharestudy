@@ -9,7 +9,7 @@ import Feeds from '../../components/Feed/Feeds'
 import ButtonWrite from '../../assets/Button/button_write.png';
 function MyList() {
 
-    const { me,userInfo,logInDone} = useSelector((state) => state.userReducer);
+    const { me,userInfo } = useSelector((state) => state.userReducer);
     const reqUserInfo = true;
     return (
         <div>

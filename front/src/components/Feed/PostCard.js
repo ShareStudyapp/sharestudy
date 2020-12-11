@@ -40,12 +40,12 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
     
     const dispatch = useDispatch();
     const { removePostLoading} = useSelector((state) => state.postReducer);
-    const { mainPosts } = useSelector((state) => state.postReducer);
+    const { loadPostsCommentDone } = useSelector((state) => state.postReducer);
     const {userInfo} = useSelector((state) => state.userReducer);
     const [commentFormOpened, setCommentFormOpened] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [replyeditMode, setReplyeditMode] = useState(false);
-    const [replytmp,setReplytmp] = useState('');
+    const [replytmp,setReplytmp] = useState(0);
     const [buttonloading,setButtonloading] = useState(false);
     const [modalOpen,setModalOpen]  = useState(false);
     const [moreCheck,setMoreCheck] = useState(false);//글자더보기
@@ -63,6 +63,7 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
     }, []);
     const onClickReplyUpdate = useCallback((replyid) => {
       setReplytmp(replyid);
+      
       setReplyeditMode(true);
     }, []);
     const onCancleReplyUpdate = useCallback(() => {
@@ -87,7 +88,8 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
           content: replyeditText,
         },
       });
-    }, []);
+      
+    }, [post]);
   
     const onRemovePost = useCallback(() => {
       if (!userInfo.id) {
@@ -156,12 +158,15 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
 
     },[])
     const onToggleComment = useCallback((postid) => {
+      
+      console.log('ggg')
+
       setCommentFormOpened((prev) => !prev);
       dispatch({
         type: LOAD_POSTS_COMMENT_REQUEST,
         data: postid
       });
-    }, []);
+    }, [post.id]);
     
     const liked = post.feedlike.find((v) =>v.userkey===userInfo.id);
     return(
@@ -198,11 +203,11 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                 {/* <FaRegCommentAlt className="bar-icon" onClick={onToggleComment} /> */}
                 <div className="bar-item comment">{post.feedreplysize}</div>
                 </div>
-                      { post.user.id === userInfo.id
+                      {post.user.id === userInfo.id
                       ? (
                         <>
                           <Button onClick={onClickUpdate}>수정</Button>
-                          <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}  >삭제</Button>
+                          <Button type="danger" loading={removePostLoading} onClick={()=>onRemovePost(post)}>삭제</Button>
                         </>
                       )
                       : <Button>신고</Button>}
@@ -211,7 +216,7 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                     {relativeDate}
                   </div>
                   {commentFormOpened && <CommentForm post={post} />}
-                  {commentFormOpened&&post.feedreply.map((item,index)=>(
+                  {commentFormOpened && post.feedreply.map((item,index)=>(
                     <>
                         <Comment
                           author={item.user.nickname}
@@ -220,18 +225,22 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                               <a><img src={item.user.userProfileImage.src}></img></a>
                             // </Link>
                           )}  
-                          content={<ReplyContent replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />}
+                          content={
+                            <>
+                              <ReplyContent replytmp={replytmp} replyeditMode={replyeditMode} replyid={item.id} content={item.content} userid={item.user.id} onChangeReplyPost={onChangeReplyPost} onCancleReplyUpdate={onCancleReplyUpdate} />
+                            </>
+                          }
                           datetime={
                             item.createdAt.substring(0,10)+"  "+item.createdAt.substring(11,20)
                           }
                         />
-                        {/* { item.user.id === userInfo.id
+                        {item.user.id === userInfo.id
                           ?(
                           <>
                             <Button onClick={()=>onClickReplyUpdate(item.id)} >수정</Button>
                             <Button onClick={()=>onClickReplyDelete(item.id)} >삭제</Button>
                           </>
-                        ):<>회원만 수정가능</>} */}
+                        ):<>회원만 수정가능</>}
                     </>                  
                   ))}
               </div>

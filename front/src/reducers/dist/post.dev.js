@@ -213,20 +213,20 @@ var postReducer = function postReducer() {
       case LOAD_POSTS_COMMENT_REQUEST:
         draft.loadPostsCommentLoading = true;
         draft.loadPostsCommentDone = false;
-        draft.loadPostsCommentError = null;
+        draft.loadPostsCommentError = null; //draft.mainPosts.feed = [];
+
         break;
 
       case LOAD_POSTS_COMMENT_SUCCESS:
         //const c = draft.mainPosts.find((v) => v.id===action.feedkey);
         draft.loadPostsCommentLoading = false;
         draft.loadPostsCommentDone = true; //draft.mainPosts = draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply.push(action.data.feedReplylist);
+        //const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
+        //action.data.feedReplylist.map((item)=>c.feedreply.push(item));
 
-        var c = draft.mainPosts.find(function (v) {
+        draft.mainPosts.find(function (v) {
           return v.id === action.data.feedlist.id;
-        });
-        action.data.feedReplylist.map(function (item) {
-          return c.feedreply.push(item);
-        }); // draft.postComment = draft.postComment.concat(action.data);
+        }).feedreply = action.data.feedReplylist; // draft.postComment = draft.postComment.concat(action.data);
         // draft.mainPosts = c.concat(draft.postComment)
         //draft.hasMorePosts = draft.mainPosts.length < 50;
 
@@ -448,11 +448,16 @@ var postReducer = function postReducer() {
 
       case REMOVE_COMMENT_SUCCESS:
         draft.removeCommentLoading = false;
-        draft.removeCommentDone = true; //const removepostlist = state.mainPosts.find((v) => v.id === action.data.postId);
-
-        draft.postComment = draft.postComment.filter(function (v) {
-          return v.id !== action.data.commentId;
+        draft.removeCommentDone = true;
+        var removeComment = draft.mainPosts.find(function (v) {
+          return v.id === action.data.postId;
         });
+        removeComment.feedreply = removeComment.feedreply.filter(function (item) {
+          return item.id !== action.data.commentId;
+        }); //const removepostlist = state.mainPosts.find((v) => v.id === action.data.postId);
+        // console.log(state.mainPosts.map((item)=>item.feedreply))
+        //draft.mainPosts= draft.mainPosts.feedreply.filter((v) => v.id !== action.data.commentId);
+
         break;
 
       case REMOVE_COMMENT_FAILURE:
@@ -469,12 +474,15 @@ var postReducer = function postReducer() {
       case UPDATE_COMMENT_SUCCESS:
         draft.updateCommentLoading = false;
         draft.updateCommentDone = true;
-        var updatepostlist = draft.mainPosts.find(function (v) {
-          return v.id === action.data.postId;
+        console.log(action.data);
+        var updateComment = draft.mainPosts.find(function (v) {
+          return v.id === action.data.feedlistkey;
         });
-        updatepostlist.find(function (v) {
-          return v.id === action.data.id;
-        }).content = action.data.content;
+        updateComment.feedreply.find(function (item) {
+          return item.id === action.data.id;
+        }).content = action.data.content; //draft.mainPosts.find((v) => v.id === action.data.id).content = action.data.content;
+        //updatepostlist.find((v) => v.id === action.data.id).content = action.data.content;
+
         break;
 
       case UPDATE_COMMENT_FAILURE:

@@ -237,6 +237,7 @@ function* addComment(action) {
   }
 }
 function removeCommentAPI(id) {
+  console.log("id"+id)
   return axios.delete(`/feed/reply/${id}`); 
 }
 function* removeComment(action) {

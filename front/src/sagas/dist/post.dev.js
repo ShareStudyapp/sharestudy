@@ -545,6 +545,7 @@ function addComment(action) {
 }
 
 function removeCommentAPI(id) {
+  console.log("id" + id);
   return _axios["default"]["delete"]("/feed/reply/".concat(id));
 }
 

@@ -150,6 +150,7 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.loadPostsCommentLoading = true;
         draft.loadPostsCommentDone = false;
         draft.loadPostsCommentError = null;
+        //draft.mainPosts.feed = [];
         break;
       case LOAD_POSTS_COMMENT_SUCCESS:
  
@@ -157,8 +158,10 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
         draft.loadPostsCommentLoading = false;
         draft.loadPostsCommentDone = true;
         //draft.mainPosts = draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply.push(action.data.feedReplylist);
-        const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
-        action.data.feedReplylist.map((item)=>c.feedreply.push(item));
+        //const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
+        //action.data.feedReplylist.map((item)=>c.feedreply.push(item));
+        draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply = action.data.feedReplylist;
+        
         // draft.postComment = draft.postComment.concat(action.data);
         // draft.mainPosts = c.concat(draft.postComment)
         //draft.hasMorePosts = draft.mainPosts.length < 50;
@@ -321,10 +324,11 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case REMOVE_COMMENT_SUCCESS:
         draft.removeCommentLoading = false;
         draft.removeCommentDone = true;
-        
+        const removeComment = draft.mainPosts.find((v) => v.id===action.data.postId);
+        removeComment.feedreply = removeComment.feedreply.filter((item)=>item.id!==action.data.commentId)
         //const removepostlist = state.mainPosts.find((v) => v.id === action.data.postId);
-        
-        draft.postComment= draft.postComment.filter((v) => v.id !== action.data.commentId);
+        // console.log(state.mainPosts.map((item)=>item.feedreply))
+        //draft.mainPosts= draft.mainPosts.feedreply.filter((v) => v.id !== action.data.commentId);
         break; 
       case REMOVE_COMMENT_FAILURE:
         draft.removeCommentLoading = false;
@@ -338,8 +342,11 @@ const postReducer = (state = initialState, action) => produce(state, (draft) => 
       case UPDATE_COMMENT_SUCCESS:
         draft.updateCommentLoading = false;
         draft.updateCommentDone = true;
-        const updatepostlist = draft.mainPosts.find((v) => v.id === action.data.postId)
-        updatepostlist.find((v) => v.id === action.data.id).content = action.data.content;
+        console.log(action.data)
+        const updateComment = draft.mainPosts.find((v) => v.id === action.data.feedlistkey);
+        updateComment.feedreply.find((item)=>item.id === action.data.id).content = action.data.content;
+        //draft.mainPosts.find((v) => v.id === action.data.id).content = action.data.content;
+        //updatepostlist.find((v) => v.id === action.data.id).content = action.data.content;
         break;
       case UPDATE_COMMENT_FAILURE:
         draft.updateCommentLoading = false;
