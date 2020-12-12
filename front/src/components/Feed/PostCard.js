@@ -193,12 +193,12 @@ function PostCard({post,setTargetUserId,targetUserInfo}) {
                 <div className="bar-item like">
                   {buttonloading?<div style={{marginLeft:15}}><Spinner /></div>
                   :liked 
-                  ?<FaHeart style={{color:'red'}} className="bar-icon" onClick={onUnlike}/>
-                  :<FaRegHeart className="bar-icon" onClick={onLike}/>}
-                  <div onClick={() => openLikeModal(post.id)}>{post.totallike}</div>
+                  ?<FaHeart style={{color:'red',width:20}} className="bar-icon" onClick={onUnlike}/>
+                  :<FaRegHeart className="bar-icon" style={{width:20}} onClick={onLike}/>}
+                  <div onClick={() => openLikeModal(post.id)} style={{marginTop:3}}>{post.totallike}</div>
                   {modalOpen?<><Modal userInfo={userInfo} modalOpenValue={modalOpenValue} modalOpen={modalOpen} setModalOpen={setModalOpen}/></>:""}
                 </div>
-                <FaRegCommentAlt className="bar-icon" onClick={()=>onToggleComment(post.id)} />
+                <FaRegCommentAlt className="bar-icon" style={{marginLeft:20,width:20}} onClick={()=>onToggleComment(post.id)} />
                 {/* <Link to={`/feeddetail/${post.id}`} style={{ textDecoration: 'none', color: 'inherit',marginLeft:40 }}><FaRegCommentAlt className="bar-icon"/></Link> */}
                 {/* <FaRegCommentAlt className="bar-icon" onClick={onToggleComment} /> */}
                 <div className="bar-item comment">{post.feedreplysize}</div>

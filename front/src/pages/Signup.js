@@ -110,20 +110,20 @@ function Signup({history}) {
                 <Input name="user-userid" placeholder="아이디를 입력해주세요" value={userid} required onChange={({ target: { value } })=>setUserid(value)} />
               </div>
               <div>
-              <Select defaultValue="M" style={{ width: 90 }} onChange={onChangeSex}>
+              {/* <Select defaultValue="M" style={{ width: 90 }} onChange={onChangeSex}>
                 <Option value="M">남자</Option>
                 <Option value="F">여자</Option>
-              </Select>
+              </Select> */}
               </div>
               <div>
               </div>
               <div>
-                <label htmlFor="user-password">비밀번호</label>
+                {/* <label htmlFor="user-password">비밀번호</label> */}
                 <br />
                 <Input name="user-password" placeholder="비밀번호를 입력해주세요" type="password" value={password} required onChange={({ target: { value } }) => setPassword(value)} />
               </div>
               <div>
-                  <label htmlFor="user-password-check">비밀번호체크</label>
+                  {/* <label htmlFor="user-password-check">비밀번호체크</label> */}
                 <br />
                 <Input
                     name="user-password-check"
@@ -137,7 +137,7 @@ function Signup({history}) {
               </div>
               
               <div style={{ marginTop: 10 }}>
-                <Button type="primary" htmlType="submit" className="signup_btn" loading={signUpLoading}>가입하기</Button>
+                <Button type="primary" style={{width:"100%",backgroundColor:"#C5C5C5"}} htmlType="submit" className="signup_btn" loading={signUpLoading}>확인</Button>
               </div>
             </div>
         </Form>
