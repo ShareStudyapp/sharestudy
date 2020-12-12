@@ -133,7 +133,7 @@ function logInAPI(data) {
 }
 
 function logIn(action) {
-  var result;
+  var result, result2;
   return regeneratorRuntime.wrap(function logIn$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
@@ -147,31 +147,37 @@ function logIn(action) {
           window.sessionStorage.setItem('user', result.data.jwt);
           window.sessionStorage.setItem('login_valid', "temp");
           _context2.next = 8;
-          return (0, _effects.put)({
-            type: _user.LOG_IN_SUCCESS,
-            data: result.data
-          });
+          return (0, _effects.call)(userInfoAPI);
 
         case 8:
-          _context2.next = 15;
+          result2 = _context2.sent;
+          _context2.next = 11;
+          return (0, _effects.put)({
+            type: _user.LOG_IN_SUCCESS,
+            data: result.data,
+            data2: result2.data
+          });
+
+        case 11:
+          _context2.next = 18;
           break;
 
-        case 10:
-          _context2.prev = 10;
+        case 13:
+          _context2.prev = 13;
           _context2.t0 = _context2["catch"](0);
           console.error(_context2.t0);
-          _context2.next = 15;
+          _context2.next = 18;
           return (0, _effects.put)({
             type: _user.LOG_IN_FAILURE,
             error: _context2.t0.response.data
           });
 
-        case 15:
+        case 18:
         case "end":
           return _context2.stop();
       }
     }
-  }, _marked2, null, [[0, 10]]);
+  }, _marked2, null, [[0, 13]]);
 }
 
 function logOutAPI(token) {
@@ -235,33 +241,32 @@ function userInfo() {
 
         case 3:
           result = _context4.sent;
-          console.log(result.data);
-          _context4.next = 7;
+          _context4.next = 6;
           return (0, _effects.put)({
             type: _user.USER_INFO_SUCCESS,
             data: result.data
           });
 
-        case 7:
-          _context4.next = 14;
+        case 6:
+          _context4.next = 13;
           break;
 
-        case 9:
-          _context4.prev = 9;
+        case 8:
+          _context4.prev = 8;
           _context4.t0 = _context4["catch"](0);
           console.error(_context4.t0);
-          _context4.next = 14;
+          _context4.next = 13;
           return (0, _effects.put)({
             type: _user.USER_INFO_FAILURE,
             error: _context4.t0.response.data
           });
 
-        case 14:
+        case 13:
         case "end":
           return _context4.stop();
       }
     }
-  }, _marked4, null, [[0, 9]]);
+  }, _marked4, null, [[0, 8]]);
 }
 
 function uploadProfileImagesAPI(data) {

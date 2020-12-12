@@ -183,6 +183,7 @@ var userReducer = function userReducer() {
       case LOG_IN_SUCCESS:
         draft.logInLoading = false;
         draft.me = action.data.jwt;
+        draft.userInfo = action.data2;
         draft.logInDone = true;
         break;
 

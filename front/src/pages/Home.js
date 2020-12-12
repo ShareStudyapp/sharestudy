@@ -26,7 +26,7 @@ function Home({history}) {
       <div>
         <MainLogo />
         <>
-          <Feeds reqUserInfo={reqUserInfo}/><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link>
+          <Feeds reqUserInfo={reqUserInfo}/><Link to="/writefeed">{userInfo.id?<img src={ButtonWrite} className="button_write"/>:""}</Link>
         </>
       {/* { user? <><Feeds /><Link to="/writefeed"><img src={ButtonWrite} className="button_write"/></Link></>:<LoginForm />}  */}
       {/* {user?<Feeds />: <LoginForm />} */}

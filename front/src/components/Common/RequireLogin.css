@@ -2,8 +2,10 @@ a{
     text-decoration: none;
 }
 .Login_area{
-    margin-left:25%;
-    margin-top:30%;
+    margin-top:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 .Login_area > a > button{
     background-color: #6A3DE6;

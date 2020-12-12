@@ -1,6 +1,6 @@
 import React,{Suspense, lazy,useEffect } from 'react';
 import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
-import {useSelector,useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './App.css';
 import 'antd/dist/antd.css';
 import Home from './pages/Home';
@@ -32,10 +32,10 @@ const Main = lazy(()=>import('./pages/Login/Main'));
 function App({history}) {
   const dispatch = useDispatch();
   
-  
   const user = window.sessionStorage.getItem('user')//로그인여부
   const userPersist = () =>{
     if(user){
+      console.log('호출')
       dispatch({
         type: USER_INFO_REQUEST
       });

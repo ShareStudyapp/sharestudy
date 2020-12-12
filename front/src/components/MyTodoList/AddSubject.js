@@ -133,7 +133,6 @@ function AddSubject({today,colourOptions}) {
         }
 
     }
-    console.log(todolists)
     const todos = todolists.map(todo => <li className="tt">{todo.todo}</li>);
     return (
         <div className="addsubject_container">
@@ -148,9 +147,7 @@ function AddSubject({today,colourOptions}) {
                         onChange={onChangeValue}
                     />
                 </div>
-                <div >
-                    <input name="subject" className="subject_input" placeholder="과목 추가하기" value={subject} onChange={(e)=>setSubject(e.target.value)}  />
-                </div>
+                <input name="subject" className="subject_input" placeholder="과목 추가하기" value={subject} onChange={(e)=>setSubject(e.target.value)}  />
                 <button className="subject_add_btn" onClick={addSubject}>과목추가</button>
             </div>
             <Divider />

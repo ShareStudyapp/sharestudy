@@ -70,9 +70,12 @@ function* logIn(action) {
     const result = yield call(logInAPI,action.data);
     window.sessionStorage.setItem('user',result.data.jwt);
     window.sessionStorage.setItem('login_valid',"temp");
+    const result2 = yield call(userInfoAPI);
+
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
+      data2: result2.data
     });
   } catch (err) {
     console.error(err);
@@ -109,7 +112,6 @@ function userInfoAPI() {
 function* userInfo() {
   try {
     const result = yield call(userInfoAPI);
-    console.log(result.data)
     yield put({
       type: USER_INFO_SUCCESS,
       data: result.data,

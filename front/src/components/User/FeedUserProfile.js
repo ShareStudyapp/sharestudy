@@ -17,7 +17,7 @@ function FeedUserProfile({reqUserInfo,openUserInfo}) {
     const { followInfo,unfollowDone } = useSelector((state) => state.userReducer);
     const [modalOpen,setModalOpen]  = useState(false);
     let [modalOpenValue,setModalOpenValue] = useState("");
-    let followingCheck = userInfo.followlist.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;;
+    let followingCheck = userInfo.followlist?.map(v=>v.fromUser.id===otheruserInfo.id).find(f=>f===true)===true?true:false;;
     
 
     const openFollowerModal = useCallback((id)=>{

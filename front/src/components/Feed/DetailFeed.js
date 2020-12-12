@@ -22,8 +22,15 @@ function DetailFeed({match}) {
     const { postComment,loadPostsDone } = useSelector((state) => state.postReducer);
     const [commentText, onChangeCommentText, setCommentText] = useInput('');
     const postId = match.params.id;
-    console.log(postComment)
+
     const onSubmitComment = useCallback(() => {
+
+      console.log(userInfo.id)
+      if(!userInfo.id){
+        alert("로그인을 해주세요"); 
+        return;
+      }
+      
       dispatch({
         type: ADD_COMMENT_REQUEST,
         data: { content: commentText, id: postId },

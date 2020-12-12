@@ -2,12 +2,15 @@
     background:#FFF;
 }
 .selectbox{
-    width:108px;
+    width:100%;
 }
 .add_area{
     display:flex;
     justify-content: space-between;
     margin-bottom:20px;
+}
+.add_area .subject_input{
+    width:100%;
 }
 .today_font{
     font-size:24px;
@@ -63,6 +66,9 @@ input::placeholder{
     font-size:24px;
     font-weight: bold;
 
+}
+.subject_add_btn{
+    width:60%
 }
 .todo_area_font{
 }
