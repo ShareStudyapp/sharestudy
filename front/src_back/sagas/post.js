@@ -1,122 +1,119 @@
-import axios from "axios";
+import axios from 'axios';
+import shortId from 'shortid';
+import { all, delay, fork, put, takeLatest,takeEvery, throttle ,call} from 'redux-saga/effects';
+import instance from '../modules/index';
 import {
-  all,
-  fork,
-  put,
-  takeLatest,
-  takeEvery,
-  throttle,
-  call,
-} from "redux-saga/effects";
-import {
-  LOAD_POSTS_FAILURE,
-  LOAD_POSTS_REQUEST,
-  LOAD_POSTS_SUCCESS,
-  LOAD_POSTS_COMMENT_REQUEST,
-  LOAD_POSTS_COMMENT_SUCCESS,
-  LOAD_POSTS_COMMENT_FAILURE,
-  LOAD_GALLARY_REQUEST,
-  LOAD_GALLARY_SUCCESS,
-  LOAD_GALLARY_FAILURE,
-  UPLOAD_IMAGES_REQUEST,
-  UPLOAD_IMAGES_FAILURE,
-  UPLOAD_IMAGES_SUCCESS,
-  ADD_POST_FAILURE,
-  ADD_POST_REQUEST,
-  ADD_POST_SUCCESS,
-  REMOVE_POST_FAILURE,
-  REMOVE_POST_REQUEST,
-  REMOVE_POST_SUCCESS,
-  UPDATE_POST_REQUEST,
-  UPDATE_POST_FAILURE,
-  UPDATE_POST_SUCCESS,
-  LIKE_POST_FAILURE,
-  LIKE_POST_REQUEST,
-  LIKE_POST_SUCCESS,
-  UNLIKE_POST_FAILURE,
-  UNLIKE_POST_REQUEST,
-  UNLIKE_POST_SUCCESS,
-  ADD_COMMENT_FAILURE,
-  ADD_COMMENT_REQUEST,
-  ADD_COMMENT_SUCCESS,
-  REMOVE_COMMENT_REQUEST,
-  REMOVE_COMMENT_SUCCESS,
-  REMOVE_COMMENT_FAILURE,
-  UPDATE_COMMENT_REQUEST,
-  UPDATE_COMMENT_SUCCESS,
-  UPDATE_COMMENT_FAILURE,
-  LIKE_LIST_REQUEST,
-  LIKE_LIST_SUCCESS,
-  LIKE_LIST_FAILURE,
-  LOAD_POSTS_DETAIL_REQUEST,
-  LOAD_POSTS_DETAIL_SUCCESS,
-  LOAD_POSTS_DETAIL_FAILURE,
-} from "../reducers/post";
+    generateDummyPost,
+    generateDummyGallary,
+    LOAD_POSTS_FAILURE,
+    LOAD_POSTS_REQUEST,
+    LOAD_POSTS_SUCCESS,
+    LOAD_POSTS_COMMENT_REQUEST,
+    LOAD_POSTS_COMMENT_SUCCESS,
+    LOAD_POSTS_COMMENT_FAILURE,
+    LOAD_GALLARY_REQUEST,
+    LOAD_GALLARY_SUCCESS,
+    LOAD_GALLARY_FAILURE,
+    UPLOAD_IMAGES_REQUEST,
+    UPLOAD_IMAGES_FAILURE,
+    UPLOAD_IMAGES_SUCCESS,
+    ADD_POST_FAILURE,
+    ADD_POST_REQUEST,
+    ADD_POST_SUCCESS,
+    REMOVE_POST_FAILURE,
+    REMOVE_POST_REQUEST,
+    REMOVE_POST_SUCCESS,
+    UPDATE_POST_REQUEST,
+    UPDATE_POST_FAILURE,
+    UPDATE_POST_SUCCESS,
+    LIKE_POST_FAILURE,
+    LIKE_POST_REQUEST,
+    LIKE_POST_SUCCESS,
+    UNLIKE_POST_FAILURE,
+    UNLIKE_POST_REQUEST,
+    UNLIKE_POST_SUCCESS,
+    ADD_COMMENT_FAILURE,
+    ADD_COMMENT_REQUEST,
+    ADD_COMMENT_SUCCESS,
+    REMOVE_COMMENT_REQUEST,
+    REMOVE_COMMENT_SUCCESS,
+    REMOVE_COMMENT_FAILURE,
+    UPDATE_COMMENT_REQUEST,
+    UPDATE_COMMENT_SUCCESS,
+    UPDATE_COMMENT_FAILURE,
+    LIKE_LIST_REQUEST,
+    LIKE_LIST_SUCCESS,
+    LIKE_LIST_FAILURE,
+    LOAD_POSTS_DETAIL_REQUEST,
+    LOAD_POSTS_DETAIL_SUCCESS,
+    LOAD_POSTS_DETAIL_FAILURE
+  } from '../reducers/post';
 
 function loadPostsAPI(data) {
-  return axios.get("/feed", data);
+    return axios.get('/feed', data);
 }
 function uploadImagesAPI(data) {
-  return axios.post("/feed/upload", data);
+  return axios.post('/feed/upload', data);
 }
 function* loadPosts(action) {
-  try {
-    const result = yield call(loadPostsAPI, action.data);
-    //yield delay(1000);
-    yield put({
-      type: LOAD_POSTS_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: LOAD_POSTS_FAILURE,
-      data: err.response.data,
-    });
-  }
+    try {
+         const result = yield call(loadPostsAPI, action.data);
+        //yield delay(1000);
+        yield put({
+        type: LOAD_POSTS_SUCCESS,
+        data: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+        type: LOAD_POSTS_FAILURE,
+        data: err.response.data,
+        });
+    }
 }
 function loadPostsCommentsAPI(data) {
-  console.log("SagaAPi" + data);
-  return axios.get(`/feed/reply/${data}`);
+    console.log("SagaAPi"+data)
+   return axios.get(`/feed/reply/${data}`);
 }
 function* loadPostsComments(action) {
+
   try {
-    const result = yield call(loadPostsCommentsAPI, action.data);
-    yield put({
+      const result = yield call(loadPostsCommentsAPI, action.data);
+      yield put({
       type: LOAD_POSTS_COMMENT_SUCCESS,
-      data: result.data,
-    });
+      data: result.data
+      });
   } catch (err) {
-    console.error(err);
-    yield put({
+      console.error(err);
+      yield put({
       type: LOAD_POSTS_COMMENT_FAILURE,
       data: err.response.data,
-    });
+      });
   }
 }
 function loadGallaryAPI(data) {
-  return axios.get("/gallary", data);
+  return axios.get('/gallary', data);
 }
 function* loadGallary(action) {
-  try {
-    const result = yield call(loadGallaryAPI, action.data);
-
-    yield put({
-      type: LOAD_GALLARY_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: LOAD_GALLARY_FAILURE,
-      data: err.response.data,
-    });
-  }
+    try {
+        const result = yield call(loadGallaryAPI, action.data);
+        
+        yield put({
+        type: LOAD_GALLARY_SUCCESS,
+        data: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+        type: LOAD_GALLARY_FAILURE,
+        data: err.response.data,
+        });
+    }
 }
 function* uploadImages(action) {
   try {
     const result = yield call(uploadImagesAPI, action.data);
-
+    
     yield put({
       type: UPLOAD_IMAGES_SUCCESS,
       data: result.data,
@@ -130,7 +127,7 @@ function* uploadImages(action) {
   }
 }
 function addPostAPI(data) {
-  return axios.post("/feed", data);
+  return axios.post('/feed', data);
 }
 function* addPost(action) {
   try {
@@ -139,6 +136,7 @@ function* addPost(action) {
       type: ADD_POST_SUCCESS,
       data: result.data,
     });
+    
   } catch (err) {
     yield put({
       type: ADD_POST_FAILURE,
@@ -187,7 +185,7 @@ function likePostAPI(id) {
 function* likePost(action) {
   try {
     const result = yield call(likePostAPI, action.data);
-
+    
     yield put({
       type: LIKE_POST_SUCCESS,
       data: result.data,
@@ -239,8 +237,8 @@ function* addComment(action) {
   }
 }
 function removeCommentAPI(id) {
-  console.log("id" + id);
-  return axios.delete(`/feed/reply/${id}`);
+  console.log("id"+id)
+  return axios.delete(`/feed/reply/${id}`); 
 }
 function* removeComment(action) {
   try {
@@ -257,12 +255,12 @@ function* removeComment(action) {
   }
 }
 function updateCommentAPI(data) {
-  return axios.patch(`/feed/reply/${data.id}`, data);
+  return axios.patch(`/feed/reply/${data.id}`,data); 
 }
 function* updateComment(action) {
   try {
     const result = yield call(updateCommentAPI, action.data);
-
+    
     yield put({
       type: UPDATE_COMMENT_SUCCESS,
       data: result.data,
@@ -274,34 +272,35 @@ function* updateComment(action) {
     });
   }
 }
-function loadLikeListAPI(id) {
-  return axios.get(`/feed/likefeedlist/${id}`);
+function loadLikeListAPI(id){
+  return axios.get(`/feed/likefeedlist/${id}`)
 }
-function* likeListComment(action) {
-  try {
+function* likeListComment(action){
+
+  try{
     const result = yield call(loadLikeListAPI, action.data);
     yield put({
       type: LIKE_LIST_SUCCESS,
       data: result.data,
     });
-  } catch (err) {
+  }catch(err){
     yield put({
       type: LIKE_LIST_FAILURE,
       error: err.response.data,
     });
   }
 }
-function loadPostDetailAPI(id) {
-  return axios.get(`/feedDetail/${id}`);
+function loadPostDetailAPI(id){
+  return axios.get(`/feedDetail/${id}`)
 }
-function* loadPostDetail(action) {
-  try {
+function* loadPostDetail(action){
+  try{
     const result = yield call(loadPostDetailAPI, action.data);
     yield put({
       type: LOAD_POSTS_DETAIL_SUCCESS,
       data: result.data,
     });
-  } catch (err) {
+  }catch(err){
     yield put({
       type: LOAD_POSTS_DETAIL_FAILURE,
       error: err.response.data,
@@ -309,45 +308,45 @@ function* loadPostDetail(action) {
   }
 }
 function* watchLoadPosts() {
-  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
+    yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
 function* watchLoadPostsComments() {
   yield takeLatest(LOAD_POSTS_COMMENT_REQUEST, loadPostsComments);
 }
 function* watchLoadGallary() {
-  yield throttle(5000, LOAD_GALLARY_REQUEST, loadGallary);
+    yield throttle(5000, LOAD_GALLARY_REQUEST, loadGallary);
 }
 function* watchUploadImages() {
-  yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages);
+    yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 function* watchAddPost() {
-  yield takeLatest(ADD_POST_REQUEST, addPost);
+    yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 function* watchRemovePost() {
-  yield takeLatest(REMOVE_POST_REQUEST, removePost);
+    yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 function* watchUpdatePost() {
-  yield takeLatest(UPDATE_POST_REQUEST, updatePost);
+    yield takeLatest(UPDATE_POST_REQUEST, updatePost);
 }
 function* watchLikePost() {
-  yield takeLatest(LIKE_POST_REQUEST, likePost);
+    yield takeLatest(LIKE_POST_REQUEST, likePost);
 }
 function* watchUnlikePost() {
-  yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
+    yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
 }
 function* watchAddComment() {
-  yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+    yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 function* watchRemoveComment() {
-  yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
+    yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
 }
 function* watchUpdateComment() {
   yield takeLatest(UPDATE_COMMENT_REQUEST, updateComment);
 }
-function* watchLikeListComments() {
+function* watchLikeListComments(){
   yield takeLatest(LIKE_LIST_REQUEST, likeListComment);
 }
-function* watchLoadPostDetail() {
+function* watchLoadPostDetail(){
   yield takeLatest(LOAD_POSTS_DETAIL_REQUEST, loadPostDetail);
 }
 export default function* postSaga() {
