@@ -1,12 +1,15 @@
-import React, { Suspense } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import React, { lazy, Suspense } from "react";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Home from "./pages/Home";
+
 import { SyncLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import { USER_INFO_REQUEST } from "./reducers/user";
 import CacheRoute, { CacheSwitch } from "react-router-cache-route";
 import "./style/common.scss";
+
+const Signup = lazy(() => import("./pages/SignUp"));
+const Home = lazy(() => import("./pages/Home"));
 
 const override = css`
   display: block;
@@ -44,6 +47,8 @@ function App() {
         >
           <CacheSwitch>
             <CacheRoute exact path="/" component={Home} />
+            <Route exact path="/signup" component={Signup} />
+            <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>
       </Router>

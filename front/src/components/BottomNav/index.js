@@ -1,12 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 import "./styles.scss";
 
 const BottomNav = () => {
-  const location = useLocation();
-  console.log(location.pathname);
   return (
     <div className="foot_bar">
       <div className="foot_bar_wrap">
