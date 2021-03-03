@@ -13,6 +13,7 @@ body {
   word-break: keep-all;
   letter-spacing: -0.025em;
   vertical-align: baseline;
+  --antd-wave-shadow-color: none !important;
 }
 
 body * {
@@ -159,6 +160,24 @@ input:read-only {
 textarea {
   overflow: auto;
   resize: none;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+  }
+}
+
+input:-internal-autofill-selected {
+  background-color: rgb(232, 240, 254) !important;
+  background-image: none !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 // help class
