@@ -1,5 +1,5 @@
-import React from "react";
-import { Children } from "react";
+import React from 'react';
+import { Children } from 'react';
 
 const Button = ({ preBtnNm, nextBtnNm }) => {
   return (

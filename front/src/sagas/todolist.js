@@ -1,5 +1,5 @@
-import { all, fork, put, takeLatest, call } from "redux-saga/effects";
-import axios from "axios";
+import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
+import axios from 'axios';
 import {
   ADD_PLAN_REQUEST,
   ADD_PLAN_SUCCESS,
@@ -18,11 +18,11 @@ import {
   LOAD_TODOFEED_FAILURE,
   LOAD_TODO_COUNT_REQUEST,
   LOAD_TODO_COUNT_SUCCESS,
-  LOAD_TODO_COUNT_FAILURE,
-} from "../reducers/todolist";
+  LOAD_TODO_COUNT_FAILURE
+} from '../reducers/todolist';
 function addTodoAPI(TodoListReq) {
-  console.log("TodoListReq==", TodoListReq);
-  return axios.post("/user/todo", TodoListReq);
+  console.log('TodoListReq==', TodoListReq);
+  return axios.post('/user/todo', TodoListReq);
 }
 function* addTodo(action) {
   console.log(action);
@@ -30,12 +30,12 @@ function* addTodo(action) {
     const result = yield call(addTodoAPI, action.data);
     yield put({
       type: ADD_PLAN_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: ADD_PLAN_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -48,13 +48,13 @@ function* loadTodo(action) {
     //yield delay(1000);
     yield put({
       type: LOAD_PLAN_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     console.error(err);
     yield put({
       type: LOAD_PLAN_FAILURE,
-      data: err.response.data,
+      data: err.response.data
     });
   }
 }
@@ -67,12 +67,12 @@ function* updateCheck(action) {
     //yield delay(1000);
     yield put({
       type: UPDATE_TODOCHECK_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: UPDATE_TODOCHECK_FAILURE,
-      data: err.response.data,
+      data: err.response.data
     });
   }
 }
@@ -84,29 +84,29 @@ function* deleteCheck(action) {
     const result = yield call(deleteCheckAPI, action.data);
     yield put({
       type: DELETE_TODOCHECK_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: DELETE_TODOCHECK_FAILURE,
-      data: err.response.data,
+      data: err.response.data
     });
   }
 }
 function todofeedAPI() {
-  return axios.get("/todo/todofeedlist");
+  return axios.get('/todo/todofeedlist');
 }
 function* todofeed(action) {
   try {
     const result = yield call(todofeedAPI, action.data);
     yield put({
       type: LOAD_TODOFEED_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: LOAD_TODOFEED_FAILURE,
-      data: err.response.data,
+      data: err.response.data
     });
   }
 }
@@ -118,12 +118,12 @@ function* todoCount(action) {
     const result = yield call(todoCountAPI, action.data);
     yield put({
       type: LOAD_TODO_COUNT_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: LOAD_TODO_COUNT_FAILURE,
-      data: err.response.data,
+      data: err.response.data
     });
   }
 }
@@ -152,6 +152,6 @@ export default function* todolistSaga() {
     fork(watchUpdateCheck),
     fork(watchDeleteCheck),
     fork(watchTodoFeed),
-    fork(watchTodoCount),
+    fork(watchTodoCount)
   ]);
 }

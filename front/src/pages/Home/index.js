@@ -1,7 +1,7 @@
-import React from "react";
-import Header from "../../components/Header";
-import BottomNav from "../../components/BottomNav";
-
+import React from 'react';
+import Header from '../../components/Header';
+import BottomNav from '../../components/BottomNav';
+import LoginForm from '../Login/LoginForm';
 
 const Main = () => {
   return (
@@ -9,12 +9,11 @@ const Main = () => {
       <div>
         {/* 고정 Header */}
         <Header />
-        
-        <>
-        </>
+
+        <LoginForm></LoginForm>
 
         {/* 고정 Bottom */}
-        <BottomNav />        
+        <BottomNav />
       </div>
     </>
   );
