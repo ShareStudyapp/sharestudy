@@ -1,7 +1,7 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-import "./styles.scss";
+import './styles.scss';
 
 const BottomNav = () => {
   return (
@@ -22,12 +22,7 @@ const BottomNav = () => {
           </svg>
           <p>홈</p>
         </NavLink>
-        <NavLink
-          to="/mytodolist"
-          className="foot_bar_img"
-          activeClassName="active"
-          exact
-        >
+        <NavLink to="/mytodolist" className="foot_bar_img" activeClassName="active" exact>
           <svg
             width="15"
             height="15"
@@ -42,12 +37,7 @@ const BottomNav = () => {
           </svg>
           <p>투두</p>
         </NavLink>
-        <NavLink
-          to="/todofeed"
-          className="foot_bar_img"
-          activeClassName="active"
-          exact
-        >
+        <NavLink to="/todofeed" className="foot_bar_img" activeClassName="active" exact>
           <svg
             width="16"
             height="16"
@@ -62,12 +52,7 @@ const BottomNav = () => {
           </svg>
           <p>마이</p>
         </NavLink>
-        <NavLink
-          to="/mylist"
-          className="foot_bar_img"
-          activeClassName="active"
-          exact
-        >
+        <NavLink to="/mylist" className="foot_bar_img" activeClassName="active" exact>
           <svg
             width="19"
             height="19"

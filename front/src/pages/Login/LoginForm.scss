@@ -1,61 +1,61 @@
-@import "../../style/color.scss";
+@import '../../style/color.scss';
 
 .login {
   // 로그인폼 공통스타일
   text-align: center;
-    .loginFormWrap {
-      display: inline-block;
-    }
-    .loginForm {    
-      width: 256px;
-      height: 40px;
-      display: block;
-      border: 1px solid $blue;
-    }
+  .loginFormWrap {
+    display: inline-block;
+  }
+  .loginForm {
+    width: 256px;
+    height: 40px;
+    display: block;
+    border: 1px solid $blue;
+  }
 
   //로그인폼 개별스타일
-    &__logo {
-      margin-top: 159px;
-      text-align: center;
-    }
+  &__logo {
+    margin-top: 159px;
+    text-align: center;
+  }
 
-    &__link {
-      a {
-        color: $loginText;
+  &__link {
+    a {
+      color: $loginText;
+    }
+  }
+  &__id {
+    margin: 16px 0 !important;
+  }
+  &__pw {
+    margin-bottom: 43px !important;
+  }
+  &__btn {
+    background-color: #b0b0b0 !important;
+    color: $white !important;
+    border: none !important;
+  }
+  &__link {
+    margin-top: 26.5px;
+    width: 186px;
+    li {
+      display: inline;
+      &::after {
+        position: absolute;
+        width: 1px;
+        height: 14px;
+        background: $loginText;
+        content: ' ';
+        margin: 4px auto;
       }
-    }
-    &__id {
-      margin: 16px 0 !important;
-    }
-    &__pw {
-      margin-bottom: 43px !important;
-    }
-    &__btn {
-      background-color: #B0B0B0 !important;
-      color: $white !important;
-      border: none !important;
-    }
-    &__link {
-      margin-top: 26.5px;
-      width: 186px;
-      li {
-        display: inline;
+      &:nth-child(3) {
         &::after {
-          position: absolute;
-          width: 1px;
-          height: 14px;
-          background: $loginText;
-          content: ' ';
-          margin: 4px auto;
+          display: none;
         }
-        &:nth-child(3) {
-          &::after {
-            display:none;
-          }
-        }
-      }
-      .blue {
-        color: $blue;
       }
     }
+    .blue {
+      color: $blue;
+    }
+  }
 }

@@ -1,24 +1,24 @@
-import React, { useCallback, useState } from "react";
-import { Checkbox, Form, Input, Button } from "antd";
-import { useFormik } from "formik";
-import "./styles.scss";
+import React, { useCallback, useState } from 'react';
+import { Checkbox, Form, Input, Button } from 'antd';
+import { useFormik } from 'formik';
+import './styles.scss';
 
 const SignUp = () => {
   const [validateState, setValidateState] = useState({
     email: false,
     confirmText: false,
     id: false,
-    confirmPassword: false,
+    confirmPassword: false
   });
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      confirmText: "",
-      id: "",
-      password: "",
-      confirmPassword: "",
-      agree: false,
+      email: '',
+      confirmText: '',
+      id: '',
+      password: '',
+      confirmPassword: '',
+      agree: false
     },
     onSubmit: (values) => {
       console.log(values);
@@ -28,9 +28,9 @@ const SignUp = () => {
         //회원가입 로직 추가 필요
       } else {
         //상세 알럿 추가 필요
-        alert("항목을 재확인 해주세요.");
+        alert('항목을 재확인 해주세요.');
       }
-    },
+    }
   });
 
   const onSendEmail = useCallback(() => {
@@ -40,10 +40,10 @@ const SignUp = () => {
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formik.values.email)
     ) {
       result = false;
-      alert("이메일을 확인 해주세요");
+      alert('이메일을 확인 해주세요');
     }
     //메일 발송하기 추가 필요
-    console.log(formik.values.email, "메일발송");
+    console.log(formik.values.email, '메일발송');
     setValidateState((state) => ({ ...state, email: result }));
   }, [formik]);
 
@@ -51,7 +51,7 @@ const SignUp = () => {
     let result = true;
     //문구확인 로직 추가 필요
     if (!formik.values.confirmText) {
-      alert("인증이 실패 되었습니다.");
+      alert('인증이 실패 되었습니다.');
       result = false;
     }
     setValidateState((state) => ({ ...state, confirmText: result }));
@@ -61,7 +61,7 @@ const SignUp = () => {
     let result = true;
     //아이디 중복 확인 로직 추가 필요
     if (!formik.values.id) {
-      console.log("아이디를 재입력 해주세요.");
+      console.log('아이디를 재입력 해주세요.');
       result = false;
     }
     setValidateState((state) => ({ ...state, id: result }));
@@ -72,16 +72,12 @@ const SignUp = () => {
     const { password, confirmPassword } = formik.values;
 
     if (!password || !confirmPassword || password !== confirmPassword) {
-      alert("비밀번호를 확인 해주세요");
+      alert('비밀번호를 확인 해주세요');
       result = false;
     } else if (
-      !/^((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*\W)|(?=.*\d)(?=.*\W)).{6,}$/.test(
-        password
-      )
+      !/^((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*\W)|(?=.*\d)(?=.*\W)).{6,}$/.test(password)
     ) {
-      alert(
-        "비밀번호는 영문, 숫자, 특수문자중 2가지 포함 6글자 이상이어야 합니다"
-      );
+      alert('비밀번호는 영문, 숫자, 특수문자중 2가지 포함 6글자 이상이어야 합니다');
       result = false;
     }
 
@@ -91,15 +87,15 @@ const SignUp = () => {
   const onFormChange = useCallback(
     (e) => {
       const { name } = e.target;
-      if (name === "id") {
+      if (name === 'id') {
         setValidateState((state) => ({
           ...state,
-          id: false,
+          id: false
         }));
-      } else if (name.indexOf("password") > 0) {
+      } else if (name.indexOf('password') > 0) {
         setValidateState((state) => ({
           ...state,
-          confirmPassword: false,
+          confirmPassword: false
         }));
       }
 
@@ -131,7 +127,7 @@ const SignUp = () => {
         <div className="signUp">
           <h1 className="header">회원가입</h1>
           <Form onFinish={formik.handleSubmit} onChange={onFormChange}>
-            <div className="input-group" style={{ marginBottom: "35px" }}>
+            <div className="input-group" style={{ marginBottom: '35px' }}>
               <Input.Search
                 id="email"
                 name="email"
@@ -155,7 +151,7 @@ const SignUp = () => {
             </div>
             <div className="input-group">
               <Input.Search
-                className={validateState.id ? "confirm" : ""}
+                className={validateState.id ? 'confirm' : ''}
                 id="id"
                 name="id"
                 type="text"

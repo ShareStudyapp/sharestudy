@@ -1,12 +1,5 @@
-import {
-  all,
-  fork,
-  put,
-  takeLatest,
-  takeEvery,
-  call,
-} from "redux-saga/effects";
-import axios from "axios";
+import { all, fork, put, takeLatest, takeEvery, call } from 'redux-saga/effects';
+import axios from 'axios';
 import {
   SIGN_UP_FAILURE,
   SIGN_UP_REQUEST,
@@ -40,13 +33,13 @@ import {
   OTHER_USER_INFO_FAILURE,
   USERINFO_UPDATE_REQUEST,
   USERINFO_UPDATE_SUCCESS,
-  USERINFO_UPDATE_FAILURE,
-} from "../reducers/user";
+  USERINFO_UPDATE_FAILURE
+} from '../reducers/user';
 
 function signUpAPI(signUpData) {
   // 서버에 요청을 보내는 부분
   console.log(signUpData);
-  return axios.post("/api/auth/signup", signUpData);
+  return axios.post('/api/auth/signup', signUpData);
 }
 
 function* signUp(action) {
@@ -55,81 +48,81 @@ function* signUp(action) {
     //yield delay(2000);
     yield put({
       // put은 dispatch 동일
-      type: SIGN_UP_SUCCESS,
+      type: SIGN_UP_SUCCESS
     });
   } catch (e) {
     // loginAPI 실패
     console.error(e);
     yield put({
       type: SIGN_UP_FAILURE,
-      error: e,
+      error: e
     });
   }
 }
 function logInAPI(data) {
-  return axios.post("/api/auth/signin", data);
+  return axios.post('/api/auth/signin', data);
 }
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
-    window.sessionStorage.setItem("user", result.data.jwt);
-    window.sessionStorage.setItem("login_valid", "temp");
+    window.sessionStorage.setItem('user', result.data.jwt);
+    window.sessionStorage.setItem('login_valid', 'temp');
     const result2 = yield call(userInfoAPI);
 
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
-      data2: result2.data,
+      data2: result2.data
     });
   } catch (err) {
     console.error(err);
     yield put({
       type: LOG_IN_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
 function logOutAPI(token) {
-  return axios.post("/api/auth/logout", token);
+  return axios.post('/api/auth/logout', token);
 }
 function* logOut(action) {
   try {
     yield call(logOutAPI, action.data);
-    window.sessionStorage.removeItem("login_valid");
-    window.sessionStorage.removeItem("user");
+    window.sessionStorage.removeItem('login_valid');
+    window.sessionStorage.removeItem('user');
     // window.sessionStorage.removeItem('userInfo');
     // window.sessionStorage.setItem('userInfo',[]);
     yield put({
-      type: LOG_OUT_SUCCESS,
+      type: LOG_OUT_SUCCESS
     });
   } catch (err) {
     console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
 function userInfoAPI() {
-  return axios.get("/api/auth/userinfo");
+  return axios.get('/api/auth/userinfo');
 }
 function* userInfo() {
   try {
     const result = yield call(userInfoAPI);
     yield put({
       type: USER_INFO_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     console.error(err);
     yield put({
       type: USER_INFO_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
 function uploadProfileImagesAPI(data) {
-  return axios.post("/api/auth/profileimage", data);
+  return axios.post('/api/auth/profileimage', data);
 }
 function* uploadProfileImages(action) {
   try {
@@ -137,12 +130,12 @@ function* uploadProfileImages(action) {
 
     yield put({
       type: UPLOAD_PROFILE_IMAGES_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: UPLOAD_PROFILE_IMAGES_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -154,12 +147,12 @@ function* follow(action) {
     const result = yield call(followAPI, action.data);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: FOLLOW_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -171,12 +164,12 @@ function* followCancle(action) {
     const result = yield call(followCancleAPI, action.data);
     yield put({
       type: FOLLOW_CANCLE_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: FOLLOW_CANCLE_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -188,12 +181,12 @@ function* followerList(action) {
     const result = yield call(followerListAPI, action.data);
     yield put({
       type: FOLLOWER_LIST_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: FOLLOWER_LIST_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -205,12 +198,12 @@ function* followingList(action) {
     const result = yield call(followingListAPI, action.data);
     yield put({
       type: FOLLOWING_LIST_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: FOLLOWING_LIST_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -222,30 +215,30 @@ function* otherUserInfo(action) {
     const result = yield call(otherUserInfoAPI, action.data);
     yield put({
       type: OTHER_USER_INFO_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: OTHER_USER_INFO_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
 function userInfoUpdateAPI(data) {
   console.log(data);
-  return axios.patch("/user/updateUser", data);
+  return axios.patch('/user/updateUser', data);
 }
 function* userInfoUpdate(action) {
   try {
     const result = yield call(userInfoUpdateAPI, action.data);
     yield put({
       type: USERINFO_UPDATE_SUCCESS,
-      data: result.data,
+      data: result.data
     });
   } catch (err) {
     yield put({
       type: USERINFO_UPDATE_FAILURE,
-      error: err.response.data,
+      error: err.response.data
     });
   }
 }
@@ -294,6 +287,6 @@ export default function* userSaga() {
     fork(watchFollowerList),
     fork(watchFollowingList),
     fork(watchOtherUserInfo),
-    fork(watchUserInfoUpdate),
+    fork(watchUserInfoUpdate)
   ]);
 }

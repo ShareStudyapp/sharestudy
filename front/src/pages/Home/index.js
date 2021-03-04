@@ -1,7 +1,7 @@
-import React from "react";
-import Header from "../../components/Header";
-import BottomNav from "../../components/BottomNav";
-import LoginForm from "../Login/LoginForm";
+import React from 'react';
+import Header from '../../components/Header';
+import BottomNav from '../../components/BottomNav';
+import LoginForm from '../Login/LoginForm';
 
 const Main = () => {
   return (
