@@ -9,19 +9,19 @@ import useInput from '../../hooks/useInput';
   const Login = () => {
      const dispatch = useDispatch();
     //  const {logInLoading} = useSelector(state => state.state);
-     const [id, onChangeId] = useInput('');
+     const [userid, onChangeUserid] = useInput('');
      const [password, onChangePassword] = useInput('');
   
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
+    console.log(userid, password);
+    dispatch(loginRequestAction({ userid, password }));
+  }, [userid, password]);
 
 
   return (
     <div className="login">
-      <Form>
+      <Form onFinish={onSubmitForm}>
         {/* 스터디쉐어 로고입니다 */}
         <h1 className="login__logo">
           <svg
@@ -45,9 +45,9 @@ import useInput from '../../hooks/useInput';
             name="user-id"
             type="id"
             placeholder="아이디 입력"
-            value={id}
+            value={userid}
             required
-            onChange={onChangeId}
+            onChange={onChangeUserid}
           />
 
           <Input
