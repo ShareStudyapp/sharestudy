@@ -1,21 +1,22 @@
-import React from 'react';
+import React,{useCallback} from 'react';
 import './LoginForm.scss';
 import { Form, Input, Button } from 'antd';
 import { Link } from 'react-router-dom' ;
-// import { loginRequestAction } from '../../reducers/user';
-// import useInput from '../hooks/useInput';
+import { loginRequestAction } from '../../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import useInput from '../../hooks/useInput';
 
   const Login = () => {
-  //    const dispatch = useDispatch();
-  //    const {logInLoading} = useSelector(state => state.state);
-  //    const [id, onChangeId] = useInput('');
-  //    const [password, onChangePassword] = useInput('');
-  // }
+     const dispatch = useDispatch();
+    //  const {logInLoading} = useSelector(state => state.state);
+     const [id, onChangeId] = useInput('');
+     const [password, onChangePassword] = useInput('');
+  
 
-  // const onSubmitForm = useCallback(() => {
-  //   console.log(id, password);
-  //   dispatch(loginRequestAction({ email, password }));
-  // }, [id, password]);
+  const onSubmitForm = useCallback(() => {
+    console.log(id, password);
+    dispatch(loginRequestAction({ id, password }));
+  }, [id, password]);
 
 
   return (
@@ -44,9 +45,9 @@ import { Link } from 'react-router-dom' ;
             name="user-id"
             type="id"
             placeholder="아이디 입력"
-            // value={id}
+            value={id}
             required
-            // onChange={onChangeId}
+            onChange={onChangeId}
           />
 
           <Input
@@ -54,9 +55,9 @@ import { Link } from 'react-router-dom' ;
             name="user-password"
             type="password"
             placeholder="비밀번호 입력"
-            // value={password}
+            value={password}
             required
-            // onChange={onChangePassword}
+            onChange={onChangePassword}
           />
 
           <Button className="login__btn loginForm"  htmlType="submit" >로그인</Button>
