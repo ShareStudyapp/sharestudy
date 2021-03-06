@@ -1,24 +1,30 @@
-import React,{useCallback} from 'react';
-import './LoginForm.scss';
+import React,{useCallback,useEffect} from 'react';
 import { Form, Input, Button } from 'antd';
 import { Link } from 'react-router-dom' ;
 import { loginRequestAction } from '../../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
+import './LoginForm.scss';
 
-  const Login = () => {
+  const Login = ({history}) => {
      const dispatch = useDispatch();
-    //  const {logInLoading} = useSelector(state => state.state);
+     const { logInLoading, logInError,logInDone } = useSelector((state) => state.userReducer);
      const [userid, onChangeUserid] = useInput('');
      const [password, onChangePassword] = useInput('');
   
-
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+    if(logInDone){
+      history.push("/");
+    }
+  }, [logInError,logInDone]);
   const onSubmitForm = useCallback(() => {
     console.log(userid, password);
     dispatch(loginRequestAction({ userid, password }));
   }, [userid, password]);
-
-
+  
   return (
     <div className="login">
       <Form onFinish={onSubmitForm}>
@@ -60,12 +66,10 @@ import useInput from '../../hooks/useInput';
             onChange={onChangePassword}
           />
 
-          <Button className="login__btn loginForm"  htmlType="submit" >로그인</Button>
+          <Button className="login__btn loginForm"  htmlType="submit" loading={logInLoading}>로그인</Button>
 
           <ul className="login__link">
-            <li>
-              <a href="#this">아이디 찾기</a>
-            </li>
+            <li><a href="#this">아이디 찾기</a></li>
             <li className="login__link-center">
               <a href="#this">비밀번호 찾기</a>
             </li>
