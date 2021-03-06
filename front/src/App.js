@@ -10,6 +10,7 @@ import './style/common.scss';
 
 const Signup = lazy(() => import('./pages/SignUp'));
 const Home = lazy(() => import('./pages/Home'));
+const Login = lazy(() => import('./pages/Login'));
 
 const override = css`
   display: block;
@@ -41,6 +42,7 @@ function App() {
         >
           <CacheSwitch>
             <CacheRoute exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Redirect path="*" to="/" />
           </CacheSwitch>

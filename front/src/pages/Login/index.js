@@ -1,9 +1,22 @@
 import React from 'react';
 import './LoginForm.scss';
 import { Form, Input, Button } from 'antd';
+import { Link } from 'react-router-dom' ;
+// import { loginRequestAction } from '../../reducers/user';
+// import useInput from '../hooks/useInput';
 
-const LoginForm = ({ history }) => {
-  // 추후에 회원가입, 피드 페이지 활성화 되면 나머지 작업 할 예정입니다.
+  const Login = () => {
+  //    const dispatch = useDispatch();
+  //    const {logInLoading} = useSelector(state => state.state);
+  //    const [id, onChangeId] = useInput('');
+  //    const [password, onChangePassword] = useInput('');
+  // }
+
+  // const onSubmitForm = useCallback(() => {
+  //   console.log(id, password);
+  //   dispatch(loginRequestAction({ email, password }));
+  // }, [id, password]);
+
 
   return (
     <div className="login">
@@ -28,10 +41,12 @@ const LoginForm = ({ history }) => {
         <div className="loginFormWrap">
           <Input
             className="login__id loginForm"
-            name="user-email"
-            type="email"
+            name="user-id"
+            type="id"
             placeholder="아이디 입력"
+            // value={id}
             required
+            // onChange={onChangeId}
           />
 
           <Input
@@ -39,27 +54,29 @@ const LoginForm = ({ history }) => {
             name="user-password"
             type="password"
             placeholder="비밀번호 입력"
+            // value={password}
             required
+            // onChange={onChangePassword}
           />
 
-          <Button className="login__btn loginForm">로그인</Button>
+          <Button className="login__btn loginForm"  htmlType="submit" >로그인</Button>
 
           <ul className="login__link">
             <li>
               <a href="#this">아이디 찾기</a>
             </li>
-            <li>
+            <li className="login__link-center">
               <a href="#this">비밀번호 찾기</a>
             </li>
             <li>
-              <a href="#this" className="blue">
-                회원가입
-              </a>
+            <Link to="./SignUp" > 
+              <a href="./SignUp" className="blue">회원가입</a>
+            </Link>
             </li>
           </ul>
         </div>
       </Form>
     </div>
   );
-};
-export default LoginForm;
+  }
+export default Login

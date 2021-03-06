@@ -18,12 +18,6 @@
     margin-top: 159px;
     text-align: center;
   }
-
-  &__link {
-    a {
-      color: $loginText;
-    }
-  }
   &__id {
     margin: 16px 0 !important;
   }
@@ -37,21 +31,33 @@
   }
   &__link {
     margin-top: 26.5px;
-    width: 186px;
     li {
       display: inline;
+      padding-right: 36px;
+      position: relative;
       &::after {
         position: absolute;
         width: 1px;
         height: 14px;
         background: $loginText;
         content: ' ';
-        margin: 4px auto;
+        left: 80px;
+        top:2px;
       }
       &:nth-child(3) {
+        padding-right: 0;
         &::after {
           display: none;
         }
+      }
+      a {
+        color: $loginText;
+        display: inline-block;
+       }
+    }
+    &-center {
+      &::after {
+        left: 92px !important;
       }
     }
     .blue {
