@@ -1,1 +1,41 @@
 @import '../../style/color.scss';
+
+.HelloGoal {
+  padding-bottom: 64px;
+  border-bottom: 10px solid rgba(196, 196, 196, 0.3);
+}
+.HelloLogin {
+  padding-bottom: 64px;
+  border-bottom: 10px solid rgba(196, 196, 196, 0.3);
+}
+// 공통 스타일
+
+.FeedIntroMsg {
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600; 
+  margin: 30px auto 0 32px;
+  p {
+    line-height: 27px;
+    color: $blue;
+    font-weight: 400;
+  }
+  .hightligter {
+  position: relative;
+  &::after {
+    content: '';
+    width: 105%;
+    height: 62%;
+    left: -4px;
+    top: 7px;
+    position: absolute;
+    background: #FF8574 50%;
+    opacity: 0.5;
+    z-index: -100;
+    }
+    &-none {
+      font-weight: 400;
+    }
+  }
+}

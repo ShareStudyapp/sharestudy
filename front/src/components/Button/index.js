@@ -1,14 +1,14 @@
 import React from 'react';
-import { Children } from 'react';
+import './styles.scss';
 
-const Button = ({ preBtnNm, nextBtnNm }) => {
+const Button = ({ preBtnNm, nextBtnNm, preBtnClick, nextBtnClick }) => {
   return (
-    <div>
-      <button name="pre" type="button">
+    <div className="PreNextBtn">
+      <button name="pre" type="button" className="left" onClick={preBtnClick} >
         {preBtnNm}
       </button>
 
-      <button name="next" type="button">
+      <button name="next" type="button" className="right" onClick={nextBtnClick}>
         {nextBtnNm}
       </button>
     </div>

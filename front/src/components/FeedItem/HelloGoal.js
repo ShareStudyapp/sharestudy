@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles.scss';
+import ProgressBar from '../ProgressBar';
 
 const HelloGoal = () => {
   return (
@@ -12,6 +13,8 @@ const HelloGoal = () => {
           달성해보세요!
         </p>
       </div>
+
+      <ProgressBar />
     </div>
     </>
   );
