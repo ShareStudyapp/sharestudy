@@ -11,6 +11,8 @@ import './style/common.scss';
 const Signup = lazy(() => import('./pages/SignUp'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
+const MyFeed = lazy(() => import('./pages/MyFeed'));
+const NewsFeed = lazy(() => import('./pages/NewsFeed'));
 
 const override = css`
   display: block;
@@ -44,6 +46,8 @@ function App() {
             <CacheRoute exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/newsfeed" component={MyFeed} />
+            <Route exact path="/myfeed" component={NewsFeed} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>
