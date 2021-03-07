@@ -39,3 +39,35 @@
     }
   }
 }
+
+.FeedContent {
+  padding: 20px 34px;
+  h2 {
+    font-family: Noto Sans;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 14px;
+    text-align: left;
+    color: $blue;;
+  }
+  &-userId {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    background: #C4C4C4;
+  }
+  &-header {
+    margin-top: 22px;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    &_left {
+      justify-content: flex-start;
+      display: inline-block;
+    }
+    &_right {
+      justify-content: flex-end;
+      display: inline-block;
+    }
+  }
+}
