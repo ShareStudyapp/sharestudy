@@ -8,6 +8,7 @@ import { USER_INFO_REQUEST } from './reducers/user';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
 import './style/common.scss';
 
+const Todo = lazy(() => import('./pages/Todo'));
 const Signup = lazy(() => import('./pages/SignUp'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
@@ -44,6 +45,7 @@ function App() {
             <CacheRoute exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/todo" component={Todo} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>

@@ -1,0 +1,35 @@
+.todo {
+  display: flex;
+  margin-bottom: 18px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  > div {
+    &:first-child {
+      width: 37px;
+      height: 37px;
+      flex-basis: 37px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      background: rgba(196, 196, 196, 0.5);
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 14px;
+    }
+
+    > p {
+      word-wrap: break-word;
+      word-break: break-all;
+      font-size: 12px;
+      line-height: 14px;
+      margin: 0;
+      &:first-child {
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 9px;
+      }
+    }
+  }
+}
