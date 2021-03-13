@@ -14,7 +14,7 @@
   font-family: Noto Sans;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600; 
+  font-weight: 600;
   margin: 30px auto 0 32px;
   p {
     line-height: 27px;
@@ -22,17 +22,17 @@
     font-weight: 400;
   }
   .hightligter {
-  position: relative;
-  &::after {
-    content: '';
-    width: 105%;
-    height: 62%;
-    left: -4px;
-    top: 7px;
-    position: absolute;
-    background: #FF8574 50%;
-    opacity: 0.5;
-    z-index: -100;
+    position: relative;
+    &::after {
+      content: '';
+      width: 105%;
+      height: 62%;
+      left: -4px;
+      top: 7px;
+      position: absolute;
+      background: #ff8574 50%;
+      opacity: 0.5;
+      z-index: -100;
     }
     &-none {
       font-weight: 400;
@@ -48,26 +48,79 @@
     font-weight: 600;
     line-height: 14px;
     text-align: left;
-    color: $blue;;
+    color: $blue;
   }
-  &-userId {
+  &-userProfile {
     height: 45px;
     width: 45px;
     border-radius: 50%;
-    background: #C4C4C4;
+    background: #c4c4c4;
+    display: inline-block;
+    img {
+      width: 100%;
+    }
+  }
+  &-userId {
+    display: inline-block;
+    margin-left: 13px;
+    font-size: 15px;
   }
   &-header {
     margin-top: 22px;
     overflow: hidden;
     width: 100%;
-    display: flex;
     &_left {
-      justify-content: flex-start;
-      display: inline-block;
+      float: left;
+      align-items: center;
+      justify-content: center;
+      display: flex;
     }
     &_right {
-      justify-content: flex-end;
-      display: inline-block;
+      float: right;
+      margin-top: 5px;
+    }
+    .FeedContent-secret {
+      margin-right: 16.6px;
+    }
+  }
+  .ant-image-img {
+    width: 100vh;
+    height: 100%;
+  }
+}
+
+// ---------------------------
+
+.FeedComment {
+  width: 100%;
+  &__header {
+    overflow: hidden;
+    margin-top: 10px;
+    &--left {
+      float: left;
+    }
+    &--right {
+      float: right;
+      svg:nth-child(1) {
+        margin-right: 17px;
+      }
+    }
+  }
+  &__center {
+    margin-top: 14px;
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 14px;
+    }
+  }
+  &__footer {
+    button {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #c4c4c4;
     }
   }
 }

@@ -5,8 +5,8 @@ import FeedContent from '../../components/FeedItem/FeedContent';
 const MyFeed = () => {
   return (
     <>
-    <HelloGoal />
-    <FeedContent />
+      <HelloGoal />
+      <FeedContent />
     </>
   );
 };
