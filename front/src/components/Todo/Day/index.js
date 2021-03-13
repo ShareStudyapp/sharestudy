@@ -1,12 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import CalendarDialog from '../CalendarDialog';
+import CalendarDialog from './CalendarDialog';
 import './styles.scss';
 
 const Day = ({ date, setDate }) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const onClickCalendar = useCallback(() => {
-    setShowCalendar(!showCalendar);
-  }, [showCalendar]);
+    setShowCalendar(true);
+  }, []);
+
+  const onCloseCalendar = useCallback(() => {
+    setShowCalendar(false);
+  }, []);
 
   useEffect(() => {
     setShowCalendar(false);
@@ -30,7 +34,7 @@ const Day = ({ date, setDate }) => {
           />
         </svg>
       </div>
-      {showCalendar && <CalendarDialog date={date} setDate={setDate} />}
+      {showCalendar && <CalendarDialog date={date} setDate={setDate} onClose={onCloseCalendar} />}
     </>
   );
 };

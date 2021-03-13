@@ -22,7 +22,7 @@ const BottomNav = () => {
           </svg>
           <p>홈</p>
         </NavLink>
-        <NavLink to="/mytodolist" className="foot_bar_img" activeClassName="active" exact>
+        <NavLink to="/todo" className="foot_bar_img" activeClassName="active" exact>
           <svg
             width="15"
             height="15"

@@ -10,7 +10,7 @@ const TodoConent = ({ title, onCreate, onDelete, children }) => {
           <article>{children}</article>
         </section>
         <aside>
-          <button>
+          <button onClick={onCreate}>
             <svg
               width="10"
               height="10"
