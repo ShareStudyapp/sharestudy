@@ -1,0 +1,19 @@
+.comment {
+  margin-bottom: 18px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  > p {
+    word-wrap: break-word;
+    word-break: break-all;
+
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0;
+    &:first-child {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 9px;
+    }
+  }
+}
