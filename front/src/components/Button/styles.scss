@@ -1,0 +1,22 @@
+@import '../../style/color.scss';
+
+.PreNextBtn {
+  button { 
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 300;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    border-radius: 30px;
+  }
+  .left {
+    background: #C4C4C4 50%;
+    margin-left: 32px;
+    margin-right: 13px;
+  }
+  .right {
+    background-color: $blue;
+  }
+}

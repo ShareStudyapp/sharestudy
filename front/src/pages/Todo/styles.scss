@@ -1,0 +1,32 @@
+@import '../../style/color.scss';
+
+.container {
+  margin: 0 20px;
+  > article {
+    height: 127px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 30px;
+    .hightligter {
+      color: $blue;
+      position: relative;
+      &::after {
+        content: '';
+        width: 105%;
+        height: 14px;
+        left: -4px;
+        top: 26px;
+        position: absolute;
+        background: #ff8574 50%;
+        opacity: 0.5;
+        z-index: -100;
+      }
+      &-none {
+        font-weight: 400;
+      }
+    }
+  }
+}

@@ -32,11 +32,7 @@ const TodoConent = ({ title, onCreate, onDelete, children }) => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M1 1.00012L4.92857 4.57155L8.85714 1.00012"
-                stroke="white"
-                stroke-width="2"
-              />
+              <path d="M1 1.00012L4.92857 4.57155L8.85714 1.00012" stroke="white" strokeWidth="2" />
             </svg>
           </button>
         </aside>

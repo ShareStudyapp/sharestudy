@@ -6,7 +6,7 @@ const TodoList = () => {
   return (
     <Content title="To do list">
       {todoList.map((todo) => (
-        <div className="todo">
+        <div className="todo" key={todo.id}>
           <div>
             {todo.isDone ? (
               <svg
@@ -29,7 +29,7 @@ const TodoList = () => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M2 6.28L7.2 12L14 1" stroke="#2656FF" stroke-width="3" />
+                <path d="M2 6.28L7.2 12L14 1" stroke="#2656FF" strokeWidth="3" />
               </svg>
             )}
           </div>
@@ -46,6 +46,6 @@ const TodoList = () => {
 export default TodoList;
 
 const todoList = [
-  { title: '한국사', content: '1단원 ~ 5단원', isDone: false },
-  { title: '토익', content: '토익 RC 1챕터 / 오답체크', isDone: true }
+  { id: 1, title: '한국사', content: '1단원 ~ 5단원', isDone: false },
+  { id: 2, title: '토익', content: '토익 RC 1챕터 / 오답체크', isDone: true }
 ];

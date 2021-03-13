@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
 import { SyncLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 import { USER_INFO_REQUEST } from './reducers/user';
@@ -12,6 +11,8 @@ const Todo = lazy(() => import('./pages/Todo'));
 const Signup = lazy(() => import('./pages/SignUp'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
+const MyFeed = lazy(() => import('./pages/Feed/MyFeed'));
+const NewsFeed = lazy(() => import('./pages/Feed/NewsFeed'));
 
 const override = css`
   display: block;
@@ -46,6 +47,8 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/todo" component={Todo} />
+            <Route exact path="/myfeed" component={MyFeed} />
+            <Route exact path="/newsfeed" component={NewsFeed} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>
