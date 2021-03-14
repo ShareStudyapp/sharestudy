@@ -42,7 +42,7 @@
 
 .FeedContent {
   padding: 20px 34px;
-  h2 {
+  &__title {
     font-family: Noto Sans;
     font-size: 15px;
     font-weight: 600;
@@ -80,7 +80,7 @@
       margin-top: 5px;
     }
     .FeedContent-secret {
-      margin-right: 16.6px;
+      margin-right: 5.6px;
     }
   }
   .ant-image-img {
@@ -96,14 +96,22 @@
   &__header {
     overflow: hidden;
     margin-top: 10px;
+    height: 30px;
     &--left {
       float: left;
+      display: flex;
+      height: 100%;
+      span {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        margin-left: 17.7px;
+        color: $grey;
+      }
     }
     &--right {
       float: right;
-      svg:nth-child(1) {
-        margin-right: 17px;
-      }
+      line-height: 30px;
     }
   }
   &__center {
@@ -114,6 +122,8 @@
     }
     p {
       font-size: 14px;
+      line-height: 0;
+      margin-bottom: 0.5em;
     }
   }
   &__footer {

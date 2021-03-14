@@ -6,7 +6,7 @@ import { FeedComment } from './FeedComment';
 const FeedContent = () => {
   return (
     <div className="FeedContent">
-      <h2>Share</h2>
+      <h2 className="FeedContent__title">Share</h2>
 
       <div className="FeedContent-header">
         <div className="FeedContent-header_left">
@@ -17,22 +17,6 @@ const FeedContent = () => {
         </div>
 
         <div className="FeedContent-header_right">
-          <button className="FeedContent-secret">
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 15 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M2.99999 10.5C2.83332 7.33333 3.49999 1 7.49999 1C11.5 1 12.1667 7.33333 12 10.5"
-                stroke="#C4C4C4"
-                stroke-width="2"
-              />
-              <rect y="8.5" width="15" height="15" rx="2" fill="#C4C4C4" />
-            </svg>
-          </button>
           <button className="FeedContent-menu">
             <svg
               width="30"
