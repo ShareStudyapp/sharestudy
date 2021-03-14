@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Checkbox, Form, Input, Button } from 'antd';
 import { useFormik } from 'formik';
 import './styles.scss';
@@ -107,7 +108,7 @@ const SignUp = () => {
   return (
     <div className="container">
       <div className="content">
-        <button className="backBtn">
+        <Link className="backBtn" to="/login">
           <svg
             width="9"
             height="15"
@@ -123,7 +124,7 @@ const SignUp = () => {
               strokeLinejoin="round"
             />
           </svg>
-        </button>
+        </Link>
         <div className="signUp">
           <h1 className="header">회원가입</h1>
           <Form onFinish={formik.handleSubmit} onChange={onFormChange}>

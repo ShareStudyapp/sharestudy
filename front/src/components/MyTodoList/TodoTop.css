@@ -1,0 +1,29 @@
+.todo_top_container{
+    margin-top:50px;
+}
+.study_todo{
+    font-size:36px;
+    font-weight:bold;
+}
+.study_my_ambition{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:20px;
+}
+.study_today_objective{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:20px;
+}
+.study_today_chart_area{
+    display:flex;
+
+}
+.study_today_lineChart{
+    width:85%;
+}
+.study_today_lineChart_text{
+    margin-left:23px;
+    color:#5858E1;
+    font-size:15px;
+}

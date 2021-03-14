@@ -8,7 +8,7 @@ import postReducer from '../reducers/post';
 import todolistReducer from '../reducers/todolist';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://3.35.255.192:9090';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 // Add a request interceptor
 
 axios.interceptors.request.use(function (config) {
