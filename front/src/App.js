@@ -13,6 +13,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
 const MyFeed = lazy(() => import('./pages/Feed/MyFeed'));
 const NewsFeed = lazy(() => import('./pages/Feed/NewsFeed'));
+const Noti = lazy(() => import('./pages/Noti'));
 
 const override = css`
   display: block;
@@ -49,6 +50,7 @@ function App() {
             <Route exact path="/todo" component={Todo} />
             <Route exact path="/myfeed" component={MyFeed} />
             <Route exact path="/newsfeed" component={NewsFeed} />
+            <Route exact path="/noti" component={Noti} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>
