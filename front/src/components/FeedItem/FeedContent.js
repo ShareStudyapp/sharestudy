@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles.scss';
 import FeedSlider from '../FeedItem/FeedSlider';
 import { FeedComment } from './FeedComment';
 
-const FeedContent = () => {
+const FeedContent = ({ key, post }) => {
   return (
     <div className="FeedContent">
       <h2 className="FeedContent__title">Share</h2>
@@ -36,8 +36,8 @@ const FeedContent = () => {
         <div className="FeedContent__header--title"></div>
       </div>
 
-      <FeedSlider />
-      <FeedComment />
+      <FeedSlider post={post} />
+      <FeedComment post={post} />
     </div>
   );
 };

@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Carousel } from 'antd';
 
-export default class SimpleSlider extends Component {
-  render() {
-    const contentStyle = {
-      height: '500px',
-      color: '#fff',
-      lineHeight: '500px',
-      textAlign: 'center',
-      background: '#364d79',
-      dotPosition: 'bottom',
-      autoplay: false
-    };
-    return (
-      <div>
-        <Carousel>
+const SimpleSlider = ({ post }) => {
+  const contentStyle = {
+    height: '500px',
+    color: '#fff',
+    lineHeight: '500px',
+    textAlign: 'center',
+    background: '#364d79',
+    dotPosition: 'bottom',
+    autoplay: false
+  };
+
+  return (
+    <div>
+      <Carousel>
+        {post.uploadfile.map((v) => (
           <div>
-            <img src="" alt="" style={contentStyle} />
+            <img style={contentStyle} src={v.src} alt={v.src} />
           </div>
-          <div>
-            <img src="" alt="" style={contentStyle} />
-          </div>
-          <div>
-            <img src="" alt="" style={contentStyle} />
-          </div>
-        </Carousel>
-      </div>
-    );
-  }
-}
+        ))}
+      </Carousel>
+    </div>
+  );
+};
+
+export default SimpleSlider;

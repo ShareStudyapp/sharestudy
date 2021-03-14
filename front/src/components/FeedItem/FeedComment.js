@@ -1,8 +1,16 @@
 import React from 'react';
+import { format, register } from 'timeago.js';
+import { localeFunc } from '../Common/localeFunc';
 
-export const FeedComment = () => {
+export const FeedComment = ({ post }) => {
+  register('my-locale', localeFunc);
+  const relativeDate = format(post.createdAt, 'my-locale');
+
   return (
     <div className="FeedComment">
+      <section className="FeedComment__center">
+        <p>{post.content}</p>
+      </section>
       <section className="FeedComment__header">
         <div className="FeedComment__header--left">
           <svg
@@ -20,13 +28,8 @@ export const FeedComment = () => {
           <span>like 500</span>
         </div>
         <div className="FeedComment__header--right">
-          <p>50분 전</p>
+          <p>{relativeDate}</p>
         </div>
-      </section>
-
-      <section className="FeedComment__center">
-        <h1>야나두 !!!!</h1>
-        <p>오늘 할당량 끝내기! 못 끝내면 내일 2배 이상으로 공부량 늘리기</p>
       </section>
 
       <section className="FeedComment__footer">
