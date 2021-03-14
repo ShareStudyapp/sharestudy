@@ -9,23 +9,16 @@ const NewsFeed = ({ history }) => {
   const dispatch = useDispatch();
   const { mainPosts, loadPostsDone } = useSelector((state) => state.postReducer);
   const { userinfoDone } = useSelector((state) => state.userReducer);
-
   useEffect(() => {
     dispatch({
       type: LOAD_POSTS_REQUEST
     });
   }, []);
 
-  useEffect(() => {
-    if (loadPostsDone) {
-      console.log(mainPosts);
-    }
-  }, [loadPostsDone]);
-
   return (
     <>
       {userinfoDone ? <HelloGoal /> : <HelloLogin history={history} />}
-      {loadPostsDone && mainPosts.map((c) => <FeedContent key={c.id} post={c} />)}
+      {loadPostsDone && mainPosts.map((post) => <FeedContent key={post.id} post={post} />)}
     </>
   );
 };

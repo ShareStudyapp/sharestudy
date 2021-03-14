@@ -123,7 +123,6 @@ const postReducer = (state = initialState, action) =>
         draft.loadPostsDone = true;
         //draft.mainPosts = action.data.concat(draft.mainPosts);
         draft.mainPosts = action.data;
-
         draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
       case LOAD_POSTS_FAILURE:

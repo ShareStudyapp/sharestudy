@@ -5,11 +5,11 @@ const Noti = () => {
     <>
       <header
         style={{
-          backgroundColor: 'grey',
-          height: '8vw',
+          backgroundColor: '#fff',
+          height: '80px',
           display: 'flex',
           alignItems: 'center',
-          padding: '2vw'
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.04)'
         }}
       >
         <svg
@@ -28,7 +28,7 @@ const Noti = () => {
           style={{
             display: 'inline-block',
             fontSize: '1.5em',
-            margin: 0
+            margin: '0'
           }}
         >
           알림
