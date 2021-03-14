@@ -3,10 +3,12 @@ import HelloLogin from '../../components/FeedItem/HelloLogin';
 import FeedContent from '../../components/FeedItem/FeedContent';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
+import HelloGoal from '../../components/FeedItem/HelloGoal';
 
-const NewsFeed = ({ history, key, post }) => {
+const NewsFeed = ({ history }) => {
   const dispatch = useDispatch();
   const { mainPosts, loadPostsDone } = useSelector((state) => state.postReducer);
+  const { userinfoDone } = useSelector((state) => state.userReducer);
 
   useEffect(() => {
     dispatch({
@@ -22,7 +24,7 @@ const NewsFeed = ({ history, key, post }) => {
 
   return (
     <>
-      <HelloLogin history={history} />
+      {userinfoDone ? <HelloGoal /> : <HelloLogin history={history} />}
       {loadPostsDone && mainPosts.map((c) => <FeedContent key={c.id} post={c} />)}
     </>
   );
