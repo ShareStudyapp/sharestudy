@@ -12,7 +12,7 @@ import '../../modules';
 const Todo = () => {
   const [date, setDate] = useState(new Date());
   const dispatch = useDispatch();
-  const { userInfo, userinfoError, userinfoDone } = useSelector((state) => state.userReducer);
+  const { userInfo, userinfoError } = useSelector((state) => state.userReducer);
   const { mainTodolist } = useSelector((state) => state.todolistReducer);
   useEffect(() => {
     dispatch({
@@ -45,7 +45,7 @@ const Todo = () => {
   }
   return (
     <>
-      {userinfoDone && (
+      {userInfo && (
         <>
           <Header />
           <section className="container">
