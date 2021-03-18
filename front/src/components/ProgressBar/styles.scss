@@ -4,16 +4,16 @@
   margin-left: 33px;
   font-family: Noto Sans;
   &-date {
-  font-size: 12px;
-  font-weight: 400;
-  text-align: left;
-  color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 0;
   }
   &-title {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 5px;
   }
   &-wrap {
     width: 90%;
@@ -26,7 +26,7 @@
       left: 33px;
       top: 174px;
       border-radius: 10px;
-      background-color: #2656FF;
+      background-color: #2656ff;
     }
   }
 }
