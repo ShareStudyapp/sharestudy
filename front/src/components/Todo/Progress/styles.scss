@@ -1,0 +1,12 @@
+.todo_progress {
+  padding: 5% 7%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  .ProgressBar {
+    margin-left: 0;
+    &-wrap {
+      width: 100%;
+    }
+  }
+}

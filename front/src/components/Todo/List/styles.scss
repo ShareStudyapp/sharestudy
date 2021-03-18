@@ -6,32 +6,50 @@
   &:last-child {
     margin-bottom: 0;
   }
-  > div {
-    &:first-child {
-      width: 37px;
-      height: 37px;
-      flex-basis: 37px;
-      flex-grow: 0;
-      flex-shrink: 0;
-      background: rgba(196, 196, 196, 0.5);
-      border-radius: 20px;
-      display: flex;
+  &__icon {
+    width: 37px;
+    height: 37px;
+    flex-basis: 37px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background: rgba(196, 196, 196, 0.5);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 14px;
+  }
+
+  &__content {
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0;
+    display: flex;
+    margin-right: 10px;
+    &.none {
       justify-content: center;
       align-items: center;
-      margin-right: 14px;
+      > p {
+        margin: 0;
+      }
+    }
+    > div {
+      min-width: 82px;
+      margin-right: 12px;
     }
 
-    > p {
-      word-wrap: break-word;
-      word-break: break-all;
-      font-size: 12px;
-      line-height: 14px;
-      margin: 0;
-      &:first-child {
-        font-weight: 600;
-        font-size: 15px;
-        margin-bottom: 9px;
-      }
+    &_time {
+      color: #999999;
+      margin-bottom: 9px;
+    }
+    &_title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    &_desc {
+      font-size: 14px;
     }
   }
 }

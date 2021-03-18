@@ -77,6 +77,7 @@ const todolistReducer = (state = initialState, action) =>
         draft.mainTodolist = action.data;
         break;
       case LOAD_PLAN_FAILURE:
+        draft.mainTodolist = [];
         draft.loadTodosLoading = false;
         draft.loadTodosError = action.error;
         break;
