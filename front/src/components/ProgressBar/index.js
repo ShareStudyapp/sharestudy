@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.scss';
 
-const ProgressBar = ({ date }) => {
+const ProgressBar = ({ date, percent }) => {
   return (
     <>
       <div className="ProgressBar">
@@ -10,7 +10,7 @@ const ProgressBar = ({ date }) => {
 
         {/* ProgressBar 진행막대기 */}
         <div className="ProgressBar-wrap">
-          <p className="ProgressBar-wrap-status"></p>
+          <p className="ProgressBar-wrap-status" style={{ width: percent }}></p>
         </div>
       </div>
     </>
