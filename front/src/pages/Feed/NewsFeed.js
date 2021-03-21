@@ -13,7 +13,7 @@ const NewsFeed = ({ history }) => {
     dispatch({
       type: LOAD_POSTS_REQUEST
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

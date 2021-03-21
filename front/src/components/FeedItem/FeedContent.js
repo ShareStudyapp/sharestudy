@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './styles.scss';
 import FeedSlider from '../FeedItem/FeedSlider';
 import { FeedComment } from './FeedComment';
