@@ -49,6 +49,10 @@
     line-height: 14px;
     text-align: left;
     color: $blue;
+    &.feedtxt {
+      margin-top: 27px;
+      font-weight: 700;
+    }
   }
   &-userProfile {
     height: 45px;
@@ -164,6 +168,45 @@
     }
     .pre {
       right: 0;
+    }
+  }
+}
+
+// Feed Upload
+.uploadWrap {
+  padding: 0 4.428571428571429em;
+  font-size: 14px;
+  .ant-upload.ant-upload-select-picture-card {
+    width: 100% !important;
+    height: 200px !important;
+  }
+  hr {
+    margin-top: 32px;
+  }
+
+  textarea {
+    width: 100%;
+    border: none;
+  }
+  &__ImgDel {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    &--delet {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      svg {
+        opacity: 0.8;
+      }
+    }
+  }
+  .PreNextBtn {
+    text-align: center;
+    button {
+      width: 10em;
+      height: 2.142857142857143em;
+      font-size: 14px;
     }
   }
 }
