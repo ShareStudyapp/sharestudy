@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import Search from '../Search';
 import './styles.scss';
 
 const Header = () => {
+  const [showSearch, setShowSearch] = useState(false);
+
+  const openSearch = useCallback(() => {
+    setShowSearch(true);
+  }, [setShowSearch]);
+
+  const closeSearch = useCallback(() => {
+    setShowSearch(false);
+  }, [setShowSearch]);
+
   return (
     <div>
       <div className="top">
@@ -23,6 +34,7 @@ const Header = () => {
         </div>
         <div className="top_feature">
           <svg
+            onClick={openSearch}
             width="18"
             height="18"
             viewBox="0 0 18 18"
@@ -48,6 +60,7 @@ const Header = () => {
           </svg>
         </div>
       </div>
+      {showSearch && <Search onClose={closeSearch} />}
     </div>
   );
 };

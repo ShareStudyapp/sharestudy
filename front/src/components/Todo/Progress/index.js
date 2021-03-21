@@ -1,10 +1,10 @@
 import React from 'react';
 import ProgressBar from '../../ProgressBar';
 import './styles.scss';
-const Progress = ({ date }) => {
+const Progress = ({ date, percent }) => {
   return (
     <div className="todo_progress">
-      <ProgressBar date={date.format('YY.MM.DD')} />
+      <ProgressBar date={date.format('YY.MM.DD')} percent={percent} />
     </div>
   );
 };
