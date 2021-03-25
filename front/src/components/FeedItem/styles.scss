@@ -59,8 +59,8 @@
     }
   }
   &-userProfile {
-    height: 60px;
-    width: 60px;
+    height: 2.2857142857142856em;
+    width: 2.2857142857142856em;
     border-radius: 50%;
     background: #c4c4c4;
     display: inline-block;
@@ -231,8 +231,8 @@
     display: inline-block;
     vertical-align: top;
     span {
-      height: 60px;
-      width: 60px;
+      height: 2.2857142857142856em;
+      width: 2.2857142857142856em;
       border-radius: 50%;
       background: #c4c4c4;
       img {
@@ -267,11 +267,38 @@
   }
   &__detail {
     width: 100%;
+    overflow: hidden;
+    &--date {
+      display: inline-block;
+      vertical-align: top;
+    }
     &--comment {
       font-weight: 700;
+      vertical-align: top;
+      margin-left: 15px;
     }
     &--like {
       font-weight: 700;
+      vertical-align: top;
+      margin-left: 15px;
+    }
+    &--left {
+      float: left;
+    }
+    &--right {
+      float: right;
+    }
+  }
+  &__more {
+    p {
+      &::before {
+        content: '';
+        width: 24px;
+        height: 1px;
+        background-color: #999;
+        display: inline-block;
+        margin: 5px 7px 5px 0;
+      }
     }
   }
 }
