@@ -1,5 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import { Carousel } from 'antd';
+import PropTypes from 'prop-types';
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import '../../components/FeedItem/styles.scss';
 
@@ -42,6 +43,10 @@ const SimpleSlider = ({ post }) => {
       )}
     </div>
   );
+};
+
+SimpleSlider.propTypes = {
+  post: PropTypes.object
 };
 
 export default SimpleSlider;

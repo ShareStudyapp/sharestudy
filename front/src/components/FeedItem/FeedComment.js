@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { format, register } from 'timeago.js';
 import { localeFunc } from '../Common/localeFunc';
 
-export const FeedComment = ({ post }) => {
+const FeedComment = ({ post }) => {
   register('my-locale', localeFunc);
   const relativeDate = format(post.createdAt, 'my-locale');
 
@@ -42,3 +43,9 @@ export const FeedComment = ({ post }) => {
     </div>
   );
 };
+
+FeedComment.propTypes = {
+  post: PropTypes.object
+};
+
+export default FeedComment;

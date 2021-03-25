@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.scss';
 import FeedSlider from '../FeedItem/FeedSlider';
 import FeedCommentItem from '../FeedItem/FeedCommentItem';
-import { FeedComment } from './FeedComment';
+import FeedComment from './FeedComment';
 
 const FeedContent = ({ post }) => {
   return (
@@ -18,8 +18,8 @@ const FeedContent = ({ post }) => {
         <div className="FeedContent-header_right">
           <button className="FeedContent-menu">
             <svg
-              width="30"
-              height="30"
+              width="25"
+              height="25"
               viewBox="0 0 22 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

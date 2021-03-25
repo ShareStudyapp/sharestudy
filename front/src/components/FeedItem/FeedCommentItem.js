@@ -7,7 +7,7 @@ const FeedCommentItem = () => {
     <>
       <div className="FeedCommentView">
         <p className="FeedCommentView-userProfile">
-          <Avatar size={32} />
+          <Avatar />
         </p>
 
         <div className="FeedCommentView__desc">
