@@ -115,3 +115,36 @@
     }
   }
 }
+
+// 회원가입 완료페이지
+.completion {
+  text-align: center;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+  display: table;
+  &__wrap {
+    display: table-cell;
+    vertical-align: middle;
+    p {
+      font-size: 1.4em;
+      margin-bottom: 0;
+      color: #000000;
+      font-family: Noto Sans;
+      font-weight: 400;
+      strong {
+        color: $blue;
+      }
+    }
+    button {
+      width: 79.58%;
+      background-color: $blue;
+      text-align: center;
+      border-radius: 4px;
+      padding: 0.8em;
+      font-size: 1.1em;
+      margin-top: 1.4285714285714286em;
+      color: #fff;
+    }
+  }
+}

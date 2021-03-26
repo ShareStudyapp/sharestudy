@@ -49,7 +49,7 @@ function App() {
             <CacheRoute exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/signupCom" component={signupCom} />
+            <Route exact path="/signupcom" component={signupCom} />
             <Route exact path="/todo" component={Todo} />
             <Route exact path="/myfeed" component={MyFeed} />
             <Route exact path="/newsfeed" component={NewsFeed} />
