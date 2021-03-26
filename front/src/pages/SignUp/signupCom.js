@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const signupCom = () => {
   return (
-    <div className="signup__com">
+    <>
       <div className="completion">
         <div className="completion__wrap">
           <p>
@@ -20,7 +20,7 @@ const signupCom = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
