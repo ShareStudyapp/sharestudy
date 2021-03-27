@@ -1,3 +1,13 @@
 // Set 페이지들 스타일
 .setting {
+  li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    &:nth-child(1) {
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    button {
+      margin-left: 3em;
+      padding: 1em 0;
+    }
+  }
 }
