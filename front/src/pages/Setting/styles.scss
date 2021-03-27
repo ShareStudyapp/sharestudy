@@ -102,7 +102,7 @@
   }
 
   &__save {
-    width: 100%;
+    padding: 0 3em 3em;
     &--btn {
       background-color: #b0b0b0 !important;
       color: $white !important;
@@ -110,7 +110,7 @@
       background-color: $blue !important;
       border-radius: 4px;
       height: auto;
-      width: 80%;
+      width: 100%;
       padding: 0.7em 0;
       margin-top: 1em;
     }
