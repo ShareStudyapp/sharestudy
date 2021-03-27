@@ -17,6 +17,7 @@ const Noti = lazy(() => import('./pages/Noti'));
 const UpLoad = lazy(() => import('./pages/Feed/FeedUpload'));
 const SignupCom = lazy(() => import('./pages/SignUp/signupCom'));
 const Setting = lazy(() => import('./pages/Setting'));
+const SetProfile = lazy(() => import('./pages/Setting/setProfile'));
 
 const override = css`
   display: block;
@@ -57,6 +58,7 @@ function App() {
             <Route exact path="/noti" component={Noti} />
             <Route exact path="/upload" component={UpLoad} />
             <Route exact path="/setting" component={Setting} />
+            <Route exact path="/setprofile" component={SetProfile} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>
