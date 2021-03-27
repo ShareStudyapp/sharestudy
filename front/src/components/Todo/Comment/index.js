@@ -3,21 +3,30 @@ import Content from '../Content';
 import CommentDialog from './CommentDialog';
 import './styles.scss';
 
-const TodoComment = ({ comment }) => {
+const TodoComment = ({ date, comment }) => {
   const [showDialog, setShowDialog] = useState(false);
 
   const onCreate = useCallback(() => {
     setShowDialog(true);
+    document.body.style.overflow = 'hidden';
   }, []);
+
+  const onUpdate = useCallback(() => {
+    if (comment) {
+      setShowDialog(true);
+      document.body.style.overflow = 'hidden';
+    }
+  }, [comment]);
 
   const onClose = useCallback(() => {
     setShowDialog(false);
+    document.body.style.overflow = 'unset';
   }, []);
 
   return (
     <>
       <Content title="Today's comment" useBtn={comment ? false : true} onCreate={onCreate}>
-        <div className="comment">
+        <div className="comment" onClick={onUpdate}>
           <div className="comment__icon">
             <svg
               width="63"
@@ -60,7 +69,7 @@ const TodoComment = ({ comment }) => {
           </div>
         </div>
       </Content>
-      {showDialog && <CommentDialog onClose={onClose} />}
+      {showDialog && <CommentDialog date={date} onClose={onClose} comment={comment} />}
     </>
   );
 };

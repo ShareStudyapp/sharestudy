@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { List, Comment, Progress, Day } from '../../components/Todo';
 import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
-import { LOAD_PLAN_REQUEST } from '../../reducers/todolist';
+import { LOAD_TODO_REQUEST } from '../../reducers/todo';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -12,10 +12,18 @@ const Todo = () => {
   const [date, setDate] = useState(new Date());
   const dispatch = useDispatch();
   const { userInfo, userinfoError } = useSelector((state) => state.userReducer);
-  const { mainTodolist } = useSelector((state) => state.todolistReducer);
+  const { todo } = useSelector((state) => state.todoReducer);
+
+  const fetchTodo = useCallback(() => {
+    dispatch({
+      type: LOAD_TODO_REQUEST,
+      data: dayjs(date).format('YYYYMMDD')
+    });
+  }, [date, dispatch]);
+
   useEffect(() => {
     dispatch({
-      type: LOAD_PLAN_REQUEST,
+      type: LOAD_TODO_REQUEST,
       data: dayjs(date).format('YYYYMMDD')
     });
   }, [date, dispatch]);
@@ -37,13 +45,13 @@ const Todo = () => {
             <Progress
               date={dayjs(date)}
               percent={
-                mainTodolist?.todoList?.length > 0
-                  ? (mainTodolist.completeRatioCnt / mainTodolist.allRatioCnt) * 100 + '%'
+                todo?.todoList?.length > 0
+                  ? (todo.completeRatioCnt / todo.allRatioCnt) * 100 + '%'
                   : '0%'
               }
             />
-            <List todoList={mainTodolist.todoList} />
-            <Comment comment={mainTodolist.todoComment} />
+            <List date={dayjs(date)} todoList={todo.todoList} fetchTodo={fetchTodo} />
+            <Comment date={dayjs(date)} comment={todo.todoComment} />
           </section>
           <BottomNav />
         </>

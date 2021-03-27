@@ -27,7 +27,6 @@
     line-height: 14px;
     margin: 0;
     display: flex;
-    margin-right: 10px;
     &.none {
       justify-content: center;
       align-items: center;
@@ -114,6 +113,9 @@
           height: 37px;
           border-radius: 20px;
           margin-bottom: 5px;
+          &.active {
+            border: 2px solid $blue;
+          }
         }
       }
       .content {
