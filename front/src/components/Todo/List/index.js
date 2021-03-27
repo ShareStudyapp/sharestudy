@@ -24,7 +24,7 @@ const TodoList = ({ date, todoList, fetchTodo }) => {
     return () => {
       setTodo(todo);
       setShowDialog(true);
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = 'hidden';
     };
   }, []);
 
