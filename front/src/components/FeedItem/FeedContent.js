@@ -1,13 +1,12 @@
 import React from 'react';
 import './styles.scss';
 import FeedSlider from '../FeedItem/FeedSlider';
-import { FeedComment } from './FeedComment';
+import FeedCommentItem from '../FeedItem/FeedCommentItem';
+import FeedComment from './FeedComment';
 
-const FeedContent = ({ key, post }) => {
+const FeedContent = ({ post }) => {
   return (
     <div className="FeedContent">
-      <h2 className="FeedContent__title">Share</h2>
-
       <div className="FeedContent-header">
         <div className="FeedContent-header_left">
           <p className="FeedContent-userProfile">
@@ -19,8 +18,8 @@ const FeedContent = ({ key, post }) => {
         <div className="FeedContent-header_right">
           <button className="FeedContent-menu">
             <svg
-              width="30"
-              height="30"
+              width="25"
+              height="25"
               viewBox="0 0 22 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -38,6 +37,7 @@ const FeedContent = ({ key, post }) => {
 
       <FeedSlider post={post} />
       <FeedComment post={post} />
+      <FeedCommentItem post={post} />
     </div>
   );
 };

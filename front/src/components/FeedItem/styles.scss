@@ -40,8 +40,12 @@
   }
 }
 
+// ----------------------------
+
 .FeedContent {
-  padding: 20px 34px;
+  padding: 0 34px;
+  border-bottom: 10px solid #f4f4f4;
+  overflow: hidden;
   &__title {
     font-family: Noto Sans;
     font-size: 15px;
@@ -49,10 +53,14 @@
     line-height: 14px;
     text-align: left;
     color: $blue;
+    &.feedtxt {
+      margin-top: 27px;
+      font-weight: 700;
+    }
   }
   &-userProfile {
-    height: 45px;
-    width: 45px;
+    height: 2.2857142857142856em;
+    width: 2.2857142857142856em;
     border-radius: 50%;
     background: #c4c4c4;
     display: inline-block;
@@ -62,8 +70,8 @@
   }
   &-userId {
     display: inline-block;
-    margin-left: 13px;
-    font-size: 15px;
+    margin-left: 11px;
+    font-size: 1em;
   }
   &-header {
     margin-top: 22px;
@@ -93,6 +101,7 @@
 
 .FeedComment {
   width: 100%;
+  margin-top: 24px;
   &__header {
     overflow: hidden;
     margin-top: 10px;
@@ -142,7 +151,6 @@
 }
 
 .feedSlide {
-  background-color: red;
   position: relative;
   .sliderBtn {
     position: absolute;
@@ -152,16 +160,145 @@
     width: 100%;
     height: 7%;
     button {
-      background: blue;
       width: 7%;
       height: 100%;
       position: absolute;
+      svg {
+        width: 2em;
+        height: 2em;
+      }
     }
     .next {
       left: 0;
     }
     .pre {
       right: 0;
+    }
+  }
+}
+
+// ---------------------
+// Feed Upload
+
+.uploadWrap {
+  padding: 0 4.428571428571429em;
+  font-size: 14px;
+  .ant-upload.ant-upload-select-picture-card {
+    width: 100% !important;
+    height: 200px !important;
+  }
+  hr {
+    margin-top: 32px;
+  }
+
+  textarea {
+    width: 100%;
+    border: none;
+  }
+  &__ImgDel {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    &--delet {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      svg {
+        opacity: 0.8;
+      }
+    }
+  }
+  .PreNextBtn {
+    text-align: center;
+    button {
+      width: 10em;
+      height: 2.142857142857143em;
+      font-size: 14px;
+    }
+  }
+}
+
+//-------------------------------
+
+.FeedCommentView {
+  width: 100%;
+  margin-top: 10px;
+  p {
+    margin-bottom: auto;
+  }
+  &-userProfile {
+    width: 7.555%;
+    display: inline-block;
+    vertical-align: top;
+    span {
+      height: 2.2857142857142856em;
+      width: 2.2857142857142856em;
+      border-radius: 50%;
+      background: #c4c4c4;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  &__desc {
+    display: inline-block;
+    padding-left: 13px;
+    margin-top: 4px;
+    margin-bottom: 24px;
+    width: 92.44%;
+  }
+  &__userId {
+    font-weight: 700;
+  }
+  &__Comment {
+    width: 100%;
+    &--desc {
+      display: inline-block;
+      float: left;
+    }
+    &--like {
+      float: right;
+    }
+    &::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+  &__detail {
+    width: 100%;
+    overflow: hidden;
+    &--date {
+      display: inline-block;
+      vertical-align: top;
+    }
+    &--comment {
+      font-weight: 700;
+      vertical-align: top;
+      margin-left: 15px;
+    }
+    &--like {
+      font-weight: 700;
+      vertical-align: top;
+      margin-left: 15px;
+    }
+    &--left {
+      float: left;
+    }
+    &--right {
+      float: right;
+    }
+  }
+  &__more {
+    p {
+      &::before {
+        content: '';
+        width: 24px;
+        height: 1px;
+        background-color: #999;
+        display: inline-block;
+        margin: 5px 7px 5px 0;
+      }
     }
   }
 }

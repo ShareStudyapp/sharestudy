@@ -18,6 +18,9 @@ const NewsFeed = ({ history }) => {
   return (
     <>
       {userinfoDone ? <HelloGoal /> : <HelloLogin history={history} />}
+      <h2 className="FeedContent__title" style={{ margin: '20px 33px' }}>
+        Share
+      </h2>
       {loadPostsDone && mainPosts.map((post) => <FeedContent key={post.id} post={post} />)}
     </>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { format, register } from 'timeago.js';
 import { localeFunc } from '../Common/localeFunc';
 
-export const FeedComment = ({ post }) => {
+const FeedComment = ({ post }) => {
   register('my-locale', localeFunc);
   const relativeDate = format(post.createdAt, 'my-locale');
 
@@ -15,8 +16,8 @@ export const FeedComment = ({ post }) => {
         <div className="FeedComment__header--left">
           <button>
             <svg
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 20 19"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -42,3 +43,9 @@ export const FeedComment = ({ post }) => {
     </div>
   );
 };
+
+FeedComment.propTypes = {
+  post: PropTypes.object
+};
+
+export default FeedComment;

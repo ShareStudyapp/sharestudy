@@ -1,5 +1,7 @@
 import React, { useRef, useCallback } from 'react';
 import { Carousel } from 'antd';
+import PropTypes from 'prop-types';
+import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import '../../components/FeedItem/styles.scss';
 
 const SimpleSlider = ({ post }) => {
@@ -31,12 +33,20 @@ const SimpleSlider = ({ post }) => {
       </Carousel>
       {post.uploadfile.length > 1 && (
         <div className="sliderBtn">
-          <button className="next" onClick={gotoNext}></button>
-          <button className="pre" onClick={gotoPre}></button>
+          <button className="next" onClick={gotoNext}>
+            <LeftCircleFilled style={{ color: '#fff', opacity: '80%' }} />
+          </button>
+          <button className="pre" onClick={gotoPre}>
+            <RightCircleFilled style={{ color: '#fff', opacity: '80%' }} />
+          </button>
         </div>
       )}
     </div>
   );
+};
+
+SimpleSlider.propTypes = {
+  post: PropTypes.object
 };
 
 export default SimpleSlider;
