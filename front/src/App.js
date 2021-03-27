@@ -18,6 +18,7 @@ const UpLoad = lazy(() => import('./pages/Feed/FeedUpload'));
 const SignupCom = lazy(() => import('./pages/SignUp/signupCom'));
 const Setting = lazy(() => import('./pages/Setting'));
 const SetProfile = lazy(() => import('./pages/Setting/setProfile'));
+const Complaint = lazy(() => import('./pages/Setting/complaint'));
 
 const override = css`
   display: block;
@@ -59,6 +60,7 @@ function App() {
             <Route exact path="/upload" component={UpLoad} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/setprofile" component={SetProfile} />
+            <Route exact path="/complaint" component={Complaint} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>

@@ -131,3 +131,33 @@
     margin-top: 1em;
   }
 }
+
+// 불편신고 접수하기
+.complaint {
+  overflow: hidden;
+  padding: 2em;
+  &__back {
+    height: 0 2em;
+    width: 100%;
+  }
+  &__text {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    border-radius: 10px;
+    height: 40vh;
+    margin-top: 2.7em;
+  }
+  &__submit {
+    text-align: center;
+    margin-top: 1.6em;
+    button {
+      width: 40%;
+      font-size: 1.1em;
+      line-height: 50px;
+      background: #2656f2;
+      color: #fff;
+      border-radius: 30px;
+    }
+  }
+}

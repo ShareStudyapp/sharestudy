@@ -71,7 +71,7 @@ const SetProfile = () => {
           </div>
         </form>
 
-        <button className="password">
+        <button className="password" type="submit">
           비밀번호 변경하기 <RightOutlined />
         </button>
 
