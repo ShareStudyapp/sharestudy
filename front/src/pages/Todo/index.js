@@ -37,7 +37,7 @@ const Todo = () => {
       {userInfo && (
         <>
           <Header />
-          <section className="container">
+          <section className="todo-container">
             <article>
               <strong className="hightligter">{userInfo.nickname}님의 To do</strong>
               <Day date={date} setDate={setDate} />
