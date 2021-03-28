@@ -16,7 +16,7 @@ const signupCom = () => {
           </p>
 
           <Link to="/">
-            <button>Study Share 시작하기</button>
+            <button type="button">Study Share 시작하기</button>
           </Link>
         </div>
       </div>
