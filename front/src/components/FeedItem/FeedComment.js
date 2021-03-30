@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { format, register } from 'timeago.js';
 import { localeFunc } from '../Common/localeFunc';
 
 const FeedComment = ({ post }) => {
+  const [color, setColor] = useState('');
+  const [like, setLike] = useState(0);
+
+  const handleClick = () => {
+    setColor('#f59191');
+    setLike(like + 1);
+    setLike(like + 1);
+  };
+
   register('my-locale', localeFunc);
   const relativeDate = format(post.createdAt, 'my-locale');
 
@@ -13,7 +22,7 @@ const FeedComment = ({ post }) => {
         <p className="FeedComment__comment">{post.content}</p>
       </section>
       <section className="FeedComment__header">
-        <div className="FeedComment__header--left">
+        <div className="FeedComment__header--left" onClick={handleClick}>
           <button>
             <svg
               width="20"
@@ -25,11 +34,12 @@ const FeedComment = ({ post }) => {
               <path
                 d="M10 18.35L8.55 17.03C3.4 12.36 0 9.28 0 5.5C0 2.42 2.42 0 5.5 0C7.24 0 8.91 0.81 10 2.09C11.09 0.81 12.76 0 14.5 0C17.58 0 20 2.42 20 5.5C20 9.28 16.6 12.36 11.45 17.04L10 18.35Z"
                 fill="#BDBDBD"
+                style={{ fill: color }}
               />
             </svg>
           </button>
           <button>
-            <span>like 500</span>
+            <span>like {like}</span>
           </button>
         </div>
         <div className="FeedComment__header--right">
