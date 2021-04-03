@@ -322,10 +322,10 @@ function* watchUpdatePost() {
   yield takeLatest(UPDATE_POST_REQUEST, updatePost);
 }
 function* watchLikePost() {
-  yield takeLatest(LIKE_POST_REQUEST, likePost);
+  yield throttle(1000, LIKE_POST_REQUEST, likePost);
 }
 function* watchUnlikePost() {
-  yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
+  yield throttle(1000, UNLIKE_POST_REQUEST, unlikePost);
 }
 function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);

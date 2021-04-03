@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Modal from "../Utils/Modal";
 import {FOLLOWER_LIST_REQUEST,FOLLOWING_LIST_REQUEST} from '../../reducers/user';
 import {Link} from 'react-router-dom';
-import Divider from '@material-ui/core/Divider';
-import threefeature from '../../assets/Button/threefeature.png';
+import Divider from '@material-ui/core/Divider';=
 import { logoutRequestAction } from '../../reducers/user';
 import {FOLLOW_REQUEST,FOLLOW_CANCLE_REQUEST} from '../../reducers/user';
 
