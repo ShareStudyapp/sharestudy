@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './styles.scss';
 import { Avatar } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
+// import { useDispatch } from 'react-redux';
+// import { LOAD_POSTS_COMMENT_REQUEST } from '../../reducers/post';
 
 const FeedCommentItem = () => {
-  const [color, setColor] = useState('');
-  const onClick = () => {
-    setColor('#eb2f96');
-  };
+  // const dispatch = useDispatch();
+  const [color, setColor] = useState(false);
+
+  const toggleLike = useCallback(() => {
+    setColor((prev) => !prev);
+  }, []);
+
+  // const fetchComment = useCallback(
+  //   (id) => {
+  //     dispatch({
+  //       type: LOAD_POSTS_COMMENT_REQUEST,
+  //       data: id
+  //     });
+  //   },
+  //   [dispatch]
+  // );
+
   return (
     <>
       <div className="FeedCommentView">
@@ -20,8 +35,12 @@ const FeedCommentItem = () => {
 
           <div className="FeedCommentView__Comment">
             <p className="FeedCommentView__Comment--desc">오늘도 화이팅 !!!!! 열공하세요 !!!!</p>
-            <button className="FeedCommentView__Comment--like" onClick={onClick}>
-              <HeartTwoTone style={{ fill: color }} />
+            <button className="FeedCommentView__Comment--like" type="button" onClick={toggleLike}>
+              {color ? (
+                <HeartTwoTone twoToneColor="#eb2f96" />
+              ) : (
+                <HeartTwoTone twoToneColor="#ccc" />
+              )}
             </button>
           </div>
 
@@ -30,10 +49,10 @@ const FeedCommentItem = () => {
               <p className="FeedCommentView__detail--date" style={{ color: '#999999' }}>
                 1분전
               </p>
-              <button className="FeedCommentView__detail--comment">
+              <button className="FeedCommentView__detail--comment" type="button">
                 <p>답글 쓰기</p>
               </button>
-              <button className="FeedCommentView__detail--like">
+              <button className="FeedCommentView__detail--like" type="button">
                 <p>
                   좋아요 <span>2개</span>
                 </p>
@@ -41,7 +60,7 @@ const FeedCommentItem = () => {
             </div>
 
             <div className="FeedCommentView__detail--right">
-              <button className="FeedCommentView__detail--more">
+              <button className="FeedCommentView__detail--more" type="button">
                 <svg
                   width="22"
                   height="6"
@@ -59,7 +78,7 @@ const FeedCommentItem = () => {
           </div>
 
           <div className="FeedCommentView__more">
-            <button>
+            <button type="button">
               <p style={{ fontSize: '12px', color: '#999999' }}>답글 2개 보기</p>
             </button>
           </div>
