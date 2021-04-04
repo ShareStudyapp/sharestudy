@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import './styles.scss';
 
 const SignUp = () => {
+  const [gender, setGender] = useState('F');
   const [validateState, setValidateState] = useState({
     email: false,
     confirmText: false,
@@ -14,11 +15,13 @@ const SignUp = () => {
 
   const formik = useFormik({
     initialValues: {
+      nickName: '',
       email: '',
       confirmText: '',
       id: '',
       password: '',
       confirmPassword: '',
+      birth: '',
       agree: false
     },
     onSubmit: (values) => {
@@ -105,6 +108,13 @@ const SignUp = () => {
     [formik]
   );
 
+  const onChangeGender = useCallback(
+    (e) => {
+      setGender(e?.target?.value);
+    },
+    [setGender]
+  );
+
   return (
     <div className="container">
       <div className="content">
@@ -130,34 +140,12 @@ const SignUp = () => {
           <Form onFinish={formik.handleSubmit} onChange={onFormChange}>
             <div className="input-group" style={{ marginBottom: '35px' }}>
               <Input.Search
-                id="email"
-                name="email"
-                type="email"
-                placeholder="이메일을 입력해 주세요."
-                enterButton="확인"
-                value={formik.values.email}
-                disabled={validateState.email}
-                onSearch={onSendEmail}
-              />
-              <Input.Search
-                id="confirmText"
-                name="confirmText"
-                type="text"
-                placeholder="인증메일 문구확인"
-                enterButton="확인"
-                value={formik.values.confirmText}
-                disabled={!validateState.email || validateState.confirmText}
-                onSearch={onCheckConfirmText}
-              />
-            </div>
-            <div className="input-group">
-              <Input.Search
                 className={validateState.id ? 'confirm' : ''}
                 id="id"
                 name="id"
                 type="text"
                 placeholder="아이디를 입력해 주세요."
-                enterButton="확인"
+                enterButton="중복확인"
                 value={formik.values.id}
                 onSearch={onCheckDupId}
               />
@@ -168,21 +156,77 @@ const SignUp = () => {
                 placeholder="비밀번호 6글자 이상.(영문, 숫자, 특수문자중 2포함)"
                 value={formik.values.password}
               />
-              <Input.Search
-                id="confirmPassword"
-                name="confirmPassword"
+              <Input
+                id="password"
+                name="password"
                 type="password"
                 placeholder="비밀번호 확인"
-                enterButton="확인"
                 value={formik.values.confirmPassword}
-                onSearch={onCheckConfirmPwd}
               />
             </div>
+
+            <div className="input-group" style={{ marginBottom: '35px' }}>
+              <Input.Search
+                id="nickName"
+                name="nickName"
+                type="text"
+                placeholder="닉네임을 입력해 주세요."
+                enterButton="중복확인"
+                value={formik.values.nickName}
+              />
+              <Input.Search
+                id="email"
+                name="email"
+                type="email"
+                placeholder="이메일을 입력해 주세요."
+                enterButton="중복확인"
+                value={formik.values.email}
+                disabled={validateState.email}
+                onSearch={onSendEmail}
+              />
+            </div>
+
+            <div className="input-group">
+              <Input
+                id="birth"
+                name="birth"
+                type="text"
+                placeholder="생년월일을 입력해주세요."
+                value={formik.values.birth}
+              />
+            </div>
+
             <div className="submit-group">
+              <Checkbox.Group defaultValue={['M', 'F']}>
+                <Checkbox
+                  id="female"
+                  name="gender"
+                  value="F"
+                  checked={gender}
+                  onClick={() => {
+                    return false;
+                  }}
+                  className={gender === 'F' ? '' : 'gender_disable'}
+                >
+                  여자
+                </Checkbox>
+                <Checkbox
+                  id="male"
+                  name="gender"
+                  value="M"
+                  checked={gender}
+                  onClick={() => {
+                    return false;
+                  }}
+                  className={gender === 'M' ? '' : 'gender_disable'}
+                >
+                  남자
+                </Checkbox>
+              </Checkbox.Group>
               <Checkbox id="agree" name="agree" checked={formik.values.agree}>
-                이용약관이 있다면 이곳에
+                이용약관에 동의합니다.
               </Checkbox>
-              <Button htmlType="submit">로그인</Button>
+              <Button htmlType="submit">확인</Button>
             </div>
           </Form>
         </div>
