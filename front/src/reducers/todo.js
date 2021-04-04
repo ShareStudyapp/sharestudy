@@ -77,7 +77,9 @@ const todoReducer = (state = initialState, action) =>
       case ADD_TODO_SUCCESS:
         draft.addTodoLoading = false;
         draft.addTodoDone = true;
-        draft.todo.todoList.push(action.data);
+        draft.todo.todoList
+          ? draft.todo.todoList.push(action.data)
+          : (draft.todo.todoList = [action.data]);
         break;
       case ADD_TODO_FAILURE:
         draft.addTodoLoading = false;

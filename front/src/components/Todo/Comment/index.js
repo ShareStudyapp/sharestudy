@@ -27,7 +27,7 @@ const TodoComment = ({ date, comment }) => {
     <>
       <Content title="Today's comment" useBtn={comment ? false : true} onCreate={onCreate}>
         <div className="todo-comment" onClick={onUpdate}>
-          <div className="comment__icon">
+          <div className="todo-comment__icon">
             <svg
               width="63"
               height="50"
