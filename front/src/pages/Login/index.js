@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { loginRequestAction } from '../../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
+import { useLocation } from 'react-router-dom';
 import './LoginForm.scss';
 
-const Login = ({ history }) => {
+const Login = ({ history, location }) => {
   const dispatch = useDispatch();
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.userReducer);
   const [userid, onChangeUserid] = useInput('');
@@ -17,9 +18,13 @@ const Login = ({ history }) => {
       alert(logInError);
     }
     if (logInDone) {
-      history.push('/');
+      if (!location.state?.from) {
+        history.push('/');
+      } else {
+        history.push(location.state.from);
+      }
     }
-  }, [logInError, logInDone, history]);
+  }, [logInError, logInDone, history, location]);
 
   const onSubmitForm = useCallback(() => {
     console.log(userid, password);

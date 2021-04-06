@@ -30,7 +30,16 @@ const Todo = () => {
 
   //비로그인시 redirect
   if (!window.sessionStorage.getItem('user') || userinfoError) {
-    return <Redirect to="/login" />;
+    return (
+      <Redirect
+        to={{
+          pathname: '/login',
+          state: {
+            from: '/todo'
+          }
+        }}
+      />
+    );
   }
   return (
     <>
