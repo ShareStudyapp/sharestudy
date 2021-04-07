@@ -2,20 +2,60 @@ import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox, Form, Input, Button } from 'antd';
 import { useFormik } from 'formik';
+import axios from 'axios';
 import './styles.scss';
 
+const checkUserId = async (id) => {
+  const result = { error: false, message: '' };
+  try {
+    await axios.post('/api/auth/check/userid', { userid: id });
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
+
+const checkUserEmail = async (email) => {
+  const result = { error: false, message: '' };
+  try {
+    await axios.post('/api/auth/check/useremail', { email: email });
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
+
+const checkUserNickname = async (nickname) => {
+  const result = { error: false, message: '' };
+  try {
+    await axios.post('/api/auth/check/username', { username: nickname });
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
 const SignUp = () => {
   const [gender, setGender] = useState('F');
+  const [error, setError] = useState({
+    email: '',
+    password: '',
+    id: '',
+    nickname: '',
+    confirmPassword: ''
+  });
+
   const [validateState, setValidateState] = useState({
     email: false,
-    confirmText: false,
-    id: false,
-    confirmPassword: false
+    nickname: false,
+    id: false
   });
 
   const formik = useFormik({
     initialValues: {
-      nickName: '',
+      nickname: '',
       email: '',
       confirmText: '',
       id: '',
@@ -27,93 +67,116 @@ const SignUp = () => {
     onSubmit: (values) => {
       console.log(values);
       console.log(validateState);
-      const valid = Object.values(validateState).every((state) => state);
-      if (values.agree && valid) {
-        //회원가입 로직 추가 필요
-      } else {
-        //상세 알럿 추가 필요
-        alert('항목을 재확인 해주세요.');
-      }
+      console.log(error);
+      // const valid = Object.values(validateState).every((state) => state);
+      // if (values.agree && valid) {
+      //   //회원가입 로직 추가 필요
+      // } else {
+      //   //상세 알럿 추가 필요
+      //   alert('항목을 재확인 해주세요.');
+      // }
     }
   });
 
-  const onSendEmail = useCallback(() => {
-    let result = true;
-    if (
-      !formik.values.email ||
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formik.values.email)
-    ) {
-      result = false;
-      alert('이메일을 확인 해주세요');
-    }
-    //메일 발송하기 추가 필요
-    console.log(formik.values.email, '메일발송');
-    setValidateState((state) => ({ ...state, email: result }));
-  }, [formik]);
-
-  const onCheckConfirmText = useCallback(() => {
-    let result = true;
-    //문구확인 로직 추가 필요
-    if (!formik.values.confirmText) {
-      alert('인증이 실패 되었습니다.');
-      result = false;
-    }
-    setValidateState((state) => ({ ...state, confirmText: result }));
-  }, [formik]);
-
-  const onCheckDupId = useCallback(() => {
-    let result = true;
-    //아이디 중복 확인 로직 추가 필요
+  const onCheckId = useCallback(async () => {
+    let msg = '';
     if (!formik.values.id) {
-      console.log('아이디를 재입력 해주세요.');
-      result = false;
+      msg = '아이디를 입력 해주세요.';
     }
-    setValidateState((state) => ({ ...state, id: result }));
+    const response = await checkUserId(formik.values.id);
+    if (response.error) {
+      msg = response.message;
+    }
+    setError((error) => ({ ...error, id: msg }));
+    setValidateState((state) => ({
+      ...state,
+      id: true
+    }));
   }, [formik]);
 
-  const onCheckConfirmPwd = useCallback(() => {
-    let result = true;
-    const { password, confirmPassword } = formik.values;
+  const onCheckEmail = useCallback(async () => {
+    let msg = '';
+    if (!formik.values.email) {
+      msg = '이메일을 입력 해주세요.';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formik.values.email)) {
+      msg = '이메일을 올바르게 입력 해주세요.';
+    }
+    const response = await checkUserEmail(formik.values.email);
+    if (response.error) {
+      msg = response.message;
+    }
+    setError((error) => ({ ...error, email: msg }));
+    setValidateState((state) => ({
+      ...state,
+      email: true
+    }));
+  }, [formik]);
 
-    if (!password || !confirmPassword || password !== confirmPassword) {
-      alert('비밀번호를 확인 해주세요');
-      result = false;
-    } else if (
-      !/^((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*\W)|(?=.*\d)(?=.*\W)).{6,}$/.test(password)
+  const onCheckNickname = useCallback(async () => {
+    let msg = '';
+    if (!formik.values.nickname) {
+      msg = '닉네임을 입력 해주세요.';
+    }
+    const response = await checkUserNickname(formik.values.nickname);
+    if (response.error) {
+      msg = response.message;
+    }
+    setError((error) => ({ ...error, nickname: msg }));
+    setValidateState((state) => ({
+      ...state,
+      nickname: true
+    }));
+  }, [formik]);
+
+  const onChangePassword = useCallback((e) => {
+    let msg = '';
+    if (
+      !/^((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*\W)|(?=.*\d)(?=.*\W)).{6,}$/.test(
+        e.target.value
+      )
     ) {
-      alert('비밀번호는 영문, 숫자, 특수문자중 2가지 포함 6글자 이상이어야 합니다');
-      result = false;
+      msg = '비밀번호는 영문, 숫자, 특수문자중 2가지 포함 6글자 이상이어야 합니다';
     }
+    setError((error) => ({
+      ...error,
+      password: msg
+    }));
+  }, []);
 
-    setValidateState((state) => ({ ...state, confirmPassword: result }));
-  }, [formik]);
+  const onChangeConfirmPwd = useCallback(
+    (e) => {
+      let msg = '';
+      const { password } = formik.values;
+
+      if (!password || !e.target.value || password !== e.target.value) {
+        msg = '비밀번호가 일치하지 않습니다.';
+      }
+      setError((error) => ({
+        ...error,
+        confirmPassword: msg
+      }));
+    },
+    [formik]
+  );
 
   const onFormChange = useCallback(
     (e) => {
       const { name } = e.target;
-      if (name === 'id') {
+      console.log(name, e.target.value);
+      if (name === 'id' || name === 'email' || name === 'nickname') {
         setValidateState((state) => ({
           ...state,
-          id: false
-        }));
-      } else if (name.indexOf('password') > 0) {
-        setValidateState((state) => ({
-          ...state,
-          confirmPassword: false
+          [name]: false
         }));
       }
-
       formik.handleChange(e);
     },
     [formik]
   );
 
-  const onChangeGender = useCallback(
-    (e) => {
-      setGender(e?.target?.value);
-    },
-    [setGender]
-  );
+  const onChangeGender = useCallback((e) => {
+    setGender(e?.target?.value);
+  }, []);
 
   return (
     <div className="container">
@@ -140,40 +203,46 @@ const SignUp = () => {
           <Form onFinish={formik.handleSubmit} onChange={onFormChange}>
             <div className="input-group" style={{ marginBottom: '35px' }}>
               <Input.Search
-                className={validateState.id ? 'confirm' : ''}
                 id="id"
                 name="id"
                 type="text"
                 placeholder="아이디를 입력해 주세요."
                 enterButton="중복확인"
                 value={formik.values.id}
-                onSearch={onCheckDupId}
+                onSearch={onCheckId}
               />
+              {error.id && <p className="error">{error.id}</p>}
               <Input
                 id="password"
                 name="password"
                 type="password"
                 placeholder="비밀번호 6글자 이상.(영문, 숫자, 특수문자중 2포함)"
+                onChange={onChangePassword}
                 value={formik.values.password}
               />
+              {error.password && <p className="error">{error.password}</p>}
               <Input
-                id="password"
-                name="password"
+                id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 placeholder="비밀번호 확인"
+                onChange={onChangeConfirmPwd}
                 value={formik.values.confirmPassword}
               />
+              {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
             </div>
 
             <div className="input-group" style={{ marginBottom: '35px' }}>
               <Input.Search
-                id="nickName"
-                name="nickName"
+                id="nickname"
+                name="nickname"
                 type="text"
                 placeholder="닉네임을 입력해 주세요."
                 enterButton="중복확인"
-                value={formik.values.nickName}
+                value={formik.values.nickname}
+                onSearch={onCheckNickname}
               />
+              {error.nickname && <p className="error">{error.nickname}</p>}
               <Input.Search
                 id="email"
                 name="email"
@@ -181,9 +250,9 @@ const SignUp = () => {
                 placeholder="이메일을 입력해 주세요."
                 enterButton="중복확인"
                 value={formik.values.email}
-                disabled={validateState.email}
-                onSearch={onSendEmail}
+                onSearch={onCheckEmail}
               />
+              {error.email && <p className="error">{error.email}</p>}
             </div>
 
             <div className="input-group">
@@ -197,15 +266,13 @@ const SignUp = () => {
             </div>
 
             <div className="submit-group">
-              <Checkbox.Group defaultValue={['M', 'F']}>
+              <div className="checkbox-group">
                 <Checkbox
                   id="female"
                   name="gender"
                   value="F"
-                  checked={gender}
-                  onClick={() => {
-                    return false;
-                  }}
+                  onClick={onChangeGender}
+                  checked={true}
                   className={gender === 'F' ? '' : 'gender_disable'}
                 >
                   여자
@@ -214,15 +281,13 @@ const SignUp = () => {
                   id="male"
                   name="gender"
                   value="M"
-                  checked={gender}
-                  onClick={() => {
-                    return false;
-                  }}
+                  checked={true}
+                  onClick={onChangeGender}
                   className={gender === 'M' ? '' : 'gender_disable'}
                 >
                   남자
                 </Checkbox>
-              </Checkbox.Group>
+              </div>
               <Checkbox id="agree" name="agree" checked={formik.values.agree}>
                 이용약관에 동의합니다.
               </Checkbox>

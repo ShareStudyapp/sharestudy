@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { loginRequestAction } from '../../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
-import { useLocation } from 'react-router-dom';
 import './LoginForm.scss';
 
 const Login = ({ history, location }) => {
