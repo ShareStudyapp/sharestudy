@@ -57,14 +57,14 @@ const TodoComment = ({ date, comment }) => {
               />
             </svg>
           </div>
-          <div className={`comment__content ${comment ? '' : 'none'}`}>
+          <div className={`todo-comment__content ${comment ? '' : 'none'}`}>
             {comment ? (
               <>
-                <p className="comment__content_title">{comment.title}</p>
-                <p className="comment__content_desc">{comment.content}</p>
+                <p className="todo-comment__content_title">{comment.title}</p>
+                <p className="todo-comment__content_desc">{comment.content}</p>
               </>
             ) : (
-              <p className="comment__content_title">오늘의 다짐을 입력해 보세요.</p>
+              <p className="todo-comment__content_title">오늘의 다짐을 입력해 보세요.</p>
             )}
           </div>
         </div>
