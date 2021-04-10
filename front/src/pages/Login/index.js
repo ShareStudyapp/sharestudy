@@ -69,11 +69,7 @@ const Login = ({ history, location }) => {
               <a href="#this">비밀번호 찾기</a>
             </li>
             <li>
-              <Link to="./SignUp">
-                <a href="./SignUp" className="blue">
-                  회원가입
-                </a>
-              </Link>
+              <Link to="/SignUp">회원가입</Link>
             </li>
           </ul>
         </div>
