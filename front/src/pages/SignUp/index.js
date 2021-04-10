@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox, Form, Input, Button } from 'antd';
+import CalendarDialog from './CalendarDialog';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import './styles.scss';
 
 const checkUserId = async (id) => {
@@ -38,7 +40,8 @@ const checkUserNickname = async (nickname) => {
   return result;
 };
 const SignUp = () => {
-  const [gender, setGender] = useState('F');
+  const [showCalendar, setShowCalendar] = useState(false);
+
   const [error, setError] = useState({
     email: '',
     password: '',
@@ -57,12 +60,12 @@ const SignUp = () => {
     initialValues: {
       nickname: '',
       email: '',
-      confirmText: '',
       id: '',
       password: '',
       confirmPassword: '',
       birth: '',
-      agree: false
+      agree: false,
+      gender: 'F'
     },
     onSubmit: (values) => {
       console.log(values);
@@ -162,21 +165,40 @@ const SignUp = () => {
   const onFormChange = useCallback(
     (e) => {
       const { name } = e.target;
-      console.log(name, e.target.value);
       if (name === 'id' || name === 'email' || name === 'nickname') {
         setValidateState((state) => ({
           ...state,
           [name]: false
         }));
       }
+
       formik.handleChange(e);
     },
     [formik]
   );
 
-  const onChangeGender = useCallback((e) => {
-    setGender(e?.target?.value);
+  const onChangeGender = useCallback(
+    (e) => {
+      formik.values.gender = e?.target?.value;
+    },
+    [formik]
+  );
+
+  const onClickCalendar = useCallback(() => {
+    setShowCalendar(true);
   }, []);
+
+  const onCloseCalendar = useCallback(() => {
+    setShowCalendar(false);
+  }, []);
+
+  const onSetDate = useCallback(
+    (date) => {
+      formik.values.birth = dayjs(date).format('YYYY-MM-DD');
+      setShowCalendar(false);
+    },
+    [formik]
+  );
 
   return (
     <div className="container">
@@ -262,28 +284,30 @@ const SignUp = () => {
                 type="text"
                 placeholder="생년월일을 입력해주세요."
                 value={formik.values.birth}
+                readOnly
+                onClick={onClickCalendar}
+                style={{ backgroundColor: '#fff' }}
               />
+              {showCalendar && <CalendarDialog setDate={onSetDate} onClose={onCloseCalendar} />}
             </div>
 
             <div className="submit-group">
               <div className="checkbox-group">
                 <Checkbox
                   id="female"
-                  name="gender"
                   value="F"
-                  onClick={onChangeGender}
                   checked={true}
-                  className={gender === 'F' ? '' : 'gender_disable'}
+                  onClick={onChangeGender}
+                  className={formik.values.gender === 'F' ? '' : 'gender_disable'}
                 >
                   여자
                 </Checkbox>
                 <Checkbox
                   id="male"
-                  name="gender"
                   value="M"
                   checked={true}
                   onClick={onChangeGender}
-                  className={gender === 'M' ? '' : 'gender_disable'}
+                  className={formik.values.gender === 'M' ? '' : 'gender_disable'}
                 >
                   남자
                 </Checkbox>
