@@ -183,10 +183,24 @@
 .uploadWrap {
   padding: 0 4.428571428571429em;
   font-size: 14px;
+
   .ant-upload.ant-upload-select-picture-card {
     width: 100% !important;
     height: 200px !important;
   }
+  .uploadArea{
+    width:200px;
+    height:200px;
+    background-color:#D3D3D3;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    .uploadAreaPlus{
+      
+    }
+  }
+  
   hr {
     margin-top: 32px;
   }

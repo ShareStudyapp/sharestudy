@@ -49,6 +49,7 @@ function loadPostsAPI(data) {
   return axios.get('/feed', data);
 }
 function uploadImagesAPI(data) {
+  console.log('data',data)
   return axios.post('/feed/upload', data);
 }
 function* loadPosts(action) {
