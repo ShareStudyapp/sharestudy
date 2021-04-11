@@ -114,10 +114,12 @@ function* userInfo() {
       data: result.data
     });
   } catch (err) {
+    window.sessionStorage.removeItem('login_valid');
+    window.sessionStorage.removeItem('user');
     console.error(err);
     yield put({
       type: USER_INFO_FAILURE,
-      error: err.response.data
+      error: err?.response?.data
     });
   }
 }

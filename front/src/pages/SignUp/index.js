@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox, Form, Input, Button } from 'antd';
 import CalendarDialog from './CalendarDialog';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { SIGN_UP_REQUEST, USER_RESET } from '../../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
 import './styles.scss';
 
 const checkUserId = async (id) => {
@@ -39,9 +41,36 @@ const checkUserNickname = async (nickname) => {
   }
   return result;
 };
-const SignUp = () => {
-  const [showCalendar, setShowCalendar] = useState(false);
+const SignUp = ({ history }) => {
+  const dispatch = useDispatch();
+  const { signUpLoading, signUpDone, signUpError, logInLoading } = useSelector(
+    (state) => state.userReducer
+  );
 
+  useEffect(() => {
+    if (signUpDone) {
+      window.sessionStorage.removeItem('google_information');
+      dispatch({
+        type: USER_RESET
+      });
+      history.push('/signup-complete');
+    }
+  }, [dispatch, history, signUpDone]);
+  useEffect(() => {
+    if (signUpError) {
+      console.log(signUpError);
+      alert('오류가 발생했습니다.');
+      return;
+    }
+    if (logInLoading) {
+      dispatch({
+        type: USER_RESET
+      });
+    }
+  }, [dispatch, signUpError, logInLoading]);
+
+  const [date, setDate] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState({
     email: '',
     password: '',
@@ -71,13 +100,42 @@ const SignUp = () => {
       console.log(values);
       console.log(validateState);
       console.log(error);
-      // const valid = Object.values(validateState).every((state) => state);
-      // if (values.agree && valid) {
-      //   //회원가입 로직 추가 필요
-      // } else {
-      //   //상세 알럿 추가 필요
-      //   alert('항목을 재확인 해주세요.');
-      // }
+      const noError = Object.values(error).every((err) => !err);
+      if (!noError) {
+        alert('에러를 확인 해주세요.');
+        return false;
+      }
+
+      const isValid = Object.values(validateState).every((state) => state);
+
+      if (!isValid) {
+        alert('입력 항목을 재확인 주세요.');
+        return false;
+      }
+
+      const isNotEmpty = Object.values(values).every((value) => value);
+
+      if (!isNotEmpty) {
+        alert('입력하지 않은 항목이 있습니다.');
+        return false;
+      }
+
+      if (noError && isValid && isNotEmpty) {
+        dispatch({
+          type: SIGN_UP_REQUEST,
+          data: {
+            email: values.email,
+            nickname: values.nickname,
+            password: values.password,
+            role: ['ROLE_USER'],
+            sex: values.gender,
+            userid: values.id,
+            age: values.birth.split('-').join('')
+          }
+        });
+      } else {
+        alert('항목을 재확인 해주세요.');
+      }
     }
   });
 
@@ -195,6 +253,7 @@ const SignUp = () => {
   const onSetDate = useCallback(
     (date) => {
       formik.values.birth = dayjs(date).format('YYYY-MM-DD');
+      setDate(date);
       setShowCalendar(false);
     },
     [formik]
@@ -288,7 +347,9 @@ const SignUp = () => {
                 onClick={onClickCalendar}
                 style={{ backgroundColor: '#fff' }}
               />
-              {showCalendar && <CalendarDialog setDate={onSetDate} onClose={onCloseCalendar} />}
+              {showCalendar && (
+                <CalendarDialog date={date} setDate={onSetDate} onClose={onCloseCalendar} />
+              )}
             </div>
 
             <div className="submit-group">
@@ -315,7 +376,9 @@ const SignUp = () => {
               <Checkbox id="agree" name="agree" checked={formik.values.agree}>
                 이용약관에 동의합니다.
               </Checkbox>
-              <Button htmlType="submit">확인</Button>
+              <Button htmlType="submit" loading={signUpLoading}>
+                확인
+              </Button>
             </div>
           </Form>
         </div>
