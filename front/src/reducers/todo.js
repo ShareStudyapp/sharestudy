@@ -2,9 +2,13 @@ import produce from '../utils/produce';
 
 export const initialState = {
   todo: {},
+  todayTodo: {},
   loadTodoLoading: false,
   loadTodoDone: false,
   loadTodoError: null,
+  loadTodayTodoLoading: false,
+  loadTodayTodoDone: false,
+  loadTodayTodoError: null,
   addTodoLoading: false,
   addTodoDone: false,
   addTodoError: null,
@@ -24,6 +28,11 @@ export const initialState = {
   deleteTodoCommentDone: false,
   deleteTodoCommentError: null
 };
+
+//today 투두조회
+export const LOAD_TODAY_TODO_REQUEST = 'LOAD_TODAY_TODO_REQUEST';
+export const LOAD_TODAY_TODO_SUCCESS = 'LOAD_TODAY_TODO_SUCCESS';
+export const LOAD_TODAY_TODO_FAILURE = 'LOAD_TODAY_TODO_FAILURE';
 
 //투두조회
 export const LOAD_TODO_REQUEST = 'LOAD_TODO_REQUEST';
@@ -108,6 +117,21 @@ const todoReducer = (state = initialState, action) =>
         draft.addTodoCommentLoading = false;
         draft.addTodoCommentDone = false;
         draft.addTodoCommentError = null;
+        break;
+      case LOAD_TODAY_TODO_REQUEST:
+        draft.loadTodayTodoLoading = true;
+        draft.loadTodayTodoDone = false;
+        draft.loadTodayTodoError = null;
+        break;
+      case LOAD_TODAY_TODO_SUCCESS:
+        draft.loadTodayTodoLoading = false;
+        draft.loadTodayTodoDone = true;
+        draft.todayTodo = action.data;
+        break;
+      case LOAD_TODAY_TODO_FAILURE:
+        draft.todayTodo = {};
+        draft.loadTodayTodoLoading = false;
+        draft.loadTodayTodoError = action.error;
         break;
       case LOAD_TODO_REQUEST:
         draft.loadTodoLoading = true;

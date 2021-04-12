@@ -188,19 +188,18 @@
     width: 100% !important;
     height: 200px !important;
   }
-  .uploadArea{
-    width:200px;
-    height:200px;
-    background-color:#D3D3D3;
-    display:flex;
-    justify-content:center;
+  .uploadArea {
+    width: 200px;
+    height: 200px;
+    background-color: #d3d3d3;
+    display: flex;
+    justify-content: center;
     align-items: center;
 
-    .uploadAreaPlus{
-      
+    .uploadAreaPlus {
     }
   }
-  
+
   hr {
     margin-top: 32px;
   }

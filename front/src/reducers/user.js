@@ -10,7 +10,7 @@ export const initialState = {
   signUpDone: false, //회원가입 성공
   signUpError: null,
   me: null, // 로그인 토큰 정보
-  userInfo: [], // 나의 정보
+  userInfo: {}, // 나의 정보
   otheruserInfo: [], //다른사람 정보
   followerList: [], //팔로워리스트
   followingList: [], //팔로잉리스트

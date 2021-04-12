@@ -22,11 +22,8 @@ const Todo = () => {
   }, [date, dispatch]);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_TODO_REQUEST,
-      data: dayjs(date).format('YYYYMMDD')
-    });
-  }, [date, dispatch]);
+    fetchTodo();
+  }, [date, dispatch, fetchTodo]);
 
   //비로그인시 redirect
   if (!window.sessionStorage.getItem('user') || userinfoError) {

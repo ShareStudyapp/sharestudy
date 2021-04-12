@@ -15,6 +15,7 @@ const FeedComment = ({ post }) => {
 
   const { userInfo } = useSelector((state) => state.userReducer);
   const [like, setLike] = useState(false);
+  const [likeCnt, setLikeCnt] = useState(0);
 
   const toggleLike = useCallback(
     (id) => {
@@ -23,13 +24,15 @@ const FeedComment = ({ post }) => {
         type: likeType,
         data: id
       });
-      //
+      setLike(!like);
+      setLikeCnt(like ? likeCnt - 1 : likeCnt + 1);
     },
-    [like, dispatch]
+    [like, likeCnt, dispatch]
   );
 
   useEffect(() => {
     setLike(post?.feedlike?.some((feed) => feed?.userkey === userInfo?.id));
+    setLikeCnt(post?.totallike);
   }, [post, userInfo]);
 
   register('my-locale', localeFunc);
@@ -51,7 +54,7 @@ const FeedComment = ({ post }) => {
             </svg>
           </button>
           <button>
-            <span>like {post?.totallike}</span>
+            <span>like {likeCnt}</span>
           </button>
         </div>
         <div className="FeedComment__header--right">
@@ -60,7 +63,7 @@ const FeedComment = ({ post }) => {
       </section>
 
       <section className="FeedComment__footer">
-        <button>댓글 10개</button>
+        <button>댓글 {post.feedreply.length}개</button>
       </section>
     </div>
   );

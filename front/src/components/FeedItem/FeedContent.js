@@ -1,18 +1,19 @@
 import React from 'react';
 import './styles.scss';
+import { Avatar } from 'antd';
 import FeedSlider from '../FeedItem/FeedSlider';
 import FeedCommentItem from '../FeedItem/FeedCommentItem';
 import FeedComment from './FeedComment';
 
-const FeedContent = ({ post }) => {
+const FeedContent = ({ post, userInfo }) => {
   return (
     <div className="FeedContent">
       <div className="FeedContent-header">
         <div className="FeedContent-header_left">
           <p className="FeedContent-userProfile">
-            <img src="#" alt="" />
+            <Avatar src={post.userProfileImage.src} />
           </p>
-          <p className="FeedContent-userId">안알랴줌</p>
+          <p className="FeedContent-userId">{post.nickname}</p>
         </div>
 
         <div className="FeedContent-header_right">
@@ -37,7 +38,7 @@ const FeedContent = ({ post }) => {
 
       <FeedSlider post={post} />
       <FeedComment post={post} />
-      <FeedCommentItem post={post} />
+      <FeedCommentItem post={post} userInfo={userInfo} />
     </div>
   );
 };

@@ -25,8 +25,8 @@ const SimpleSlider = ({ post }) => {
   return (
     <div className="feedSlide">
       <Carousel ref={slider}>
-        {post.uploadfile.map((v) => (
-          <div>
+        {post.uploadfile.map((v, i) => (
+          <div key={i}>
             <img style={contentStyle} src={v.src} alt={v.src} />
           </div>
         ))}

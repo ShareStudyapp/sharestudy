@@ -7,6 +7,9 @@ import {
   ADD_TODO_COMMENT_REQUEST,
   ADD_TODO_COMMENT_SUCCESS,
   ADD_TODO_COMMENT_FAILURE,
+  LOAD_TODAY_TODO_REQUEST,
+  LOAD_TODAY_TODO_SUCCESS,
+  LOAD_TODAY_TODO_FAILURE,
   LOAD_TODO_REQUEST,
   LOAD_TODO_SUCCESS,
   LOAD_TODO_FAILURE,
@@ -74,6 +77,23 @@ function* loadTodo(action) {
     console.error(err);
     yield put({
       type: LOAD_TODO_FAILURE,
+      data: err.response.data
+    });
+  }
+}
+
+function* loadTodayTodo(action) {
+  try {
+    const result = yield call(loadTodoAPI, action.data);
+    //yield delay(1000);
+    yield put({
+      type: LOAD_TODAY_TODO_SUCCESS,
+      data: result.data
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_TODAY_TODO_FAILURE,
       data: err.response.data
     });
   }
@@ -160,6 +180,11 @@ function* watchAddTodoComment() {
 function* watchLoadTodo() {
   yield takeLatest(LOAD_TODO_REQUEST, loadTodo);
 }
+
+function* watchLoadTodayTodo() {
+  yield takeLatest(LOAD_TODAY_TODO_REQUEST, loadTodayTodo);
+}
+
 function* watchDeleteTodo() {
   yield takeLatest(DELETE_TODO_REQUEST, deleteTodo);
 }
@@ -177,6 +202,7 @@ export default function* todoSaga() {
     fork(watchAddTodo),
     fork(watchAddTodoComment),
     fork(watchLoadTodo),
+    fork(watchLoadTodayTodo),
     fork(watchDeleteTodo),
     fork(watchUpdateTodo),
     fork(watchDeleteTodoComment),
