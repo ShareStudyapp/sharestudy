@@ -149,10 +149,13 @@ const SignUp = ({ history }) => {
       msg = response.message;
     }
     setError((error) => ({ ...error, id: msg }));
-    setValidateState((state) => ({
-      ...state,
-      id: true
-    }));
+    if (!msg) {
+      setValidateState((state) => ({
+        ...state,
+        id: true
+      }));
+      alert('사용가능한 아이디 입니다.');
+    }
   }, [formik]);
 
   const onCheckEmail = useCallback(async () => {
@@ -167,10 +170,13 @@ const SignUp = ({ history }) => {
       msg = response.message;
     }
     setError((error) => ({ ...error, email: msg }));
-    setValidateState((state) => ({
-      ...state,
-      email: true
-    }));
+    if (!msg) {
+      setValidateState((state) => ({
+        ...state,
+        email: true
+      }));
+      alert('사용가능한 이메일 입니다.');
+    }
   }, [formik]);
 
   const onCheckNickname = useCallback(async () => {
@@ -183,10 +189,13 @@ const SignUp = ({ history }) => {
       msg = response.message;
     }
     setError((error) => ({ ...error, nickname: msg }));
-    setValidateState((state) => ({
-      ...state,
-      nickname: true
-    }));
+    if (!msg) {
+      setValidateState((state) => ({
+        ...state,
+        nickname: true
+      }));
+      alert('사용가능한 닉네임 입니다.');
+    }
   }, [formik]);
 
   const onChangePassword = useCallback((e) => {
@@ -262,7 +271,7 @@ const SignUp = ({ history }) => {
   return (
     <div className="container">
       <div className="content">
-        <Link className="backBtn" to="/login">
+        <button className="backBtn" onClick={() => history.goBack()}>
           <svg
             width="9"
             height="15"
@@ -278,7 +287,7 @@ const SignUp = ({ history }) => {
               strokeLinejoin="round"
             />
           </svg>
-        </Link>
+        </button>
         <div className="signUp">
           <h1 className="header">회원가입</h1>
           <Form onFinish={formik.handleSubmit} onChange={onFormChange}>
