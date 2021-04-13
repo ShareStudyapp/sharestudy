@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import './styles.scss';
 import { Avatar } from 'antd';
 import FeedSlider from '../FeedItem/FeedSlider';
 import FeedCommentItem from '../FeedItem/FeedCommentItem';
 import FeedComment from './FeedComment';
 
-const FeedContent = ({ post, userInfo }) => {
+const FeedContent = ({ post, userInfo, resizeHeight }) => {
+  const [openComment, setOpenComment] = useState(false);
+
+  const onClickComment = useCallback(() => {
+    resizeHeight();
+    setOpenComment(true);
+  }, [resizeHeight]);
+
   return (
     <div className="FeedContent">
       <div className="FeedContent-header">
         <div className="FeedContent-header_left">
           <p className="FeedContent-userProfile">
-            <Avatar src={post.userProfileImage.src} />
+            <Avatar src={post?.userProfileImage?.src} />
           </p>
           <p className="FeedContent-userId">{post.nickname}</p>
         </div>
@@ -37,8 +44,10 @@ const FeedContent = ({ post, userInfo }) => {
       </div>
 
       <FeedSlider post={post} />
-      <FeedComment post={post} />
-      <FeedCommentItem post={post} userInfo={userInfo} />
+      <FeedComment post={post} onClickComment={onClickComment} />
+      {openComment && (
+        <FeedCommentItem post={post} userInfo={userInfo} resizeHeight={resizeHeight} />
+      )}
     </div>
   );
 };

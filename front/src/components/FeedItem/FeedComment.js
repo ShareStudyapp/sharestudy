@@ -10,7 +10,7 @@ const likeColor = {
   off: '#ccc'
 };
 
-const FeedComment = ({ post }) => {
+const FeedComment = ({ post, onClickComment }) => {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userReducer);
@@ -63,7 +63,7 @@ const FeedComment = ({ post }) => {
       </section>
 
       <section className="FeedComment__footer">
-        <button>댓글 {post.feedreply.length}개</button>
+        <button onClick={onClickComment}>댓글 {post.feedreply.length}개</button>
       </section>
     </div>
   );

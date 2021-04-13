@@ -46,10 +46,10 @@ import {
 } from '../reducers/post';
 
 function loadPostsAPI(data) {
-  return axios.get('/feed', data);
+  return axios.get(`/feed?page=${data?.page ? data.page : 1}`);
 }
 function uploadImagesAPI(data) {
-  console.log('data',data)
+  console.log('data', data);
   return axios.post('/feed/upload', data);
 }
 function* loadPosts(action) {
@@ -69,15 +69,14 @@ function* loadPosts(action) {
   }
 }
 function loadPostsCommentsAPI(data) {
-  console.log('SagaAPi' + data);
-  return axios.get(`/feed/reply/${data}`);
+  return axios.get(`/feed/reply/${data.id}?page=${data?.page ? data.page : 1}`);
 }
 function* loadPostsComments(action) {
   try {
     const result = yield call(loadPostsCommentsAPI, action.data);
     yield put({
       type: LOAD_POSTS_COMMENT_SUCCESS,
-      data: result.data
+      data: { id: action.data.id, list: result.data }
     });
   } catch (err) {
     console.error(err);

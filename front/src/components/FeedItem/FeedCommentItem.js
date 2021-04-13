@@ -1,27 +1,33 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import './styles.scss';
 import { Avatar, Input } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-//import { LOAD_POSTS_COMMENT_REQUEST, ADD_COMMENT_REQUEST } from '../../reducers/post';
-import { ADD_COMMENT_REQUEST } from '../../reducers/post';
+import { LOAD_POSTS_COMMENT_REQUEST, ADD_COMMENT_REQUEST } from '../../reducers/post';
+//import { ADD_COMMENT_REQUEST } from '../../reducers/post';
 import { format } from 'timeago.js';
 
-const FeedCommentItem = ({ post, userInfo }) => {
+const FeedCommentItem = ({ post, userInfo, resizeHeight }) => {
   const dispatch = useDispatch();
   const { addCommentLoading } = useSelector((state) => state.postReducer);
   const [color, setColor] = useState(false);
+  const [postId] = useState(post.id);
 
   const toggleLike = useCallback(() => {
     setColor((prev) => !prev);
   }, []);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: LOAD_POSTS_COMMENT_REQUEST,
-  //     data: post.id
-  //   });
-  // }, [dispatch]);
+  useEffect(() => {
+    resizeHeight();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post]);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_POSTS_COMMENT_REQUEST,
+      data: { id: postId }
+    });
+  }, [dispatch, postId]);
 
   const onSubmitComment = useCallback(
     (value) => {
@@ -30,8 +36,9 @@ const FeedCommentItem = ({ post, userInfo }) => {
         data: { content: value, id: post.id }
       });
     },
-    [post]
+    [post, dispatch]
   );
+
   return (
     <>
       {post.feedreply.map((comment) => (
@@ -41,7 +48,7 @@ const FeedCommentItem = ({ post, userInfo }) => {
           </p>
 
           <div className="FeedCommentView__desc">
-            <p className="FeedCommentView__userId">{comment.user.nickname}</p>
+            <p className="FeedCommentView__userId">{comment.nickname}</p>
 
             <div className="FeedCommentView__Comment">
               <p className="FeedCommentView__Comment--desc">{comment.content}</p>

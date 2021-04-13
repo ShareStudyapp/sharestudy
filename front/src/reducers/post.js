@@ -121,9 +121,8 @@ const postReducer = (state = initialState, action) =>
       case LOAD_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        //draft.mainPosts = action.data.concat(draft.mainPosts);
-        draft.mainPosts = action.data;
-        draft.hasMorePosts = draft.mainPosts.length < 50;
+        draft.mainPosts = draft.mainPosts.concat(action.data);
+        draft.hasMorePosts = action.data.length === 10;
         break;
       case LOAD_POSTS_FAILURE:
         draft.loadPostsLoading = false;
@@ -156,8 +155,7 @@ const postReducer = (state = initialState, action) =>
         //draft.mainPosts = draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply.push(action.data.feedReplylist);
         //const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
         //action.data.feedReplylist.map((item)=>c.feedreply.push(item));
-        draft.mainPosts.find((v) => v.id === action.data.feedlist.id).feedreply =
-          action.data.feedReplylist;
+        draft.mainPosts.find((v) => v.id === action.data.id).feedreply = action.data.list;
 
         // draft.postComment = draft.postComment.concat(action.data);
         // draft.mainPosts = c.concat(draft.postComment)
