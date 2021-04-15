@@ -302,7 +302,7 @@ const postReducer = (state = initialState, action) =>
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS:
-        const addComment = draft.mainPosts.find((v) => v.id === action.data.feedlistkey);
+        const addComment = draft.mainPosts.find((v) => v.id === action.data.feedId);
         addComment.feedreply.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;

@@ -15,7 +15,7 @@ import {
 } from 'react-virtualized';
 
 const cache = new CellMeasurerCache({
-  defaultWidth: 100,
+  defaultHeight: 280,
   fixedWidth: true
 });
 
@@ -59,23 +59,26 @@ const NewsFeed = ({ history }) => {
     };
   });
 
+  const resizeHeight = useCallback(
+    (index) => () => {
+      cache.clear(index);
+      if (listRef) listRef.recomputeRowHeights(index);
+    },
+    [listRef]
+  );
+
   const rowRenderer = useCallback(
     ({ parent, style, index, key }) => {
       const post = mainPosts[index];
-      const resizeHeight = () => {
-        cache.clear(index);
-        if (listRef) listRef.recomputeRowHeights(index);
-      };
-
       return (
         <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
           <div style={style}>
-            <FeedContent post={post} userInfo={userInfo} resizeHeight={resizeHeight} />
+            <FeedContent post={post} userInfo={userInfo} resizeHeight={resizeHeight(index)} />
           </div>
         </CellMeasurer>
       );
     },
-    [mainPosts, userInfo, listRef]
+    [mainPosts, userInfo, resizeHeight]
   );
 
   return (
@@ -108,21 +111,18 @@ const NewsFeed = ({ history }) => {
                 scrollTop={scrollTop}
                 autoHeight
                 width={width}
-                height={height} // 전체 높이
-                rowCount={mainPosts.length} // 항목 개수
+                height={height}
+                rowCount={mainPosts.length}
                 rowHeight={cache.rowHeight}
-                rowRenderer={rowRenderer} // 항목을 렌더링할 때 쓰는 함수
-                list={mainPosts} // 배열
+                rowRenderer={rowRenderer}
+                list={mainPosts}
                 deferredMeasurementCache={cache}
-                style={{ outline: 'none' }} // List에 기본 적용되는 outline 스타일 제거
+                style={{ outline: 'none' }}
               />
             )}
           </AutoSizer>
         )}
       </WindowScroller>
-      {/* {mainPosts.map((post) => (
-        <FeedContent key={post.id} post={post} userInfo={userInfo} />
-      ))} */}
     </>
   );
 };

@@ -1,17 +1,47 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './styles.scss';
-import { Avatar } from 'antd';
 import FeedSlider from '../FeedItem/FeedSlider';
 import FeedCommentItem from '../FeedItem/FeedCommentItem';
 import FeedComment from './FeedComment';
+import { useDispatch } from 'react-redux';
+import { LOAD_POSTS_COMMENT_REQUEST, ADD_COMMENT_REQUEST } from '../../reducers/post';
+import { Avatar, Input } from 'antd';
 
 const FeedContent = ({ post, userInfo, resizeHeight }) => {
-  const [openComment, setOpenComment] = useState(false);
-
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState('');
+  const [addComment, setAddComment] = useState(0);
   const onClickComment = useCallback(() => {
+    if (!open) {
+      dispatch({
+        type: LOAD_POSTS_COMMENT_REQUEST,
+        data: { id: post.id }
+      });
+      setOpen(true);
+    }
+  }, [open, dispatch, post]);
+
+  useEffect(() => {
     resizeHeight();
-    setOpenComment(true);
-  }, [resizeHeight]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, addComment]);
+
+  const onChangeComment = useCallback((e) => {
+    setComment(e.target.value);
+  }, []);
+
+  const onSubmitComment = useCallback(
+    (value) => {
+      dispatch({
+        type: ADD_COMMENT_REQUEST,
+        data: { content: value, id: post.id }
+      });
+      setAddComment((state) => state + 1);
+      setComment('');
+    },
+    [post.id, dispatch]
+  );
 
   return (
     <div className="FeedContent">
@@ -45,9 +75,24 @@ const FeedContent = ({ post, userInfo, resizeHeight }) => {
 
       <FeedSlider post={post} />
       <FeedComment post={post} onClickComment={onClickComment} />
-      {openComment && (
-        <FeedCommentItem post={post} userInfo={userInfo} resizeHeight={resizeHeight} />
-      )}
+      {open &&
+        post.feedreply.map((comment) => <FeedCommentItem key={comment.id} comment={comment} />)}
+      <div className="FeedCommentView">
+        <p className="FeedCommentView-userProfile">
+          <Avatar src={userInfo?.userProfileImage?.src} />
+        </p>
+
+        <div className="FeedCommentView__desc">
+          <Input.Search
+            placeholder="댓글달기"
+            enterButton="게시"
+            size="middle"
+            value={comment}
+            onChange={onChangeComment}
+            onSearch={onSubmitComment}
+          />
+        </div>
+      </div>
     </div>
   );
 };

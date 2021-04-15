@@ -63,7 +63,7 @@ const FeedComment = ({ post, onClickComment }) => {
       </section>
 
       <section className="FeedComment__footer">
-        <button onClick={onClickComment}>댓글 {post.feedreply.length}개</button>
+        <button onClick={onClickComment}>댓글 {post.feedreplysize}개</button>
       </section>
     </div>
   );
