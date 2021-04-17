@@ -18,7 +18,7 @@ function PostForm({history}) {
           dispatch({
             type: INIT_ADD_POST,
           });
-          //history.push('/'); 
+          history.push('/'); 
         }
       }, [addPostDone]);
     const onSubmit = useCallback(() => {
@@ -26,7 +26,6 @@ function PostForm({history}) {
         const formData = new FormData();
         
         imagePaths.forEach((p) => {
-          console.log('p',p)
           formData.append('images',p);
         });
         formData.append('content',text);
@@ -47,7 +46,6 @@ function PostForm({history}) {
     const onChangeImages = useCallback((e) => {
         const imageFormData = new FormData();
         [].forEach.call(e.target.files, (f) => {
-            console.log('f',f)
             imageFormData.append('images', f);
         });
         dispatch({
@@ -65,7 +63,7 @@ function PostForm({history}) {
         <div className="uploadWrap">
             <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit} >
                 <div className="uploadArea" onClick={onClickImageUpload}>
-                    <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages} />
+                    <input type="file" name="image" accept="image/*" multiple hidden ref={imageInput} onChange={onChangeImages} />
                     
                     {/* <Button onClick={onClickImageUpload}>이미지 업로드</Button> */}
                     <div className="uploadAreaPlus">

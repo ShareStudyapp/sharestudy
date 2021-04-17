@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
 import { RightOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
+import ProfileImage from './ProfileImage/ProfileImage';
 
 import { Button } from 'antd';
 import './styles.scss';
@@ -15,8 +16,9 @@ const SetProfile = () => {
       <div className="setProfile">
         <div className="setProfile__myphoto">
           <div className="photo">
-            <Avatar />
-            <button>
+            {/* <Avatar /> */}
+            <ProfileImage />
+            {/* <button>
               <svg
                 className="camera"
                 width="35"
@@ -31,7 +33,7 @@ const SetProfile = () => {
                   fill="white"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
         </div>
 
