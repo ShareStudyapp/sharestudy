@@ -256,6 +256,9 @@ const userReducer = (state = initialState, action) =>
       case USERINFO_UPDATE_REQUEST:
         break;
       case USERINFO_UPDATE_SUCCESS:
+        console.log(action.data)
+        draft.userInfo.nickname = action.data.nickname;
+        draft.userInfo.introduce = action.data.introduce;
         break;
       case USERINFO_UPDATE_FAILURE:
         break;

@@ -1,15 +1,32 @@
-import React from 'react';
+import React,{useState,useCallback} from 'react';
 import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
 import { RightOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 import ProfileImage from './ProfileImage/ProfileImage';
 
+import { USERINFO_UPDATE_REQUEST } from '../../reducers/user';
 import { Button } from 'antd';
 import './styles.scss';
 
 //마이 페이지 재설정
 const SetProfile = () => {
+  const dispatch = useDispatch();
+  const {userInfo} = useSelector((state) => state.userReducer);
+  const [nickName,setNickName] = useState(userInfo&&userInfo.nickname);
+  const [introduce,setIntroduce] = useState(userInfo&&userInfo.introduce);
+  
+  const UpdateClick = useCallback(()=>{
+    const User = new Object();
+    User.nickname = nickName; 
+    User.introduce = introduce;
+
+    return dispatch({
+        type: USERINFO_UPDATE_REQUEST,
+        data: User,
+      });
+},[nickName,introduce]);
   return (
     <>
       <Header />
@@ -40,10 +57,15 @@ const SetProfile = () => {
         <form className="setProfile__form">
           <div className="row">
             <div className="col-25">
-              <label for="name">이름</label>
+              <label for="name">닉네임</label>
             </div>
             <div className="col-75">
-              <input type="text" id="name" name="name" />
+              <input type="text" 
+                     id="name" 
+                     name="name" 
+                     value={nickName} 
+                     onChange  ={ e => setNickName(e.target.value)} 
+              />
             </div>
           </div>
           <div className="row">
@@ -51,7 +73,7 @@ const SetProfile = () => {
               <label for="birth">생년월일</label>
             </div>
             <div className="col-75">
-              <input type="text" id="birth" name="birth" />
+              <input type="text" id="birth" name="birth" value={userInfo.age} disabled/>
             </div>
           </div>
           <div className="row">
@@ -59,7 +81,7 @@ const SetProfile = () => {
               <label for="email">이메일</label>
             </div>
             <div className="col-75">
-              <input type="text" id="email" name="email" />
+              <input type="text" id="email" name="email" value={userInfo.email} disabled/>
             </div>
           </div>
           <div className="row">
@@ -68,7 +90,13 @@ const SetProfile = () => {
             </div>
 
             <div className="col-100 row-40">
-              <input type="text" id="Introduce" name="Introduce" />
+              <input 
+                  type="text" 
+                  id="Introduce" 
+                  name="Introduce" 
+                  value={introduce} 
+                  onChange  ={ e => setIntroduce(e.target.value)} 
+               />
             </div>
           </div>
         </form>
@@ -78,7 +106,7 @@ const SetProfile = () => {
         </button>
 
         <div className="setProfile__save">
-          <Button className="setProfile__save--btn" htmlType="submit">
+          <Button className="setProfile__save--btn" onClick={UpdateClick}>
             저장하기
           </Button>
         </div>
