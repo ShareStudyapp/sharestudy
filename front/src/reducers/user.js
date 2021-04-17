@@ -11,6 +11,7 @@ export const initialState = {
   signUpError: null,
   me: null, // 로그인 토큰 정보
   userInfo: {}, // 나의 정보
+  updateUserInfoDone:false,//내정보 수정 완료
   otheruserInfo: [], //다른사람 정보
   followerList: [], //팔로워리스트
   followingList: [], //팔로잉리스트
@@ -257,8 +258,11 @@ const userReducer = (state = initialState, action) =>
         break;
       case USERINFO_UPDATE_SUCCESS:
         console.log(action.data)
+        draft.updateUserInfoDone = true;
         draft.userInfo.nickname = action.data.nickname;
         draft.userInfo.introduce = action.data.introduce;
+        draft.userInfo.accessToken = action.data.accessToken;
+        draft.userInfo.refreshToken = action.data.refreshToken;
         break;
       case USERINFO_UPDATE_FAILURE:
         break;

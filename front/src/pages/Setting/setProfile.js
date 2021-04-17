@@ -13,7 +13,7 @@ import './styles.scss';
 //마이 페이지 재설정
 const SetProfile = () => {
   const dispatch = useDispatch();
-  const {userInfo} = useSelector((state) => state.userReducer);
+  const {userInfo,updateUserInfoDone} = useSelector((state) => state.userReducer);
   const [nickName,setNickName] = useState(userInfo&&userInfo.nickname);
   const [introduce,setIntroduce] = useState(userInfo&&userInfo.introduce);
   
@@ -27,6 +27,11 @@ const SetProfile = () => {
         data: User,
       });
 },[nickName,introduce]);
+  
+  if(updateUserInfoDone){
+    window.sessionStorage.setItem('user', userInfo.accessToken);
+    window.sessionStorage.setItem('refreshToken', userInfo.refreshToken);
+  }
   return (
     <>
       <Header />
