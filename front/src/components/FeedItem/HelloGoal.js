@@ -1,7 +1,6 @@
 import React from 'react';
 import './styles.scss';
 import ProgressBar from '../ProgressBar';
-import dayjs from 'dayjs';
 const HelloGoal = ({ nickname, percent }) => {
   return (
     <>
@@ -13,7 +12,7 @@ const HelloGoal = ({ nickname, percent }) => {
             달성해보세요!
           </p>
         </div>
-        <ProgressBar date={dayjs().format('YY.MM.DD')} percent={percent} />
+        <ProgressBar title="전체 달성도" percent={percent} />
       </div>
     </>
   );

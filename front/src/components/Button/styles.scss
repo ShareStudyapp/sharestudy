@@ -1,7 +1,7 @@
 @import '../../style/color.scss';
 
 .PreNextBtn {
-  button { 
+  button {
     display: inline-block;
     font-size: 15px;
     font-weight: 300;
@@ -12,8 +12,7 @@
     border-radius: 30px;
   }
   .left {
-    background: #C4C4C4 50%;
-    margin-left: 32px;
+    background: #c4c4c4 50%;
     margin-right: 13px;
   }
   .right {

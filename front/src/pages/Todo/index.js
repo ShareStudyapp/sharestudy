@@ -51,9 +51,7 @@ const Todo = () => {
             <Progress
               date={dayjs(date)}
               percent={
-                todo?.todoList?.length > 0
-                  ? (todo.completeRatioCnt / todo.allRatioCnt) * 100 + '%'
-                  : '0%'
+                todo?.todoList?.length > 0 ? (todo.completeRatioCnt / todo.allRatioCnt) * 100 : 0
               }
             />
             <List date={dayjs(date)} todoList={todo.todoList} fetchTodo={fetchTodo} />

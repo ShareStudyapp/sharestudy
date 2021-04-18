@@ -1,12 +1,19 @@
 @import '../../style/color.scss';
 
 .HelloGoal {
-  padding-bottom: 64px;
-  border-bottom: 10px solid rgba(196, 196, 196, 0.3);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  padding: 5% 7%;
+  border-radius: 10px;
+  margin: 30px 35px;
+  .ProgressBar {
+    margin: 0;
+  }
 }
 .HelloLogin {
-  padding-bottom: 64px;
-  border-bottom: 10px solid rgba(196, 196, 196, 0.3);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  padding: 5% 7%;
+  border-radius: 10px;
+  margin: 30px 35px;
 }
 // 공통 스타일
 
@@ -15,7 +22,6 @@
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
-  margin: 30px auto 0 32px;
   p {
     line-height: 27px;
     color: $blue;
@@ -53,7 +59,7 @@
     position: fixed;
     bottom: 70px;
     button {
-      margin-right: 4em;
+      margin-right: 3em;
       float: right;
       background-color: #2656ff;
       border-radius: 50%;
@@ -329,7 +335,6 @@
     &--comment {
       font-weight: 700;
       vertical-align: top;
-      margin-left: 15px;
     }
     &--like {
       font-weight: 700;

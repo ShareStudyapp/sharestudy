@@ -7,9 +7,9 @@ import {
   ADD_TODO_COMMENT_REQUEST,
   ADD_TODO_COMMENT_SUCCESS,
   ADD_TODO_COMMENT_FAILURE,
-  LOAD_TODAY_TODO_REQUEST,
-  LOAD_TODAY_TODO_SUCCESS,
-  LOAD_TODAY_TODO_FAILURE,
+  LOAD_TODO_ACHIEVEMENT_REQUEST,
+  LOAD_TODO_ACHIEVEMENT_SUCCESS,
+  LOAD_TODO_ACHIEVEMENT_FAILURE,
   LOAD_TODO_REQUEST,
   LOAD_TODO_SUCCESS,
   LOAD_TODO_FAILURE,
@@ -82,18 +82,21 @@ function* loadTodo(action) {
   }
 }
 
-function* loadTodayTodo(action) {
+function loadTodoAchievementAPI(today) {
+  return axios.get(`/todo/mytodolist/achievement`);
+}
+function* loadTodoAchievement(action) {
   try {
-    const result = yield call(loadTodoAPI, action.data);
+    const result = yield call(loadTodoAchievementAPI);
     //yield delay(1000);
     yield put({
-      type: LOAD_TODAY_TODO_SUCCESS,
+      type: LOAD_TODO_ACHIEVEMENT_SUCCESS,
       data: result.data
     });
   } catch (err) {
     console.error(err);
     yield put({
-      type: LOAD_TODAY_TODO_FAILURE,
+      type: LOAD_TODO_ACHIEVEMENT_FAILURE,
       data: err.response.data
     });
   }
@@ -182,7 +185,7 @@ function* watchLoadTodo() {
 }
 
 function* watchLoadTodayTodo() {
-  yield takeLatest(LOAD_TODAY_TODO_REQUEST, loadTodayTodo);
+  yield takeLatest(LOAD_TODO_ACHIEVEMENT_REQUEST, loadTodoAchievement);
 }
 
 function* watchDeleteTodo() {
