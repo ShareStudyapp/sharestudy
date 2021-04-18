@@ -79,7 +79,7 @@ const CommentDialog = ({ date, onClose, comment }) => {
   }, [comment, dispatch]);
 
   const onSubmit = useCallback(() => {
-    if (comment) {
+    if (comment && comment.id > 0) {
       dispatch({
         type: UPDATE_TODO_COMMENT_REQUEST,
         data: {
@@ -111,7 +111,7 @@ const CommentDialog = ({ date, onClose, comment }) => {
           </article>
         </section>
         <section className="commentDialog__wrap_bottom">
-          {comment ? (
+          {comment && comment.id > 0 ? (
             <button className="left" onClick={onDelete}>
               삭제하기
             </button>

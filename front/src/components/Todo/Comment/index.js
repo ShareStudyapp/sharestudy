@@ -12,7 +12,7 @@ const TodoComment = ({ date, comment }) => {
   }, []);
 
   const onUpdate = useCallback(() => {
-    if (comment) {
+    if (comment && comment.id > 0) {
       setShowDialog(true);
       document.body.style.overflow = 'hidden';
     }
@@ -25,7 +25,11 @@ const TodoComment = ({ date, comment }) => {
 
   return (
     <>
-      <Content title="Today's comment" useBtn={comment ? false : true} onCreate={onCreate}>
+      <Content
+        title="Today's comment"
+        useBtn={comment && comment.id > 0 ? false : true}
+        onCreate={onCreate}
+      >
         <div className="todo-comment" onClick={onUpdate}>
           <div className="todo-comment__icon">
             <svg
@@ -57,8 +61,8 @@ const TodoComment = ({ date, comment }) => {
               />
             </svg>
           </div>
-          <div className={`todo-comment__content ${comment ? '' : 'none'}`}>
-            {comment ? (
+          <div className={`todo-comment__content ${comment && comment.id > 0 ? '' : 'none'}`}>
+            {comment && comment.id > 0 ? (
               <>
                 <p className="todo-comment__content_title">{comment.title}</p>
                 <p className="todo-comment__content_desc">{comment.content}</p>
