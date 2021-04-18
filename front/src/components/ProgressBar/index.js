@@ -13,7 +13,9 @@ const ProgressBar = ({ title, date, percent }) => {
           <p className="ProgressBar-wrap-status" style={{ width: percent + '%' }}></p>
         </div>
 
-        {percent > 0 && <span style={{ marginLeft: percent - 2 + '%' }}>{percent}%</span>}
+        {percent > 0 && (
+          <span style={{ marginLeft: percent - 2 + '%' }}>{Math.floor(percent)}%</span>
+        )}
       </div>
     </>
   );
