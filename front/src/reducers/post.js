@@ -5,11 +5,16 @@ export const initialState = {
   gallary: [],
   imagePaths: [],
   postComment: [],
+  postDetail: {},
   likeList: [],
   hasMorePosts: true,
+  hasMoreComments: true,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
+  loadPostDetailLoading: false,
+  loadPostDetailDone: false,
+  loadPostDetailError: null,
   loadPostsCommentLoading: false,
   loadPostsCommentDone: false,
   loadPostsCommentError: null,
@@ -129,18 +134,18 @@ const postReducer = (state = initialState, action) =>
         draft.loadPostsError = action.error;
         break;
       case LOAD_POSTS_DETAIL_REQUEST:
-        draft.loadPostsLoading = true;
-        draft.loadPostsDone = false;
-        draft.loadPostsError = null;
+        draft.loadPostDetailLoading = true;
+        draft.loadPostDetailDone = false;
+        draft.loadPostDetailError = null;
         break;
       case LOAD_POSTS_DETAIL_SUCCESS:
-        draft.loadPostsLoading = false;
-        draft.loadPostsDone = true;
-        draft.postComment = action.data;
+        draft.loadPostDetailLoading = false;
+        draft.loadPostDetailDone = true;
+        draft.postDetail = action.data;
         break;
       case LOAD_POSTS_DETAIL_FAILURE:
-        draft.loadPostsLoading = false;
-        draft.loadPostsError = action.error;
+        draft.loadPostDetailLoading = false;
+        draft.loadPostDetailError = action.error;
         break;
       case LOAD_POSTS_COMMENT_REQUEST:
         draft.loadPostsCommentLoading = true;
@@ -155,8 +160,10 @@ const postReducer = (state = initialState, action) =>
         //draft.mainPosts = draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply.push(action.data.feedReplylist);
         //const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
         //action.data.feedReplylist.map((item)=>c.feedreply.push(item));
-        draft.mainPosts.find((v) => v.id === action.data.id).feedreply = action.data.list;
 
+        const post = draft.mainPosts.find((v) => v.id === action.data.id);
+        post.feedreply = post.feedreply.concat(action.data.list);
+        draft.hasMoreComments = action.data.list.length === 10;
         // draft.postComment = draft.postComment.concat(action.data);
         // draft.mainPosts = c.concat(draft.postComment)
         //draft.hasMorePosts = draft.mainPosts.length < 50;
@@ -255,8 +262,8 @@ const postReducer = (state = initialState, action) =>
         break;
       case LIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.feedlike.push({ userkey: action.data.userKey });
-        draft.mainPosts.find((v) => v.id === action.data.id).totallike = action.data.totallike;
+        post.totallike = action.data.totallike;
+        post.myFeedlike = action.data.myFeedlike;
         draft.likePostLoading = false;
         draft.likePostDone = true;
         break;
@@ -272,8 +279,8 @@ const postReducer = (state = initialState, action) =>
         break;
       case UNLIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.feedlike = post.feedlike.filter((v) => v.userkey !== action.data.userKey);
-        draft.mainPosts.find((v) => v.id === action.data.id).totallike = action.data.totallike;
+        post.totallike = action.data.totallike;
+        post.myFeedlike = action.data.myFeedlike;
         draft.unlikePostLoading = false;
         draft.unlikePostDone = true;
         break;

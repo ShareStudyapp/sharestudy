@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import '../../components/FeedItem/styles.scss';
 
-const SimpleSlider = ({ post }) => {
+const SimpleSlider = ({ images }) => {
   const slider = useRef();
   const contentStyle = {
     height: '500px',
@@ -25,13 +25,13 @@ const SimpleSlider = ({ post }) => {
   return (
     <div className="feedSlide">
       <Carousel ref={slider}>
-        {post.uploadfile.map((v, i) => (
+        {images?.map((v, i) => (
           <div key={i}>
             <img style={contentStyle} src={v.src} alt={v.src} />
           </div>
         ))}
       </Carousel>
-      {post.uploadfile.length > 1 && (
+      {images?.length > 1 && (
         <div className="sliderBtn">
           <button className="next" onClick={gotoNext}>
             <LeftCircleFilled style={{ color: '#fff', opacity: '80%' }} />

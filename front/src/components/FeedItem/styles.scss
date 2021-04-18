@@ -122,7 +122,7 @@
 
 .FeedComment {
   width: 100%;
-  margin-top: 24px;
+  margin: 24px 0px;
   &__header {
     overflow: hidden;
     margin-top: 10px;
@@ -161,7 +161,10 @@
     }
   }
   &__comment {
-    margin-top: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
   }
 }
 
@@ -360,5 +363,29 @@
         margin: 5px 7px 5px 0;
       }
     }
+  }
+}
+
+.FeedDetail {
+  overflow-y: scroll;
+  background: $white;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+  max-width: 700px;
+  margin: 0 auto;
+  &__create {
+    background-color: white;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: calc(100% - 73px);
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 34px;
+    border-top: 3px solid #f4f4f4;
   }
 }

@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import HelloLogin from '../../components/FeedItem/HelloLogin';
 import FeedContent from '../../components/FeedItem/FeedContent';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { LOAD_TODO_ACHIEVEMENT_REQUEST } from '../../reducers/todo';
 import HelloGoal from '../../components/FeedItem/HelloGoal';
+import FeedDetail from './FeedDetail';
 import {
   List,
   AutoSizer,
@@ -20,11 +22,25 @@ const cache = new CellMeasurerCache({
 
 const NewsFeed = ({ history }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { mainPosts, loadPostsLoading, hasMorePosts } = useSelector((state) => state.postReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
   const { todoAchievement } = useSelector((state) => state.todoReducer);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [detailPostIdx, setDetailPostIdx] = useState(null);
   const page = useRef(1);
   let listRef;
+
+  const onOpenDetail = useCallback((index) => {
+    setOpenDetail(true);
+    setDetailPostIdx(index);
+    document.body.style.overflow = 'hidden';
+  }, []);
+
+  const onCloseDetail = useCallback((index) => {
+    setOpenDetail(false);
+    document.body.style.overflow = 'unset';
+  }, []);
 
   useEffect(() => {
     dispatch({
@@ -35,7 +51,7 @@ const NewsFeed = ({ history }) => {
         type: LOAD_TODO_ACHIEVEMENT_REQUEST
       });
     }
-  }, [dispatch]);
+  }, [userInfo, dispatch]);
 
   useEffect(() => {
     const fetchPosts = () => {
@@ -45,7 +61,12 @@ const NewsFeed = ({ history }) => {
       );
       const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
       const clientHeight = document.documentElement.clientHeight;
-      if (scrollTop + clientHeight >= scrollHeight * 0.9 && !loadPostsLoading && hasMorePosts) {
+      if (
+        location.pathname === '/' &&
+        scrollTop + clientHeight >= scrollHeight * 0.9 &&
+        !loadPostsLoading &&
+        hasMorePosts
+      ) {
         page.current += 1;
         dispatch({
           type: LOAD_POSTS_REQUEST,
@@ -55,6 +76,7 @@ const NewsFeed = ({ history }) => {
     };
     window.addEventListener('scroll', fetchPosts);
     return () => {
+      console.log('remove');
       window.removeEventListener('scroll', fetchPosts);
     };
   });
@@ -73,12 +95,17 @@ const NewsFeed = ({ history }) => {
       return (
         <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
           <div style={style}>
-            <FeedContent post={post} userInfo={userInfo} resizeHeight={resizeHeight(index)} />
+            <FeedContent
+              post={post}
+              userInfo={userInfo}
+              resizeHeight={resizeHeight(index)}
+              onOpenDetail={() => onOpenDetail(index)}
+            />
           </div>
         </CellMeasurer>
       );
     },
-    [mainPosts, userInfo, resizeHeight]
+    [mainPosts, userInfo, resizeHeight, onOpenDetail]
   );
 
   const onClickCreate = useCallback(() => {
@@ -89,7 +116,7 @@ const NewsFeed = ({ history }) => {
         history.push('/login');
       }
     }
-  }, [userInfo]);
+  }, [userInfo, history]);
 
   return (
     <>
@@ -146,6 +173,7 @@ const NewsFeed = ({ history }) => {
           </AutoSizer>
         )}
       </WindowScroller>
+      {openDetail && <FeedDetail post={mainPosts[detailPostIdx]} onCloseDetail={onCloseDetail} />}
     </>
   );
 };

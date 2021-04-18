@@ -36,7 +36,7 @@ const FeedCommentItem = ({ comment }) => {
             </button>
             <button className="FeedCommentView__detail--like" type="button">
               <p>
-                좋아요 <span>2개</span>
+                좋아요 <span>{comment.likeCnt}개</span>
               </p>
             </button>
           </div>
@@ -58,12 +58,15 @@ const FeedCommentItem = ({ comment }) => {
             </button>
           </div>
         </div>
-
-        <div className="FeedCommentView__more">
-          <button type="button">
-            <p style={{ fontSize: '12px', color: '#999999' }}>답글 2개 보기</p>
-          </button>
-        </div>
+        {comment?.feedreReply?.length > 0 && (
+          <div className="FeedCommentView__more">
+            <button type="button">
+              <p style={{ fontSize: '12px', color: '#999999' }}>
+                답글 {comment?.feedreReply?.length}개 보기
+              </p>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
