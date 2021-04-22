@@ -61,7 +61,7 @@ function App() {
             <Route exact path="/signup-complete" component={SignupCom} />
             <Route exact path="/todo" component={Todo} />
             <Route exact path="/feed/:id" component={Feed} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/profile/:id" component={Profile} />
             <Route exact path="/noti" component={Noti} />
             <Route exact path="/upload" component={UpLoad} />
             <Route exact path="/setting" component={Setting} />

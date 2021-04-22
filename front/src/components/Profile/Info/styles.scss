@@ -1,0 +1,148 @@
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding: 8%;
+  border-bottom: 1px solid #c5c5c5;
+  .desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    strong {
+      font-weight: bold;
+      font-size: 1.6em;
+      line-height: 14px;
+      margin-right: 5px;
+    }
+    span {
+      color: #999999;
+      font-size: 1em;
+    }
+    p {
+      margin: 15px 0 0 0;
+      font-size: 1em;
+      line-height: 14px;
+    }
+  }
+  .photo {
+    position: relative;
+    .img {
+      width: 10em;
+      height: 10em;
+      border-radius: 50%;
+      background: #e4e4e4;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 3.14em;
+      height: 3.14em;
+      background: #999999;
+      border-radius: 50%;
+      position: absolute;
+      top: 96px;
+      left: 96px;
+    }
+  }
+  > button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    width: 7em;
+    height: fit-content;
+    background: #2656ff;
+    border-radius: 4px;
+    justify-content: space-around;
+    color: #fff;
+  }
+}
+
+@media (min-width: 440px) and (max-width: 620px) {
+  .info {
+    .desc {
+      strong {
+        font-weight: bold;
+        font-size: 1.3em;
+      }
+      span {
+        color: #999999;
+        font-size: 0.8em;
+      }
+      p {
+        margin: 12px 0 0 0;
+        font-size: 0.8em;
+      }
+    }
+
+    .photo {
+      position: relative;
+      .img {
+        width: 8em;
+        height: 8em;
+      }
+
+      button {
+        width: 2.3em;
+        height: 2.3em;
+        top: 80px;
+        left: 80px;
+        svg {
+          width: 15px;
+        }
+      }
+    }
+    > button {
+      width: 6em;
+      padding: 4px 8px;
+      font-size: 0.9em;
+    }
+  }
+}
+
+@media (max-width: 439px) {
+  .info {
+    .desc {
+      strong {
+        font-weight: bold;
+        font-size: 1em;
+      }
+      span {
+        color: #999999;
+        font-size: 0.5em;
+      }
+      p {
+        margin: 8px 0 0 0;
+        font-size: 0.5em;
+      }
+    }
+    .photo {
+      position: relative;
+      .img {
+        width: 6em;
+        height: 6em;
+      }
+
+      button {
+        width: 1.6em;
+        height: 1.6em;
+        top: 62px;
+        left: 62px;
+        svg {
+          width: 12px;
+        }
+      }
+    }
+    > button {
+      width: 5em;
+      padding: 4px 8px;
+      font-size: 0.8em;
+    }
+  }
+}

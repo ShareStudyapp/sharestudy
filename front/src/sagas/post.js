@@ -51,7 +51,10 @@ import {
   LIKE_LIST_FAILURE,
   LOAD_POSTS_DETAIL_REQUEST,
   LOAD_POSTS_DETAIL_SUCCESS,
-  LOAD_POSTS_DETAIL_FAILURE
+  LOAD_POSTS_DETAIL_FAILURE,
+  LOAD_PROFILE_POSTS_REQUEST,
+  LOAD_PROFILE_POSTS_SUCCESS,
+  LOAD_PROFILE_POSTS_FAILURE
 } from '../reducers/post';
 
 function loadPostsAPI(data) {
@@ -77,6 +80,27 @@ function* loadPosts(action) {
     });
   }
 }
+
+function loadProfilePostsAPI(data) {
+  return axios.get(`/feed/other/${data.id}?page=${data?.page ? data.page : 1}`);
+}
+
+function* loadProfilePosts(action) {
+  try {
+    const result = yield call(loadProfilePostsAPI, action.data);
+    yield put({
+      type: LOAD_PROFILE_POSTS_SUCCESS,
+      data: result.data
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_PROFILE_POSTS_FAILURE,
+      data: err.response.data
+    });
+  }
+}
+
 function loadPostsCommentsAPI(data) {
   return axios.get(`/feed/reply/${data.id}?page=${data?.page ? data.page : 1}`);
 }
@@ -284,6 +308,7 @@ function unlikeCommentAPI(id) {
 function* unlikeComment(action) {
   try {
     const result = yield call(unlikeCommentAPI, action.data);
+    result.data.replyId = action.data;
     yield put({
       type: UNLIKE_COMMENT_SUCCESS,
       data: result.data
@@ -372,6 +397,9 @@ function* addReComment(action) {
 function* watchLoadPosts() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
+function* watchLoadProfilePosts() {
+  yield takeLatest(LOAD_PROFILE_POSTS_REQUEST, loadProfilePosts);
+}
 function* watchLoadPostsComments() {
   yield takeLatest(LOAD_POSTS_COMMENT_REQUEST, loadPostsComments);
 }
@@ -438,6 +466,7 @@ export default function* postSaga() {
     fork(watchLoadPostDetail),
     fork(watchLikeComment),
     fork(watchUnlikeComment),
-    fork(watchAddReComment)
+    fork(watchAddReComment),
+    fork(watchLoadProfilePosts)
   ]);
 }

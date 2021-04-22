@@ -4,7 +4,7 @@ import { Avatar } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { HeartTwoTone } from '@ant-design/icons';
-import { LIKE_COMMENT_REQUEST } from '../../reducers/post';
+import { UNLIKE_COMMENT_REQUEST, LIKE_COMMENT_REQUEST } from '../../reducers/post';
 import { format } from 'timeago.js';
 
 const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
@@ -12,7 +12,8 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
   const history = useHistory();
   const toggleLike = useCallback(() => {
     if (userInfo.id) {
-      const likeType = LIKE_COMMENT_REQUEST;
+      const likeType =
+        comment.myFeedReplyLike?.length > 0 ? UNLIKE_COMMENT_REQUEST : LIKE_COMMENT_REQUEST;
       dispatch({
         type: likeType,
         data: comment.id
@@ -40,7 +41,7 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
         <div className="FeedCommentView__Comment">
           <p className="FeedCommentView__Comment--desc">{comment.content}</p>
           <button className="FeedCommentView__Comment--like" type="button" onClick={toggleLike}>
-            {comment.myFeedlike ? (
+            {comment.myFeedReplyLike?.length > 0 ? (
               <HeartTwoTone twoToneColor="#eb2f96" />
             ) : (
               <HeartTwoTone twoToneColor="#ccc" />

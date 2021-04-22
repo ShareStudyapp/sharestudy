@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import FeedContent from '../../components/FeedItem/FeedContent';
 import FeedCommentItem from '../../components/FeedItem/FeedCommentItem';
 import {
+  LOAD_POSTS_DETAIL_CLEAR,
   LOAD_POSTS_DETAIL_REQUEST,
   LOAD_POSTS_COMMENT_REQUEST,
   ADD_COMMENT_REQUEST,
@@ -9,10 +10,11 @@ import {
 } from '../../reducers/post';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Input } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const FeedDetail = () => {
-  let { id } = useParams();
+  const history = useHistory();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userReducer);
   const [comment, setComment] = useState('');
@@ -32,6 +34,11 @@ const FeedDetail = () => {
       type: LOAD_POSTS_COMMENT_REQUEST,
       data: { id: id, page: page.current }
     });
+    return () => {
+      dispatch({
+        type: LOAD_POSTS_DETAIL_CLEAR
+      });
+    };
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -59,29 +66,44 @@ const FeedDetail = () => {
     return () => {
       window.removeEventListener('scroll', fetchComments);
     };
-  }, [postDetail, loadPostsCommentLoading, hasMoreComments, dispatch, id]);
+  }, [loadPostsCommentLoading, hasMoreComments, dispatch, id]);
 
-  const onChangeComment = useCallback((e) => {
-    setComment(e.target.value);
-  }, []);
+  const onChangeComment = useCallback(
+    (e) => {
+      if (userInfo.id) {
+        setComment(e.target.value);
+      } else {
+        if (window.confirm('로그인이 필요합니다. 로그인 하시겠습니까?')) {
+          history.push('/login');
+        }
+      }
+    },
+    [history, userInfo]
+  );
 
   const onSubmitComment = useCallback(
     (value) => {
-      if (commentId) {
-        dispatch({
-          type: ADD_RECOMMENT_REQUEST,
-          data: { content: value, feedId: postDetail.id, id: commentId }
-        });
+      if (userInfo.id) {
+        if (commentId) {
+          dispatch({
+            type: ADD_RECOMMENT_REQUEST,
+            data: { content: value, feedId: postDetail.id, id: commentId }
+          });
+        } else {
+          dispatch({
+            type: ADD_COMMENT_REQUEST,
+            data: { content: value, id: postDetail.id }
+          });
+        }
+        setCommentId('');
+        setComment('');
       } else {
-        dispatch({
-          type: ADD_COMMENT_REQUEST,
-          data: { content: value, id: postDetail.id }
-        });
+        if (window.confirm('로그인이 필요합니다. 로그인 하시겠습니까?')) {
+          history.push('/login');
+        }
       }
-      setCommentId('');
-      setComment('');
     },
-    [commentId, postDetail, dispatch]
+    [userInfo, history, commentId, postDetail, dispatch]
   );
 
   return (

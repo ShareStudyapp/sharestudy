@@ -2,6 +2,7 @@ import produce from '../utils/produce';
 
 export const initialState = {
   mainPosts: [],
+  profilePosts: [],
   gallary: [],
   imagePaths: [],
   postComment: [],
@@ -9,6 +10,7 @@ export const initialState = {
   likeList: [],
   hasMorePosts: true,
   hasMoreComments: true,
+  hasMoreProfilePosts: true,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
@@ -18,6 +20,9 @@ export const initialState = {
   loadPostsCommentLoading: false,
   loadPostsCommentDone: false,
   loadPostsCommentError: null,
+  loadProfilePostsLoading: false,
+  loadProfilePostsDone: false,
+  loadProfilePostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -59,10 +64,17 @@ export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 export const LOAD_POSTS_CLEAR = 'LOAD_POSTS_CLEAR';
 
+//프로필 피드 조회
+export const LOAD_PROFILE_POSTS_REQUEST = 'LOAD_PROFILE_POSTS_REQUEST';
+export const LOAD_PROFILE_POSTS_SUCCESS = 'LOAD_PROFILE_POSTS_SUCCESS';
+export const LOAD_PROFILE_POSTS_FAILURE = 'LOAD_PROFILE_POSTS_FAILURE';
+export const LOAD_PROFILE_POSTS_CLEAR = 'LOAD_PROFILE_POSTS_CLEAR';
+
 //피드 디테일 조회
 export const LOAD_POSTS_DETAIL_REQUEST = 'LOAD_POSTS_DETAIL_REQUEST';
 export const LOAD_POSTS_DETAIL_SUCCESS = 'LOAD_POSTS_DETAIL_SUCCESS';
 export const LOAD_POSTS_DETAIL_FAILURE = 'LOAD_POSTS_DETAIL_FAILURE';
+export const LOAD_POSTS_DETAIL_CLEAR = 'LOAD_POSTS_DETAIL_CLEAR';
 
 //피드 댓글 조회
 export const LOAD_POSTS_COMMENT_REQUEST = 'LOAD_POSTS_COMMENT_REQUEST';
@@ -155,6 +167,24 @@ const postReducer = (state = initialState, action) =>
       case LOAD_POSTS_CLEAR:
         draft.mainPosts = [];
         break;
+      case LOAD_PROFILE_POSTS_REQUEST:
+        draft.loadProfilePostsLoading = true;
+        draft.loadProfilePostsDone = false;
+        draft.loadProfilePostsError = null;
+        break;
+      case LOAD_PROFILE_POSTS_SUCCESS:
+        draft.loadProfilePostsLoading = false;
+        draft.loadProfilePostsDone = true;
+        draft.profilePosts = draft.profilePosts.concat(action.data);
+        draft.hasMoreProfilePosts = action.data.length === 10;
+        break;
+      case LOAD_PROFILE_POSTS_FAILURE:
+        draft.loadProfilePostsLoading = false;
+        draft.loadProfilePostsError = action.error;
+        break;
+      case LOAD_PROFILE_POSTS_CLEAR:
+        draft.profilePosts = [];
+        break;
       case LOAD_POSTS_DETAIL_REQUEST:
         draft.loadPostDetailLoading = true;
         draft.loadPostDetailDone = false;
@@ -168,6 +198,9 @@ const postReducer = (state = initialState, action) =>
       case LOAD_POSTS_DETAIL_FAILURE:
         draft.loadPostDetailLoading = false;
         draft.loadPostDetailError = action.error;
+        break;
+      case LOAD_POSTS_DETAIL_CLEAR:
+        draft.postDetail = {};
         break;
       case LOAD_POSTS_COMMENT_REQUEST:
         draft.loadPostsCommentLoading = true;
@@ -300,6 +333,8 @@ const postReducer = (state = initialState, action) =>
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
         post.totallike = action.data.totallike;
         post.myFeedlike = action.data.myFeedlike;
+        draft.postDetail.totallike = action.data.totallike;
+        draft.postDetail.myFeedlike = action.data.myFeedlike;
         draft.unlikePostLoading = false;
         draft.unlikePostDone = true;
         break;
@@ -381,8 +416,9 @@ const postReducer = (state = initialState, action) =>
         draft.likeCOMMENTError = null;
         break;
       case LIKE_COMMENT_SUCCESS: {
-        //const comment = draft.postDetail.feedreply.find((v) => v.id === action.data.id);
-        // comment.totallike = action.data.totallike;
+        const comment = draft.postDetail.feedreply.find((v) => v.id === action.data.replyId);
+        comment.likeCnt = comment.likeCnt + 1;
+        comment.myFeedReplyLike = [action.data];
         // comment.myFeedlike = action.data.myFeedlike;
         // draft.Commentetail.totallike = action.data.totallike;
         // draft.Commentetail.myFeedlike = action.data.myFeedlike;
@@ -401,9 +437,9 @@ const postReducer = (state = initialState, action) =>
         draft.unlikeCommentError = null;
         break;
       case UNLIKE_COMMENT_SUCCESS: {
-        const COMMENT = draft.mainCOMMENTs.find((v) => v.id === action.data.id);
-        COMMENT.totallike = action.data.totallike;
-        COMMENT.myFeedlike = action.data.myFeedlike;
+        const comment = draft.postDetail.feedreply.find((v) => v.id === action.data.replyId);
+        comment.likeCnt = comment.likeCnt - 1;
+        comment.myFeedReplyLike = [];
         draft.unlikeCommentLoading = false;
         draft.unlikeCommentDone = true;
         break;
