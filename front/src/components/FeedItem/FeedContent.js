@@ -3,11 +3,15 @@ import './styles.scss';
 import FeedSlider from '../FeedItem/FeedSlider';
 import FeedComment from './FeedComment';
 import { Avatar } from 'antd';
+import { useHistory } from 'react-router-dom';
 
-const FeedContent = ({ post, userInfo, resizeHeight, onOpenDetail }) => {
+const FeedContent = ({ post, userInfo, isDetail = false, resizeHeight, onOpenDetail }) => {
+  const history = useHistory();
   const onClickComment = useCallback(() => {
-    if (onOpenDetail) onOpenDetail(post);
-  }, [post, onOpenDetail]);
+    if (!isDetail) {
+      history.push(`/feed/${post.id}`);
+    }
+  }, [history, post, isDetail]);
 
   // 추후 상세 더보기 유무에따라 사용예정
   // useEffect(() => {

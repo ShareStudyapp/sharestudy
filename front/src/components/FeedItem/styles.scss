@@ -366,17 +366,24 @@
   }
 }
 
-.FeedDetail {
+.scroll {
   overflow-y: scroll;
-  background: $white;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 9999;
+  height: 100vh;
   max-width: 700px;
   margin: 0 auto;
+}
+
+.FeedDetail {
+  // overflow-y: scroll;
+  // background: $white;
+  // position: fixed;
+  // left: 0;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
+  // z-index: 9999;
+  // max-width: 700px;
+  // margin: 0 auto;
   &__create {
     background-color: white;
     position: fixed;

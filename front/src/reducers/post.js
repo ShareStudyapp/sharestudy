@@ -44,13 +44,21 @@ export const initialState = {
   updateCommentError: null,
   unlikePostLoading: false,
   unlikePostDone: false,
-  unlikePostError: null
+  unlikePostError: null,
+  likeCommentLoading: false,
+  likeCommentDone: false,
+  likeCommentError: null,
+  unlikeCommentLoading: false,
+  unlikeCommentDone: false,
+  unlikeCommentError: null
 };
 
 //피드 조회
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
+export const LOAD_POSTS_CLEAR = 'LOAD_POSTS_CLEAR';
+
 //피드 디테일 조회
 export const LOAD_POSTS_DETAIL_REQUEST = 'LOAD_POSTS_DETAIL_REQUEST';
 export const LOAD_POSTS_DETAIL_SUCCESS = 'LOAD_POSTS_DETAIL_SUCCESS';
@@ -107,6 +115,19 @@ export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
 export const UPDATE_COMMENT_REQUEST = 'UPDATE_COMMENT_REQUEST';
 export const UPDATE_COMMENT_SUCCESS = 'UPDATE_COMMENT_SUCCESS';
 export const UPDATE_COMMENT_FAILURE = 'UPDATE_COMMENT_FAILURE';
+//댓글좋아요
+export const LIKE_COMMENT_REQUEST = 'LIKE_COMMENT_REQUEST';
+export const LIKE_COMMENT_SUCCESS = 'LIKE_COMMENT_SUCCESS';
+export const LIKE_COMMENT_FAILURE = 'LIKE_COMMENT_FAILURE';
+//댓글좋아요취소
+export const UNLIKE_COMMENT_REQUEST = 'UNLIKE_COMMENT_REQUEST';
+export const UNLIKE_COMMENT_SUCCESS = 'UNLIKE_COMMENT_SUCCESS';
+export const UNLIKE_COMMENT_FAILURE = 'UNLIKE_COMMENT_FAILURE';
+
+//대댓글추가
+export const ADD_RECOMMENT_REQUEST = 'ADD_RECOMMENT_REQUEST';
+export const ADD_RECOMMENT_SUCCESS = 'ADD_RECOMMENT_SUCCESS';
+export const ADD_RECOMMENT_FAILURE = 'ADD_RECOMMENT_FAILURE';
 
 export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
@@ -115,8 +136,6 @@ export const addComment = (data) => ({
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 const postReducer = (state = initialState, action) =>
   produce(state, (draft) => {
-    // const templist = [];
-    // templist.push(action.data);
     switch (action.type) {
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -132,6 +151,9 @@ const postReducer = (state = initialState, action) =>
       case LOAD_POSTS_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
+        break;
+      case LOAD_POSTS_CLEAR:
+        draft.mainPosts = [];
         break;
       case LOAD_POSTS_DETAIL_REQUEST:
         draft.loadPostDetailLoading = true;
@@ -151,22 +173,16 @@ const postReducer = (state = initialState, action) =>
         draft.loadPostsCommentLoading = true;
         draft.loadPostsCommentDone = false;
         draft.loadPostsCommentError = null;
-        //draft.mainPosts.feed = [];
         break;
       case LOAD_POSTS_COMMENT_SUCCESS:
-        //const c = draft.mainPosts.find((v) => v.id===action.feedkey);
         draft.loadPostsCommentLoading = false;
         draft.loadPostsCommentDone = true;
-        //draft.mainPosts = draft.mainPosts.find((v) => v.id===action.data.feedlist.id).feedreply.push(action.data.feedReplylist);
-        //const c = draft.mainPosts.find((v) => v.id===action.data.feedlist.id);
-        //action.data.feedReplylist.map((item)=>c.feedreply.push(item));
-
-        const post = draft.mainPosts.find((v) => v.id === action.data.id);
-        post.feedreply = post.feedreply.concat(action.data.list);
+        if (draft.postDetail.feedreply) {
+          draft.postDetail.feedreply = draft.postDetail.feedreply.concat(action.data.list);
+        } else {
+          draft.postDetail.feedreply = action.data.list;
+        }
         draft.hasMoreComments = action.data.list.length === 10;
-        // draft.postComment = draft.postComment.concat(action.data);
-        // draft.mainPosts = c.concat(draft.postComment)
-        //draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
       case LOAD_POSTS_COMMENT_FAILURE:
         draft.loadPostsCommentLoading = false;
@@ -264,6 +280,9 @@ const postReducer = (state = initialState, action) =>
         const post = draft.mainPosts.find((v) => v.id === action.data.id);
         post.totallike = action.data.totallike;
         post.myFeedlike = action.data.myFeedlike;
+        draft.postDetail.totallike = action.data.totallike;
+        draft.postDetail.myFeedlike = action.data.myFeedlike;
+
         draft.likePostLoading = false;
         draft.likePostDone = true;
         break;
@@ -310,7 +329,11 @@ const postReducer = (state = initialState, action) =>
         break;
       case ADD_COMMENT_SUCCESS:
         const addComment = draft.mainPosts.find((v) => v.id === action.data.feedId);
-        addComment.feedreply.unshift(action.data);
+        let size = draft.postDetail.feedreply.unshift(action.data);
+        draft.postDetail.feedreplysize = size;
+        size = addComment.feedreply.unshift(action.data);
+        addComment.feedreplysize = size;
+
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;
@@ -330,9 +353,6 @@ const postReducer = (state = initialState, action) =>
         removeComment.feedreply = removeComment.feedreply.filter(
           (item) => item.id !== action.data.commentId
         );
-        //const removepostlist = state.mainPosts.find((v) => v.id === action.data.postId);
-        // console.log(state.mainPosts.map((item)=>item.feedreply))
-        //draft.mainPosts= draft.mainPosts.feedreply.filter((v) => v.id !== action.data.commentId);
         break;
       case REMOVE_COMMENT_FAILURE:
         draft.removeCommentLoading = false;
@@ -350,12 +370,61 @@ const postReducer = (state = initialState, action) =>
         const updateComment = draft.mainPosts.find((v) => v.id === action.data.feedlistkey);
         updateComment.feedreply.find((item) => item.id === action.data.id).content =
           action.data.content;
-        //draft.mainPosts.find((v) => v.id === action.data.id).content = action.data.content;
-        //updatepostlist.find((v) => v.id === action.data.id).content = action.data.content;
         break;
       case UPDATE_COMMENT_FAILURE:
         draft.updateCommentLoading = false;
         draft.updateCommentError = action.error;
+        break;
+      case LIKE_COMMENT_REQUEST:
+        draft.likeCOMMENTLoading = true;
+        draft.likeCOMMENTDone = false;
+        draft.likeCOMMENTError = null;
+        break;
+      case LIKE_COMMENT_SUCCESS: {
+        //const comment = draft.postDetail.feedreply.find((v) => v.id === action.data.id);
+        // comment.totallike = action.data.totallike;
+        // comment.myFeedlike = action.data.myFeedlike;
+        // draft.Commentetail.totallike = action.data.totallike;
+        // draft.Commentetail.myFeedlike = action.data.myFeedlike;
+
+        draft.likeCommentLoading = false;
+        draft.likeCommentDone = true;
+        break;
+      }
+      case LIKE_COMMENT_FAILURE:
+        draft.likeCommentLoading = false;
+        draft.likeCommentError = action.error;
+        break;
+      case UNLIKE_COMMENT_REQUEST:
+        draft.unlikeCommentLoading = true;
+        draft.unlikeCommentDone = false;
+        draft.unlikeCommentError = null;
+        break;
+      case UNLIKE_COMMENT_SUCCESS: {
+        const COMMENT = draft.mainCOMMENTs.find((v) => v.id === action.data.id);
+        COMMENT.totallike = action.data.totallike;
+        COMMENT.myFeedlike = action.data.myFeedlike;
+        draft.unlikeCommentLoading = false;
+        draft.unlikeCommentDone = true;
+        break;
+      }
+      case UNLIKE_COMMENT_FAILURE:
+        draft.unlikeCommentLoading = false;
+        draft.unlikeCommentError = action.error;
+        break;
+      case ADD_RECOMMENT_REQUEST:
+        draft.addRecommentLoading = true;
+        draft.addRecommentDone = false;
+        draft.addRecommentError = null;
+        break;
+      case ADD_RECOMMENT_SUCCESS:
+        //const addReComment = draft.postDetail.feedreply.find((v) => v.id === action.data.feedId);
+        draft.addRecommentLoading = false;
+        draft.addRecommentDone = true;
+        break;
+      case ADD_RECOMMENT_FAILURE:
+        draft.addRecommentLoading = false;
+        draft.addRecommentError = action.error;
         break;
       default:
         break;

@@ -37,6 +37,15 @@ import {
   UPDATE_COMMENT_REQUEST,
   UPDATE_COMMENT_SUCCESS,
   UPDATE_COMMENT_FAILURE,
+  LIKE_COMMENT_FAILURE,
+  LIKE_COMMENT_REQUEST,
+  LIKE_COMMENT_SUCCESS,
+  UNLIKE_COMMENT_FAILURE,
+  UNLIKE_COMMENT_REQUEST,
+  UNLIKE_COMMENT_SUCCESS,
+  ADD_RECOMMENT_REQUEST,
+  ADD_RECOMMENT_FAILURE,
+  ADD_RECOMMENT_SUCCESS,
   LIKE_LIST_REQUEST,
   LIKE_LIST_SUCCESS,
   LIKE_LIST_FAILURE,
@@ -248,6 +257,46 @@ function* removeComment(action) {
     });
   }
 }
+
+function likeCommentAPI(id) {
+  return axios.post(`/likefeedreply/${id}`);
+}
+function* likeComment(action) {
+  try {
+    const result = yield call(likeCommentAPI, action.data);
+
+    yield put({
+      type: LIKE_COMMENT_SUCCESS,
+      data: result.data
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LIKE_COMMENT_FAILURE,
+      error: err.response.data
+    });
+  }
+}
+function unlikeCommentAPI(id) {
+  return axios.delete(`/likefeedreply/${id}`);
+}
+
+function* unlikeComment(action) {
+  try {
+    const result = yield call(unlikeCommentAPI, action.data);
+    yield put({
+      type: UNLIKE_COMMENT_SUCCESS,
+      data: result.data
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UNLIKE_COMMENT_FAILURE,
+      error: err.response.data
+    });
+  }
+}
+
 function updateCommentAPI(data) {
   return axios.patch(`/feed/reply/${data.id}`, data);
 }
@@ -300,6 +349,26 @@ function* loadPostDetail(action) {
     });
   }
 }
+
+function addReCommentAPI(data) {
+  return axios.post(`/feed/reply/re/${data.feedId}/${data.id}`, data); // POST /post/1/comment
+}
+
+function* addReComment(action) {
+  try {
+    const result = yield call(addReCommentAPI, action.data);
+    yield put({
+      type: ADD_RECOMMENT_SUCCESS,
+      data: result.data
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: ADD_RECOMMENT_FAILURE,
+      error: err.response.data
+    });
+  }
+}
 function* watchLoadPosts() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
@@ -342,6 +411,15 @@ function* watchLikeListComments() {
 function* watchLoadPostDetail() {
   yield takeLatest(LOAD_POSTS_DETAIL_REQUEST, loadPostDetail);
 }
+function* watchLikeComment() {
+  yield takeLatest(LIKE_COMMENT_REQUEST, likeComment);
+}
+function* watchUnlikeComment() {
+  yield takeLatest(UNLIKE_COMMENT_REQUEST, unlikeComment);
+}
+function* watchAddReComment() {
+  yield takeLatest(ADD_RECOMMENT_REQUEST, addReComment);
+}
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
@@ -357,6 +435,9 @@ export default function* postSaga() {
     fork(watchUpdateComment),
     fork(watchLoadPostsComments),
     fork(watchLikeListComments),
-    fork(watchLoadPostDetail)
+    fork(watchLoadPostDetail),
+    fork(watchLikeComment),
+    fork(watchUnlikeComment),
+    fork(watchAddReComment)
   ]);
 }

@@ -1,19 +1,37 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import './styles.scss';
 import { Avatar } from 'antd';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { HeartTwoTone } from '@ant-design/icons';
+import { LIKE_COMMENT_REQUEST } from '../../reducers/post';
 import { format } from 'timeago.js';
 
-const FeedCommentItem = ({ comment }) => {
-  const [color, setColor] = useState(false);
+const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const toggleLike = useCallback(() => {
-    setColor((prev) => !prev);
-  }, []);
+    if (userInfo.id) {
+      const likeType = LIKE_COMMENT_REQUEST;
+      dispatch({
+        type: likeType,
+        data: comment.id
+      });
+    } else {
+      if (window.confirm('로그인이 필요합니다. 로그인 하시겠습니까?')) {
+        history.push('/login');
+      }
+    }
+  }, [comment, userInfo, dispatch, history]);
+
+  const onClickComment = useCallback(() => {
+    setCommentId(comment.id);
+  }, [comment, setCommentId]);
 
   return (
     <div key={comment.id} className="FeedCommentView">
       <p className="FeedCommentView-userProfile">
-        <Avatar />
+        <Avatar src={comment?.userProfileImage?.src} />
       </p>
 
       <div className="FeedCommentView__desc">
@@ -22,7 +40,11 @@ const FeedCommentItem = ({ comment }) => {
         <div className="FeedCommentView__Comment">
           <p className="FeedCommentView__Comment--desc">{comment.content}</p>
           <button className="FeedCommentView__Comment--like" type="button" onClick={toggleLike}>
-            {color ? <HeartTwoTone twoToneColor="#eb2f96" /> : <HeartTwoTone twoToneColor="#ccc" />}
+            {comment.myFeedlike ? (
+              <HeartTwoTone twoToneColor="#eb2f96" />
+            ) : (
+              <HeartTwoTone twoToneColor="#ccc" />
+            )}
           </button>
         </div>
 
@@ -31,7 +53,11 @@ const FeedCommentItem = ({ comment }) => {
             <p className="FeedCommentView__detail--date" style={{ color: '#999999' }}>
               {format(comment.createdAt, 'my-locale')}
             </p>
-            <button className="FeedCommentView__detail--comment" type="button">
+            <button
+              className="FeedCommentView__detail--comment"
+              type="button"
+              onClick={onClickComment}
+            >
               <p>답글 쓰기</p>
             </button>
             <button className="FeedCommentView__detail--like" type="button">

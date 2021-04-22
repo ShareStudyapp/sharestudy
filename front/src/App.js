@@ -9,7 +9,7 @@ const Todo = lazy(() => import('./pages/Todo'));
 const Signup = lazy(() => import('./pages/SignUp'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
-const MyFeed = lazy(() => import('./pages/Feed/MyFeed'));
+const Feed = lazy(() => import('./pages/Feed/Feed'));
 const Noti = lazy(() => import('./pages/Noti'));
 const UpLoad = lazy(() => import('./pages/Feed/FeedUpload'));
 const SignupCom = lazy(() => import('./pages/SignUp/signupCom'));
@@ -39,7 +39,6 @@ const Loading = () => (
 
 function App() {
   const dispatch = useDispatch();
-
   const user = window.sessionStorage.getItem('user'); //로그인여부
   const userPersist = () => {
     if (user) {
@@ -61,7 +60,7 @@ function App() {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/signup-complete" component={SignupCom} />
             <Route exact path="/todo" component={Todo} />
-            <Route exact path="/myfeed" component={MyFeed} />
+            <Route exact path="/feed/:id" component={Feed} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/noti" component={Noti} />
             <Route exact path="/upload" component={UpLoad} />

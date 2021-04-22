@@ -30,7 +30,6 @@ const FeedComment = ({ post, userInfo, onClickComment }) => {
   }, [post, userInfo, dispatch, history]);
   register('my-locale', localeFunc);
   const relativeDate = format(post.createdAt, 'my-locale');
-
   return (
     <div className="FeedComment">
       <section className="FeedComment__header">
@@ -55,9 +54,7 @@ const FeedComment = ({ post, userInfo, onClickComment }) => {
         <p className="FeedComment__comment">{post.content}</p>
       </section>
       <section className="FeedComment__footer">
-        <button onClick={onClickComment}>
-          댓글 {post.feedreply.length > 0 ? post.feedreply.length : post.feedreplysize}개
-        </button>
+        <button onClick={onClickComment}>댓글 {post?.feedreplysize}개</button>
       </section>
     </div>
   );

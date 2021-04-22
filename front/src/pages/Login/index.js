@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { loginRequestAction } from '../../reducers/user';
+import { LOAD_POSTS_CLEAR } from '../../reducers/post';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import './LoginForm.scss';
@@ -17,16 +18,18 @@ const Login = ({ history, location }) => {
       alert(logInError);
     }
     if (logInDone) {
+      dispatch({
+        type: LOAD_POSTS_CLEAR
+      });
       if (!location.state?.from) {
         history.push('/');
       } else {
         history.push(location.state.from);
       }
     }
-  }, [logInError, logInDone, history, location]);
+  }, [logInError, logInDone, history, location, dispatch]);
 
   const onSubmitForm = useCallback(() => {
-    console.log(userid, password);
     dispatch(loginRequestAction({ userid, password }));
   }, [userid, password, dispatch]);
 
