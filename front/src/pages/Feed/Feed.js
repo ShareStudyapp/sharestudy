@@ -7,7 +7,8 @@ import {
   LOAD_POSTS_COMMENT_REQUEST,
   ADD_COMMENT_REQUEST,
   ADD_RECOMMENT_REQUEST,
-  REMOVE_POST_REQUEST
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_CLEAR
 } from '../../reducers/post';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Input } from 'antd';
@@ -80,7 +81,10 @@ const FeedDetail = () => {
     if (removePostDone) {
       history.push('/');
     }
-  }, [removePostDone, history]);
+    return () => {
+      dispatch({ type: REMOVE_POST_CLEAR });
+    };
+  }, [removePostDone, history, dispatch]);
 
   useEffect(() => {
     const fetchComments = () => {
