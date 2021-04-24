@@ -33,7 +33,7 @@ const Info = ({ user, isOther, feedCnt }) => {
         <div>
           <strong>{user.nickname}</strong>
           <span>
-            {user.age.substr(0, 4)}.{user.age.substr(4, 2)}.{user.age.substr(6, 2)}
+            {user.age?.substr(0, 4)}.{user.age?.substr(4, 2)}.{user.age?.substr(6, 2)}
           </span>
         </div>
         <p>공부인증 {feedCnt}회</p>
