@@ -150,7 +150,7 @@ const FeedDetail = () => {
   return (
     <div className="FeedDetail">
       <div style={{ padding: ' 10px 34px 0 34px' }}>
-        <button>
+        <button onClick={() => history.goBack()}>
           <svg
             width="20"
             height="26"
