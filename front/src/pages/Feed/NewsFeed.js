@@ -60,7 +60,8 @@ const NewsFeed = ({ history }) => {
           if (window.confirm('삭제하시겠습니까?')) {
             dispatch({ type: REMOVE_POST_REQUEST, data: dialogInfo.id });
           }
-        }
+        },
+        isDelete: true
       }
     ],
     [dialogInfo, dispatch]

@@ -1,15 +1,36 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './styles.scss';
-import { Avatar } from 'antd';
+import { Avatar, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { HeartTwoTone } from '@ant-design/icons';
-import { UNLIKE_COMMENT_REQUEST, LIKE_COMMENT_REQUEST } from '../../reducers/post';
+import {
+  UNLIKE_COMMENT_REQUEST,
+  LIKE_COMMENT_REQUEST,
+  UPDATE_COMMENT_REQUEST
+} from '../../reducers/post';
 import { format } from 'timeago.js';
 
-const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
+const FeedCommentItem = ({
+  comment,
+  userInfo,
+  setCommentId,
+  onClickMore,
+  isEdit,
+  onCancelCommentEdit
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [content, setContent] = useState(comment.content);
+  const onChangeComment = useCallback((e) => {
+    setContent(e.target.value);
+  });
+
+  const onUpdateComment = useCallback(() => {
+    dispatch({ type: UPDATE_COMMENT_REQUEST, data: { id: comment.id, content: content } });
+    onCancelCommentEdit();
+  }, [comment, content, dispatch]);
+
   const toggleLike = useCallback(() => {
     if (userInfo.id) {
       const likeType =
@@ -29,6 +50,10 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
     setCommentId(comment.id);
   }, [comment, setCommentId]);
 
+  const onClickBtn = useCallback(() => {
+    onClickMore(comment.id, 'comment');
+  }, [comment, onClickMore]);
+
   return (
     <div key={comment.id} className="FeedCommentView">
       <p className="FeedCommentView-userProfile">
@@ -39,7 +64,25 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
         <p className="FeedCommentView__userId">{comment.nickname}</p>
 
         <div className="FeedCommentView__Comment">
-          <p className="FeedCommentView__Comment--desc">{comment.content}</p>
+          <p className="FeedCommentView__Comment--desc">
+            {isEdit ? (
+              <Input
+                addonAfter={
+                  <>
+                    <button className="blue" onClick={onUpdateComment}>
+                      수정
+                    </button>
+                    <button onClick={onCancelCommentEdit}>취소</button>
+                  </>
+                }
+                size="middle"
+                value={content}
+                onChange={onChangeComment}
+              />
+            ) : (
+              comment.content
+            )}
+          </p>
           <button className="FeedCommentView__Comment--like" type="button" onClick={toggleLike}>
             {comment.myFeedReplyLike?.length > 0 ? (
               <HeartTwoTone twoToneColor="#eb2f96" />
@@ -69,20 +112,22 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId }) => {
           </div>
 
           <div className="FeedCommentView__detail--right">
-            <button className="FeedCommentView__detail--more" type="button">
-              <svg
-                width="22"
-                height="6"
-                viewBox="0 0 22 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3.26628 0.600098C1.79961 0.600098 0.599609 1.8001 0.599609 3.26676C0.599609 4.73343 1.79961 5.93343 3.26628 5.93343C4.73294 5.93343 5.93294 4.73343 5.93294 3.26676C5.93294 1.8001 4.73294 0.600098 3.26628 0.600098ZM19.2663 0.600098C17.7996 0.600098 16.5996 1.8001 16.5996 3.26676C16.5996 4.73343 17.7996 5.93343 19.2663 5.93343C20.7329 5.93343 21.9329 4.73343 21.9329 3.26676C21.9329 1.8001 20.7329 0.600098 19.2663 0.600098ZM11.2663 0.600098C9.79961 0.600098 8.59961 1.8001 8.59961 3.26676C8.59961 4.73343 9.79961 5.93343 11.2663 5.93343C12.7329 5.93343 13.9329 4.73343 13.9329 3.26676C13.9329 1.8001 12.7329 0.600098 11.2663 0.600098Z"
-                  fill="#999999"
-                />
-              </svg>
-            </button>
+            {userInfo?.id === comment.userId && (
+              <button className="FeedCommentView__detail--more" type="button" onClick={onClickBtn}>
+                <svg
+                  width="22"
+                  height="6"
+                  viewBox="0 0 22 6"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.26628 0.600098C1.79961 0.600098 0.599609 1.8001 0.599609 3.26676C0.599609 4.73343 1.79961 5.93343 3.26628 5.93343C4.73294 5.93343 5.93294 4.73343 5.93294 3.26676C5.93294 1.8001 4.73294 0.600098 3.26628 0.600098ZM19.2663 0.600098C17.7996 0.600098 16.5996 1.8001 16.5996 3.26676C16.5996 4.73343 17.7996 5.93343 19.2663 5.93343C20.7329 5.93343 21.9329 4.73343 21.9329 3.26676C21.9329 1.8001 20.7329 0.600098 19.2663 0.600098ZM11.2663 0.600098C9.79961 0.600098 8.59961 1.8001 8.59961 3.26676C8.59961 4.73343 9.79961 5.93343 11.2663 5.93343C12.7329 5.93343 13.9329 4.73343 13.9329 3.26676C13.9329 1.8001 12.7329 0.600098 11.2663 0.600098Z"
+                    fill="#999999"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
         {comment?.feedreReply?.length > 0 && (

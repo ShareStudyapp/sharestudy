@@ -125,10 +125,12 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
 export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
 export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
+export const REMOVE_COMMENT_CLEAR = 'REMOVE_COMMENT_CLEAR';
 //댓글수정
 export const UPDATE_COMMENT_REQUEST = 'UPDATE_COMMENT_REQUEST';
 export const UPDATE_COMMENT_SUCCESS = 'UPDATE_COMMENT_SUCCESS';
 export const UPDATE_COMMENT_FAILURE = 'UPDATE_COMMENT_FAILURE';
+export const UPDATE_COMMENT_CLEAR = 'UPDATE_COMMENT_CLEAR';
 //댓글좋아요
 export const LIKE_COMMENT_REQUEST = 'LIKE_COMMENT_REQUEST';
 export const LIKE_COMMENT_SUCCESS = 'LIKE_COMMENT_SUCCESS';
@@ -396,14 +398,22 @@ const postReducer = (state = initialState, action) =>
       case REMOVE_COMMENT_SUCCESS:
         draft.removeCommentLoading = false;
         draft.removeCommentDone = true;
-        const removeComment = draft.mainPosts.find((v) => v.id === action.data.postId);
-        removeComment.feedreply = removeComment.feedreply.filter(
-          (item) => item.id !== action.data.commentId
+        const feed = draft.mainPosts.find((v) => v.id === action.data.postId);
+
+        draft.postDetail.feedreply = draft.postDetail.feedreply.filter(
+          (v) => v.id !== action.data.commentId
         );
+        draft.postDetail.feedreplysize = draft.postDetail.feedreply.length;
+        feed.feedreplysize = draft.postDetail.feedreply.length;
         break;
       case REMOVE_COMMENT_FAILURE:
         draft.removeCommentLoading = false;
         draft.removeCommentError = action.error;
+        break;
+      case REMOVE_COMMENT_CLEAR:
+        draft.removeCommentLoading = false;
+        draft.removeCommentDone = false;
+        draft.removeCommentError = null;
         break;
       case UPDATE_COMMENT_REQUEST:
         draft.updateCommentLoading = true;
@@ -413,10 +423,8 @@ const postReducer = (state = initialState, action) =>
       case UPDATE_COMMENT_SUCCESS:
         draft.updateCommentLoading = false;
         draft.updateCommentDone = true;
-        console.log(action.data);
-        const updateComment = draft.mainPosts.find((v) => v.id === action.data.feedlistkey);
-        updateComment.feedreply.find((item) => item.id === action.data.id).content =
-          action.data.content;
+        const updateComment = draft.postDetail.feedreply.find((v) => v.id === action.data.id);
+        updateComment.content = action.data.content;
         break;
       case UPDATE_COMMENT_FAILURE:
         draft.updateCommentLoading = false;

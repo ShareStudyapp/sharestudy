@@ -7,6 +7,8 @@ import {
   LOAD_POSTS_COMMENT_REQUEST,
   ADD_COMMENT_REQUEST,
   ADD_RECOMMENT_REQUEST,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT_CLEAR,
   REMOVE_POST_REQUEST,
   REMOVE_POST_CLEAR
 } from '../../reducers/post';
@@ -21,10 +23,15 @@ const FeedDetail = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userReducer);
   const [comment, setComment] = useState('');
+  const [updateCommentId, setUpdateCommentId] = useState('');
   const page = useRef(1);
-  const { postDetail, loadPostsCommentLoading, hasMoreComments, removePostDone } = useSelector(
-    (state) => state.postReducer
-  );
+  const {
+    postDetail,
+    loadPostsCommentLoading,
+    hasMoreComments,
+    removePostDone,
+    removeCommentDone
+  } = useSelector((state) => state.postReducer);
 
   const [commentId, setCommentId] = useState('');
 
@@ -44,22 +51,22 @@ const FeedDetail = () => {
     };
   }, [dispatch, id]);
 
-  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });
+  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '', target: '' });
 
   const onClickMore = useCallback(
-    (id) => {
+    (id, target) => {
       document.body.style.overflow = 'hidden';
-      setDialogInfo({ id: id, open: true });
+      setDialogInfo({ id: id, open: true, target: target });
     },
     [setDialogInfo]
   );
 
   const onCloseDialog = useCallback(() => {
     document.body.style.overflow = 'unset';
-    setDialogInfo({ id: '', open: false });
+    setDialogInfo({ id: '', open: false, target: '' });
   }, [setDialogInfo]);
 
-  const btnList = useMemo(
+  const feedBtnList = useMemo(
     () => [
       {
         name: '피드 수정',
@@ -71,7 +78,30 @@ const FeedDetail = () => {
           if (window.confirm('삭제하시겠습니까?')) {
             dispatch({ type: REMOVE_POST_REQUEST, data: dialogInfo.id });
           }
+        },
+        isDelete: true
+      }
+    ],
+    [dialogInfo, dispatch]
+  );
+
+  const commentBtnList = useMemo(
+    () => [
+      {
+        name: '댓글 수정',
+        onClick() {
+          setUpdateCommentId(dialogInfo.id);
+          onCloseDialog();
         }
+      },
+      {
+        name: '댓글 삭제',
+        onClick() {
+          if (window.confirm('삭제하시겠습니까?')) {
+            dispatch({ type: REMOVE_COMMENT_REQUEST, data: dialogInfo.id });
+          }
+        },
+        isDelete: true
       }
     ],
     [dialogInfo, dispatch]
@@ -85,6 +115,15 @@ const FeedDetail = () => {
       dispatch({ type: REMOVE_POST_CLEAR });
     };
   }, [removePostDone, history, dispatch]);
+
+  useEffect(() => {
+    if (removeCommentDone) {
+      onCloseDialog();
+    }
+    return () => {
+      dispatch({ type: REMOVE_COMMENT_CLEAR });
+    };
+  }, [removeCommentDone, history, dispatch]);
 
   useEffect(() => {
     const fetchComments = () => {
@@ -125,6 +164,10 @@ const FeedDetail = () => {
     },
     [history, userInfo]
   );
+
+  const onCancelCommentEdit = useCallback(() => {
+    setUpdateCommentId('');
+  }, [setUpdateCommentId]);
 
   const onSubmitComment = useCallback(
     (value) => {
@@ -181,7 +224,10 @@ const FeedDetail = () => {
             key={comment.id}
             comment={comment}
             userInfo={userInfo}
+            onClickMore={onClickMore}
             setCommentId={setCommentId}
+            isEdit={comment.id === updateCommentId}
+            onCancelCommentEdit={onCancelCommentEdit}
           />
         ))}
       </div>
@@ -203,7 +249,12 @@ const FeedDetail = () => {
           </div>
         </div>
       </div>
-      {dialogInfo.open && <ProfileDialog onClose={onCloseDialog} btnList={btnList} />}
+      {dialogInfo.open && (
+        <ProfileDialog
+          onClose={onCloseDialog}
+          btnList={dialogInfo.target === 'comment' ? commentBtnList : feedBtnList}
+        />
+      )}
     </div>
   );
 };

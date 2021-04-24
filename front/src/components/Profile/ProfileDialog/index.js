@@ -26,7 +26,7 @@ const ProfileDialog = ({ onClose, btnList }) => {
         </div>
         <div className="content">
           {btnList?.map((btn) => (
-            <div key={btn.name} onClick={btn.onClick}>
+            <div key={btn.name} onClick={btn.onClick} className={btn.isDelete ? 'red' : ''}>
               {btn.name}
             </div>
           ))}
