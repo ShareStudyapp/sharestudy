@@ -1,15 +1,19 @@
-import React,{useEffect, useState ,useRef,useCallback} from 'react'
+import React,{useEffect, useState ,useRef,useCallback,useMemo} from 'react'
 import { Form, Input, Button } from 'antd';
-import WriteButton from '../../components/Button';
+import WriteButton from '../Button';
 import { useDispatch,useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import {UPLOAD_IMAGES_REQUEST,REMOVE_IMAGE,ADD_POST_REQUEST,INIT_ADD_POST} from '../../reducers/post';
+import axios from 'axios';
 
 function PostForm({history}) {
     const dispatch = useDispatch();
     const [text, setText] = useState('');
-    const { imagePaths } = useSelector((state) => state.postReducer);
+    const { imagePath,imagePaths,uploadImagesDone } = useSelector((state) => state.postReducer);
     const { addPostDone } = useSelector((state) => state.postReducer);
+    const [imageList,setImageList] = useState([]);
+    const [content,setContent] = useState('');
+    const [removeImage,setRemoveImage] = useState([]);
     
     const imageInput = useRef();
     useEffect(() => {
@@ -21,21 +25,74 @@ function PostForm({history}) {
           history.push('/'); 
         }
       }, [addPostDone]);
+
+    useEffect(() => {
+      const url = "/feedDetail/263";
+      axios.get(url)
+      .then(function(response) {
+          console.log(response.data)
+          setContent(response.data.content);
+          setImageList(response.data.uploadfile)
+
+          // response.data.uploadfile.map((item)=>
+            
+          // )
+          
+          console.log("성공");
+      })
+      .catch(function(error) {
+          console.log("실패");
+      })
+    },[])
+
+    useEffect(()=>{
+      const obj = {};
+      if(uploadImagesDone){
+     
+//        setImageList(imageList.concat({src:imagePaths.join()}))
+        console.log(imagePaths)
+        setImageList([...imageList,{src:imagePaths.join()}])
+      }
+      
+    },[uploadImagesDone])
     const onSubmit = useCallback(() => {
 
-        const formData = new FormData();
         
-        imagePaths.forEach((p) => {
-          formData.append('images',p);
+
+        const removeFormData = new FormData();
+        
+        removeImage.map((item)=>{
+          removeFormData.append('src',item)  
+        })
+        
+        axios.put('/feed/upload/image/delete',removeImage)
+        .then(function(response) {
+          
+        })
+        .catch(function(error) {
+        })
+
+        const formData = new FormData();
+        imageList.forEach((p) => {
+          console.log(p.src)
+          formData.append('images',p.src);
         });
-        formData.append('content',text);
+        formData.append('content',content);
+        axios.patch('/feed/263',formData)
+        .then(function(response) {
+       
+          history.push('/'); 
+        })
+        .catch(function(error) {
+          console.log("실패");
+        })
         return dispatch({
             type: ADD_POST_REQUEST,
             data: formData,
           });
-        }, [text, imagePaths]);
+  }, [content,imageList,removeImage]);
     const onChangeText = useCallback((e) => {
-        setText(e.target.value);
+        setContent(e.target.value);
     }, []);
 
     const onClickImageUpload = useCallback(() => {
@@ -52,13 +109,20 @@ function PostForm({history}) {
             data: imageFormData,
         });
     });
-    const onRemoveImage = useCallback((index) => () => {
-        dispatch({
-          type: REMOVE_IMAGE,
-          data: index,
-        });
-      });
-    return (
+    const onRemoveImage = useCallback((index,src) => () => {
+      setImageList(imageList.filter((v, i) => (i !== index)));
+      console.log(src)
+      setRemoveImage(removeImage.concat(src));
+      // const formData = new FormData();
+      // formData.append('src',src)
+      // axios.put('/feed/upload/image/delete',formData)
+      // .then(function(response) {
+        
+      // })
+      // .catch(function(error) {
+      // })
+    });
+    return ( 
         <div className="uploadWrap">
             <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit} >
                 <div className="uploadArea" onClick={onClickImageUpload}>
@@ -70,11 +134,11 @@ function PostForm({history}) {
                     </div>
                 </div>
                 <div>
-                {imagePaths.map((v, i) => (
-                <div key={v} style={{ display: 'inline-block' }}>
-                    <img src={`${v}`} style={{ width: '100px' }} alt={v} />
+                {imageList.map((v, i) => (
+                <div key={i} style={{ display: 'inline-block' }}>
+                    <img src={`${v.src}`} style={{ width: '100px' }} alt={v} />
                     <div>
-                    {v!=='' && <Button onClick={onRemoveImage(i)}>제거</Button>}
+                    {v!=='' && <Button onClick={onRemoveImage(i,v.src)}>제거</Button>}
                     </div>
                 </div>
                 ))}
@@ -87,7 +151,7 @@ function PostForm({history}) {
                 name="feed__Text"
                 rows="5"
                 cols="33"
-                value={text} 
+                value={content} 
                 onChange={onChangeText}
                 placeholder="내용을 입력하세요."
               />

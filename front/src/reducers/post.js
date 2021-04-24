@@ -5,6 +5,7 @@ export const initialState = {
   profilePosts: [],
   gallary: [],
   imagePaths: [],
+  imagePath:[],
   postComment: [],
   postDetail: {},
   likeList: [],
@@ -251,6 +252,7 @@ const postReducer = (state = initialState, action) =>
         for (const i in imageone) {
           draft.imagePaths.push(imageone[i]);
         }
+        draft.imagePath=action.data
         draft.uploadImagesLoading = false;
         draft.uploadImagesDone = true;
         break;

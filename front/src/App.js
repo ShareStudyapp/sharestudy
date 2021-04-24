@@ -12,6 +12,7 @@ const Login = lazy(() => import('./pages/Login'));
 const Feed = lazy(() => import('./pages/Feed/Feed'));
 const Noti = lazy(() => import('./pages/Noti'));
 const UpLoad = lazy(() => import('./pages/Feed/FeedUpload'));
+const FeedUpdate = lazy(() => import('./pages/Feed/FeedUpdate'));
 const SignupCom = lazy(() => import('./pages/SignUp/signupCom'));
 const Setting = lazy(() => import('./pages/Setting'));
 const SetProfile = lazy(() => import('./pages/Setting/setProfile'));
@@ -64,6 +65,7 @@ function App() {
             <Route exact path="/profile/:id" component={Profile} />
             <Route exact path="/noti" component={Noti} />
             <Route exact path="/upload" component={UpLoad} />
+            <Route exact path="/feedupdate" component={FeedUpdate} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/setprofile" component={SetProfile} />
             <Route exact path="/complaint" component={Complaint} />
