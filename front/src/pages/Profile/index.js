@@ -5,14 +5,15 @@ import './styles.scss';
 import { Card, Info } from '../../components/Profile';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { LOAD_PROFILE_POSTS_REQUEST } from '../../reducers/post';
+import { LOAD_PROFILE_POSTS_REQUEST, LOAD_PROFILE_POSTS_CLEAR } from '../../reducers/post';
 import { OTHER_USER_INFO_REQUEST } from '../../reducers/user';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+
 const Profile = () => {
   const history = useHistory();
   const page = useRef(1);
   const { id } = useParams();
-  const { userInfo, otherUserInfo } = useSelector((state) => state.userReducer);
+  const { userInfo, userinfoError, otherUserInfo } = useSelector((state) => state.userReducer);
   const { profilePosts, loadProfilePostsLoading, hasMoreProfilePosts } = useSelector(
     (state) => state.postReducer
   );
@@ -31,12 +32,18 @@ const Profile = () => {
         data: id
       });
     }
-
-    dispatch({
-      type: LOAD_PROFILE_POSTS_REQUEST,
-      data: { id: profileId }
-    });
-  }, [id]);
+    if (profileId) {
+      dispatch({
+        type: LOAD_PROFILE_POSTS_REQUEST,
+        data: { id: profileId }
+      });
+    }
+    return () => {
+      dispatch({
+        type: LOAD_PROFILE_POSTS_CLEAR
+      });
+    };
+  }, [id, dispatch, userInfo]);
 
   useEffect(() => {
     const fetchPosts = () => {
@@ -67,11 +74,28 @@ const Profile = () => {
     return () => {
       window.removeEventListener('scroll', fetchPosts);
     };
-  }, [loadProfilePostsLoading, hasMoreProfilePosts, dispatch, id]);
+  }, [loadProfilePostsLoading, hasMoreProfilePosts, dispatch, id, userInfo]);
 
-  const onClickCard = useCallback((id) => {
-    history.push(`/feed/${id}`);
-  });
+  const onClickCard = useCallback(
+    (id) => {
+      history.push(`/feed/${id}`);
+    },
+    [history]
+  );
+
+  //비로그인시 redirect
+  if ((id === 'my' && !window.sessionStorage.getItem('user')) || userinfoError) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/login',
+          state: {
+            from: '/profile/my'
+          }
+        }}
+      />
+    );
+  }
 
   return (
     <>

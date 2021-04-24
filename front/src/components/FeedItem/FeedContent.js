@@ -5,13 +5,17 @@ import FeedComment from './FeedComment';
 import { Avatar } from 'antd';
 import { useHistory } from 'react-router-dom';
 
-const FeedContent = ({ post, userInfo, isDetail = false, resizeHeight, onOpenDetail }) => {
+const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, resizeHeight }) => {
   const history = useHistory();
   const onClickComment = useCallback(() => {
     if (!isDetail) {
       history.push(`/feed/${post.id}`);
     }
   }, [history, post, isDetail]);
+
+  const onClickBtn = useCallback(() => {
+    onClickMore(post.id);
+  }, [post, onClickMore]);
 
   // 추후 상세 더보기 유무에따라 사용예정
   // useEffect(() => {
@@ -30,7 +34,7 @@ const FeedContent = ({ post, userInfo, isDetail = false, resizeHeight, onOpenDet
         </div>
 
         <div className="FeedContent-header_right">
-          <button className="FeedContent-menu">
+          <button className="FeedContent-menu" onClick={onClickBtn}>
             <svg
               width="25"
               height="25"

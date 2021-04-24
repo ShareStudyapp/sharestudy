@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useMemo, useEffect, useRef, useCallback, useState } from 'react';
 import FeedContent from '../../components/FeedItem/FeedContent';
 import FeedCommentItem from '../../components/FeedItem/FeedCommentItem';
 import {
@@ -6,11 +6,13 @@ import {
   LOAD_POSTS_DETAIL_REQUEST,
   LOAD_POSTS_COMMENT_REQUEST,
   ADD_COMMENT_REQUEST,
-  ADD_RECOMMENT_REQUEST
+  ADD_RECOMMENT_REQUEST,
+  REMOVE_POST_REQUEST
 } from '../../reducers/post';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Input } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
+import { ProfileDialog } from '../../components/Profile';
 
 const FeedDetail = () => {
   const history = useHistory();
@@ -19,7 +21,7 @@ const FeedDetail = () => {
   const { userInfo } = useSelector((state) => state.userReducer);
   const [comment, setComment] = useState('');
   const page = useRef(1);
-  const { postDetail, loadPostsCommentLoading, hasMoreComments } = useSelector(
+  const { postDetail, loadPostsCommentLoading, hasMoreComments, removePostDone } = useSelector(
     (state) => state.postReducer
   );
 
@@ -40,6 +42,45 @@ const FeedDetail = () => {
       });
     };
   }, [dispatch, id]);
+
+  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });
+
+  const onClickMore = useCallback(
+    (id) => {
+      document.body.style.overflow = 'hidden';
+      setDialogInfo({ id: id, open: true });
+    },
+    [setDialogInfo]
+  );
+
+  const onCloseDialog = useCallback(() => {
+    document.body.style.overflow = 'unset';
+    setDialogInfo({ id: '', open: false });
+  }, [setDialogInfo]);
+
+  const btnList = useMemo(
+    () => [
+      {
+        name: '피드 수정',
+        onClick() {}
+      },
+      {
+        name: '피드 삭제',
+        onClick() {
+          if (window.confirm('삭제하시겠습니까?')) {
+            dispatch({ type: REMOVE_POST_REQUEST, data: dialogInfo.id });
+          }
+        }
+      }
+    ],
+    [dialogInfo, dispatch]
+  );
+
+  useEffect(() => {
+    if (removePostDone) {
+      history.push('/');
+    }
+  }, [removePostDone, history]);
 
   useEffect(() => {
     const fetchComments = () => {
@@ -124,7 +165,12 @@ const FeedDetail = () => {
           </svg>
         </button>
       </div>
-      <FeedContent post={postDetail} userInfo={userInfo} isDetail={true} />
+      <FeedContent
+        post={postDetail}
+        userInfo={userInfo}
+        isDetail={true}
+        onClickMore={onClickMore}
+      />
       <div style={{ padding: '0 34px', marginBottom: '20px' }}>
         {postDetail?.feedreply?.map((comment) => (
           <FeedCommentItem
@@ -153,6 +199,7 @@ const FeedDetail = () => {
           </div>
         </div>
       </div>
+      {dialogInfo.open && <ProfileDialog onClose={onCloseDialog} btnList={btnList} />}
     </div>
   );
 };

@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import HelloLogin from '../../components/FeedItem/HelloLogin';
 import FeedContent from '../../components/FeedItem/FeedContent';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouteMatch } from 'react-router';
-import { LOAD_POSTS_REQUEST } from '../../reducers/post';
+import { LOAD_POSTS_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/post';
 import { LOAD_TODO_ACHIEVEMENT_REQUEST } from '../../reducers/todo';
 import HelloGoal from '../../components/FeedItem/HelloGoal';
 import useScrollMove from '../../hooks/useScrollMove';
+import { ProfileDialog } from '../../components/Profile';
 import {
   List,
   AutoSizer,
@@ -23,12 +24,53 @@ const cache = new CellMeasurerCache({
 const NewsFeed = ({ history }) => {
   const dispatch = useDispatch();
   const match = useRouteMatch('/');
-  const { mainPosts, loadPostsLoading, hasMorePosts } = useSelector((state) => state.postReducer);
+  const { mainPosts, loadPostsLoading, hasMorePosts, removePostDone } = useSelector(
+    (state) => state.postReducer
+  );
   const { userInfo } = useSelector((state) => state.userReducer);
   const { todoAchievement } = useSelector((state) => state.todoReducer);
   const page = useRef(1);
   const { scrollInfos, scrollRemove } = useScrollMove();
   let listRef;
+
+  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });
+
+  const onClickMore = useCallback(
+    (id) => {
+      document.body.style.overflow = 'hidden';
+      setDialogInfo({ id: id, open: true });
+    },
+    [setDialogInfo]
+  );
+
+  const onCloseDialog = useCallback(() => {
+    document.body.style.overflow = 'unset';
+    setDialogInfo({ id: '', open: false });
+  }, [setDialogInfo]);
+
+  const btnList = useMemo(
+    () => [
+      {
+        name: '피드 수정',
+        onClick() {}
+      },
+      {
+        name: '피드 삭제',
+        onClick() {
+          if (window.confirm('삭제하시겠습니까?')) {
+            dispatch({ type: REMOVE_POST_REQUEST, data: dialogInfo.id });
+          }
+        }
+      }
+    ],
+    [dialogInfo, dispatch]
+  );
+
+  useEffect(() => {
+    if (removePostDone) {
+      onCloseDialog();
+    }
+  }, [removePostDone, onCloseDialog]);
 
   useEffect(() => {
     if (mainPosts.length === 0) {
@@ -95,12 +137,17 @@ const NewsFeed = ({ history }) => {
       return (
         <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
           <div style={style}>
-            <FeedContent post={post} userInfo={userInfo} resizeHeight={resizeHeight(index)} />
+            <FeedContent
+              post={post}
+              userInfo={userInfo}
+              resizeHeight={resizeHeight(index)}
+              onClickMore={onClickMore}
+            />
           </div>
         </CellMeasurer>
       );
     },
-    [mainPosts, userInfo, resizeHeight]
+    [mainPosts, userInfo, resizeHeight, onClickMore]
   );
 
   const onClickCreate = useCallback(() => {
@@ -170,6 +217,7 @@ const NewsFeed = ({ history }) => {
           );
         }}
       </WindowScroller>
+      {dialogInfo.open && <ProfileDialog onClose={onCloseDialog} btnList={btnList} />}
     </>
   );
 };
