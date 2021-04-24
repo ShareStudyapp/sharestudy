@@ -218,7 +218,7 @@ const FeedDetail = () => {
         isDetail={true}
         onClickMore={onClickMore}
       />
-      <div style={{ padding: '0 34px', marginBottom: '20px' }}>
+      <div style={{ padding: '0 34px 73px 34px' }}>
         {postDetail?.feedreply?.map((comment) => (
           <FeedCommentItem
             key={comment.id}

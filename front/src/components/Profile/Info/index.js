@@ -1,12 +1,15 @@
 import React from 'react';
 import './styles.scss';
 
-const Info = ({ user, isOther, feedCnt }) => {
+const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow }) => {
+  if (!user) {
+    return null;
+  }
   return (
     <article className="info">
       <div className="photo">
         <div className="img">
-          <img src={user.profileImage} alt="profile" />
+          <img src={user.profileImage} alt="" />
         </div>
         {/* {!isOther && (
           <button>
@@ -43,7 +46,10 @@ const Info = ({ user, isOther, feedCnt }) => {
         <p>{user.introduce}</p>
       </div>
       {isOther ? (
-        <button>
+        <button
+          className={user.following ? 'following' : ''}
+          onClick={user.following ? onClickUnFollow : onClickFollow}
+        >
           <svg
             width="22"
             height="16"
@@ -56,7 +62,7 @@ const Info = ({ user, isOther, feedCnt }) => {
               fill="white"
             />
           </svg>
-          팔로우
+          {user.following ? '팔로잉' : '팔로우'}
         </button>
       ) : (
         <div></div>

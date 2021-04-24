@@ -11,7 +11,7 @@ export const initialState = {
   signUpError: null,
   me: null, // 로그인 토큰 정보
   userInfo: {}, // 나의 정보
-  updateUserInfoDone:false,//내정보 수정 완료
+  updateUserInfoDone: false, //내정보 수정 완료
   otheruserInfo: [], //다른사람 정보
   followerList: [], //팔로워리스트
   followingList: [], //팔로잉리스트
@@ -77,6 +77,7 @@ export const FOLLOWING_LIST_FAILURE = 'FOLLOWING_LIST_FAILURE';
 export const OTHER_USER_INFO_REQUEST = 'OTHER_USER_INFO_REQUEST';
 export const OTHER_USER_INFO_SUCCESS = 'OTHER_USER_INFO_SUCCESS';
 export const OTHER_USER_INFO_FAILURE = 'OTHER_USER_INFO_FAILURE';
+export const OTHER_USER_INFO_CLEAR = 'OTHER_USER_INFO_CLEAR';
 //내 정보 업데이트
 export const USERINFO_UPDATE_REQUEST = 'USERINFO_UPDATE_REQUEST';
 export const USERINFO_UPDATE_SUCCESS = 'USERINFO_UPDATE_SUCCESS';
@@ -254,10 +255,13 @@ const userReducer = (state = initialState, action) =>
         draft.userinfoLoading = false;
         draft.userinfoError = action.error.response.data;
         break;
+      case OTHER_USER_INFO_CLEAR:
+        draft.otheruserInfo = null;
+        break;
       case USERINFO_UPDATE_REQUEST:
         break;
       case USERINFO_UPDATE_SUCCESS:
-        console.log(action.data)
+        console.log(action.data);
         draft.updateUserInfoDone = true;
         draft.userInfo.nickname = action.data.nickname;
         draft.userInfo.introduce = action.data.introduce;

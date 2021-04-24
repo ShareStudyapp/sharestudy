@@ -6,7 +6,12 @@ import { Card, Info } from '../../components/Profile';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_PROFILE_POSTS_REQUEST, LOAD_PROFILE_POSTS_CLEAR } from '../../reducers/post';
-import { OTHER_USER_INFO_REQUEST } from '../../reducers/user';
+import {
+  OTHER_USER_INFO_REQUEST,
+  FOLLOW_REQUEST,
+  FOLLOW_CANCLE_REQUEST,
+  OTHER_USER_INFO_CLEAR
+} from '../../reducers/user';
 import { Redirect, useHistory } from 'react-router-dom';
 
 const Profile = () => {
@@ -24,7 +29,7 @@ const Profile = () => {
 
   const dispatch = useDispatch();
 
-  const isOther = id !== 'my';
+  const isOther = id !== 'my' && userInfo?.id != id;
 
   useEffect(() => {
     let profileId = id;
@@ -45,6 +50,9 @@ const Profile = () => {
     return () => {
       dispatch({
         type: LOAD_PROFILE_POSTS_CLEAR
+      });
+      dispatch({
+        type: OTHER_USER_INFO_CLEAR
       });
     };
   }, [id, dispatch, userInfo]);
@@ -87,6 +95,32 @@ const Profile = () => {
     [history]
   );
 
+  const onClickFollow = useCallback(() => {
+    if (userInfo.id) {
+      dispatch({
+        type: FOLLOW_REQUEST,
+        data: otheruserInfo.id
+      });
+    } else {
+      if (window.confirm('로그인이 필요합니다. 로그인 하시겠습니까?')) {
+        history.push('/login');
+      }
+    }
+  }, [userInfo, otheruserInfo, history]);
+
+  const onClickUnFollow = useCallback(() => {
+    if (userInfo.id) {
+      dispatch({
+        type: FOLLOW_CANCLE_REQUEST,
+        data: otheruserInfo.id
+      });
+    } else {
+      if (window.confirm('로그인이 필요합니다. 로그인 하시겠습니까?')) {
+        history.push('/login');
+      }
+    }
+  }, [userInfo, otheruserInfo, history]);
+
   //비로그인시 redirect
   if ((id === 'my' && !window.sessionStorage.getItem('user')) || userinfoError) {
     return (
@@ -109,6 +143,8 @@ const Profile = () => {
           user={isOther ? otheruserInfo : userInfo}
           isOther={isOther}
           feedCnt={profilePosts.length}
+          onClickFollow={onClickFollow}
+          onClickUnFollow={onClickUnFollow}
         />
         <article className="feed">
           <div className="feed__content">
