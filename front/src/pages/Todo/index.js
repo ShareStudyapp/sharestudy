@@ -14,6 +14,10 @@ const Todo = () => {
   const { userInfo, userinfoError } = useSelector((state) => state.userReducer);
   const { todo } = useSelector((state) => state.todoReducer);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const fetchTodo = useCallback(() => {
     dispatch({
       type: LOAD_TODO_REQUEST,

@@ -13,10 +13,14 @@ const Profile = () => {
   const history = useHistory();
   const page = useRef(1);
   const { id } = useParams();
-  const { userInfo, userinfoError, otherUserInfo } = useSelector((state) => state.userReducer);
+  const { userInfo, userinfoError, otheruserInfo } = useSelector((state) => state.userReducer);
   const { profilePosts, loadProfilePostsLoading, hasMoreProfilePosts } = useSelector(
     (state) => state.postReducer
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -102,7 +106,7 @@ const Profile = () => {
       <Header />
       <section className="profile-container">
         <Info
-          user={isOther ? otherUserInfo : userInfo}
+          user={isOther ? otheruserInfo : userInfo}
           isOther={isOther}
           feedCnt={profilePosts.length}
         />

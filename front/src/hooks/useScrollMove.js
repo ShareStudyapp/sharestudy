@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const useScrollMove = (dom) => {
   const history = useHistory();
   const [scrollInfos, setScrollInfos] = useState(() => localStorage.getItem('scroll_pos'));
-
+  const match = useRouteMatch('/');
   const scrollSave = useCallback(() => {
     const scrollPos = dom ? dom.scrollTop : window.scrollY;
     setScrollInfos(scrollPos);
@@ -18,11 +18,11 @@ const useScrollMove = (dom) => {
 
   useEffect(() => {
     return history.listen((location) => {
-      if (location.pathname !== '/') {
+      if (match.isExact && location.pathname !== '/') {
         scrollSave();
       }
     });
-  }, [history, scrollSave]);
+  }, [history, scrollSave, match]);
 
   return { scrollInfos, scrollRemove };
 };
