@@ -52,7 +52,10 @@ const NewsFeed = ({ history }) => {
     () => [
       {
         name: '피드 수정',
-        onClick() {}
+        onClick() {
+          history.push(`feedupdate/${dialogInfo.id}`);
+          onCloseDialog();
+        }
       },
       {
         name: '피드 삭제',

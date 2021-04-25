@@ -40,16 +40,21 @@ const FeedDetail = () => {
       type: LOAD_POSTS_DETAIL_REQUEST,
       data: id
     });
-    dispatch({
-      type: LOAD_POSTS_COMMENT_REQUEST,
-      data: { id: id, page: page.current }
-    });
     return () => {
       dispatch({
         type: LOAD_POSTS_DETAIL_CLEAR
       });
     };
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (postDetail.id) {
+      dispatch({
+        type: LOAD_POSTS_COMMENT_REQUEST,
+        data: { id: postDetail.id, page: page.current }
+      });
+    }
+  }, [postDetail.id]);
 
   const [dialogInfo, setDialogInfo] = useState({ open: false, id: '', target: '' });
 
@@ -70,7 +75,10 @@ const FeedDetail = () => {
     () => [
       {
         name: '피드 수정',
-        onClick() {}
+        onClick() {
+          history.push(`/feedupdate/${dialogInfo.id}`);
+          onCloseDialog();
+        }
       },
       {
         name: '피드 삭제',

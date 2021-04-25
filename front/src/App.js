@@ -65,7 +65,7 @@ function App() {
             <Route exact path="/profile/:id" component={Profile} />
             <Route exact path="/noti" component={Noti} />
             <Route exact path="/upload" component={UpLoad} />
-            <Route exact path="/feedupdate" component={FeedUpdate} />
+            <Route exact path="/feedupdate/:id" component={FeedUpdate} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/setprofile" component={SetProfile} />
             <Route exact path="/complaint" component={Complaint} />
