@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { USER_INFO_REQUEST } from './reducers/user';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
-import './style/common.scss';
 
 const Todo = lazy(() => import('./pages/Todo'));
 const Signup = lazy(() => import('./pages/SignUp'));
