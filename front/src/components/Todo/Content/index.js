@@ -11,20 +11,20 @@ const TodoConent = ({ title, onCreate, useBtn = true, children }) => {
         </section>
         <aside>
           {useBtn && (
-            <button onClick={onCreate}>
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 10 10"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.6532 3.818H9.1272V5.492H5.6532V9.002H3.9612V5.492H0.505196V3.818H3.9612V0.272H5.6532V3.818Z"
-                  fill="white"
-                />
-              </svg>
-            </button>
+            <svg
+              onClick={onCreate}
+              width="25"
+              height="25"
+              viewBox="0 0 50 50"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="25" cy="25" r="25" fill="#2656FF" />
+              <path
+                d="M25.9231 24.42H32.8881V26.905H25.9231V34.115H23.4031V26.905H16.4381V24.42H23.4031V17.175H25.9231V24.42Z"
+                fill="white"
+              />
+            </svg>
           )}
 
           {/* <button>

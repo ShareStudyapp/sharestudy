@@ -49,7 +49,9 @@ const Todo = () => {
           <Header />
           <section className="todo-container">
             <article>
-              <strong className="hightligter">{userInfo.nickname}님의 To do</strong>
+              <strong className="hightligter" style={{ marginBottom: '20px' }}>
+                {userInfo.nickname}님의 To do
+              </strong>
               <Day date={date} setDate={setDate} />
             </article>
             <Progress

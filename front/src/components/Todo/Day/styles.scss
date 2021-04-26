@@ -105,10 +105,12 @@
       }
     }
     &.sat > div > span {
-      color: #fa4b00;
+      //color: #fa4b00;
+      color: gray;
     }
     &.sun > div > span {
-      color: #2656ff;
+      //color: #2656ff;
+      color: gray;
     }
   }
 }
