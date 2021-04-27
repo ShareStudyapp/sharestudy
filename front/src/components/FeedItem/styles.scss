@@ -49,7 +49,7 @@
 // ----------------------------
 
 .FeedContent {
-  padding: 0 34px;
+  padding: 0 30px;
   border-bottom: 10px solid #f4f4f4;
   overflow: hidden;
   &__create {
@@ -176,6 +176,13 @@
 
 .feedSlide {
   position: relative;
+  .wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 133%;
+  }
   .sliderBtn {
     position: absolute;
     top: 50%;
@@ -260,11 +267,11 @@
 .FeedCommentView {
   width: 100%;
   margin-top: 10px;
+  display: flex;
   p {
     margin-bottom: auto;
   }
   &-userProfile {
-    width: 7.555%;
     display: inline-block;
     vertical-align: top;
     margin-top: 4px;
@@ -279,12 +286,20 @@
     }
   }
   &__desc {
+    flex: 1;
     display: inline-block;
     padding-left: 13px;
     margin-top: 4px;
     margin-bottom: 24px;
-    width: 92.44%;
-
+    .ant-input-group-wrapper {
+      .ant-input-group-addon {
+        background-color: white;
+        .blue {
+          color: $blue;
+          margin-right: 20px;
+        }
+      }
+    }
     .ant-input-wrapper {
       .ant-input {
         box-shadow: none;
@@ -318,17 +333,7 @@
     &--desc {
       display: inline-block;
       float: left;
-      width: 95%;
-      .ant-input-group-wrapper {
-        width: 95%;
-        .ant-input-group-addon {
-          background-color: white;
-          .blue {
-            color: $blue;
-            margin-right: 20px;
-          }
-        }
-      }
+      width: 90%;
     }
     &--like {
       float: right;
@@ -403,7 +408,16 @@
     top: calc(100% - 73px);
     max-width: 700px;
     margin: 0 auto;
-    padding: 0 34px;
+    padding: 20px 30px;
     border-top: 3px solid #f4f4f4;
+    .FeedCommentView {
+      margin-top: 0;
+      &-userProfile {
+        margin: 0;
+      }
+      &__desc {
+        margin: 0;
+      }
+    }
   }
 }

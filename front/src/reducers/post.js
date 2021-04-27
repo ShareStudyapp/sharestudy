@@ -5,7 +5,7 @@ export const initialState = {
   profilePosts: [],
   gallary: [],
   imagePaths: [],
-  imagePath:[],
+  imagePath: [],
   postComment: [],
   postDetail: {},
   likeList: [],
@@ -252,7 +252,7 @@ const postReducer = (state = initialState, action) =>
         for (const i in imageone) {
           draft.imagePaths.push(imageone[i]);
         }
-        draft.imagePath=action.data
+        draft.imagePath = action.data;
         draft.uploadImagesLoading = false;
         draft.uploadImagesDone = true;
         break;
@@ -382,8 +382,7 @@ const postReducer = (state = initialState, action) =>
         const addComment = draft.mainPosts.find((v) => v.id === action.data.feedId);
         let size = draft.postDetail.feedreply.unshift(action.data);
         draft.postDetail.feedreplysize = size;
-        size = addComment.feedreply.unshift(action.data);
-        addComment.feedreplysize = size;
+        if (addComment) addComment.feedreplysize = size;
 
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
@@ -406,7 +405,10 @@ const postReducer = (state = initialState, action) =>
           (v) => v.id !== action.data.commentId
         );
         draft.postDetail.feedreplysize = draft.postDetail.feedreply.length;
-        feed.feedreplysize = draft.postDetail.feedreply.length;
+        if (feed) {
+          feed.feedreplysize = draft.postDetail.feedreply.length;
+        }
+
         break;
       case REMOVE_COMMENT_FAILURE:
         draft.removeCommentLoading = false;

@@ -10,7 +10,8 @@ import {
   REMOVE_COMMENT_REQUEST,
   REMOVE_COMMENT_CLEAR,
   REMOVE_POST_REQUEST,
-  REMOVE_POST_CLEAR
+  REMOVE_POST_CLEAR,
+  UPDATE_COMMENT_REQUEST
 } from '../../reducers/post';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Input } from 'antd';
@@ -34,6 +35,12 @@ const FeedDetail = () => {
   } = useSelector((state) => state.postReducer);
 
   const [commentId, setCommentId] = useState('');
+  const changeInput = useRef(null);
+  const onUpdateComment = useCallback(() => {
+    dispatch({ type: UPDATE_COMMENT_REQUEST, data: { id: updateCommentId, content: comment } });
+    setUpdateCommentId('');
+    setComment('');
+  }, [comment, comment, dispatch]);
 
   useEffect(() => {
     dispatch({
@@ -56,19 +63,19 @@ const FeedDetail = () => {
     }
   }, [postDetail.id]);
 
-  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '', target: '' });
+  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '', target: '', content: '' });
 
   const onClickMore = useCallback(
-    (id, target) => {
+    (id, target, content) => {
       document.body.style.overflow = 'hidden';
-      setDialogInfo({ id: id, open: true, target: target });
+      setDialogInfo({ id: id, open: true, target: target, content: content });
     },
     [setDialogInfo]
   );
 
   const onCloseDialog = useCallback(() => {
     document.body.style.overflow = 'unset';
-    setDialogInfo({ id: '', open: false, target: '' });
+    setDialogInfo({ id: '', open: false, target: '', content: '' });
   }, [setDialogInfo]);
 
   const feedBtnList = useMemo(
@@ -98,7 +105,11 @@ const FeedDetail = () => {
       {
         name: '댓글 수정',
         onClick() {
+          setComment(dialogInfo.content);
           setUpdateCommentId(dialogInfo.id);
+          if (changeInput.current) {
+            changeInput.current.focus();
+          }
           onCloseDialog();
         }
       },
@@ -112,7 +123,7 @@ const FeedDetail = () => {
         isDelete: true
       }
     ],
-    [dialogInfo, dispatch]
+    [dialogInfo, changeInput, dispatch]
   );
 
   useEffect(() => {
@@ -175,6 +186,7 @@ const FeedDetail = () => {
 
   const onCancelCommentEdit = useCallback(() => {
     setUpdateCommentId('');
+    setComment('');
   }, [setUpdateCommentId]);
 
   const onSubmitComment = useCallback(
@@ -204,8 +216,8 @@ const FeedDetail = () => {
 
   return (
     <div className="FeedDetail">
-      <div style={{ padding: ' 10px 34px 0 34px' }}>
-        <button onClick={() => history.goBack()}>
+      <div style={{ padding: ' 10px 30px 0 30px' }}>
+        <button style={{ padding: 0 }} onClick={() => history.goBack()}>
           <svg
             width="20"
             height="26"
@@ -226,7 +238,7 @@ const FeedDetail = () => {
         isDetail={true}
         onClickMore={onClickMore}
       />
-      <div style={{ padding: '0 34px 73px 34px' }}>
+      <div style={{ padding: '10px 30px 73px 30px' }}>
         {postDetail?.feedreply?.map((comment) => (
           <FeedCommentItem
             key={comment.id}
@@ -234,8 +246,6 @@ const FeedDetail = () => {
             userInfo={userInfo}
             onClickMore={onClickMore}
             setCommentId={setCommentId}
-            isEdit={comment.id === updateCommentId}
-            onCancelCommentEdit={onCancelCommentEdit}
           />
         ))}
       </div>
@@ -246,14 +256,32 @@ const FeedDetail = () => {
           </p>
 
           <div className="FeedCommentView__desc">
-            <Input.Search
-              placeholder="댓글달기"
-              enterButton="게시"
-              size="middle"
-              value={comment}
-              onChange={onChangeComment}
-              onSearch={onSubmitComment}
-            />
+            {updateCommentId !== '' ? (
+              <Input
+                autoFocus
+                ref={changeInput}
+                addonAfter={
+                  <>
+                    <button className="blue" onClick={onUpdateComment}>
+                      수정
+                    </button>
+                    <button onClick={onCancelCommentEdit}>취소</button>
+                  </>
+                }
+                size="middle"
+                value={comment}
+                onChange={onChangeComment}
+              />
+            ) : (
+              <Input.Search
+                placeholder="댓글달기"
+                enterButton="게시"
+                size="middle"
+                value={comment}
+                onChange={onChangeComment}
+                onSearch={onSubmitComment}
+              />
+            )}
           </div>
         </div>
       </div>

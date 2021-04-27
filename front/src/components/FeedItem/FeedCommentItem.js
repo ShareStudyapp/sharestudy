@@ -1,35 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import './styles.scss';
-import { Avatar, Input } from 'antd';
+import { Avatar } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { HeartTwoTone } from '@ant-design/icons';
-import {
-  UNLIKE_COMMENT_REQUEST,
-  LIKE_COMMENT_REQUEST,
-  UPDATE_COMMENT_REQUEST
-} from '../../reducers/post';
+import { UNLIKE_COMMENT_REQUEST, LIKE_COMMENT_REQUEST } from '../../reducers/post';
 import { format } from 'timeago.js';
 
-const FeedCommentItem = ({
-  comment,
-  userInfo,
-  setCommentId,
-  onClickMore,
-  isEdit,
-  onCancelCommentEdit
-}) => {
+const FeedCommentItem = ({ comment, userInfo, setCommentId, onClickMore }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [content, setContent] = useState(comment.content);
-  const onChangeComment = useCallback((e) => {
-    setContent(e.target.value);
-  });
-
-  const onUpdateComment = useCallback(() => {
-    dispatch({ type: UPDATE_COMMENT_REQUEST, data: { id: comment.id, content: content } });
-    onCancelCommentEdit();
-  }, [comment, content, dispatch]);
 
   const toggleLike = useCallback(() => {
     if (userInfo.id) {
@@ -46,14 +26,13 @@ const FeedCommentItem = ({
     }
   }, [comment, userInfo, dispatch, history]);
 
-  const onClickComment = useCallback(() => {
-    setCommentId(comment.id);
-  }, [comment, setCommentId]);
+  // const onClickComment = useCallback(() => {
+  //   setCommentId(comment.id);
+  // }, [comment, setCommentId]);
 
   const onClickBtn = useCallback(() => {
-    onClickMore(comment.id, 'comment');
+    onClickMore(comment.id, 'comment', comment.content);
   }, [comment, onClickMore]);
-
   return (
     <div key={comment.id} className="FeedCommentView">
       <p className="FeedCommentView-userProfile">
@@ -64,25 +43,7 @@ const FeedCommentItem = ({
         <p className="FeedCommentView__userId">{comment.nickname}</p>
 
         <div className="FeedCommentView__Comment">
-          <p className="FeedCommentView__Comment--desc">
-            {isEdit ? (
-              <Input
-                addonAfter={
-                  <>
-                    <button className="blue" onClick={onUpdateComment}>
-                      수정
-                    </button>
-                    <button onClick={onCancelCommentEdit}>취소</button>
-                  </>
-                }
-                size="middle"
-                value={content}
-                onChange={onChangeComment}
-              />
-            ) : (
-              comment.content
-            )}
-          </p>
+          <p className="FeedCommentView__Comment--desc">{comment.content}</p>
           <button className="FeedCommentView__Comment--like" type="button" onClick={toggleLike}>
             {comment.myFeedReplyLike?.length > 0 ? (
               <HeartTwoTone twoToneColor="#eb2f96" />
@@ -97,13 +58,13 @@ const FeedCommentItem = ({
             <p className="FeedCommentView__detail--date" style={{ color: '#999999' }}>
               {format(comment.createdAt, 'my-locale')}
             </p>
-            <button
+            {/* <button
               className="FeedCommentView__detail--comment"
               type="button"
               onClick={onClickComment}
             >
               <p>답글 쓰기</p>
-            </button>
+            </button> */}
             <button className="FeedCommentView__detail--like" type="button">
               <p>
                 좋아요 <span>{comment.likeCnt}개</span>

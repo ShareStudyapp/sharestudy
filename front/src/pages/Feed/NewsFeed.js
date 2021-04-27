@@ -135,6 +135,11 @@ const NewsFeed = ({ history }) => {
     [listRef]
   );
 
+  const onResize = useCallback(() => {
+    cache.clearAll();
+    if (listRef) listRef.recomputeRowHeights();
+  }, [listRef]);
+
   const rowRenderer = useCallback(
     ({ parent, style, index, key }) => {
       const post = mainPosts[index];
@@ -197,7 +202,7 @@ const NewsFeed = ({ history }) => {
       <WindowScroller>
         {({ height, scrollTop, isScrolling, onChildScroll }) => {
           return (
-            <AutoSizer disableHeight>
+            <AutoSizer disableHeight onResize={onResize}>
               {({ width }) => (
                 <List
                   ref={(element) => {

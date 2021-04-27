@@ -6,13 +6,6 @@ import '../../components/FeedItem/styles.scss';
 
 const SimpleSlider = ({ images }) => {
   const slider = useRef();
-  const contentStyle = {
-    height: '500px',
-    color: '#fff',
-    background: '#364d79',
-    dotPosition: '-20px',
-    autoplay: false
-  };
 
   const gotoNext = useCallback(() => {
     slider.current.next();
@@ -26,7 +19,7 @@ const SimpleSlider = ({ images }) => {
     <div className="feedSlide">
       <Carousel ref={slider}>
         {images?.map((v, i) => (
-          <div key={i}>
+          <div className="wrapper" key={i}>
             <img style={contentStyle} src={v.src} alt={v.src} />
           </div>
         ))}
@@ -43,6 +36,18 @@ const SimpleSlider = ({ images }) => {
       )}
     </div>
   );
+};
+
+const contentStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  color: '#fff',
+  background: '#364d79',
+  dotPosition: '-20px',
+  autoplay: false
 };
 
 SimpleSlider.propTypes = {
