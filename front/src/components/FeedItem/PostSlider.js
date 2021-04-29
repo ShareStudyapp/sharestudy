@@ -1,10 +1,10 @@
 import React, { useRef, useCallback } from 'react';
 import { Carousel } from 'antd';
 import PropTypes from 'prop-types';
-import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
+import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import '../../components/FeedItem/styles.scss';
 
-const SimpleSlider = ({ images }) => {
+const SimpleSlider = ({ images, onRemoveImage }) => {
   const slider = useRef();
 
   const gotoNext = useCallback(() => {
@@ -20,17 +20,23 @@ const SimpleSlider = ({ images }) => {
       <Carousel ref={slider}>
         {images?.map((v, i) => (
           <div className="wrapper" key={i}>
-            <img style={contentStyle} src={v.src} alt={v.src} />
+            <img style={contentStyle} src={v} alt={v} />
+            <div style={{ position: 'absolute', right: 0, margin: '0.2em' }}>
+              <CloseOutlined
+                style={{ fontSize: 25, color: '#d3d3d3' }}
+                onClick={onRemoveImage(i)}
+              />
+            </div>
           </div>
         ))}
       </Carousel>
       {images?.length > 1 && (
         <div className="sliderBtn">
-          <button className="pre" onClick={gotoPre}>
-            <LeftCircleFilled style={{ color: '#fff', opacity: '80%' }} />
+          <button className="pre" onClick={gotoPre} type="button">
+            <LeftOutlined style={{ color: '#d3d3d3' }} />
           </button>
-          <button className="next" onClick={gotoNext}>
-            <RightCircleFilled style={{ color: '#fff', opacity: '80%' }} />
+          <button className="next" onClick={gotoNext} type="button">
+            <RightOutlined style={{ color: '#d3d3d3' }} />
           </button>
         </div>
       )}
@@ -45,7 +51,7 @@ const contentStyle = {
   width: '100%',
   height: '100%',
   color: '#fff',
-  background: '#364d79',
+  background: '#d3d3d3',
   dotPosition: '-20px',
   autoplay: false
 };
