@@ -1,7 +1,38 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { SEARCH_USERS_REQUEST } from '../../reducers/user';
+import _ from 'lodash';
 import './styles.scss';
+import { useHistory } from 'react-router';
 
 const Search = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { searchUsers } = useSelector((state) => state.userReducer);
+  const [searchText, setSearchText] = useState('');
+
+  const searchUser = useCallback((text) => {
+    dispatch({
+      type: SEARCH_USERS_REQUEST,
+      data: text
+    });
+  });
+
+  const delayedSearch = useCallback(
+    _.debounce((text) => searchUser(text), 500),
+    []
+  );
+
+  const onChangeSearchText = useCallback((e) => {
+    setSearchText(e.target.value);
+    delayedSearch(e.target.value);
+  }, []);
+
+  const onClickUser = useCallback((userId) => () => {
+    history.push(`/profile/${userId}`);
+    onClose();
+  });
+
   return (
     <div className="search">
       <header>
@@ -18,7 +49,7 @@ const Search = ({ onClose }) => {
               fill="black"
             />
           </svg>
-          <input />
+          <input type="text" value={searchText} onChange={onChangeSearchText} />
           <button>취소</button>
         </div>
         <button className="close" onClick={onClose}>
@@ -36,14 +67,14 @@ const Search = ({ onClose }) => {
           </svg>
         </button>
       </header>
-      <ul className="tag">
+      {/* <ul className="tag">
         <li className="tag-item">#고3공부</li>
         <li className="tag-item">#스터디공유</li>
         <li className="tag-item">#공부</li>
         <li className="tag-item">#재수생공부관리</li>
         <li className="tag-item">#다꾸스티커</li>
-      </ul>
-      <ul className="recent">
+      </ul> */}
+      {/* <ul className="recent">
         <li className="recent-title">최근검색</li>
         <li className="recent-item">
           <div>
@@ -67,6 +98,35 @@ const Search = ({ onClose }) => {
               />
             </svg>
           </button>
+        </li>
+      </ul> */}
+      <ul className="recent">
+        <li className="recent-title">사용자</li>
+        <li className="recent-item">
+          <ul>
+            {searchUsers.map((user) => (
+              <li key={user.id} onClick={onClickUser(user.id)}>
+                <div>
+                  <img src={user?.userProfileImage?.src} alt="" />
+                </div>
+                <p>{user?.nickname}</p>
+                {/* <button>
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+                  fill="#999999"
+                />
+              </svg>
+            </button> */}
+              </li>
+            ))}
+          </ul>
         </li>
       </ul>
     </div>

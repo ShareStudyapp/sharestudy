@@ -214,7 +214,7 @@
 // Feed Upload
 
 .uploadWrap {
-  padding: 0 4.428571428571429em;
+  padding: 30px;
   font-size: 14px;
 
   .ant-upload.ant-upload-select-picture-card {
@@ -395,7 +395,7 @@
 }
 
 .scroll {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100vh;
   max-width: 700px;
   margin: 0 auto;

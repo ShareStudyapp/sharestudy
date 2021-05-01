@@ -53,7 +53,7 @@ const NewsFeed = ({ history }) => {
       {
         name: '피드 수정',
         onClick() {
-          history.push(`feedupdate/${dialogInfo.id}`);
+          history.push(`feed/edit/${dialogInfo.id}`);
           onCloseDialog();
         }
       },
@@ -136,7 +136,6 @@ const NewsFeed = ({ history }) => {
   );
 
   const onResize = useCallback(() => {
-    cache.clearAll();
     if (listRef) listRef.recomputeRowHeights();
   }, [listRef]);
 
@@ -161,7 +160,7 @@ const NewsFeed = ({ history }) => {
 
   const onClickCreate = useCallback(() => {
     if (userInfo.id) {
-      history.push('/upload');
+      history.push('/feed/edit');
     } else {
       if (window.confirm('로그인이 필요합니다. 로그인 하시겠습니까?')) {
         history.push('/login');

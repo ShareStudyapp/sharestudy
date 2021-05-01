@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import Cropper from 'react-easy-crop';
 import PostSlider from './PostSlider';
-import { Form, Input, Button } from 'antd';
-import WriteButton from '../../components/Button';
+import { Form } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   UPLOAD_IMAGES_REQUEST,
   REMOVE_IMAGE,
   ADD_POST_REQUEST,
   INIT_ADD_POST
 } from '../../reducers/post';
-import getCroppedImg from '../../utils/cropImage';
+import { getNormalizedFile } from '../../utils/cropImage';
+import CropImage from './CropImage';
 
 function PostForm({ history }) {
   const dispatch = useDispatch();
@@ -51,12 +49,34 @@ function PostForm({ history }) {
     imageInput.current.click();
   }, [imageInput.current]);
 
-  const onChangeImages = useCallback((e) => {
-    if (e.target.files[0]) {
-      setShowCrop(true);
-      setCropImage({ url: URL.createObjectURL(e.target.files[0]), name: e.target.files[0].name });
-    }
-  });
+  const readFile = useCallback((file) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        getNormalizedFile(file)
+          .then((normalizedFile) => reader.readAsDataURL(normalizedFile))
+          .catch((error) => reject(error));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }, []);
+
+  const onChangeImages = useCallback(
+    async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const filename = e.target.files[0].name;
+        const imageDataUrl = await readFile(file);
+        setCropImage({ url: imageDataUrl, name: filename });
+        setShowCrop(true);
+        document.body.style.overflow = 'hidden';
+      }
+    },
+    [readFile]
+  );
+
   const onRemoveImage = useCallback((index) => () => {
     dispatch({
       type: REMOVE_IMAGE,
@@ -72,6 +92,12 @@ function PostForm({ history }) {
       data: imageFormData
     });
   }, []);
+
+  const onClose = useCallback(() => {
+    setShowCrop(false);
+    document.body.style.overflow = 'unset';
+  });
+
   return (
     <div className="uploadWrap">
       <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
@@ -102,7 +128,7 @@ function PostForm({ history }) {
             onChange={onChangeImages}
           />
         </div>
-        {showCrop && <CropImage image={cropImage} onCrop={onCrop} setShowCrop={setShowCrop} />}
+        {showCrop && <CropImage image={cropImage} onCrop={onCrop} onClose={onClose} />}
         {imagePaths.length > 0 ? (
           <PostSlider images={imagePaths} onRemoveImage={onRemoveImage} />
         ) : (
@@ -111,20 +137,7 @@ function PostForm({ history }) {
           </div>
         )}
 
-        {/* {imagePaths.map((v, i) => (
-          <div key={v} style={{ display: 'inline-block' }}>
-            <img src={`${v}`} style={{ width: '100px' }} alt={v} />
-            <div>{v !== '' && <Button onClick={onRemoveImage(i)}>제거</Button>}</div>
-          </div>
-        ))} */}
-        {/* <div
-          className="uploadArea"
-          onClick={onClickImageUpload}
-          style={{ marginTop: '10px' }}
-        ></div> */}
         <div>
-          {/* <Input.TextArea style={{height:500 }} value={text} onChange={onChangeText} maxLength={500} placeholder="오늘 스터디한 내용을 올려주세요~" /> */}
-
           <hr />
           <h1 className="FeedContent__title feedtxt">Feed Text</h1>
           <textarea
@@ -136,15 +149,9 @@ function PostForm({ history }) {
             onChange={onChangeText}
             placeholder="내용을 입력하세요."
           />
-          {/* <WriteButton preBtnNm="삭제하기" nextBtnNm="저장하기" /> */}
-          {/* <Button type="primary" style={{ float: 'right' }} htmlType="submit">완료</Button> */}
           <div className="PreNextBtn">
-            {/* <button name="pre" type="button" className="left" onClick={preBtnClick} >
-                    {preBtnNm}
-                  </button> */}
-
             <button name="next" type="submit" className="right">
-              {'완료'}
+              완료
             </button>
           </div>
         </div>
@@ -152,62 +159,5 @@ function PostForm({ history }) {
     </div>
   );
 }
-
-const CropImage = ({ image, onCrop, setShowCrop }) => {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
-
-  const onClickCrop = useCallback(async () => {
-    const croppedImage = await getCroppedImg(image.name, image.url, croppedAreaPixels, 0);
-    console.log(croppedImage);
-    onCrop(croppedImage);
-    setShowCrop(false);
-  }, [croppedAreaPixels]);
-
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 99999,
-        backgroundColor: '#d3d3d3'
-      }}
-    >
-      <Cropper
-        image={image.url}
-        crop={crop}
-        zoom={zoom}
-        aspect={3 / 4}
-        onCropChange={setCrop}
-        onCropComplete={onCropComplete}
-        onZoomChange={setZoom}
-      />
-      <button
-        onClick={onClickCrop}
-        type="button"
-        style={{
-          backgroundColor: 'blue',
-          color: 'white',
-          position: 'absolute',
-          right: '20px',
-          top: '2%',
-          textAlign: 'center',
-          padding: '1% 5%',
-          borderRadius: '30px'
-        }}
-      >
-        확인
-      </button>
-    </div>
-  );
-};
 
 export default PostForm;

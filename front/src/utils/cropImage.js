@@ -1,3 +1,4 @@
+import Compressor from 'compressorjs';
 const createImage = (url) =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -64,12 +65,28 @@ export default async function getCroppedImg(fileName, imageSrc, pixelCrop, rotat
     return new File([u8arr], fileName, { type: mime });
   };
 
-  return dataURLtoFile(canvas.toDataURL('image/jpeg'), fileName);
+  //return dataURLtoFile(canvas.toDataURL('image/jpeg'), fileName);
 
   // As a blob
-  //   return new Promise((resolve) => {
-  //     canvas.toBlob((file) => {
-  //       resolve(URL.createObjectURL(file));
-  //     }, 'image/jpeg');
-  //   });
+  return new Promise((resolve) => {
+    canvas.toBlob((file) => {
+      //resolve(URL.createObjectURL(file))
+      resolve(file);
+    }, 'image/jpeg');
+  });
 }
+
+export const getNormalizedFile = (file) => {
+  return new Promise((resolve, reject) => {
+    new Compressor(file, {
+      maxWidth: 1000,
+      maxHeight: 1000,
+      success(normalizedFile) {
+        resolve(normalizedFile);
+      },
+      error(error) {
+        reject(error);
+      }
+    });
+  });
+};

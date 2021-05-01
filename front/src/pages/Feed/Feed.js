@@ -83,7 +83,7 @@ const FeedDetail = () => {
       {
         name: '피드 수정',
         onClick() {
-          history.push(`/feedupdate/${dialogInfo.id}`);
+          history.push(`/feed/edit/${dialogInfo.id}`);
           onCloseDialog();
         }
       },

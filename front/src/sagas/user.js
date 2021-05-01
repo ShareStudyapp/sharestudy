@@ -33,7 +33,10 @@ import {
   OTHER_USER_INFO_FAILURE,
   USERINFO_UPDATE_REQUEST,
   USERINFO_UPDATE_SUCCESS,
-  USERINFO_UPDATE_FAILURE
+  USERINFO_UPDATE_FAILURE,
+  SEARCH_USERS_REQUEST,
+  SEARCH_USERS_SUCCESS,
+  SEARCH_USERS_FAILURE
 } from '../reducers/user';
 
 function signUpAPI(signUpData) {
@@ -244,6 +247,25 @@ function* userInfoUpdate(action) {
     });
   }
 }
+
+function searchUsersAPI(nickname) {
+  return axios.get(`/user/userSearch/${nickname}`);
+}
+function* searchUsers(action) {
+  try {
+    const result = yield call(searchUsersAPI, action.data);
+    yield put({
+      type: SEARCH_USERS_SUCCESS,
+      data: result.data
+    });
+  } catch (err) {
+    yield put({
+      type: SEARCH_USERS_FAILURE,
+      error: err.response.data
+    });
+  }
+}
+
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -277,6 +299,10 @@ function* watchOtherUserInfo() {
 function* watchUserInfoUpdate() {
   yield takeLatest(USERINFO_UPDATE_REQUEST, userInfoUpdate);
 }
+
+function* watchSearchUsers() {
+  yield takeLatest(SEARCH_USERS_REQUEST, searchUsers);
+}
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -289,6 +315,7 @@ export default function* userSaga() {
     fork(watchFollowerList),
     fork(watchFollowingList),
     fork(watchOtherUserInfo),
-    fork(watchUserInfoUpdate)
+    fork(watchUserInfoUpdate),
+    fork(watchSearchUsers)
   ]);
 }

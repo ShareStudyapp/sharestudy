@@ -34,7 +34,11 @@ export const initialState = {
   followingInError: '', //팔로잉리스트에러
   uploadProfileImagesLoading: false,
   uploadProfileImagesDone: false,
-  uploadProfileImagesError: null
+  uploadProfileImagesError: null,
+  searchUsers: [],
+  searchUsersLoading: false,
+  searchUsersDone: false,
+  searchUsersError: false
 };
 export const USER_RESET = 'USER_RESET';
 
@@ -82,6 +86,10 @@ export const OTHER_USER_INFO_CLEAR = 'OTHER_USER_INFO_CLEAR';
 export const USERINFO_UPDATE_REQUEST = 'USERINFO_UPDATE_REQUEST';
 export const USERINFO_UPDATE_SUCCESS = 'USERINFO_UPDATE_SUCCESS';
 export const USERINFO_UPDATE_FAILURE = 'USERINFO_UPDATE_FAILURE';
+//사용자 검색 리스트
+export const SEARCH_USERS_REQUEST = 'SEARCH_USERS_REQUEST';
+export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS';
+export const SEARCH_USERS_FAILURE = 'SEARCH_USERS_FAILURE';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -270,6 +278,21 @@ const userReducer = (state = initialState, action) =>
         break;
       case USERINFO_UPDATE_FAILURE:
         break;
+      case SEARCH_USERS_REQUEST:
+        draft.searchUsers = [];
+        draft.searchUsersLoading = true;
+        draft.searchUsersDone = false;
+        draft.searchUsersError = false;
+        break;
+      case SEARCH_USERS_SUCCESS:
+        draft.searchUsers = action.data;
+        draft.searchUsersLoading = false;
+        draft.searchUsersDone = true;
+        break;
+      case SEARCH_USERS_FAILURE:
+        draft.searchUsers = [];
+        draft.searchUsersLoading = false;
+        draft.searchUsersError = true;
       default:
         break;
     }
