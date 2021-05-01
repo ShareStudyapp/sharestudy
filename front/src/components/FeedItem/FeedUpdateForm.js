@@ -7,29 +7,30 @@ import {
   UPLOAD_IMAGES_REQUEST,
   REMOVE_IMAGE,
   ADD_POST_REQUEST,
-  INIT_ADD_POST
+  UPDATE_POST_CLEAR,
+  UPDATE_POST_REQUEST
 } from '../../reducers/post';
 import axios from 'axios';
 
 function PostForm({ history, postId }) {
   const dispatch = useDispatch();
   const [text, setText] = useState('');
-  const { imagePath, imagePaths, uploadImagesDone } = useSelector((state) => state.postReducer);
-  const { addPostDone } = useSelector((state) => state.postReducer);
+  const { imagePath, uploadImagesDone } = useSelector((state) => state.postReducer);
+  const { updatePostDone } = useSelector((state) => state.postReducer);
   const [imageList, setImageList] = useState([]);
   const [content, setContent] = useState('');
   const [removeImage, setRemoveImage] = useState([]);
 
   const imageInput = useRef();
   useEffect(() => {
-    if (addPostDone) {
+    if (updatePostDone) {
       setText('');
       dispatch({
-        type: INIT_ADD_POST
+        type: UPDATE_POST_CLEAR
       });
       history.push('/');
     }
-  }, [addPostDone]);
+  }, [updatePostDone]);
 
   useEffect(() => {
     const url = `/feedDetail/${postId}`;
@@ -55,8 +56,8 @@ function PostForm({ history, postId }) {
     const obj = {};
     if (uploadImagesDone) {
       //        setImageList(imageList.concat({src:imagePaths.join()}))
-      console.log(imagePaths);
-      setImageList([...imageList, { src: imagePaths.join() }]);
+     
+      setImageList([...imageList, { src: imagePath.join() }]);
     }
   }, [uploadImagesDone]);
   const onSubmit = useCallback(() => {
@@ -65,28 +66,31 @@ function PostForm({ history, postId }) {
     removeImage.map((item) => {
       removeFormData.append('src', item);
     });
-
-    axios
-      .put('/feed/upload/image/delete', removeImage)
+    if(removeImage.length!==0){
+      axios
+      .put('/feed/upload/image/delete', removeFormData)
       .then(function (response) {})
       .catch(function (error) {});
+
+    }
 
     const formData = new FormData();
     imageList.forEach((p) => {
       console.log(p.src);
       formData.append('images', p.src);
     });
+    formData.append('id', postId);
     formData.append('content', content);
-    axios
-      .patch(`/feed/${postId}`, formData)
-      .then(function (response) {
-        history.push('/');
-      })
-      .catch(function (error) {
-        console.log('실패');
-      });
+    // axios
+    //   .patch(`/feed/${postId}`, formData)
+    //   .then(function (response) {
+    //     history.push('/');
+    //   })
+    //   .catch(function (error) {
+    //     console.log('실패');
+    //   });
     return dispatch({
-      type: ADD_POST_REQUEST,
+      type: UPDATE_POST_REQUEST,
       data: formData
     });
   }, [content, imageList, removeImage]);

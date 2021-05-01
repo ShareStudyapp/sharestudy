@@ -61,7 +61,6 @@ function loadPostsAPI(data) {
   return axios.get(`/feed?page=${data?.page ? data.page : 1}`);
 }
 function uploadImagesAPI(data) {
-  console.log('data', data);
   return axios.post('/feed/upload', data);
 }
 function* loadPosts(action) {
@@ -189,7 +188,13 @@ function* removePost(action) {
   }
 }
 function updatePostAPI(data) {
-  return axios.patch(`/feed/${data.id}`, data);
+  let id =""
+  for (var pair of data.entries()) {
+     if(pair[0]==='id'){
+      id=pair[1]
+     }
+  }
+  return axios.patch(`/feed/${id}`, data);
 }
 function* updatePost(action) {
   try {
