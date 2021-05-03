@@ -51,7 +51,14 @@ const FeedComment = ({ post, userInfo, onClickComment }) => {
         </div>
       </section>
       <section className="FeedComment__center">
-        <p className="FeedComment__comment">{post.content}</p>
+        <p className="FeedComment__comment">
+          {post?.content?.split('\n').map((text, i) => (
+            <span key={i}>
+              {text}
+              <br />
+            </span>
+          ))}
+        </p>
       </section>
       <section className="FeedComment__footer">
         <button onClick={onClickComment}>댓글 {post?.feedreplysize}개</button>

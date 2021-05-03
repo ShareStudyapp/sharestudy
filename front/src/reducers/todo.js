@@ -89,6 +89,8 @@ const todoReducer = (state = initialState, action) =>
         draft.todo.todoList
           ? draft.todo.todoList.push(action.data)
           : (draft.todo.todoList = [action.data]);
+        draft.todoAchievement.allRatioCnt = action.data.resultAll;
+        draft.todoAchievement.completeRatioCnt = action.data.completeresult;
         break;
       case ADD_TODO_FAILURE:
         draft.addTodoLoading = false;

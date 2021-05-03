@@ -266,6 +266,7 @@ const postReducer = (state = initialState, action) =>
         break;
       case INIT_ADD_POST:
         draft.addPostDone = false;
+        draft.imagePaths = [];
         break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;

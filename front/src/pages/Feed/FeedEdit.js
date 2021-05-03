@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 
 const FeedEdit = ({ history }) => {
   const { id } = useParams();
-  console.log(id);
   return (
     <>
       <Header />

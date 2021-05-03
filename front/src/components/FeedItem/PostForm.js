@@ -20,6 +20,13 @@ function PostForm({ history }) {
   const [cropImage, setCropImage] = useState({});
 
   const imageInput = useRef();
+
+  useEffect(() => {
+    dispatch({
+      type: INIT_ADD_POST
+    });
+  }, []);
+
   useEffect(() => {
     if (addPostDone) {
       setText('');

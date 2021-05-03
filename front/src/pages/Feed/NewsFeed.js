@@ -53,8 +53,8 @@ const NewsFeed = ({ history }) => {
       {
         name: '피드 수정',
         onClick() {
-          history.push(`feed/edit/${dialogInfo.id}`);
           onCloseDialog();
+          history.push(`feed/edit/${dialogInfo.id}`);
         }
       },
       {
@@ -81,6 +81,11 @@ const NewsFeed = ({ history }) => {
       page.current = 1;
     }
   }, [mainPosts]);
+
+  const onResize = useCallback(() => {
+    cache.clearAll();
+    if (listRef) listRef.recomputeRowHeights();
+  }, [listRef]);
 
   useEffect(() => {
     if (scrollInfos && match.isExact) {
@@ -134,10 +139,6 @@ const NewsFeed = ({ history }) => {
     },
     [listRef]
   );
-
-  const onResize = useCallback(() => {
-    if (listRef) listRef.recomputeRowHeights();
-  }, [listRef]);
 
   const rowRenderer = useCallback(
     ({ parent, style, index, key }) => {
