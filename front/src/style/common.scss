@@ -196,7 +196,8 @@ input:-internal-autofill-selected {
 /************** Common Style **************/
 
 /* 공통 스타일 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
 .main_container {
   max-width: 700px;
