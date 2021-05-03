@@ -8,6 +8,7 @@ import { LOAD_TODO_ACHIEVEMENT_REQUEST } from '../../reducers/todo';
 import HelloGoal from '../../components/FeedItem/HelloGoal';
 import useScrollMove from '../../hooks/useScrollMove';
 import { ProfileDialog } from '../../components/Profile';
+import ResizeObserver from 'rc-resize-observer';
 import {
   List,
   AutoSizer,
@@ -24,9 +25,15 @@ const cache = new CellMeasurerCache({
 const NewsFeed = ({ history }) => {
   const dispatch = useDispatch();
   const match = useRouteMatch('/');
-  const { mainPosts, loadPostsLoading, hasMorePosts, removePostDone } = useSelector(
-    (state) => state.postReducer
-  );
+  const scrollRef = useRef(0);
+  const {
+    mainPosts,
+    loadPostsLoading,
+    hasMorePosts,
+    removePostDone,
+    updatePostDone,
+    addPostDone
+  } = useSelector((state) => state.postReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
   const { todoAchievement } = useSelector((state) => state.todoReducer);
   const page = useRef(1);
@@ -34,6 +41,11 @@ const NewsFeed = ({ history }) => {
   let listRef;
 
   const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });
+
+  const onResize = useCallback(() => {
+    cache.clearAll();
+    if (listRef) listRef.recomputeRowHeights();
+  }, [listRef]);
 
   const onClickMore = useCallback(
     (id) => {
@@ -82,11 +94,6 @@ const NewsFeed = ({ history }) => {
     }
   }, [mainPosts]);
 
-  const onResize = useCallback(() => {
-    cache.clearAll();
-    if (listRef) listRef.recomputeRowHeights();
-  }, [listRef]);
-
   useEffect(() => {
     if (scrollInfos && match.isExact) {
       window.scrollTo(0, scrollInfos);
@@ -132,31 +139,26 @@ const NewsFeed = ({ history }) => {
     };
   }, [loadPostsLoading, hasMorePosts, match, dispatch]);
 
-  const resizeHeight = useCallback(
-    (index) => () => {
-      cache.clear(index);
-      if (listRef) listRef.recomputeRowHeights(index);
-    },
-    [listRef]
-  );
-
   const rowRenderer = useCallback(
     ({ parent, style, index, key }) => {
       const post = mainPosts[index];
       return (
         <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
-          <div style={style}>
-            <FeedContent
-              post={post}
-              userInfo={userInfo}
-              resizeHeight={resizeHeight(index)}
-              onClickMore={onClickMore}
-            />
-          </div>
+          {({ measure }) => (
+            <div key={key} style={style}>
+              <ResizeObserver
+                onResize={() => {
+                  if (match.isExact) measure();
+                }}
+              >
+                <FeedContent post={post} userInfo={userInfo} onClickMore={onClickMore} />
+              </ResizeObserver>
+            </div>
+          )}
         </CellMeasurer>
       );
     },
-    [mainPosts, userInfo, resizeHeight, onClickMore]
+    [mainPosts, userInfo, onClickMore, onResize, match]
   );
 
   const onClickCreate = useCallback(() => {
@@ -199,10 +201,17 @@ const NewsFeed = ({ history }) => {
       ) : (
         <HelloLogin history={history} />
       )}
+
       <WindowScroller>
         {({ height, scrollTop, isScrolling, onChildScroll }) => {
+          let top = scrollTop;
+          if (!match.isExact) {
+            top = scrollRef.current;
+          } else {
+            scrollRef.current = scrollTop;
+          }
           return (
-            <AutoSizer disableHeight onResize={onResize}>
+            <AutoSizer disableHeight>
               {({ width }) => (
                 <List
                   ref={(element) => {
@@ -210,7 +219,7 @@ const NewsFeed = ({ history }) => {
                   }}
                   isScrolling={isScrolling}
                   onScroll={onChildScroll}
-                  scrollTop={scrollTop}
+                  scrollTop={top}
                   autoHeight
                   width={width}
                   height={height}
