@@ -12,6 +12,24 @@
     padding: 0 9px;
     text-align: left;
   }
+  .termsContent {
+    padding: 20px;
+    top: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    overflow: auto;
+    background-color: white;
+    bottom: 0;
+    max-width: 700px;
+    margin: 0 auto;
+    .header {
+      margin: 20px 0 20px 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
   .content {
     //padding: 0 46px;
     margin: 63px auto 0 auto;
@@ -138,6 +156,20 @@
         border-radius: 4px;
         border: none !important;
         &.active {
+          background-color: $blue;
+        }
+      }
+
+      .terms-group {
+        .ant-checkbox-wrapper {
+          display: inline-block;
+        }
+        .ant-btn {
+          font-size: 12px;
+          margin: 0;
+          height: auto;
+          width: auto;
+          display: inline-block;
           background-color: $blue;
         }
       }

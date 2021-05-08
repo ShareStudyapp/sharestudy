@@ -68,8 +68,8 @@ function logInAPI(data) {
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
-    window.sessionStorage.setItem('user', result.data.jwt);
-    window.sessionStorage.setItem('login_valid', 'temp');
+    window.localStorage.setItem('user', result.data.jwt);
+    window.localStorage.setItem('login_valid', 'temp');
     const result2 = yield call(userInfoAPI);
 
     yield put({
@@ -91,10 +91,10 @@ function logOutAPI(token) {
 function* logOut(action) {
   try {
     yield call(logOutAPI, action.data);
-    window.sessionStorage.removeItem('login_valid');
-    window.sessionStorage.removeItem('user');
-    // window.sessionStorage.removeItem('userInfo');
-    // window.sessionStorage.setItem('userInfo',[]);
+    window.localStorage.removeItem('login_valid');
+    window.localStorage.removeItem('user');
+    // window.localStorage.removeItem('userInfo');
+    // window.localStorage.setItem('userInfo',[]);
     yield put({
       type: LOG_OUT_SUCCESS
     });
@@ -117,8 +117,8 @@ function* userInfo() {
       data: result.data
     });
   } catch (err) {
-    window.sessionStorage.removeItem('login_valid');
-    window.sessionStorage.removeItem('user');
+    window.localStorage.removeItem('login_valid');
+    window.localStorage.removeItem('user');
     console.error(err);
     yield put({
       type: USER_INFO_FAILURE,

@@ -1,6 +1,7 @@
 @import '../../style/color.scss';
 
 .todo-container {
+  position: relative;
   margin: 0 20px;
   > article {
     display: flex;

@@ -127,8 +127,10 @@ const TodoDialog = ({ todo, date, onClose }) => {
         <section className="Dialog__wrap_top">
           <h3>{date.format('YY.MM.DD')}</h3>
           <TimePicker.RangePicker
+            getPopupContainer={(trigger) => trigger.parentNode}
             bordered={false}
             allowClear={false}
+            minuteStep={5}
             format="HH:mm"
             size="small"
             suffixIcon={null}

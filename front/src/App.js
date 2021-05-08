@@ -39,10 +39,9 @@ const Loading = () => (
 
 function App() {
   const dispatch = useDispatch();
-  const user = window.sessionStorage.getItem('user'); //로그인여부
+  const user = window.localStorage.getItem('user'); //로그인여부
   const userPersist = () => {
     if (user) {
-      console.log('호출');
       dispatch({
         type: USER_INFO_REQUEST
       });
@@ -51,7 +50,7 @@ function App() {
   userPersist();
 
   return (
-    <div className="main_container">
+    <div id="main_container" className="main_container">
       <Router>
         <Suspense fallback={<Loading />}>
           <CacheSwitch>

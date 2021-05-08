@@ -30,7 +30,7 @@ const Todo = () => {
   }, [date, dispatch, fetchTodo]);
 
   //비로그인시 redirect
-  if (!window.sessionStorage.getItem('user') || userinfoError) {
+  if (!window.localStorage.getItem('user') || userinfoError) {
     return (
       <Redirect
         to={{
@@ -47,7 +47,7 @@ const Todo = () => {
       {userInfo && (
         <>
           <Header />
-          <section className="todo-container">
+          <section id="todo-container" className="todo-container">
             <article>
               <strong className="hightligter" style={{ marginBottom: '20px' }}>
                 {userInfo.nickname}님의 To do

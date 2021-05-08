@@ -293,6 +293,7 @@ const userReducer = (state = initialState, action) =>
         draft.searchUsers = [];
         draft.searchUsersLoading = false;
         draft.searchUsersError = true;
+        break;
       default:
         break;
     }

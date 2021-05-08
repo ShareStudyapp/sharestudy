@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { loginRequestAction } from '../../reducers/user';
@@ -6,12 +6,15 @@ import { LOAD_POSTS_CLEAR } from '../../reducers/post';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import './LoginForm.scss';
+import FindIdDialog from './FindIdDialog';
 
 const Login = ({ history, location }) => {
   const dispatch = useDispatch();
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.userReducer);
   const [userid, onChangeUserid] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const [showIdDialog, setShowIdDialog] = useState(false);
+  //const [showPwdDialog, setShowPwdDialog] = useState(false);
 
   useEffect(() => {
     if (logInError) {
@@ -32,6 +35,14 @@ const Login = ({ history, location }) => {
   const onSubmitForm = useCallback(() => {
     dispatch(loginRequestAction({ userid, password }));
   }, [userid, password, dispatch]);
+
+  const openIdDialog = useCallback(() => {
+    setShowIdDialog(true);
+  }, []);
+
+  const closeIdDialog = useCallback(() => {
+    setShowIdDialog(false);
+  }, []);
 
   return (
     <div className="login">
@@ -65,18 +76,15 @@ const Login = ({ history, location }) => {
           </Button>
 
           <ul className="login__link">
-            <li>
-              <a href="#this">아이디 찾기</a>
-            </li>
-            <li className="login__link-center">
-              <a href="#this">비밀번호 찾기</a>
-            </li>
+            <li onClick={openIdDialog}>아이디 찾기</li>
+            <li className="login__link-center">비밀번호 찾기</li>
             <li>
               <Link to="/SignUp">회원가입</Link>
             </li>
           </ul>
         </div>
       </Form>
+      {showIdDialog && <FindIdDialog onClose={closeIdDialog} />}
     </div>
   );
 };

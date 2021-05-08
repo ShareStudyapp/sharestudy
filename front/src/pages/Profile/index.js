@@ -122,7 +122,7 @@ const Profile = () => {
   }, [userInfo, otheruserInfo, history]);
 
   //비로그인시 redirect
-  if ((id === 'my' && !window.sessionStorage.getItem('user')) || userinfoError) {
+  if ((id === 'my' && !window.localStorage.getItem('user')) || userinfoError) {
     return (
       <Redirect
         to={{

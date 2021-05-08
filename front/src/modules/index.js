@@ -20,7 +20,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(function (config) {
   showLoading();
-  const token = window.sessionStorage.getItem('user');
+  const token = window.localStorage.getItem('user');
   if (token) {
     config.headers.Authorization = 'Bearer ' + token;
   }

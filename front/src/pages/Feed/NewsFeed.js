@@ -26,14 +26,9 @@ const NewsFeed = ({ history }) => {
   const dispatch = useDispatch();
   const match = useRouteMatch('/');
   const scrollRef = useRef(0);
-  const {
-    mainPosts,
-    loadPostsLoading,
-    hasMorePosts,
-    removePostDone,
-    updatePostDone,
-    addPostDone
-  } = useSelector((state) => state.postReducer);
+  const { mainPosts, loadPostsLoading, hasMorePosts, removePostDone } = useSelector(
+    (state) => state.postReducer
+  );
   const { userInfo } = useSelector((state) => state.userReducer);
   const { todoAchievement } = useSelector((state) => state.todoReducer);
   const page = useRef(1);

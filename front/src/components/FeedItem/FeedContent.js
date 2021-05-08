@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './styles.scss';
 import FeedSlider from '../FeedItem/FeedSlider';
 import FeedComment from './FeedComment';
 import { Avatar } from 'antd';
 import { useHistory } from 'react-router-dom';
 
-const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, resizeHeight }) => {
+const FeedContent = ({ post, userInfo, isDetail = false, onClickMore }) => {
   const history = useHistory();
   const onClickComment = useCallback(() => {
     if (!isDetail) {
@@ -21,11 +21,11 @@ const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, resizeHeig
     history.push(`/profile/${post.userKey}`);
   });
 
-  // 추후 상세 더보기 유무에따라 사용예정
+  //추후 상세 더보기 유무에따라 사용예정
   // useEffect(() => {
   //   if (resizeHeight) resizeHeight();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  // }, [post.id]);
 
   return (
     <div className="FeedContent">

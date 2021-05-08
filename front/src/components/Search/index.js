@@ -11,27 +11,36 @@ const Search = ({ onClose }) => {
   const { searchUsers } = useSelector((state) => state.userReducer);
   const [searchText, setSearchText] = useState('');
 
-  const searchUser = useCallback((text) => {
-    dispatch({
-      type: SEARCH_USERS_REQUEST,
-      data: text
-    });
-  });
+  const searchUser = useCallback(
+    (text) => {
+      dispatch({
+        type: SEARCH_USERS_REQUEST,
+        data: text
+      });
+    },
+    [dispatch]
+  );
 
   const delayedSearch = useCallback(
     _.debounce((text) => searchUser(text), 500),
     []
   );
 
-  const onChangeSearchText = useCallback((e) => {
-    setSearchText(e.target.value);
-    delayedSearch(e.target.value);
-  }, []);
+  const onChangeSearchText = useCallback(
+    (e) => {
+      setSearchText(e.target.value);
+      delayedSearch(e.target.value);
+    },
+    [delayedSearch]
+  );
 
-  const onClickUser = useCallback((userId) => () => {
-    history.push(`/profile/${userId}`);
-    onClose();
-  });
+  const onClickUser = useCallback(
+    (userId) => () => {
+      history.push(`/profile/${userId}`);
+      onClose();
+    },
+    [history, onClose]
+  );
 
   return (
     <div className="search">

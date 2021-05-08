@@ -1,4 +1,4 @@
-import React,{useState,useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
 import { RightOutlined } from '@ant-design/icons';
@@ -13,24 +13,24 @@ import './styles.scss';
 //마이 페이지 재설정
 const SetProfile = () => {
   const dispatch = useDispatch();
-  const {userInfo,updateUserInfoDone} = useSelector((state) => state.userReducer);
-  const [nickName,setNickName] = useState(userInfo&&userInfo.nickname);
-  const [introduce,setIntroduce] = useState(userInfo&&userInfo.introduce);
-  
-  const UpdateClick = useCallback(()=>{
+  const { userInfo, updateUserInfoDone } = useSelector((state) => state.userReducer);
+  const [nickName, setNickName] = useState(userInfo && userInfo.nickname);
+  const [introduce, setIntroduce] = useState(userInfo && userInfo.introduce);
+
+  const UpdateClick = useCallback(() => {
     const User = new Object();
-    User.nickname = nickName; 
+    User.nickname = nickName;
     User.introduce = introduce;
 
     return dispatch({
-        type: USERINFO_UPDATE_REQUEST,
-        data: User,
-      });
-},[nickName,introduce]);
-  
-  if(updateUserInfoDone){
-    window.sessionStorage.setItem('user', userInfo.accessToken);
-    window.sessionStorage.setItem('refreshToken', userInfo.refreshToken);
+      type: USERINFO_UPDATE_REQUEST,
+      data: User
+    });
+  }, [nickName, introduce]);
+
+  if (updateUserInfoDone) {
+    window.localStorage.setItem('user', userInfo.accessToken);
+    window.localStorage.setItem('refreshToken', userInfo.refreshToken);
   }
   return (
     <>
@@ -65,11 +65,12 @@ const SetProfile = () => {
               <label for="name">닉네임</label>
             </div>
             <div className="col-75">
-              <input type="text" 
-                     id="name" 
-                     name="name" 
-                     value={nickName} 
-                     onChange  ={ e => setNickName(e.target.value)} 
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={nickName}
+                onChange={(e) => setNickName(e.target.value)}
               />
             </div>
           </div>
@@ -78,7 +79,7 @@ const SetProfile = () => {
               <label for="birth">생년월일</label>
             </div>
             <div className="col-75">
-              <input type="text" id="birth" name="birth" value={userInfo.age} disabled/>
+              <input type="text" id="birth" name="birth" value={userInfo.age} disabled />
             </div>
           </div>
           <div className="row">
@@ -86,7 +87,7 @@ const SetProfile = () => {
               <label for="email">이메일</label>
             </div>
             <div className="col-75">
-              <input type="text" id="email" name="email" value={userInfo.email} disabled/>
+              <input type="text" id="email" name="email" value={userInfo.email} disabled />
             </div>
           </div>
           <div className="row">
@@ -95,13 +96,13 @@ const SetProfile = () => {
             </div>
 
             <div className="col-100 row-40">
-              <input 
-                  type="text" 
-                  id="Introduce" 
-                  name="Introduce" 
-                  value={introduce} 
-                  onChange  ={ e => setIntroduce(e.target.value)} 
-               />
+              <input
+                type="text"
+                id="Introduce"
+                name="Introduce"
+                value={introduce}
+                onChange={(e) => setIntroduce(e.target.value)}
+              />
             </div>
           </div>
         </form>
