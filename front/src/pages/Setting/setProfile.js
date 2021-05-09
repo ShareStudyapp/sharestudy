@@ -2,10 +2,9 @@ import React, { useState, useCallback } from 'react';
 import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
 import { RightOutlined } from '@ant-design/icons';
-import { Avatar } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileImage from './ProfileImage/ProfileImage';
-
+import ChangePwdDialog from './ChangPwdDialog';
 import { USERINFO_UPDATE_REQUEST } from '../../reducers/user';
 import { Button } from 'antd';
 import './styles.scss';
@@ -13,9 +12,18 @@ import './styles.scss';
 //마이 페이지 재설정
 const SetProfile = () => {
   const dispatch = useDispatch();
+  const [showPwdChgDialog, setShowPwdChgDialog] = useState(false);
   const { userInfo, updateUserInfoDone } = useSelector((state) => state.userReducer);
   const [nickName, setNickName] = useState(userInfo && userInfo.nickname);
   const [introduce, setIntroduce] = useState(userInfo && userInfo.introduce);
+
+  const closeDialog = useCallback(() => {
+    setShowPwdChgDialog(false);
+  }, []);
+
+  const openDialog = useCallback(() => {
+    setShowPwdChgDialog(true);
+  }, []);
 
   const UpdateClick = useCallback(() => {
     const User = new Object();
@@ -62,7 +70,7 @@ const SetProfile = () => {
         <form className="setProfile__form">
           <div className="row">
             <div className="col-25">
-              <label for="name">닉네임</label>
+              <label htmlFor="name">닉네임</label>
             </div>
             <div className="col-75">
               <input
@@ -76,7 +84,7 @@ const SetProfile = () => {
           </div>
           <div className="row">
             <div className="col-25">
-              <label for="birth">생년월일</label>
+              <label htmlFor="birth">생년월일</label>
             </div>
             <div className="col-75">
               <input type="text" id="birth" name="birth" value={userInfo.age} disabled />
@@ -84,7 +92,7 @@ const SetProfile = () => {
           </div>
           <div className="row">
             <div className="col-25">
-              <label for="email">이메일</label>
+              <label htmlFor="email">이메일</label>
             </div>
             <div className="col-75">
               <input type="text" id="email" name="email" value={userInfo.email} disabled />
@@ -92,7 +100,7 @@ const SetProfile = () => {
           </div>
           <div className="row">
             <div className="col-100">
-              <label for="Introduce">한줄소개</label>
+              <label htmlFor="Introduce">한줄소개</label>
             </div>
 
             <div className="col-100 row-40">
@@ -107,7 +115,7 @@ const SetProfile = () => {
           </div>
         </form>
 
-        <button className="password" type="submit">
+        <button className="password" type="button" onClick={openDialog}>
           비밀번호 변경하기 <RightOutlined />
         </button>
 
@@ -117,6 +125,7 @@ const SetProfile = () => {
           </Button>
         </div>
       </div>
+      {showPwdChgDialog && <ChangePwdDialog userId={userInfo.id} onClose={closeDialog} />}
       <BottomNav />
     </>
   );

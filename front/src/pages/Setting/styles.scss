@@ -162,3 +162,43 @@
     }
   }
 }
+
+.Dialog {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.144);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  &-wrap {
+    box-shadow: 0px 0px 18px -2px #444;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    background: $white;
+    height: max-content;
+    width: 70%;
+    max-width: 300px;
+    .ant-input {
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 0.5em;
+      text-align: left;
+      margin-bottom: 10%;
+      color: #b0b0b0;
+    }
+    .confirm {
+      color: $white !important;
+      border: none !important;
+      background-color: $blue !important;
+      border-radius: 4px;
+      width: 100%;
+    }
+  }
+}
