@@ -32,7 +32,7 @@ const NewsFeed = ({ history }) => {
   const { userInfo } = useSelector((state) => state.userReducer);
   const { todoAchievement } = useSelector((state) => state.todoReducer);
   const page = useRef(1);
-  const { scrollInfos, scrollRemove } = useScrollMove();
+  const { scrollInfos, scrollRemove } = useScrollMove({ page: 'feed', path: '/' });
   let listRef;
 
   const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });

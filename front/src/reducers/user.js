@@ -53,6 +53,7 @@ export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
 export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
+export const LOG_OUT_INIT = 'LOG_OUT_INIT';
 
 export const USER_INFO_REQUEST = 'USER_INFO_REQUEST';
 export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
@@ -148,6 +149,11 @@ const userReducer = (state = initialState, action) =>
       case LOG_OUT_FAILURE:
         draft.logOutLoading = false;
         draft.logOutError = action.error;
+        break;
+      case LOG_OUT_INIT:
+        draft.logOutLoading = false;
+        draft.logOutError = null;
+        draft.logOutDone = false;
         break;
       case USER_INFO_REQUEST:
         draft.userinfoLoading = true;

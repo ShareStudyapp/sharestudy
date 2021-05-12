@@ -5,7 +5,7 @@ import { RightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 import { useSelector, useDispatch } from 'react-redux';
-import { LOG_OUT_REQUEST } from '../../reducers/user';
+import { LOG_OUT_REQUEST, LOG_OUT_INIT } from '../../reducers/user';
 
 //환경설정 페이지
 const Setting = ({ history }) => {
@@ -17,6 +17,7 @@ const Setting = ({ history }) => {
   useEffect(() => {
     if (logOutDone) {
       history.push('/');
+      dispatch({ type: LOG_OUT_INIT });
     }
   }, [logOutDone]);
   return (

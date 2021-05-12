@@ -12,24 +12,41 @@ import {
   FOLLOW_CANCLE_REQUEST,
   OTHER_USER_INFO_CLEAR
 } from '../../reducers/user';
+import useScrollMove from '../../hooks/useScrollMove';
+import { useRouteMatch } from 'react-router';
 import { Redirect, useHistory } from 'react-router-dom';
 
 const Profile = () => {
+  const params = useParams();
+  const id = params ? params.id : '';
+  console.dir(id);
+  const match = useRouteMatch(`/profile/${id}`);
   const history = useHistory();
   const page = useRef(1);
-  const { id } = useParams();
   const { userInfo, userinfoError, otheruserInfo } = useSelector((state) => state.userReducer);
   const { profilePosts, loadProfilePostsLoading, hasMoreProfilePosts } = useSelector(
     (state) => state.postReducer
   );
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const { scrollInfos, scrollRemove } = useScrollMove({
+    page: `profile_${id}`,
+    path: `/profile/${id}`
+  });
 
   const dispatch = useDispatch();
 
   const isOther = id !== 'my' && userInfo?.id != id;
+
+  useEffect(() => {
+    if (scrollInfos && match?.isExact) {
+      //console.log(scrollInfos);
+      window.scrollTo(0, scrollInfos);
+      const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+      //console.log(scrollTop, scrollInfos);
+      if (scrollTop == scrollInfos) {
+        scrollRemove();
+      }
+    }
+  }, [scrollInfos, scrollRemove, profilePosts, match]);
 
   useEffect(() => {
     let profileId = id;
