@@ -16,7 +16,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Input } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
-import { ProfileDialog } from '../../components/Profile';
+import { ProfileDialog, ReportDialog } from '../../components/Profile';
 
 const FeedDetail = () => {
   const history = useHistory();
@@ -69,6 +69,14 @@ const FeedDetail = () => {
     (id, target, content) => {
       document.body.style.overflow = 'hidden';
       setDialogInfo({ id: id, open: true, target: target, content: content });
+    },
+    [setDialogInfo]
+  );
+
+  const onClickOther = useCallback(
+    (id) => {
+      document.body.style.overflow = 'hidden';
+      setDialogInfo({ id: id, open: true, target: 'report' });
     },
     [setDialogInfo]
   );
@@ -237,6 +245,7 @@ const FeedDetail = () => {
         userInfo={userInfo}
         isDetail={true}
         onClickMore={onClickMore}
+        onClickOther={onClickOther}
       />
       <div style={{ padding: '10px 30px 73px 30px' }}>
         {postDetail?.feedreply?.map((comment) => (
@@ -245,6 +254,7 @@ const FeedDetail = () => {
             comment={comment}
             userInfo={userInfo}
             onClickMore={onClickMore}
+            onClickOther={onClickOther}
             setCommentId={setCommentId}
           />
         ))}
@@ -285,12 +295,15 @@ const FeedDetail = () => {
           </div>
         </div>
       </div>
-      {dialogInfo.open && (
-        <ProfileDialog
-          onClose={onCloseDialog}
-          btnList={dialogInfo.target === 'comment' ? commentBtnList : feedBtnList}
-        />
-      )}
+      {dialogInfo.open &&
+        (dialogInfo.target === 'report' ? (
+          <ReportDialog onClose={onCloseDialog} id={dialogInfo.id} />
+        ) : (
+          <ProfileDialog
+            onClose={onCloseDialog}
+            btnList={dialogInfo.target === 'comment' ? commentBtnList : feedBtnList}
+          />
+        ))}
     </div>
   );
 };

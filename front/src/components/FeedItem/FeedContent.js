@@ -5,7 +5,7 @@ import FeedComment from './FeedComment';
 import { Avatar } from 'antd';
 import { useHistory } from 'react-router-dom';
 
-const FeedContent = ({ post, userInfo, isDetail = false, onClickMore }) => {
+const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, onClickOther }) => {
   const history = useHistory();
   const onClickComment = useCallback(() => {
     if (!isDetail) {
@@ -14,8 +14,12 @@ const FeedContent = ({ post, userInfo, isDetail = false, onClickMore }) => {
   }, [history, post, isDetail]);
 
   const onClickBtn = useCallback(() => {
-    onClickMore(post.id);
-  }, [post, onClickMore]);
+    if (userInfo?.id === post.userKey) {
+      onClickMore(post.id);
+    } else {
+      onClickOther(post.id);
+    }
+  }, [post, onClickMore, onClickOther, userInfo]);
 
   const onClickUser = useCallback(() => {
     history.push(`/profile/${post.userKey}`);
@@ -38,7 +42,7 @@ const FeedContent = ({ post, userInfo, isDetail = false, onClickMore }) => {
         </div>
 
         <div className="FeedContent-header_right">
-          {userInfo?.id === post.userKey && (
+          {userInfo?.id && (
             <button className="FeedContent-menu" onClick={onClickBtn}>
               <svg
                 width="25"

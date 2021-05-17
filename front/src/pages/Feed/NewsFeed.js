@@ -7,7 +7,7 @@ import { LOAD_POSTS_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/post';
 import { LOAD_TODO_ACHIEVEMENT_REQUEST } from '../../reducers/todo';
 import HelloGoal from '../../components/FeedItem/HelloGoal';
 import useScrollMove from '../../hooks/useScrollMove';
-import { ProfileDialog } from '../../components/Profile';
+import { ProfileDialog, ReportDialog } from '../../components/Profile';
 import ResizeObserver from 'rc-resize-observer';
 import {
   List,
@@ -35,7 +35,7 @@ const NewsFeed = ({ history }) => {
   const { scrollInfos, scrollRemove } = useScrollMove({ page: 'feed', path: '/' });
   let listRef;
 
-  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });
+  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '', target: '' });
 
   const onResize = useCallback(() => {
     cache.clearAll();
@@ -52,8 +52,16 @@ const NewsFeed = ({ history }) => {
 
   const onCloseDialog = useCallback(() => {
     document.body.style.overflow = 'unset';
-    setDialogInfo({ id: '', open: false });
+    setDialogInfo({ id: '', open: false, target: '', content: '' });
   }, [setDialogInfo]);
+
+  const onClickOther = useCallback(
+    (id) => {
+      document.body.style.overflow = 'hidden';
+      setDialogInfo({ id: id, open: true, target: 'report' });
+    },
+    [setDialogInfo]
+  );
 
   const btnList = useMemo(
     () => [
@@ -146,7 +154,12 @@ const NewsFeed = ({ history }) => {
                   if (match.isExact) measure();
                 }}
               >
-                <FeedContent post={post} userInfo={userInfo} onClickMore={onClickMore} />
+                <FeedContent
+                  post={post}
+                  userInfo={userInfo}
+                  onClickMore={onClickMore}
+                  onClickOther={onClickOther}
+                />
               </ResizeObserver>
             </div>
           )}
@@ -196,7 +209,6 @@ const NewsFeed = ({ history }) => {
       ) : (
         <HelloLogin history={history} />
       )}
-
       <WindowScroller>
         {({ height, scrollTop, isScrolling, onChildScroll }) => {
           let top = scrollTop;
@@ -230,7 +242,12 @@ const NewsFeed = ({ history }) => {
           );
         }}
       </WindowScroller>
-      {dialogInfo.open && <ProfileDialog onClose={onCloseDialog} btnList={btnList} />}
+      {dialogInfo.open &&
+        (dialogInfo.target === 'report' ? (
+          <ReportDialog onClose={onCloseDialog} id={dialogInfo.id} />
+        ) : (
+          <ProfileDialog onClose={onCloseDialog} btnList={btnList} />
+        ))}
     </>
   );
 };

@@ -7,7 +7,7 @@ import { HeartTwoTone } from '@ant-design/icons';
 import { UNLIKE_COMMENT_REQUEST, LIKE_COMMENT_REQUEST } from '../../reducers/post';
 import { format } from 'timeago.js';
 
-const FeedCommentItem = ({ comment, userInfo, setCommentId, onClickMore }) => {
+const FeedCommentItem = ({ comment, userInfo, setCommentId, onClickMore, onClickOther }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -31,8 +31,12 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId, onClickMore }) => {
   // }, [comment, setCommentId]);
 
   const onClickBtn = useCallback(() => {
-    onClickMore(comment.id, 'comment', comment.content);
-  }, [comment, onClickMore]);
+    if (userInfo?.id === comment.userId) {
+      onClickMore(comment.id, 'comment', comment.content);
+    } else {
+      onClickOther(comment.id);
+    }
+  }, [comment, onClickMore, onClickOther, userInfo]);
   return (
     <div key={comment.id} className="FeedCommentView">
       <p className="FeedCommentView-userProfile">
@@ -73,7 +77,7 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId, onClickMore }) => {
           </div>
 
           <div className="FeedCommentView__detail--right">
-            {userInfo?.id === comment.userId && (
+            {userInfo?.id && (
               <button className="FeedCommentView__detail--more" type="button" onClick={onClickBtn}>
                 <svg
                   width="22"
