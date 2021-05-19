@@ -1,10 +1,15 @@
 @import '../../style/color.scss';
 
 .container {
-  .error {
-    color: red;
+  .msg {
+    color: $grey;
+    margin-bottom: 10px;
     font-size: 0.6em;
+    &.error {
+      color: red;
+    }
   }
+
   margin: 0 auto;
   width: 80%;
   display: flex;

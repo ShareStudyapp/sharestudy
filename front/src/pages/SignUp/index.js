@@ -101,7 +101,7 @@ const SignUp = ({ history }) => {
       confirmPassword: '',
       birth: '',
       agree: false,
-      gender: 'F'
+      gender: ''
     },
     onSubmit: (values) => {
       console.log(values);
@@ -120,7 +120,9 @@ const SignUp = ({ history }) => {
         return false;
       }
 
-      const isNotEmpty = Object.values(values).every((value) => value);
+      const isNotEmpty = Object.keys(values).every((key) =>
+        key === 'birth' || key === 'gender' ? true : values[key]
+      );
 
       if (!isNotEmpty) {
         alert('입력하지 않은 항목이 있습니다.');
@@ -308,7 +310,7 @@ const SignUp = ({ history }) => {
                 value={formik.values.id}
                 onSearch={onCheckId}
               />
-              {error.id && <p className="error">{error.id}</p>}
+              {error.id && <div className="msg error">{error.id}</div>}
               <Input
                 id="password"
                 name="password"
@@ -317,7 +319,7 @@ const SignUp = ({ history }) => {
                 onChange={onChangePassword}
                 value={formik.values.password}
               />
-              {error.password && <p className="error">{error.password}</p>}
+              {error.password && <div className="msg error">{error.password}</div>}
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -326,7 +328,7 @@ const SignUp = ({ history }) => {
                 onChange={onChangeConfirmPwd}
                 value={formik.values.confirmPassword}
               />
-              {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
+              {error.confirmPassword && <div className="msg error">{error.confirmPassword}</div>}
             </div>
 
             <div className="input-group" style={{ marginBottom: '35px' }}>
@@ -339,7 +341,7 @@ const SignUp = ({ history }) => {
                 value={formik.values.nickname}
                 onSearch={onCheckNickname}
               />
-              {error.nickname && <p className="error">{error.nickname}</p>}
+              {error.nickname && <div className="msg error">{error.nickname}</div>}
               <Input.Search
                 id="email"
                 name="email"
@@ -349,7 +351,7 @@ const SignUp = ({ history }) => {
                 value={formik.values.email}
                 onSearch={onCheckEmail}
               />
-              {error.email && <p className="error">{error.email}</p>}
+              {error.email && <div className="msg error">{error.email}</div>}
             </div>
 
             <div className="input-group">
@@ -357,7 +359,7 @@ const SignUp = ({ history }) => {
                 id="birth"
                 name="birth"
                 type="text"
-                placeholder="생년월일을 입력해주세요."
+                placeholder="생년월일을 입력해주세요.(선택사항)"
                 value={formik.values.birth}
                 readOnly
                 onClick={onClickCalendar}
@@ -369,6 +371,7 @@ const SignUp = ({ history }) => {
             </div>
 
             <div className="submit-group">
+              <div className="msg">성별은 선택사항 입니다.</div>
               <div className="checkbox-group">
                 <Checkbox
                   id="female"

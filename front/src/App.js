@@ -1,9 +1,10 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { USER_INFO_REQUEST } from './reducers/user';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
 import './style/common.scss';
+import jwt_decode from 'jwt-decode';
 
 const Todo = lazy(() => import('./pages/Todo'));
 const Signup = lazy(() => import('./pages/SignUp'));
@@ -39,15 +40,23 @@ const Loading = () => (
 
 function App() {
   const dispatch = useDispatch();
-  const user = window.localStorage.getItem('user'); //로그인여부
-  const userPersist = () => {
+  useEffect(() => {
+    const user = window.localStorage.getItem('user');
     if (user) {
-      dispatch({
-        type: USER_INFO_REQUEST
-      });
+      try {
+        const { exp } = jwt_decode(user);
+        if (Date.now() >= exp * 1000) {
+          window.localStorage.removeItem('user');
+        } else {
+          dispatch({
+            type: USER_INFO_REQUEST
+          });
+        }
+      } catch (e) {
+        window.localStorage.removeItem('user');
+      }
     }
-  };
-  userPersist();
+  }, []);
 
   return (
     <div id="main_container" className="main_container">

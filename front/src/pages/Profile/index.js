@@ -38,10 +38,8 @@ const Profile = () => {
 
   useEffect(() => {
     if (scrollInfos && match?.isExact) {
-      //console.log(scrollInfos);
       window.scrollTo(0, scrollInfos);
       const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-      //console.log(scrollTop, scrollInfos);
       if (scrollTop == scrollInfos) {
         scrollRemove();
       }
