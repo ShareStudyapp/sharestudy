@@ -6,10 +6,13 @@ import { LOAD_POSTS_CLEAR } from '../../reducers/post';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import './LoginForm.scss';
-import FindIdDialog from './FindIdDialog';
+import Cookies from 'js-cookie'
+import axios from 'axios';
+
 
 const Login = ({ history, location }) => {
   const dispatch = useDispatch();
+  const fcmToken = Cookies.get("FCM_TOKEN");
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.userReducer);
   const [userid, onChangeUserid] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -33,8 +36,12 @@ const Login = ({ history, location }) => {
   }, [logInError, logInDone, history, location, dispatch]);
 
   const onSubmitForm = useCallback(() => {
-    dispatch(loginRequestAction({ userid, password }));
+    // const fcmToken = cookies.get("FCM_TOKEN");
+    // console.log("onlogin")
+    // console.log(fcmToken); 
+    dispatch(loginRequestAction({ userid, password,fcmToken }));
   }, [userid, password, dispatch]);
+  
 
   const openIdDialog = useCallback(() => {
     setShowIdDialog(true);
@@ -73,18 +80,18 @@ const Login = ({ history, location }) => {
 
           <Button className="login__btn loginForm" htmlType="submit" loading={logInLoading}>
             로그인
-          </Button>
+          </Button>          
 
           <ul className="login__link">
-            <li onClick={openIdDialog}>아이디 찾기</li>
-            <li className="login__link-center">비밀번호 찾기</li>
+            {/* <li onClick={openIdDialog}>아이디 찾기</li>
+            <li className="login__link-center">비밀번호 찾기</li> */}
             <li>
               <Link to="/SignUp">회원가입</Link>
             </li>
           </ul>
         </div>
       </Form>
-      {showIdDialog && <FindIdDialog onClose={closeIdDialog} />}
+      {/* {showIdDialog && <FindIdDialog onClose={closeIdDialog} />} */}
     </div>
   );
 };
