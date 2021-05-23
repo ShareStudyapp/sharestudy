@@ -15,7 +15,18 @@ const findUserId = async (email) => {
   return result;
 };
 
-const FindIdDialog = ({ onClose }) => {
+const findUserPwd = async (email) => {
+  const result = { error: false, message: '' };
+  try {
+    await axios.get(`/email/find/user/pw/${email}`);
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
+
+const FindDialog = ({ type, onClose }) => {
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);
@@ -30,20 +41,25 @@ const FindIdDialog = ({ onClose }) => {
       alert('이메일을 올바르게 입력 해주세요.');
       return false;
     }
+    let response;
+    if (type === 'id') {
+      response = await findUserId(email);
+    } else {
+      response = await findUserPwd(email);
+    }
 
-    const response = await findUserId(email);
     if (response.error) {
       alert(response.message);
     } else {
       alert('메일이 발송 되었습니다.');
       onClose();
     }
-  }, [email]);
+  }, [type, email, onClose]);
 
   return (
     <div className="Dialog" onClick={onClose}>
       <div className="Dialog-wrap" onClick={stopPropagation}>
-        <h2>아이디 찾기</h2>
+        <h2>{type === 'id' ? '아이디' : '비밀번호'} 찾기</h2>
         <Input
           name="user-email"
           type="email"
@@ -51,7 +67,7 @@ const FindIdDialog = ({ onClose }) => {
           required
           onChange={onChangeEmail}
         />
-        <p>입력하신 이메일로 가입한 계정을 보내드립니다.</p>
+        <p>입력하신 이메일로 가입한 계정정보를 보내드립니다.</p>
         <Button className="confirm" onClick={onFindUser}>
           확인
         </Button>
@@ -60,4 +76,4 @@ const FindIdDialog = ({ onClose }) => {
   );
 };
 
-export default FindIdDialog;
+export default FindDialog;

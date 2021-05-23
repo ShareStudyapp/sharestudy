@@ -5,19 +5,17 @@ import { loginRequestAction } from '../../reducers/user';
 import { LOAD_POSTS_CLEAR } from '../../reducers/post';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
+import FindDialog from './FindDialog';
 import './LoginForm.scss';
-import Cookies from 'js-cookie'
-import axios from 'axios';
-
+import Cookies from 'js-cookie';
 
 const Login = ({ history, location }) => {
   const dispatch = useDispatch();
-  const fcmToken = Cookies.get("FCM_TOKEN");
+  const fcmToken = Cookies.get('FCM_TOKEN');
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.userReducer);
   const [userid, onChangeUserid] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [showIdDialog, setShowIdDialog] = useState(false);
-  //const [showPwdDialog, setShowPwdDialog] = useState(false);
+  const [dialogInfo, setDialogInfo] = useState({ type: '', open: false });
 
   useEffect(() => {
     if (logInError) {
@@ -38,17 +36,20 @@ const Login = ({ history, location }) => {
   const onSubmitForm = useCallback(() => {
     // const fcmToken = cookies.get("FCM_TOKEN");
     // console.log("onlogin")
-    // console.log(fcmToken); 
-    dispatch(loginRequestAction({ userid, password,fcmToken }));
+    // console.log(fcmToken);
+    dispatch(loginRequestAction({ userid, password, fcmToken }));
   }, [userid, password, dispatch]);
-  
 
   const openIdDialog = useCallback(() => {
-    setShowIdDialog(true);
+    setDialogInfo({ type: 'id', open: true });
   }, []);
 
-  const closeIdDialog = useCallback(() => {
-    setShowIdDialog(false);
+  const openPwdDialog = useCallback(() => {
+    setDialogInfo({ type: 'pwd', open: true });
+  }, []);
+
+  const closeDialog = useCallback(() => {
+    setDialogInfo({ type: '', open: false });
   }, []);
 
   return (
@@ -80,18 +81,20 @@ const Login = ({ history, location }) => {
 
           <Button className="login__btn loginForm" htmlType="submit" loading={logInLoading}>
             로그인
-          </Button>          
+          </Button>
 
           <ul className="login__link">
-            {/* <li onClick={openIdDialog}>아이디 찾기</li>
-            <li className="login__link-center">비밀번호 찾기</li> */}
+            <li onClick={openIdDialog}>아이디 찾기</li>
+            <li onClick={openPwdDialog} className="login__link-center">
+              비밀번호 찾기
+            </li>
             <li>
               <Link to="/SignUp">회원가입</Link>
             </li>
           </ul>
         </div>
       </Form>
-      {/* {showIdDialog && <FindIdDialog onClose={closeIdDialog} />} */}
+      {dialogInfo.open && <FindDialog onClose={closeDialog} type={dialogInfo.type} />}
     </div>
   );
 };

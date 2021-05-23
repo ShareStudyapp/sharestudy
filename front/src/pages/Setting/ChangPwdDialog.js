@@ -27,12 +27,13 @@ const ChangPwdDialog = ({ onClose, userId }) => {
   const onClickChangePwd = useCallback(async () => {
     if (!/^((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*\W)|(?=.*\d)(?=.*\W)).{6,}$/.test(newPwd)) {
       alert('비밀번호는 영문, 숫자, 특수문자중 2가지 포함 6글자 이상이어야 합니다');
+      return false;
     } else if (newPwd !== confirmNewPwd) {
       alert('비밀번호가 일치하지 않습니다.');
+      return false;
     }
     const response = await changePwd({
       newPassword: newPwd,
-      newPassword2: confirmNewPwd,
       password: pwd,
       userId: userId
     });
