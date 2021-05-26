@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.scss';
 
-const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow }) => {
+const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow, onClickBlock }) => {
   if (!user) {
     return null;
   }
@@ -46,25 +46,42 @@ const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow }) => {
         <p>{user.introduce}</p>
       </div>
       {isOther ? (
-        <button
-          className={user.following ? 'following' : ''}
-          onClick={user.following ? onClickUnFollow : onClickFollow}
+        <svg
+          width="34"
+          height="32"
+          viewBox="0 0 34 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          onClick={onClickBlock}
         >
-          <svg
-            width="22"
-            height="16"
-            viewBox="0 0 22 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14 8C16.21 8 18 6.21 18 4C18 1.79 16.21 0 14 0C11.79 0 10 1.79 10 4C10 6.21 11.79 8 14 8ZM5 6V3H3V6H0V8H3V11H5V8H8V6H5ZM14 10C11.33 10 6 11.34 6 14V16H22V14C22 11.34 16.67 10 14 10Z"
-              fill="white"
-            />
-          </svg>
-          {user.following ? '팔로잉' : '팔로우'}
-        </button>
+          <path
+            d="M22.5 15C25.5376 15 28 12.3137 28 9C28 5.68629 25.5376 3 22.5 3C19.4624 3 17 5.68629 17 9C17 12.3137 19.4624 15 22.5 15Z"
+            fill="#999999"
+          />
+          <path
+            d="M34 26.2342V23.3514C34 20.036 27.9391 18.018 23.8 17.7297L32.6696 26.2342H34ZM16.8522 18.3063C13.6 19.1712 10.3478 20.9009 10.3478 23.3514V26.2342H24.9826L30.8957 32L32.8174 30.1261L1.77391 0L0 1.87387L5.91304 7.63964V11.8198H1.47826V14.7027H5.91304V19.027H8.86957V14.7027H13.1565L16.8522 18.3063ZM8.86957 11.8198V10.5225L10.2 11.8198H8.86957Z"
+            fill="#999999"
+          />
+        </svg>
       ) : (
+        // <button
+        //   className={user.following ? 'following' : ''}
+        //   onClick={user.following ? onClickUnFollow : onClickFollow}
+        // >
+        //   <svg
+        //     width="22"
+        //     height="16"
+        //     viewBox="0 0 22 16"
+        //     fill="none"
+        //     xmlns="http://www.w3.org/2000/svg"
+        //   >
+        //     <path
+        //       d="M14 8C16.21 8 18 6.21 18 4C18 1.79 16.21 0 14 0C11.79 0 10 1.79 10 4C10 6.21 11.79 8 14 8ZM5 6V3H3V6H0V8H3V11H5V8H8V6H5ZM14 10C11.33 10 6 11.34 6 14V16H22V14C22 11.34 16.67 10 14 10Z"
+        //       fill="white"
+        //     />
+        //   </svg>
+        //   {user.following ? '팔로잉' : '팔로우'}
+        // </button>
         <div></div>
       )}
     </article>

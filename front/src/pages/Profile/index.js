@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
 import './styles.scss';
-import { Card, Info } from '../../components/Profile';
+import { Card, Info, BlockDialog } from '../../components/Profile';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_PROFILE_POSTS_REQUEST, LOAD_PROFILE_POSTS_CLEAR } from '../../reducers/post';
@@ -15,14 +15,15 @@ import {
 import useScrollMove from '../../hooks/useScrollMove';
 import { useRouteMatch } from 'react-router';
 import { Redirect, useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 const Profile = () => {
   const params = useParams();
   const id = params ? params.id : '';
-  console.dir(id);
   const match = useRouteMatch(`/profile/${id}`);
   const history = useHistory();
   const page = useRef(1);
+  const [showBlockDialog, setShowBlockDialog] = useState(false);
   const { userInfo, userinfoError, otheruserInfo } = useSelector((state) => state.userReducer);
   const { profilePosts, loadProfilePostsLoading, hasMoreProfilePosts } = useSelector(
     (state) => state.postReducer
@@ -110,6 +111,16 @@ const Profile = () => {
     [history]
   );
 
+  const onClickBlock = useCallback(() => {
+    document.body.style.overflow = 'hidden';
+    setShowBlockDialog(true);
+  });
+
+  const onCloseDialog = useCallback(() => {
+    document.body.style.overflow = 'unset';
+    setShowBlockDialog(false);
+  }, [setShowBlockDialog]);
+
   const onClickFollow = useCallback(() => {
     if (userInfo.id) {
       dispatch({
@@ -160,6 +171,7 @@ const Profile = () => {
           feedCnt={profilePosts.length}
           onClickFollow={onClickFollow}
           onClickUnFollow={onClickUnFollow}
+          onClickBlock={onClickBlock}
         />
         <article className="feed">
           <div className="feed__content">
@@ -169,6 +181,9 @@ const Profile = () => {
           </div>
         </article>
       </section>
+      {isOther && showBlockDialog && (
+        <BlockDialog onClose={onCloseDialog} id={otheruserInfo?.id} name={otheruserInfo.nickname} />
+      )}
       <BottomNav />
     </>
   );
