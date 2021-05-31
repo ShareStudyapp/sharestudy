@@ -1,31 +1,18 @@
-import React, { useCallback, useState } from 'react';
-import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  BLOCK_USER_REQUEST,
+  UNBLOCK_USER_REQUEST,
+  CLEAR_UNBLOCK_USER,
+  CLEAR_BLOCK_USER
+} from '../../../reducers/user';
 import './styles.scss';
 
-const blockUser = async (id) => {
-  const result = { error: false, message: '' };
-  try {
-    await axios.get(`/report/user/${id}`);
-  } catch (e) {
-    result.error = true;
-    result.message = e.response.data;
-  }
-  return result;
-};
-
-const unBlockUser = async (id) => {
-  const result = { error: false, message: '' };
-  try {
-    await axios.delete(`/report/user/${id}`);
-  } catch (e) {
-    result.error = true;
-    result.message = e.response.data;
-  }
-  return result;
-};
-
-const BlockDialog = ({ onClose, id, isBlocked, name }) => {
-  isBlocked = true;
+const BlockDialog = ({ onClose, id, isBlocked, name, setBlockState }) => {
+  const dispatch = useDispatch();
+  const { blockUserDone, blockUserError, unblockUserDone, unblockUserError } = useSelector(
+    (state) => state.userReducer
+  );
   const [step, setStep] = useState(1);
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
@@ -35,23 +22,45 @@ const BlockDialog = ({ onClose, id, isBlocked, name }) => {
     setStep(2);
   }, [setStep]);
 
-  const onClickUnBlock = useCallback(async () => {
-    const response = await unBlockUser(id);
-    if (response.error) {
-      alert(response.message);
-    } else {
-      setStep(3);
-    }
-  }, [id]);
+  const onClickBlock = useCallback(() => {
+    dispatch({
+      type: isBlocked ? UNBLOCK_USER_REQUEST : BLOCK_USER_REQUEST,
+      data: id
+    });
+  }, [id, isBlocked]);
 
-  const onClickBlock = useCallback(async () => {
-    const response = await blockUser(id);
-    if (response.error) {
-      alert(response.message);
-    } else {
+  useEffect(() => {
+    if (blockUserDone || blockUserError) {
+      dispatch({
+        type: CLEAR_BLOCK_USER
+      });
+    }
+    if (blockUserDone) {
       setStep(3);
     }
-  }, [id]);
+    if (blockUserError) {
+      alert(blockUserError);
+    }
+  }, [blockUserDone, blockUserError]);
+
+  useEffect(() => {
+    if (unblockUserDone || unblockUserError) {
+      dispatch({
+        type: CLEAR_UNBLOCK_USER
+      });
+    }
+    if (unblockUserDone) {
+      setStep(3);
+    }
+    if (unblockUserError) {
+      alert(unblockUserError);
+    }
+  }, [unblockUserDone, unblockUserError]);
+
+  const onClickBlockConfirm = useCallback(() => {
+    setBlockState(!isBlocked);
+    onClose();
+  }, [setBlockState]);
 
   return (
     <div className="blockDialog" onClick={onClose}>
@@ -97,11 +106,7 @@ const BlockDialog = ({ onClose, id, isBlocked, name }) => {
                   </>
                 )}
               </div>
-              <button
-                className="confirm"
-                type="button"
-                onClick={isBlocked ? onClickUnBlock : onClickBlock}
-              >
+              <button className="confirm" type="button" onClick={onClickBlock}>
                 {isBlocked ? '차단 해제' : '차단'}
               </button>
             </>
@@ -115,7 +120,7 @@ const BlockDialog = ({ onClose, id, isBlocked, name }) => {
                     : '언제든지 차단을 해제 할 수 있습니다.'}
                 </p>
               </div>
-              <button className="confirm" type="button" onClick={onClose}>
+              <button className="confirm" type="button" onClick={onClickBlockConfirm}>
                 확인
               </button>
             </>

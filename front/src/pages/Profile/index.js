@@ -16,6 +16,19 @@ import useScrollMove from '../../hooks/useScrollMove';
 import { useRouteMatch } from 'react-router';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
+
+const fetchBlockUser = async () => {
+  const result = { error: false, message: '' };
+  try {
+    const { data } = await axios.get(`/report/my`);
+    result.data = data;
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
 
 const Profile = () => {
   const params = useParams();
@@ -25,6 +38,7 @@ const Profile = () => {
   const page = useRef(1);
   const [showBlockDialog, setShowBlockDialog] = useState(false);
   const { userInfo, userinfoError, otheruserInfo } = useSelector((state) => state.userReducer);
+  const [isBlocked, setIsBlocked] = useState(false);
   const { profilePosts, loadProfilePostsLoading, hasMoreProfilePosts } = useSelector(
     (state) => state.postReducer
   );
@@ -36,6 +50,18 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const isOther = id !== 'my' && userInfo?.id != id;
+
+  useEffect(() => {
+    async function getBlockUser() {
+      const { data: blockList } = await fetchBlockUser();
+      setIsBlocked(
+        blockList.some((user) => {
+          return user.blockedUserId == id;
+        })
+      );
+    }
+    getBlockUser();
+  }, [id]);
 
   useEffect(() => {
     if (scrollInfos && match?.isExact) {
@@ -182,7 +208,13 @@ const Profile = () => {
         </article>
       </section>
       {isOther && showBlockDialog && (
-        <BlockDialog onClose={onCloseDialog} id={otheruserInfo?.id} name={otheruserInfo.nickname} />
+        <BlockDialog
+          onClose={onCloseDialog}
+          id={otheruserInfo?.id}
+          name={otheruserInfo.nickname}
+          isBlocked={isBlocked}
+          setBlockState={setIsBlocked}
+        />
       )}
       <BottomNav />
     </>

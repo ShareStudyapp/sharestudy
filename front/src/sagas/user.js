@@ -36,8 +36,16 @@ import {
   USERINFO_UPDATE_FAILURE,
   SEARCH_USERS_REQUEST,
   SEARCH_USERS_SUCCESS,
-  SEARCH_USERS_FAILURE
+  SEARCH_USERS_FAILURE,
+  BLOCK_USER_REQUEST,
+  BLOCK_USER_SUCCESS,
+  BLOCK_USER_FAILURE,
+  UNBLOCK_USER_REQUEST,
+  UNBLOCK_USER_SUCCESS,
+  UNBLOCK_USER_FAILURE
 } from '../reducers/user';
+
+import { CLEAR_POSTS } from '../reducers/post';
 
 function signUpAPI(signUpData) {
   // 서버에 요청을 보내는 부분
@@ -266,6 +274,50 @@ function* searchUsers(action) {
   }
 }
 
+function blockUserAPI(id) {
+  return axios.post(`/report/user/${id}`);
+}
+
+function* blockUser(action) {
+  try {
+    const result = yield call(blockUserAPI, action.data);
+    yield put({
+      type: BLOCK_USER_SUCCESS,
+      data: result?.data
+    });
+    yield put({
+      type: CLEAR_POSTS
+    });
+  } catch (err) {
+    yield put({
+      type: BLOCK_USER_FAILURE,
+      error: err?.response?.data
+    });
+  }
+}
+
+function unBlockUserAPI(id) {
+  return axios.delete(`/report/user/${id}`);
+}
+
+function* unBlockUser(action) {
+  try {
+    const result = yield call(unBlockUserAPI, action.data);
+    yield put({
+      type: UNBLOCK_USER_SUCCESS,
+      data: result?.data
+    });
+    yield put({
+      type: CLEAR_POSTS
+    });
+  } catch (err) {
+    yield put({
+      type: UNBLOCK_USER_FAILURE,
+      error: err?.response?.data
+    });
+  }
+}
+
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -299,10 +351,16 @@ function* watchOtherUserInfo() {
 function* watchUserInfoUpdate() {
   yield takeLatest(USERINFO_UPDATE_REQUEST, userInfoUpdate);
 }
-
 function* watchSearchUsers() {
   yield takeLatest(SEARCH_USERS_REQUEST, searchUsers);
 }
+function* watchBlockUser() {
+  yield takeLatest(BLOCK_USER_REQUEST, blockUser);
+}
+function* watchUnBlockUser() {
+  yield takeLatest(UNBLOCK_USER_REQUEST, unBlockUser);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -316,6 +374,8 @@ export default function* userSaga() {
     fork(watchFollowingList),
     fork(watchOtherUserInfo),
     fork(watchUserInfoUpdate),
-    fork(watchSearchUsers)
+    fork(watchSearchUsers),
+    fork(watchBlockUser),
+    fork(watchUnBlockUser)
   ]);
 }

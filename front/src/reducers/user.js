@@ -38,7 +38,14 @@ export const initialState = {
   searchUsers: [],
   searchUsersLoading: false,
   searchUsersDone: false,
-  searchUsersError: false
+  searchUsersError: false,
+  blockUserLoading: false,
+  blockUserDone: false,
+  blockUserError: false,
+  unBlockUserLoading: false,
+  unBlockUserDone: false,
+  unBlockUserError: false,
+  clearUserCache: false
 };
 export const USER_RESET = 'USER_RESET';
 
@@ -91,6 +98,21 @@ export const USERINFO_UPDATE_FAILURE = 'USERINFO_UPDATE_FAILURE';
 export const SEARCH_USERS_REQUEST = 'SEARCH_USERS_REQUEST';
 export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS';
 export const SEARCH_USERS_FAILURE = 'SEARCH_USERS_FAILURE';
+
+//사용자 차단
+export const BLOCK_USER_REQUEST = 'BLOCK_USER_REQUEST';
+export const BLOCK_USER_SUCCESS = 'BLOCK_USER_SUCCESS';
+export const BLOCK_USER_FAILURE = 'BLOCK_USER_FAILURE';
+export const CLEAR_BLOCK_USER = 'CLEAR_BLOCK_USER';
+
+//사용자 차단 해제
+export const UNBLOCK_USER_REQUEST = 'UNBLOCK_USER_REQUEST';
+export const UNBLOCK_USER_SUCCESS = 'UNBLOCK_USER_SUCCESS';
+export const UNBLOCK_USER_FAILURE = 'UNBLOCK_USER_FAILURE';
+export const CLEAR_UNBLOCK_USER = 'CLEAR_UNBLOCK_USER';
+
+//사용자 데이터리셋 완료
+export const CLEAR_USER_CACHE_SUCCESS = 'CLEAR_USER_CACHE_SUCCESS';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -299,6 +321,50 @@ const userReducer = (state = initialState, action) =>
         draft.searchUsers = [];
         draft.searchUsersLoading = false;
         draft.searchUsersError = true;
+        break;
+      case BLOCK_USER_REQUEST:
+        draft.blockUserLoading = true;
+        draft.blockUserDone = false;
+        draft.blockUserError = false;
+        break;
+      case BLOCK_USER_SUCCESS:
+        draft.blockUserLoading = false;
+        draft.blockUserDone = true;
+        draft.blockUserError = false;
+        draft.clearUserCache = true;
+        break;
+      case BLOCK_USER_FAILURE:
+        draft.blockUserLoading = false;
+        draft.blockUserDone = false;
+        draft.blockUserError = true;
+      case UNBLOCK_USER_REQUEST:
+        draft.unBlockUserLoading = true;
+        draft.unBlockUserDone = false;
+        draft.unBlockUserError = false;
+        break;
+      case UNBLOCK_USER_SUCCESS:
+        draft.unBlockUserLoading = false;
+        draft.unBlockUserDone = true;
+        draft.unBlockUserError = false;
+        draft.clearUserCache = true;
+        break;
+      case UNBLOCK_USER_FAILURE:
+        draft.unBlockUserLoading = false;
+        draft.unBlockUserDone = false;
+        draft.unBlockUserError = true;
+        break;
+      case CLEAR_BLOCK_USER:
+        draft.blockUserLoading = false;
+        draft.blockUserDone = false;
+        draft.blockUserError = false;
+        break;
+      case CLEAR_UNBLOCK_USER:
+        draft.unBlockUserLoading = false;
+        draft.unBlockUserDone = false;
+        draft.unBlockUserError = false;
+        break;
+      case CLEAR_USER_CACHE_SUCCESS:
+        draft.clearUserCache = false;
         break;
       default:
         break;

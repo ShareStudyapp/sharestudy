@@ -146,6 +146,9 @@ export const ADD_RECOMMENT_REQUEST = 'ADD_RECOMMENT_REQUEST';
 export const ADD_RECOMMENT_SUCCESS = 'ADD_RECOMMENT_SUCCESS';
 export const ADD_RECOMMENT_FAILURE = 'ADD_RECOMMENT_FAILURE';
 
+//사용자 컨텐츠 차단
+export const CLEAR_POSTS = 'CLEAR_POSTS';
+
 export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
   data
@@ -488,6 +491,9 @@ const postReducer = (state = initialState, action) =>
       case ADD_RECOMMENT_FAILURE:
         draft.addRecommentLoading = false;
         draft.addRecommentError = action.error;
+        break;
+      case CLEAR_POSTS:
+        draft.mainPosts = [];
         break;
       default:
         break;

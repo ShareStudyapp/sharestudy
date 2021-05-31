@@ -93,9 +93,13 @@ const NewsFeed = ({ history }) => {
 
   useEffect(() => {
     if (mainPosts.length === 0) {
+      onResize();
       page.current = 1;
+      dispatch({
+        type: LOAD_POSTS_REQUEST
+      });
     }
-  }, [mainPosts]);
+  }, [mainPosts.length]);
 
   useEffect(() => {
     if (scrollInfos && match.isExact) {
@@ -105,9 +109,6 @@ const NewsFeed = ({ history }) => {
   }, [scrollInfos, scrollRemove, match]);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_POSTS_REQUEST
-    });
     if (userInfo.id) {
       dispatch({
         type: LOAD_TODO_ACHIEVEMENT_REQUEST
@@ -166,7 +167,7 @@ const NewsFeed = ({ history }) => {
         </CellMeasurer>
       );
     },
-    [mainPosts, userInfo, onClickMore, onResize, match]
+    [mainPosts, userInfo, onClickMore, match]
   );
 
   const onClickCreate = useCallback(() => {

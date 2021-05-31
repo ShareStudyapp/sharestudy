@@ -34,7 +34,7 @@ const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow, onClickB
       </div>
       <div className="desc">
         <div>
-          <strong>{user.nickname}</strong>
+          <strong>{user?.nickname}</strong>
           <span>
             {user.age?.substr(0, 4)}.{user.age?.substr(4, 2)}.{user.age?.substr(6, 2)}
           </span>

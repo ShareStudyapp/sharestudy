@@ -38,7 +38,7 @@ const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, onClickOth
           <p className="FeedContent-userProfile">
             <Avatar src={post?.userProfileImage?.src} />
           </p>
-          <p className="FeedContent-userId">{post.nickname}</p>
+          <p className="FeedContent-userId">{post?.nickname}</p>
         </div>
 
         <div className="FeedContent-header_right">
