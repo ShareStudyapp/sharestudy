@@ -16,6 +16,7 @@ import useScrollMove from '../../hooks/useScrollMove';
 import { useRouteMatch } from 'react-router';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useState } from 'react';
+import Content from './Content';
 import axios from 'axios';
 
 const fetchBlockUser = async () => {
@@ -55,7 +56,7 @@ const Profile = () => {
     async function getBlockUser() {
       const { data: blockList } = await fetchBlockUser();
       setIsBlocked(
-        blockList.some((user) => {
+        blockList?.some((user) => {
           return user.blockedUserId == id;
         })
       );
@@ -199,13 +200,17 @@ const Profile = () => {
           onClickUnFollow={onClickUnFollow}
           onClickBlock={onClickBlock}
         />
-        <article className="feed">
-          <div className="feed__content">
-            {profilePosts.map((post) => (
-              <Card key={post.id} post={post} onClickCard={onClickCard} />
-            ))}
-          </div>
-        </article>
+        {isOther ? (
+          <article className="feed">
+            <div className="feed__content">
+              {profilePosts.map((post) => (
+                <Card key={post.id} post={post} onClickCard={onClickCard} />
+              ))}
+            </div>
+          </article>
+        ) : (
+          <Content />
+        )}
       </section>
       {isOther && showBlockDialog && (
         <BlockDialog

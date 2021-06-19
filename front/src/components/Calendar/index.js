@@ -3,6 +3,7 @@ import MomentLocaleUtils from 'react-day-picker/moment';
 import 'moment/locale/ko';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import './styles.scss';
 
 function Calendar({ date, setDate }) {
   const [month, setMonth] = useState(date);
@@ -43,6 +44,7 @@ function Calendar({ date, setDate }) {
       modifiers={modifiers}
       modifiersStyles={modifiersStyles}
       captionElement={({ date }) => <YearMonth date={date} onChange={onDayChange} />}
+      style={{ lineHeight: 'none' }}
     />
   );
 }

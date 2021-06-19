@@ -5,10 +5,58 @@
   .feed {
     width: 90%;
     margin: 1em auto 0 auto;
+    border-top: 1px solid #c5c5c5;
     &__content {
       display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
+    }
+  }
+  .content {
+    .tab {
+      display: flex;
+      margin-bottom: 0px;
+      li {
+        &:hover {
+          cursor: pointer;
+        }
+        flex: 1;
+        text-align: center;
+        border-bottom: 2px solid #c5c5c5;
+        padding: 1em 0;
+        &.active {
+          border-bottom: 2px solid #333333;
+        }
+      }
+    }
+    .monthWrapper {
+      margin: 2em;
+      .month {
+        position: relative;
+        width: 100%;
+        height: 0;
+        overflow: hidden;
+        padding-bottom: 100%;
+        border: 1px solid #c5c5c5;
+        border-radius: 10px;
+
+        .DayPicker,
+        .DayPicker-Month {
+          width: 100%;
+          height: 90%;
+        }
+        .DayPicker-wrapper,
+        .DayPicker-Months {
+          height: 100%;
+        }
+        .DayPicker {
+          position: absolute;
+          top: 4%;
+          left: 0;
+          width: 100%;
+          height: 90%;
+        }
+      }
     }
   }
 }
@@ -25,6 +73,16 @@
   .profile-container {
     .feed {
       margin: 0.5em auto 0 auto;
+    }
+    .content {
+      .tab {
+        li {
+          font-size: 0.7em;
+        }
+      }
+      .monthWrapper {
+        margin: 1.5em;
+      }
     }
   }
 }
