@@ -12,12 +12,12 @@ import axios from 'axios';
 
 const Login = ({ history, location }) => {
   const dispatch = useDispatch();
-  let fcmToken = Cookies.get('FCM_TOKEN');
+  // let fcmToken = Cookies.get('FCM_TOKEN');
   
 
 
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.userReducer);
-  const [userid, onChangeUserid] = useInput('');
+  const [userid, setUserId] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [dialogInfo, setDialogInfo] = useState({ type: '', open: false });
 
@@ -25,35 +25,30 @@ const Login = ({ history, location }) => {
     if (logInError) {
       alert(logInError);
     }
-  
+    let rnCheck = false
     if (logInDone) {
-
-      dispatch({
-        type: LOAD_POSTS_CLEAR
-      });
-      if (!location.state?.from) {
-        history.push('/');
-      } else {
-        history.push(location.state.from);
+      
+      if(window.ReactNativeWebView){
+        window.ReactNativeWebView.postMessage(JSON.stringify({"userid":userid}));
       }
+        dispatch({
+          type: LOAD_POSTS_CLEAR
+        });
+        if (!location.state?.from) {
+          history.push('/');
+        } else {
+          history.push(location.state.from);
+        }  
+      
+      
     }
   }, [logInError, logInDone, history, location, dispatch]);
 
 
   const onSubmitForm = useCallback(() => {
    
-    axios.get("/api/auth/device/set/token")
-    .then((res)=>{
-      fcmToken = res.data
-      
-      dispatch(loginRequestAction({ userid, password, fcmToken }));
-
-    })
-    .catch((err)=>{
-      dispatch(loginRequestAction({ userid, password, fcmToken }));
-    })
-
-
+    dispatch(loginRequestAction({ userid, password }));
+  
   }, [userid, password, dispatch]);
 
   const openIdDialog = useCallback(() => {
@@ -67,7 +62,12 @@ const Login = ({ history, location }) => {
   const closeDialog = useCallback(() => {
     setDialogInfo({ type: '', open: false });
   }, []);
-
+ 
+  const onChangeUserId = (e) =>{
+   
+    setUserId(e)
+ }
+  
   return (
     <div className="login">
       <Form onFinish={onSubmitForm} id="frm">
@@ -83,7 +83,7 @@ const Login = ({ history, location }) => {
             placeholder="아이디 입력"
             value={userid}
             required
-            onChange={onChangeUserid}
+            onChange={(e)=>onChangeUserId(e)}
           />
 
           <Input
