@@ -18,6 +18,7 @@ const Setting = lazy(() => import('./pages/Setting'));
 const SetProfile = lazy(() => import('./pages/Setting/setProfile'));
 const Complaint = lazy(() => import('./pages/Setting/complaint'));
 const Profile = lazy(() => import('./pages/Profile'));
+const DayProfile = lazy(() => import('./pages/Profile/Day'));
 
 const Loading = () => (
   <div className="loading">
@@ -69,6 +70,7 @@ function App() {
             <Route exact path="/signup-complete" component={SignupCom} />
             <Route exact path="/todo" component={Todo} />
             <Route exact path="/profile/:id" component={Profile} />
+            <Route exact path="/profile/:id/:date" component={DayProfile} />
             <Route exact path="/noti" component={Noti} />
             <Route exact path="/feed/edit" component={FeedEdit} />
             <Route exact path="/feed/edit/:id" component={FeedEdit} />

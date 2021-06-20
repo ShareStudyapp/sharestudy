@@ -4,8 +4,9 @@ import 'moment/locale/ko';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import './styles.scss';
+import { render } from 'timeago.js';
 
-function Calendar({ date, setDate }) {
+function Calendar({ date, setDate, renderDay }) {
   const [month, setMonth] = useState(date);
 
   const modifiers = useMemo(
@@ -34,6 +35,10 @@ function Calendar({ date, setDate }) {
     setMonth(newMonth);
   }, []);
 
+  const option = {};
+  if (renderDay) {
+    option.renderDay = renderDay;
+  }
   return (
     <DayPicker
       onDayClick={onDayClick}
@@ -45,6 +50,7 @@ function Calendar({ date, setDate }) {
       modifiersStyles={modifiersStyles}
       captionElement={({ date }) => <YearMonth date={date} onChange={onDayChange} />}
       style={{ lineHeight: 'none' }}
+      {...option}
     />
   );
 }

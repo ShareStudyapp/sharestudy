@@ -1,15 +1,42 @@
+@import '../../style/color.scss';
 .profile-container {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  .day-article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 30px;
+    .hightligter {
+      color: $blue;
+      position: relative;
+      &::after {
+        content: '';
+        width: 105%;
+        height: 14px;
+        left: -4px;
+        top: 26px;
+        position: absolute;
+        background: #ff8574 50%;
+        opacity: 0.5;
+        z-index: -100;
+      }
+      &-none {
+        font-weight: 400;
+      }
+    }
+  }
   .feed {
     width: 90%;
     margin: 1em auto 0 auto;
-    border-top: 1px solid #c5c5c5;
     &__content {
       display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
+      margin-top: 20px;
     }
   }
   .content {
@@ -42,19 +69,130 @@
 
         .DayPicker,
         .DayPicker-Month {
+          font-size: 20px;
           width: 100%;
-          height: 90%;
+          height: 87%;
         }
         .DayPicker-wrapper,
         .DayPicker-Months {
           height: 100%;
         }
+        .DayPicker-Weekday {
+          color: black;
+          font-weight: 600;
+          font-size: 22px;
+          &:first-child {
+            color: #ca0808;
+          }
+          &:last-child {
+            color: #2f6cc7;
+          }
+        }
+        .DayPicker-Week > div {
+          &:first-child {
+            color: #ca0808;
+          }
+          &:last-child {
+            color: #2f6cc7;
+          }
+        }
+        .DayPicker-Day {
+          width: 0.8rem;
+          height: 0.8rem;
+          &:hover {
+            background-color: #fff !important;
+          }
+        }
+
+        .DayPicker-Day--selectDay {
+          .customCell {
+            background-color: #2656ff;
+            color: #fff;
+          }
+        }
+        .customCell {
+          width: 3rem;
+          height: 3rem;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border-radius: 50%;
+        }
+        .customDate {
+          margin: auto;
+        }
+
         .DayPicker {
           position: absolute;
-          top: 4%;
+          top: 8%;
           left: 0;
           width: 100%;
-          height: 90%;
+          height: 87%;
+        }
+      }
+    }
+    .main-card {
+      margin-top: 5%;
+      flex: 0 1 40%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: top center;
+      height: 15em;
+      border-radius: 20px;
+      position: relative;
+      > div {
+        width: 40%;
+        height: 15em;
+        padding: 10px 20px;
+        position: absolute;
+        right: 0px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 0px 20px 20px 0px;
+        > div {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          p {
+            margin: 0;
+            font-size: 1.4em;
+          }
+          .date {
+            font-weight: 600;
+            font-size: 1.4em;
+            line-height: 2em;
+            flex: 1 1 auto;
+          }
+          .comment {
+            > div {
+              text-overflow: ellipsis;
+              word-wrap: normal;
+              overflow: hidden;
+              display: -webkit-box;
+              word-wrap: break-word;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              line-height: 20px;
+              height: 60px;
+            }
+
+            flex: 8 1 auto;
+          }
+          .like {
+            span {
+              display: inline-block;
+              line-height: initial;
+              margin-top: 5px;
+            }
+            .heart {
+              margin-right: 10px;
+            }
+            .more {
+              float: right;
+            }
+            font-size: 1em;
+            flex: 1 1 auto;
+          }
         }
       }
     }
@@ -65,6 +203,26 @@
   .profile-container {
     .feed {
       margin: 0.8em auto 0 auto;
+    }
+    .content {
+      .monthWrapper {
+        .month {
+          .DayPicker {
+            top: 6%;
+          }
+          .customCell {
+            width: 2rem;
+            height: 2rem;
+          }
+          .DayPicker,
+          .DayPicker-Month {
+            font-size: 14px;
+          }
+          .DayPicker-Weekday {
+            font-size: 16px;
+          }
+        }
+      }
     }
   }
 }
@@ -81,7 +239,23 @@
         }
       }
       .monthWrapper {
-        margin: 1.5em;
+        margin: 1.2em;
+        .month {
+          .DayPicker {
+            top: 2%;
+          }
+          .customCell {
+            width: 2rem;
+            height: 2rem;
+          }
+          .DayPicker,
+          .DayPicker-Month {
+            font-size: 14px;
+          }
+          .DayPicker-Weekday {
+            font-size: 16px;
+          }
+        }
       }
     }
   }
