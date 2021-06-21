@@ -4,15 +4,49 @@ import BottomNav from '../../components/BottomNav';
 import { Card } from '../../components/Profile';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouteMatch } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { OTHER_USER_INFO_REQUEST, OTHER_USER_INFO_CLEAR } from '../../reducers/user';
 import './styles.scss';
+import axios from 'axios';
+import useScrollMove from '../../hooks/useScrollMove';
+
+const fetchDayPosts = async (id, dateStr) => {
+  const result = { error: false, message: '' };
+  try {
+    const { data } = await axios.get(`/feed/${id}/date/${dateStr}`);
+    result.data = data;
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
+
 const Day = () => {
   const dispatch = useDispatch();
   const { id, date } = useParams();
   const [posts, setPosts] = useState([]);
   const { otheruserInfo } = useSelector((state) => state.userReducer);
   const history = useHistory();
+
+  const { scrollInfos, scrollRemove } = useScrollMove({
+    page: `profile_${id}_${date}`,
+    path: `/profile/${id}/${date}`
+  });
+
+  const match = useRouteMatch(`/profile/${id}/${date}`);
+
+  useEffect(() => {
+    if (scrollInfos && match?.isExact) {
+      window.scrollTo(0, scrollInfos);
+      const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+      if (scrollTop == scrollInfos) {
+        scrollRemove();
+      }
+    }
+  }, [scrollInfos, scrollRemove, posts, match]);
+
   useEffect(() => {
     dispatch({
       type: OTHER_USER_INFO_REQUEST,
@@ -24,6 +58,16 @@ const Day = () => {
       });
     };
   }, [id, dispatch]);
+
+  useEffect(() => {
+    async function getDayPosts() {
+      const { data: posts } = await fetchDayPosts(id, date);
+      if (typeof posts !== 'string') {
+        setPosts(posts);
+      }
+    }
+    getDayPosts();
+  }, [id, date]);
 
   const onClickCard = useCallback(
     (id) => {

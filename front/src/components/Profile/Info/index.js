@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.scss';
 
-const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow, onClickBlock }) => {
+const Info = ({ user, isOther, onClickUnFollow, onClickFollow, onClickBlock }) => {
   if (!user) {
     return null;
   }
@@ -39,7 +39,7 @@ const Info = ({ user, isOther, feedCnt, onClickUnFollow, onClickFollow, onClickB
             {user.age?.substr(0, 4)}.{user.age?.substr(4, 2)}.{user.age?.substr(6, 2)}
           </span>
         </div>
-        {/* <p>공부인증 {feedCnt}회</p> */}
+        <p>공부인증 {user?.feedTotalCnt}회</p>
         <p>
           Follower {user.followerlistsize} / Following {user.followlistsize}
         </p>

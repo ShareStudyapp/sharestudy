@@ -10,10 +10,10 @@ import useScrollMove from '../../hooks/useScrollMove';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-const fetchMainDayFeed = async (date) => {
+const fetchMainDayFeed = async (id, date) => {
   const result = { error: false, message: '' };
   try {
-    const { data } = await axios.get(`/feed/One/${dayjs(date).format('YYYYMMDD')}`);
+    const { data } = await axios.get(`/feed/${id}/One/${dayjs(date).format('YYYYMMDD')}`);
     result.data = data;
   } catch (e) {
     result.error = true;
@@ -50,11 +50,14 @@ const Content = ({ id }) => {
 
   useEffect(() => {
     async function getMainDayFeed() {
-      const { data: mainDayCard } = await fetchMainDayFeed(date);
+      let { data: mainDayCard } = await fetchMainDayFeed(id, date);
+      if (typeof mainDayCard === 'string') {
+        mainDayCard = null;
+      }
       setMainDayCard(mainDayCard);
     }
     getMainDayFeed();
-  }, [date]);
+  }, [id, date]);
 
   useEffect(() => {
     if (scrollInfos && match?.isExact) {
@@ -125,7 +128,8 @@ const Content = ({ id }) => {
 
   const onClickMainCard = useCallback(() => {
     history.push(`/profile/${id}/${dayjs(date).format('YYYYMMDD')}`);
-  }, [id, history]);
+  }, [id, date, history]);
+
   return (
     <div className="content">
       <ul className="tab">
@@ -153,15 +157,19 @@ const Content = ({ id }) => {
           <div
             className="main-card"
             style={{
-              background: `no-repeat center / cover url('') ,#bfbfbf`
+              background: `no-repeat center / cover url(${
+                mainDayCard?.uploadfile?.length > 0 ? mainDayCard.uploadfile[0].src : ''
+              }) ,#bfbfbf`
             }}
             onClick={onClickMainCard}
           >
             <div>
               <div>
-                <p className="date">2021.06.20</p>
+                <p className="date">
+                  {dayjs(new Date(mainDayCard?.createdAt)).format('YYYY.MM.DD')}
+                </p>
                 <div className="comment">
-                  <div>입력한내용입니다.</div>
+                  <div>{mainDayCard?.content}</div>
                 </div>
                 <p className="like">
                   <span>
@@ -179,7 +187,7 @@ const Content = ({ id }) => {
                         />
                       </svg>
                     </button>
-                    like 3
+                    like {mainDayCard?.totallike}
                   </span>
                   <button className="more">
                     <svg
