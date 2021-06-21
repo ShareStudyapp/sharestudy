@@ -70,7 +70,7 @@
         .DayPicker,
         .DayPicker-Month {
           font-size: 1.25rem;
-          width: 100%;
+          width: -webkit-fill-available;
           height: 87%;
         }
         .DayPicker-wrapper,
