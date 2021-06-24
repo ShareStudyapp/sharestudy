@@ -201,3 +201,20 @@
     }
   }
 }
+
+// 알림설정 페이지
+.alert {
+  li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1em 0;
+    padding-left: 3em;
+    &:nth-child(1) {
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    a {
+      color: #000000;
+
+      width: 100%;
+    }
+  }
+}

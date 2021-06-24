@@ -49,6 +49,11 @@ const Setting = ({ history }) => {
               불편신고 <RightOutlined />
             </Link>
           </li>
+          <li>
+            <Link to="/alert">
+              알림설정 <RightOutlined />
+            </Link>
+          </li>
           <li onClick={logout}>
             로그아웃 <RightOutlined />
           </li>
