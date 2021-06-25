@@ -49,11 +49,6 @@ const Setting = ({ history }) => {
               불편신고 <RightOutlined />
             </Link>
           </li>
-          <li>
-            <Link to="/alert">
-              알림설정 <RightOutlined />
-            </Link>
-          </li>
           <li onClick={logout}>
             로그아웃 <RightOutlined />
           </li>
@@ -62,6 +57,11 @@ const Setting = ({ history }) => {
               앱 업데이트 정보 <RightOutlined />
             </Link>
           </li> */}
+          <li>
+            <Link to="/alert">
+              애플리케이션 알림 <RightOutlined />
+            </Link>
+          </li>
         </ul>
       </div>
       <BottomNav />

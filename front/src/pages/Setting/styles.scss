@@ -204,17 +204,32 @@
 
 // 알림설정 페이지
 .alert {
-  li {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 1em 0;
-    padding-left: 3em;
-    &:nth-child(1) {
-      border-top: 1px solid rgba(0, 0, 0, 0.2);
-    }
-    a {
-      color: #000000;
+  &__back {
+    height: 0 2em;
+    width: 100%;
+    padding: 2em;
+  }
+  &__text {
+    font-size: 30px;
+    color: #000000;
+    margin-top: 2em;
 
-      width: 100%;
+    p {
+      padding-left: 1em;
+      float: left;
     }
+  }
+  &__swtich {
+    float: right;
+    margin-top: 1.5em;
+    margin-right: 3em;
+  }
+  .content {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    margin-top: 5em;
+    padding-left: 2.5em;
+    color: #858585;
   }
 }
