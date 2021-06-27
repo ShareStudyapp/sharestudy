@@ -11,7 +11,7 @@ import TermsDialog from '../../components/TermsDialog';
 //환경설정 페이지
 const Setting = ({ history }) => {
   const dispatch = useDispatch();
-  const { logOutDone } = useSelector((state) => state.userReducer);
+  const { logOutDone, userinfoError } = useSelector((state) => state.userReducer);
   const logout = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST });
   });
@@ -30,17 +30,24 @@ const Setting = ({ history }) => {
     setShowTerms(false);
   }, []);
 
+  let isLogin = true;
+  if (!window.localStorage.getItem('user') || userinfoError) {
+    isLogin = false;
+  }
+
   return (
     <>
       <Header />
 
       <div className="setting">
         <ul>
-          <li>
-            <Link to="/setprofile">
-              프로필 수정하기 <RightOutlined />
-            </Link>
-          </li>
+          {isLogin && (
+            <li>
+              <Link to="/setprofile">
+                프로필 수정하기 <RightOutlined />
+              </Link>
+            </li>
+          )}
           <li onClick={setShowTerms}>
             이용약관 <RightOutlined />
           </li>
@@ -49,9 +56,11 @@ const Setting = ({ history }) => {
               불편신고 <RightOutlined />
             </Link>
           </li>
-          <li onClick={logout}>
-            로그아웃 <RightOutlined />
-          </li>
+          {isLogin && (
+            <li onClick={logout}>
+              로그아웃 <RightOutlined />
+            </li>
+          )}
           {/* <li>
             <Link to="/">
               앱 업데이트 정보 <RightOutlined />

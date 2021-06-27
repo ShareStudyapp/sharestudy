@@ -4,6 +4,9 @@ import BottomNav from '../../components/BottomNav';
 import FeedContent from '../Feed/NewsFeed';
 
 const Main = ({ history }) => {
+  const onClickHome = () => {
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <div>
@@ -11,7 +14,7 @@ const Main = ({ history }) => {
         <Header />
         <FeedContent history={history} />
         {/* 고정 Bottom */}
-        <BottomNav />
+        <BottomNav onClickHome={onClickHome} />
       </div>
     </>
   );

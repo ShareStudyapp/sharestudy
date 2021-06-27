@@ -160,7 +160,7 @@ function* follow(action) {
     const result = yield call(followAPI, action.data);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: result.data
+      data: result?.data
     });
   } catch (err) {
     yield put({
@@ -177,7 +177,7 @@ function* followCancle(action) {
     const result = yield call(followCancleAPI, action.data);
     yield put({
       type: FOLLOW_CANCLE_SUCCESS,
-      data: result.data
+      data: result?.data
     });
   } catch (err) {
     yield put({

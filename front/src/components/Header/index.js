@@ -1,8 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import Search from '../Search';
+import { useRouteMatch } from 'react-router';
+import { useSelector } from 'react-redux';
 import './styles.scss';
 
-const Header = () => {
+const Header = ({ onClickBlock }) => {
+  const { userInfo, userinfoError } = useSelector((state) => state.userReducer);
   const [showSearch, setShowSearch] = useState(false);
 
   const openSearch = useCallback(() => {
@@ -14,6 +17,13 @@ const Header = () => {
     setShowSearch(false);
     document.body.style.overflow = 'unset';
   }, [setShowSearch]);
+
+  const match = useRouteMatch('/profile/:id');
+
+  let isLogin = true;
+  if (!window.localStorage.getItem('user') || userinfoError) {
+    isLogin = false;
+  }
 
   return (
     <div>
@@ -49,6 +59,26 @@ const Header = () => {
               fill="black"
             />
           </svg>
+          {isLogin &&
+            match?.isExact &&
+            match?.params.id !== 'my' &&
+            match?.params.id != userInfo.id && (
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 22 6"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ marginLeft: 20 }}
+                onClick={onClickBlock ? onClickBlock : () => {}}
+              >
+                <path
+                  d="M3.26676 0.600098C1.8001 0.600098 0.600098 1.8001 0.600098 3.26676C0.600098 4.73343 1.8001 5.93343 3.26676 5.93343C4.73343 5.93343 5.93343 4.73343 5.93343 3.26676C5.93343 1.8001 4.73343 0.600098 3.26676 0.600098ZM19.2668 0.600098C17.8001 0.600098 16.6001 1.8001 16.6001 3.26676C16.6001 4.73343 17.8001 5.93343 19.2668 5.93343C20.7334 5.93343 21.9334 4.73343 21.9334 3.26676C21.9334 1.8001 20.7334 0.600098 19.2668 0.600098ZM11.2668 0.600098C9.80009 0.600098 8.60009 1.8001 8.60009 3.26676C8.60009 4.73343 9.80009 5.93343 11.2668 5.93343C12.7334 5.93343 13.9334 4.73343 13.9334 3.26676C13.9334 1.8001 12.7334 0.600098 11.2668 0.600098Z"
+                  fill="#333333"
+                />
+              </svg>
+            )}
+
           {/* <svg
             width="16"
             height="20"

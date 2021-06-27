@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 import './styles.scss';
 
-const BottomNav = () => {
+const BottomNav = ({ onClickHome }) => {
   return (
     <div className="foot_bar">
-      <div className="foot_bar_wrap">
+      <div className="foot_bar_wrap" onClick={onClickHome ? onClickHome : () => {}}>
         <NavLink to="/" className="foot_bar_img" activeClassName="active" exact>
           <svg
             width="16"

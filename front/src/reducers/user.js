@@ -213,13 +213,7 @@ const userReducer = (state = initialState, action) =>
       case FOLLOW_SUCCESS:
         draft.followLoading = false;
         draft.followDone = true;
-        //draft.otheruserInfo.followInfo = draft.followInfo.concat(action.data.userkey);
-        //draft.userInfo.followlist = draft.userInfo.followlist.filter(f=>f.fromUser.id !== action.data.userkey)
-        console.log('action.data.userkey' + action.data.userkey);
-        draft.userInfo.followlist.push({ fromUser: { id: action.data.userkey } });
-
-        //draft.me.Followings.push({ id: action.data.UserId });
-        draft.userInfo.followlistsize = draft.userInfo.followlistsize + 1;
+        draft.otheruserInfo.followerCheck = 1;
         break;
       case FOLLOW_FAILURE:
         draft.followLoading = false;
@@ -232,16 +226,7 @@ const userReducer = (state = initialState, action) =>
       case FOLLOW_CANCLE_SUCCESS:
         draft.unfollowLoading = false;
         draft.unfollowDone = true;
-        //draft.followInfo.splice(0,draft.followInfo.length)
-        //draft.followInfo = draft.followInfo.concat(action.data);
-        //console.log(action.data)
-        //console.log(state.userInfo.followlist)
-        //console.log(state.userInfo.followlist.map(v=>v).filter(f=>f.toUser.id ,action.data.userKey))
-        console.log(action.data);
-        draft.userInfo.followlist = draft.userInfo.followlist.filter(
-          (f) => f.fromUser.id !== action.data.userkey
-        );
-        draft.userInfo.followlistsize = draft.userInfo.followlistsize - 1;
+        draft.otheruserInfo.followerCheck = 0;
         break;
       case FOLLOW_CANCLE_FAILURE:
         draft.unfollowLoading = false;
@@ -289,8 +274,7 @@ const userReducer = (state = initialState, action) =>
       case OTHER_USER_INFO_FAILURE:
         draft.userinfoDone = true;
         draft.userinfoLoading = false;
-        draft.userinfoError = action.error.response.data;
-        break;
+        draft.userinfoError = action.error;
       case OTHER_USER_INFO_CLEAR:
         draft.otheruserInfo = null;
         break;

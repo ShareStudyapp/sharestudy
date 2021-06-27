@@ -106,7 +106,8 @@ const Profile = () => {
   }, [userInfo, otheruserInfo, history]);
 
   //비로그인시 redirect
-  if ((id === 'my' && !window.localStorage.getItem('user')) || userinfoError) {
+  console.log(id);
+  if (id === 'my' && (!window.localStorage.getItem('user') || userinfoError)) {
     return (
       <Redirect
         to={{
@@ -120,14 +121,13 @@ const Profile = () => {
   }
   return (
     <>
-      <Header />
+      <Header onClickBlock={onClickBlock} />
       <section className="profile-container">
         <Info
           user={isOther ? otheruserInfo : userInfo}
           isOther={isOther}
           onClickFollow={onClickFollow}
           onClickUnFollow={onClickUnFollow}
-          onClickBlock={onClickBlock}
         />
         <Content id={isOther ? id : userInfo.id} />
       </section>
