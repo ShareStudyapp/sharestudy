@@ -7,13 +7,20 @@ import axios from 'axios';
 
 import './styles.scss';
 
-// 알림설정 페이지
-const Alert = ({ history }) => {
-  const onChange = (checked) => {
-    // checked : true / false
-    console.log(`switch : ${checked}`);
-  };
+const changeAlarm = async (checked) => {
+  const result = { error: false, message: '' };
+  try {
+    const check = (checked == true) ? '1' : '0';
+    await axios.get(`/noti/send/${check}`);
+  } catch (e) {
+    result.error = true;
+    result.message = e.response.data;
+  }
+  return result;
+};
 
+// 알림설정 페이지
+const Alarm = ({ history }) => {
   return (
     <>
       <Header />
@@ -41,7 +48,7 @@ const Alert = ({ history }) => {
         <div className="alert__content">
           <div className="alert__text">
             <p>알림 허용</p>
-            <Switch className="alert__swtich" onChange={onChange} />
+            <Switch className="alert__swtich" onChange={changeAlarm} />
           </div>
 
           <div className="content">
@@ -54,4 +61,4 @@ const Alert = ({ history }) => {
   );
 };
 
-export default Alert;
+export default Alarm;

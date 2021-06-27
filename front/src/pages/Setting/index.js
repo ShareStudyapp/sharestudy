@@ -58,7 +58,7 @@ const Setting = ({ history }) => {
             </Link>
           </li> */}
           <li>
-            <Link to="/alert">
+            <Link to="/alarm">
               애플리케이션 알림 <RightOutlined />
             </Link>
           </li>
