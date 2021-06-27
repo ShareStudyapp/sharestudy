@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css';
 import './styles.scss';
 import { render } from 'timeago.js';
 
-function Calendar({ date, setDate, renderDay }) {
+function Calendar({ date, setDate, renderDay, onMonthChange }) {
   const [month, setMonth] = useState(date);
 
   const modifiers = useMemo(
@@ -33,11 +33,16 @@ function Calendar({ date, setDate, renderDay }) {
 
   const onDayChange = useCallback((newMonth) => {
     setMonth(newMonth);
+    onMonthChange(newMonth);
   }, []);
 
   const option = {};
   if (renderDay) {
     option.renderDay = renderDay;
+  }
+
+  if (onMonthChange) {
+    option.onMonthChange = onMonthChange;
   }
   return (
     <DayPicker

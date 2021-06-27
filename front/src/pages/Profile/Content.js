@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Calendar from '../../components/Calendar';
+import DpCalendar from '../../components/DpCalendar';
 import { Card } from '../../components/Profile';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,7 +31,9 @@ const Content = ({ id }) => {
     dateStr && dateStr.length == 8 ? dayjs(dateStr, 'YYYYMMDD').toDate() : new Date()
   );
   const [mainDayCard, setMainDayCard] = useState(null);
+
   const history = useHistory();
+
   const page = useRef(1);
   const dispatch = useDispatch();
   const match = useRouteMatch(`/profile/${id}`);
@@ -150,9 +152,7 @@ const Content = ({ id }) => {
         </article>
       </div>
       <div className="monthWrapper" style={{ display: type === 'month' ? 'block' : 'none' }}>
-        <div className="month">
-          <Calendar date={date} setDate={onSetDate} renderDay={renderDay} />
-        </div>
+        <DpCalendar date={date} onSetDate={onSetDate} renderDay={renderDay} />
         {mainDayCard && (
           <div
             className="main-card"

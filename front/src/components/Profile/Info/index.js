@@ -5,7 +5,6 @@ const Info = ({ user, isOther, onClickUnFollow, onClickFollow }) => {
   if (!user) {
     return null;
   }
-  console.log(user);
 
   return (
     <article className="info">

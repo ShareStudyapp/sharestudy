@@ -1,0 +1,111 @@
+.dp-calendar {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 100%;
+  border: 1px solid #c5c5c5;
+  border-radius: 10px;
+
+  .DayPicker,
+  .DayPicker-Month {
+    font-size: 1.25rem;
+    width: -webkit-fill-available;
+    height: 87%;
+  }
+  .DayPicker-wrapper,
+  .DayPicker-Months {
+    height: 100%;
+  }
+  .DayPicker-Weekday {
+    color: black;
+    font-weight: 600;
+    font-size: 1.375rem;
+    &:first-child {
+      color: #ca0808;
+    }
+    &:last-child {
+      color: #2f6cc7;
+    }
+  }
+  .DayPicker-Week > div {
+    &:first-child {
+      color: #ca0808;
+    }
+    &:last-child {
+      color: #2f6cc7;
+    }
+  }
+  .DayPicker-Day {
+    width: 0.8rem;
+    height: 0.8rem;
+    &:hover {
+      background-color: #fff !important;
+    }
+  }
+
+  .DayPicker-Day--selectDay {
+    .customCell {
+      background-color: #2656ff;
+      color: #fff;
+    }
+  }
+  .customCell {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50%;
+  }
+  .customDate {
+    margin: auto;
+  }
+
+  .DayPicker {
+    position: absolute;
+    top: 8%;
+    left: 0;
+    width: 100%;
+    height: 87%;
+  }
+}
+
+@media (min-width: 440px) and (max-width: 620px) {
+  .dp-calendar {
+    .DayPicker {
+      top: 6%;
+    }
+    .customCell {
+      width: 2rem;
+      height: 2rem;
+    }
+    .DayPicker,
+    .DayPicker-Month {
+      font-size: 0.875rem;
+    }
+    .DayPicker-Weekday {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 439px) {
+  .dp-calendar {
+    .DayPicker {
+      top: 2%;
+    }
+    .customCell {
+      width: 2rem;
+      height: 2rem;
+    }
+    .DayPicker,
+    .DayPicker-Month {
+      font-size: 0.875rem;
+    }
+    .DayPicker-Weekday {
+      font-size: 1rem;
+    }
+  }
+}
