@@ -33,7 +33,9 @@ function Calendar({ date, setDate, renderDay, onMonthChange }) {
 
   const onDayChange = useCallback((newMonth) => {
     setMonth(newMonth);
-    onMonthChange(newMonth);
+    if (onMonthChange) {
+      onMonthChange(newMonth);
+    }
   }, []);
 
   const option = {};
