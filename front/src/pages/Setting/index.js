@@ -66,6 +66,11 @@ const Setting = ({ history }) => {
               앱 업데이트 정보 <RightOutlined />
             </Link>
           </li> */}
+          <li>
+            <Link to="/alarm">
+              애플리케이션 알림 <RightOutlined />
+            </Link>
+          </li>
         </ul>
       </div>
       <BottomNav />
