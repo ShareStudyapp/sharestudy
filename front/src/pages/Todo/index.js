@@ -69,7 +69,9 @@ const Todo = () => {
       let { data: monthData } = await fetchMonthData(userInfo.id, monthStr);
       setMonthData(monthData);
     }
-    getMonthData();
+    if (userInfo.id) {
+      getMonthData();
+    }
   }, [userInfo, monthStr]);
 
   const fetchTodo = useCallback(() => {
@@ -108,21 +110,26 @@ const Todo = () => {
               </strong>
               <Day date={date} setDate={onSetDate} />
             </article>
-            <Progress
-              date={dayjs(date)}
-              percent={
-                todo?.todoList?.length > 0 ? (todo.completeRatioCnt / todo.allRatioCnt) * 100 : 0
-              }
-            />
+            {todo?.todoList?.length > 0 && (
+              <Progress
+                date={dayjs(date)}
+                percent={
+                  todo?.todoList?.length > 0 ? (todo.completeRatioCnt / todo.allRatioCnt) * 100 : 0
+                }
+              />
+            )}
             <List date={dayjs(date)} todoList={todo.todoList} fetchTodo={fetchTodo} />
-            <Comment date={dayjs(date)} comment={todo.todoComment} />
 
-            <DpCalendar
-              date={date}
-              onSetDate={onSetDate}
-              renderDay={renderDay}
-              onMonthChange={onSetDate}
-            />
+            <div style={{ marginBottom: 30 }}>
+              <DpCalendar
+                date={date}
+                onSetDate={onSetDate}
+                renderDay={renderDay}
+                onMonthChange={onSetDate}
+              />
+            </div>
+
+            <Comment date={dayjs(date)} comment={todo.todoComment} />
           </section>
 
           <BottomNav />
