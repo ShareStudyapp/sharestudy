@@ -161,20 +161,7 @@ const TodoList = ({ date, todoList, fetchTodo }) => {
           </SwipeableList>
         </Content>
       ) : (
-        <div
-          style={{
-            borderRadius: 20,
-            backgroundColor: '#2656ff',
-            marginBottom: 30,
-            lineHeight: '4rem',
-            width: '100%',
-            height: '4rem',
-            textAlign: 'center',
-            color: 'white',
-            fontSize: '1rem'
-          }}
-          onClick={onCreate}
-        >
+        <div className="noTodo" onClick={onCreate}>
           여기를 클릭해 오늘의 공부 계획을 작성 해 주세요 :)
         </div>
       )}
