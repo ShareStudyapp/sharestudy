@@ -40,7 +40,7 @@ const FeedCommentItem = ({ comment, userInfo, setCommentId, onClickMore, onClick
   return (
     <div key={comment.id} className="FeedCommentView">
       <p className="FeedCommentView-userProfile">
-        <Avatar src={comment?.userProfileImage?.src} />
+        <Avatar src={comment.userProfileImage} />
       </p>
 
       <div className="FeedCommentView__desc">
