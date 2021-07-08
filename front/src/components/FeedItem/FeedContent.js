@@ -4,6 +4,7 @@ import FeedSlider from '../FeedItem/FeedSlider';
 import FeedComment from './FeedComment';
 import { Avatar } from 'antd';
 import { useHistory } from 'react-router-dom';
+import Grade from './Grade';
 
 const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, onClickOther }) => {
   const history = useHistory();
@@ -39,6 +40,9 @@ const FeedContent = ({ post, userInfo, isDetail = false, onClickMore, onClickOth
             <Avatar src={post?.userProfileImage?.src} />
           </p>
           <p className="FeedContent-userId">{post?.nickname}</p>
+          <p className="FeedContent-userGradeImage">
+            <Grade post={post} />
+          </p>
         </div>
 
         <div className="FeedContent-header_right">
