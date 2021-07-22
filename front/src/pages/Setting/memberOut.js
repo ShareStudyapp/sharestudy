@@ -1,31 +1,17 @@
 import React from 'react';
 import Header from '../../components/Header';
 import BottomNav from '../../components/BottomNav';
-import { Switch } from 'antd';
 
-import axios from 'axios';
+import { Checkbox, Button } from 'antd';
 
 import './styles.scss';
 
-const changeAlarm = async (checked) => {
-  const result = { error: false, message: '' };
-  try {
-    const check = checked == true ? '1' : '0';
-    await axios.get(`/noti/send/${check}`);
-  } catch (e) {
-    result.error = true;
-    result.message = e.response.data;
-  }
-  return result;
-};
-
-// 알림설정 페이지
-const Alarm = ({ history }) => {
+const memberOut = ({ history }) => {
   return (
     <>
       <Header />
-      <div className="alert">
-        <header className="alert__back">
+      <div className="memberOut">
+        <header className="memberOut__back">
           <button className="backBtn" onClick={() => history.goBack()}>
             <svg
               width="9"
@@ -43,16 +29,23 @@ const Alarm = ({ history }) => {
               />
             </svg>
           </button>
+          <p className="header_text">회원탈퇴</p>
         </header>
 
-        <div className="alert__content">
-          <div className="alert__text">
-            <p>알림 허용</p>
-            <Switch className="alert__swtich" onChange={changeAlarm} />
-          </div>
-
+        <div className="memberOut__content">
           <div className="content">
-            <p>알림 메시지, 소리, 진동을 포함한 앱의 알림을 받습니다.</p>
+            그동안 <b>스터디쉐어</b>를 이용해주셔서 감사합니다. <br />
+            개인정보는 모두 삭제 될 예정이며 삭제된 계정은 <br />
+            복구 할 수 없습니다.
+            <div className="memberOut__button">
+              <Checkbox id="trueMemberOut">
+                <b>계정 삭제에 동의합니다.</b>
+              </Checkbox>
+              <br />
+              <Button className="successMemberOut" htmlType="submit">
+                완료
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -61,4 +54,4 @@ const Alarm = ({ history }) => {
   );
 };
 
-export default Alarm;
+export default memberOut;

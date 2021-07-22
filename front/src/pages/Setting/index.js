@@ -62,6 +62,11 @@ const Setting = ({ history }) => {
               애플리케이션 알림 <RightOutlined />
             </Link>
           </li>
+          <li>
+            <Link to="/memberOut">
+              회원탈퇴 <RightOutlined />
+            </Link>
+          </li>
         </ul>
       </div>
       <BottomNav />
