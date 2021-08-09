@@ -18,6 +18,7 @@ const Setting = lazy(() => import('./pages/Setting'));
 const SetProfile = lazy(() => import('./pages/Setting/setProfile'));
 const Complaint = lazy(() => import('./pages/Setting/complaint'));
 const Alarm = lazy(() => import('./pages/Setting/alarm'));
+const MemberOut = lazy(() => import('./pages/Setting/memberOut'));
 const Profile = lazy(() => import('./pages/Profile'));
 const DayProfile = lazy(() => import('./pages/Profile/Day'));
 
@@ -80,6 +81,7 @@ function App() {
             <Route exact path="/setprofile" component={SetProfile} />
             <Route exact path="/complaint" component={Complaint} />
             <Route exact path="/alarm" component={Alarm} />
+            <Route exact path="/memberOut" component={MemberOut} />
             <Redirect path="*" to="/" />
           </CacheSwitch>
         </Suspense>
